@@ -5,7 +5,7 @@ Date: 2021-01-01
 Authors@R: c(
     person(given = "Shu",
            family = "Xie",
-           role = c("aut"),
+           role = c("aut","cre"),
            email = "s.xie@rug.nl"))
 Description: Using an ABC-SMC chain to estimate posterior diversification rates  
     of simulated phylogenies from DAISIE/TRAISIE model.Comparing the estimated 

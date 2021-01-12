@@ -12,8 +12,8 @@ obs_sim <- DAISIE::DAISIE_sim_constant_rate(
 )
 
 # create a function to sample parameters from prior distribution
-prior_distribution_function <- function(n,min,max){
-  return(runif(n,min,max))
+prior_distribution_function <- function(){
+  return(runif(1,0,1))  ##first step set only one variable(lac)
 }
 
 calc_statistic <- function(phylo_data){
@@ -23,9 +23,12 @@ calc_statistic <- function(phylo_data){
    num_endemic <-
 }
 
-calculate_weight <- function() {
-}
-
+calculate_weight <- nLTT:::calculate_weight(
+  weights = weights,
+  particles = particles,
+  current = current,
+  sigma = sigma,
+  prior_density_function = prior_density_function)
 
 
 abc_smc <- function( # nolint indeed a complex function
@@ -39,9 +42,8 @@ abc_smc <- function( # nolint indeed a complex function
   #generate initial parameters using
   # parameters <- prior_distribution_function()
 
-  obs_data <- observed_tree
+  obs_data <- observed_tree  ##input is obs_sim
   # compute the observed statistics as a vector
-  obs_statistics <- calc_statistic(obs_data)
 
 
   #generate a matrix with epsilon values
@@ -54,11 +56,11 @@ abc_smc <- function( # nolint indeed a complex function
   }
 
   #store weights
-  lamc <- prior_distribution_function(1,0,1)
-  mu <- prior_distribution_function(1,0,1)
+  lamc <- prior_distribution_function(1,0,5)
+  mu <- prior_distribution_function(1,0,5)
   K <- prior_distribution_function(1,0,40)
-  gam <- prior_distribution_function(1,0,0.1)
-  lama <- prior_distribution_function(1,0,1)
+  gam <- prior_distribution_function(1,0,1)
+  lama <- prior_distribution_function(1,0,5)
   parameters <- c(lamc, mu, K, gam, lama)
   new_weights <- c()
   new_params <- list(c(seq_along(parameters)))
