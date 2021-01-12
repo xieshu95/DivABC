@@ -9,7 +9,7 @@ load(file = "results/sim_gam5.RData")
 # sumsta: summary statistic
 
 ## this function use sim1[[1]] as the observed data
-plot_multi_nltt <- function(obs_rep,sim1, sim2,sim3, sim4, sim5,replicates,nltt_name){
+plot_multi_nltt <- function(obs_rep,sim1, sim2,sim3, sim4, sim5,replicates,nltt_name,ss_name){
   nltt_list1 <- nltt_within_param(obs_rep = obs_rep,sim1 = sim1,sim2 = sim1, replicates = replicates)
   nltt_list2 <- nltt_within_param(obs_rep = obs_rep,sim1 = sim1,sim2 = sim2, replicates = replicates)
   nltt_list3 <- nltt_within_param(obs_rep = obs_rep,sim1 = sim1,sim2 = sim3, replicates = replicates)
@@ -54,7 +54,11 @@ plot_multi_nltt <- function(obs_rep,sim1, sim2,sim3, sim4, sim5,replicates,nltt_
   }
 
   data <- data.frame(sumsta1,sumsta2,sumsta3,sumsta4,sumsta5)
-  colnames(data) <- c("sumsta1","sumsta2","sumsta3","sumsta4","sumsta5")
+  colnames(data) <- c(paste0(ss_name, 1),
+                      paste0(ss_name, 2),
+                      paste0(ss_name, 3),
+                      paste0(ss_name, 4),
+                      paste0(ss_name, 5))
   data <- tidyr::gather(data) #change gather to pivot_longer
   title_label <- paste0(sumsta_label)
 
@@ -71,16 +75,20 @@ plot_multi_nltt <- function(obs_rep,sim1, sim2,sim3, sim4, sim5,replicates,nltt_
 }
 
 ## set sim_gam1[[1]](first replicate) as the observed data
-plot_multi_nltt (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "spec_nltt")
-plot_multi_nltt (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "endemic_nltt")
-plot_multi_nltt (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "nonendemic_nltt")
-plot_multi_nltt (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "num_spec")
-plot_multi_nltt (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "num_col")
+plot_multi_nltt (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "spec_nltt",ss_name = "gam")
+plot_multi_nltt (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "endemic_nltt",ss_name = "gam")
+plot_multi_nltt (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "nonendemic_nltt",ss_name = "gam")
+plot_multi_nltt (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "num_spec",ss_name = "gam")
+plot_multi_nltt (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "num_col",ss_name = "gam")
 
 
-
+load(file = "results/sim_lam1.RData")
+load(file = "results/sim_lam2.RData")
+load(file = "results/sim_lam3.RData")
+load(file = "results/sim_lam4.RData")
+load(file = "results/sim_lam5.RData")
 #### this function use simi[[1]] as the observed data, compare the diff_nltt of itself
-plot_multi_nltt_sep <- function(obs_rep,sim1, sim2,sim3, sim4, sim5,replicates,nltt_name){
+plot_multi_nltt_sep <- function(obs_rep,sim1, sim2,sim3, sim4, sim5,replicates,nltt_name,ss_name){
   nltt_list1 <- nltt_within_param(obs_rep = obs_rep,sim1 = sim1,sim2 = sim1, replicates = replicates)
   nltt_list2 <- nltt_within_param(obs_rep = obs_rep,sim1 = sim2,sim2 = sim2, replicates = replicates)
   nltt_list3 <- nltt_within_param(obs_rep = obs_rep,sim1 = sim3,sim2 = sim3, replicates = replicates)
@@ -125,7 +133,11 @@ plot_multi_nltt_sep <- function(obs_rep,sim1, sim2,sim3, sim4, sim5,replicates,n
   }
 
   data <- data.frame(sumsta1,sumsta2,sumsta3,sumsta4,sumsta5)
-  colnames(data) <- c("sumsta1","sumsta2","sumsta3","sumsta4","sumsta5")
+  colnames(data) <- c(paste0(ss_name, 1),
+                      paste0(ss_name, 2),
+                      paste0(ss_name, 3),
+                      paste0(ss_name, 4),
+                      paste0(ss_name, 5))
   data <- tidyr::gather(data) #change gather to pivot_longer
   title_label <- paste0(sumsta_label)
 
@@ -142,8 +154,15 @@ plot_multi_nltt_sep <- function(obs_rep,sim1, sim2,sim3, sim4, sim5,replicates,n
 }
 
 ## set sim_gam1[[1]](first replicate) as the observed data
-plot_multi_nltt_sep (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "spec_nltt")
-plot_multi_nltt_sep (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "endemic_nltt")
-plot_multi_nltt_sep (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "nonendemic_nltt")
-plot_multi_nltt_sep (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "num_spec")
-plot_multi_nltt_sep (1,sim_gam1,sim_gam2,sim_lam3,sim_gam4,sim_gam5,500,nltt_name = "num_col")
+plot_multi_nltt_sep (1,sim_lam1,sim_lam2,sim_lam3,sim_lam4,sim_lam5,500,nltt_name = "spec_nltt",ss_name = "lam")
+plot_multi_nltt_sep (1,sim_lam1,sim_lam2,sim_lam3,sim_lam4,sim_lam5,500,nltt_name = "endemic_nltt",ss_name = "lam")
+plot_multi_nltt_sep (1,sim_lam1,sim_lam2,sim_lam3,sim_lam4,sim_lam5,500,nltt_name = "nonendemic_nltt",ss_name = "lam")
+plot_multi_nltt_sep (1,sim_lam1,sim_lam2,sim_lam3,sim_lam4,sim_lam5,500,nltt_name = "num_spec",ss_name = "lam")
+plot_multi_nltt_sep (1,sim_lam1,sim_lam2,sim_lam3,sim_lam4,sim_lam5,500,nltt_name = "num_col",ss_name = "lam")
+
+
+plot_multi_nltt_sep (1,sim_mu1,sim_mu2,sim_lam3,sim_mu4,sim_mu5,500,nltt_name = "spec_nltt",ss_name = "mu")
+plot_multi_nltt_sep (1,sim_mu1,sim_mu2,sim_lam3,sim_mu4,sim_mu5,500,nltt_name = "endemic_nltt",ss_name = "mu")
+plot_multi_nltt_sep (1,sim_mu1,sim_mu2,sim_lam3,sim_mu4,sim_mu5,500,nltt_name = "nonendemic_nltt",ss_name = "mu")
+plot_multi_nltt_sep (1,sim_mu1,sim_mu2,sim_lam3,sim_mu4,sim_mu5,500,nltt_name = "num_spec",ss_name = "mu")
+plot_multi_nltt_sep (1,sim_mu1,sim_mu2,sim_lam3,sim_mu4,sim_mu5,500,nltt_name = "num_col",ss_name = "mu")
