@@ -4,7 +4,11 @@
 ## If calculate the dispersion within the same param_set, sim1 = sim2;
 #  if compare different param_sets, sim1 is not the same as sim2
 nltt_within_param <- function(obs_rep, sim1, sim2, replicates){
-  obs_sim <- sim1[[obs_rep]]
+  if (length(sim1) == 1) {
+    obs_sim <- sim1
+  } else {
+    obs_sim <- sim1[[obs_rep]]
+  }
   spec_nltt_error <- c()
   num_spec_error <- c()
   num_col_error <- c()
