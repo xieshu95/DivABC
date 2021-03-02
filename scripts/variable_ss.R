@@ -43,12 +43,12 @@ var_param_name = "lac"
 num_particles <- 100
 replicates <- 50
 
-get_particles_combine <- function(num_particles,
-                                  obs_simulation,
-                                  replicates,
-                                  var_param_name,
-                                  var_value) {
-  var_append <- base::rep(var_value,each = replicates)
+get_particles_combine <- function (num_particles,
+                                   obs_simulation,
+                                   replicates,
+                                   var_param_name,
+                                   var_value) {
+  var_append <- base::rep (var_value,each = replicates)
   spec_nltt_diff <- c()
   endemic_nltt_diff <- c()
   nonendemic_nltt_diff <- c()

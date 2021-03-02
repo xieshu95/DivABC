@@ -1,76 +1,85 @@
-## The structure of ABC-SMC algorithm
-set.seed(1)
-obs_sim <- DAISIE::DAISIE_sim_constant_rate(
-  time = 5,
-  M = 1000,
-  pars = c(0.4,0.8,40,0.02,0.5),
-  replicates = 1,
-  sample_freq  = Inf,
-  plot_sims = FALSE,
-  verbose = TRUE,
-  cond = 5
-)
 
-# create a function to sample parameters from prior distribution
-prior_distribution_function <- function(){
-  return(runif(1,0,1))  ##first step set only one variable(lac)
+calculate_weight <- function(weights, particles,
+                             current, sigma, prior_density_function) {
+  vals <- c()
+  for (i in seq_along(particles)) {
+    vals[i] <- weights[i]
+    for (j in seq_along(current)) {
+      diff <- log(current[j]) - log(particles[[i]][j])
+      vals[i] <- vals[i] * stats::dnorm(diff, mean = 0, sd = sigma)
+    }
+  }
+
+  numerator <- prior_density_function(current)
+
+  return(numerator / sum(vals))
 }
 
-calc_statistic <- function(phylo_data){
-   ### return a vector or a list with calculated summary statistics
-   nltt <- ## compare nltt or calculate nltt_error
-   num_transition <-
-   num_endemic <-
+simulation_function <- function(parameters, replicates){
+  sim <- list()
+  for (j in seq_len(replicates)) {
+    sim[[j]] <- DAISIE::DAISIE_sim_constant_rate(
+      time = 5,
+      M = 1000,
+      pars = c(parameters[1],parameters[2],40,parameters[3],parameters[4]),
+      replicates = 1,
+      sample_freq  = Inf,
+      plot_sims = FALSE,
+      verbose = FALSE,
+      cond = 0
+    )
+  }
+  return(sim)
 }
 
-calculate_weight <- nLTT:::calculate_weight(
-  weights = weights,
-  particles = particles,
-  current = current,
-  sigma = sigma,
-  prior_density_function = prior_density_function)
 
-
-abc_smc <- function( # nolint indeed a complex function
-  observed_tree,
-  num_statistics,
-  num_iterations,
-  num_particles = 1000,
-  init_epsilon_values   # length(init_epsilon_values) = num_statistics
+abc_smc_nltt <- function( # nolint indeed a complex function
+  datalist,
+  simulation_function,
+  init_epsilon_values,
+  prior_generating_function,
+  prior_density_function,
+  number_of_particles = 1000,
+  sigma = 0.05,
+  stop_rate = 1e-5,
+  replicates  ## simulation replicates for each parameter set
 ) {
-
-  #generate initial parameters using
-  # parameters <- prior_distribution_function()
-
-  obs_data <- observed_tree  ##input is obs_sim
-  # compute the observed statistics as a vector
-
+  #just to get the number of parameters to be estimated.
+  parameters <- prior_generating_function()
+  stats <- c()
 
   #generate a matrix with epsilon values
-  #run 50 iterations as an example
-  epsilon <- matrix(nrow = num_iterations, ncol = length(init_epsilon_values))
+  #we assume that the SMC algorithm converges within 50 iterations
+  epsilon <- matrix(nrow = 50, ncol = length(init_epsilon_values))
   for (j in seq_along(init_epsilon_values)) {
-    for (i in seq_len(num_iterations)) {
+    if (init_epsilon_values[j] < 0) {
+      stop("abc_smc_nltt: ",
+           "epsilon values have to be positive,",
+           "but were instead: ", init_epsilon_values[j])
+    }
+
+    for (i in seq_len(50)) {
       epsilon[i, j] <- init_epsilon_values[j] * exp(-0.5 * (i - 1))
     }
   }
 
   #store weights
-  lamc <- prior_distribution_function(1,0,5)
-  mu <- prior_distribution_function(1,0,5)
-  K <- prior_distribution_function(1,0,40)
-  gam <- prior_distribution_function(1,0,1)
-  lama <- prior_distribution_function(1,0,5)
-  parameters <- c(lamc, mu, K, gam, lama)
   new_weights <- c()
   new_params <- list(c(seq_along(parameters)))
   previous_weights <- c()
   previous_params  <- list(c(seq_along(parameters)))
-  indices <- 1:num_particles
+  indices <- 1:number_of_particles
 
   #convergence is expected within 50 iterations
   #usually convergence occurs within 20 iterations
-  for (i in 1:num_iterations) {
+  for (i in 1:50) {
+    cat("\nGenerating Particles for iteration\t", i, "\n")
+    cat("0--------25--------50--------75--------100\n")
+    cat("*")
+    utils::flush.console()
+
+    print_frequency <- 20
+    tried <- 0
     number_accepted <- 0
 
     #replace all vectors
@@ -82,10 +91,12 @@ abc_smc <- function( # nolint indeed a complex function
       new_params <- list(c(seq_along(parameters))) #clear new params
     }
 
-    while (number_accepted < num_particles) {
+    stoprate_reached <- FALSE
+
+    while (number_accepted < number_of_particles) {
       #in this initial step, generate parameters from the prior
       if (i == 1) {
-        parameters <- parameters
+        parameters <- prior_generating_function()  ## one value for lac
       } else {
         #if not in the initial step, generate parameters
         #from the weighted previous distribution:
@@ -100,22 +111,39 @@ abc_smc <- function( # nolint indeed a complex function
         #low acceptance rates due to simultaneous perturbation
         to_change <- sample(seq_along(parameters), 1)
 
-        # perturb the parameter a little bit
-        parameters[to_change] <- parameters[to_change] + stats::rnorm(1, 0, 0.05)
+        # perturb the parameter a little bit,
+        #on log scale, so parameter doesn't go < 0
+        eta <- log(parameters[to_change]) + stats::rnorm(1, 0, sigma)
+        parameters[to_change] <- exp(eta)
       }
 
       #reject if outside the prior
-      if () {
+      if (prior_density_function(parameters) > 0) {
         #simulate a new tree, given the proposed parameters
-        new_tree <- DAISIE::DAISIE_sim_trait_dependent()
+        new_tree <- simulation_function(parameters,replicates)
         accept <- TRUE
-        #calculate the summary statistics for the simulated tree
-        new_statistics <- calc_statistic(new_tree)
 
-        #check if the summary statistics are sufficiently
-        #close to the observed summary statistics
-        for (k in 1:num_statistics) {
-          if (abs(new_statistics[k] - obs_statistics[k]) > epsilon[i, k]) {
+        #calculate the summary statistics for the simulated tree
+        df_stats <- nltt_within_param (obs_rep = 1,
+                                       sim1 = datalist,
+                                       sim2 = new_tree,
+                                       replicates = replicates)
+
+        # #check if the summary statistics are sufficiently
+        # #close to the observed summary statistics
+        # for (k in seq_along(statistics)) {
+        #   if (abs(stats[k] - obs_statistics[k]) > epsilon[i, k]) {
+        #     accept <- FALSE
+        #     #the first step always accepts
+        #     if (i == 1) accept <- TRUE
+        #     break
+        #   }
+        # }
+
+        # Firstly try to use only one statistic (spec_nltt)
+        mean_df <- lapply(df_stats,mean)
+        for (k in seq_along(mean_df)) {
+          if (as.numeric(mean_df[k]) > epsilon[i, k]) {
             accept <- FALSE
             #the first step always accepts
             if (i == 1) accept <- TRUE
@@ -126,15 +154,35 @@ abc_smc <- function( # nolint indeed a complex function
         if (accept) {
           number_accepted <- number_accepted + 1
           new_params[[number_accepted]] <- parameters
-          if (i = 1){
-            accepted_weight <- 1
-          }else if (i > 1) {
-            accepted_weight <- calculate_weight()
+          accepted_weight <- 1
+          #calculate the weight
+          if (i > 1) {
+            accepted_weight <- calculate_weight(previous_weights,
+                                                previous_params, parameters,
+                                                sigma, prior_density_function)
           }
           new_weights[number_accepted] <- accepted_weight
+
+          if ((number_accepted) %%
+              (number_of_particles / print_frequency) == 0) {
+            cat("**")
+            utils::flush.console()
           }
         }
       }
+
+      #convergence if the acceptance rate gets too low
+      tried <- tried + 1
+      if (tried > (1 / stop_rate)) {
+        if ((number_accepted / tried) < stop_rate) {
+          stoprate_reached <- TRUE
+          break
+        }
+      }
+    }
+
+    if (stoprate_reached) {
+      break
     }
   }
 
@@ -148,3 +196,14 @@ abc_smc <- function( # nolint indeed a complex function
   }
   return(output)
 }
+
+# datalist = obs_sim
+# simulation_function = simulation_function
+# init_epsilon_values = 100
+# prior_generating_function = prior_gen
+# prior_density_function = prior_dens
+# number_of_particles = 1000
+# sigma = 0.05
+# stop_rate = 0.01
+# replicates = 100
+
