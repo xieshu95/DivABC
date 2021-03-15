@@ -343,7 +343,7 @@ mcmc_nltt <- function( # nolint indeed a complex function
   return(coda::as.mcmc(chain))
 }
 t1 <- Sys.time()
-b <- mcmc_nltt(datalist = obs,
+mcmc <- mcmc_nltt(datalist = obs,
                likelihood_function = ll_b,
                parameters = c(1.5, 1.5),
                logtransforms = c(TRUE,TRUE),
@@ -352,8 +352,22 @@ b <- mcmc_nltt(datalist = obs,
                thinning = 1,
                sigma = 1)
 t2 <- Sys.time()
-b_mcmc <- coda::as.mcmc(b)
-plot(b_mcmc)
+
 save(b,file = "G:/R/Traisie-ABC/results/mcmc_b2_dd.RData")
 mean(b[,1])
 mean(b[,2])
+## plot results of single replicate
+final_mcmc <- coda::as.mcmc(mcmc)
+plot(final_mcmc)
+mean(final_mcmc)
+
+## combine replicates and plot
+mcmc_com <- c()
+for(i in 1:10){
+  mcmc_rep <- mcmc_list[[i]]
+  mcmc_com <- rbind(mcmc_com,mcmc_rep)
+}
+mcmca<- coda::as.mcmc(mcmc_com)
+plot(mcmca)
+mean(mcmca)
+

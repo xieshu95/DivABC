@@ -1,6 +1,6 @@
 ## estimation for whole 4 parameters(without K), DI for all estimations
 prior_dens <- function(x) {
-  return(dunif(x[1],0,2) * dunif(x[2],0,2) * dunif(x[3],0,0.1) * dunif(x[4],0,2))
+  return(dunif(x[1],0,1) * dunif(x[2],0,1) * dunif(x[3],0,0.1) * dunif(x[4],0,1))
 }
 set.seed(1)
 obs_sim <- DAISIE::DAISIE_sim_constant_rate(
@@ -133,7 +133,7 @@ mcmc_nltt <- function( # nolint indeed a complex function
         parameters[j] <- new_val
 
         if (parameters[j] >= 0 & parameters[1] > 0) {
-          new_pp        <- likelihood_function(parameters, phy)
+          new_pp        <- likelihood_function(parameters, datalist)
 
           #accept or reject
           #The Markov chain then moves towards x∗ with acceptance probability
