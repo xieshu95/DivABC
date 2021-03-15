@@ -11,6 +11,10 @@
 #' @param replicates The number of replicates used for calculating summary
 #'   statistics.
 
+#output:spec_nltt_error,num_spec_error,num_col_error,endemic_nltt_error,
+#nonendemic_nltt_error
+
+
 nltt_within_param <- function(obs_rep, sim1, sim2, replicates){
   if (length(sim1) == 1) {
     obs_sim <- sim1
