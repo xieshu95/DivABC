@@ -1,5 +1,6 @@
 ### 控制其他变量，只改变lamc， 0~1均匀分布sample 50个值，进行simulation，每个参数100reps
 # 共5000个点，做散点图，横坐标lamc， 纵坐标ss（summary statistics）
+#pars <-c(0.2,0.1,40,0.005,0.1)
 set.seed(1)
 lac <- runif(50,0,1)
 replicates <- 100

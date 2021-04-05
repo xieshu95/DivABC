@@ -356,18 +356,68 @@ t2 <- Sys.time()
 save(b,file = "G:/R/Traisie-ABC/results/mcmc_b2_dd.RData")
 mean(b[,1])
 mean(b[,2])
-## plot results of single replicate
+
+
+load("G:/R/Traisie-ABC/results/MCMC_version6/results/MCMC_lac.RData")
+## plot results of single replicate (lac,mu,gam,laa)
 final_mcmc <- coda::as.mcmc(mcmc)
 plot(final_mcmc)
-mean(final_mcmc)
+median(final_mcmc)
 
-## combine replicates and plot
+## plot allpars (1rep)
+plot(final_mcmc[,1])
+median(final_mcmc[,1])
+plot(final_mcmc[,2])
+median(final_mcmc[,2])
+plot(final_mcmc[,3])
+median(final_mcmc[,3])
+plot(final_mcmc[,4])
+median(final_mcmc[,4])
+
+## combine replicates and plot(lac_10reps,mu_10reps,gam_10reps,laa_10reps)
 mcmc_com <- c()
 for(i in 1:10){
   mcmc_rep <- mcmc_list[[i]]
   mcmc_com <- rbind(mcmc_com,mcmc_rep)
 }
 mcmca<- coda::as.mcmc(mcmc_com)
+# plot(mcmca)
+median(mcmca)
+
+## plot each parameter in allpars(10reps)
+# plot(mcmca[,1])
+# mean(mcmca[,1])
+# plot(mcmca[,2])
+# mean(mcmca[,2])
+# plot(mcmca[,3])
+# mean(mcmca[,3])
+# plot(mcmca[,4])
+# mean(mcmca[,4])
+
+
+median(mcmca[,1])
+median(mcmca[,2])
+median(mcmca[,3])
+median(mcmca[,4])
+
+
+## select 2000 iterations to compare with single replicate result
+# load("G:/R/Traisie-ABC/results/MCMC_version2/MCMC/results/mcmc_lac_10reps.RData")
+mcmc_com <- c()
+for(i in 1:50){
+  mcmc_rep <- mcmc_list[[i]]
+  mcmc_com <- rbind(mcmc_com,as.data.frame(mcmc_rep[601:1000,]))
+}
+mcmca<- coda::as.mcmc(mcmc_com)
 plot(mcmca)
 mean(mcmca)
 
+## plot each parameter in allpars(10reps)
+plot(mcmca[,1])
+mean(mcmca[,1])
+plot(mcmca[,2])
+mean(mcmca[,2])
+plot(mcmca[,3])
+mean(mcmca[,3])
+plot(mcmca[,4])
+mean(mcmca[,4])
