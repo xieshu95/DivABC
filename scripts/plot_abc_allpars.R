@@ -15,17 +15,21 @@ simulation_function <- function(parameters, replicates){
   }
   return(sim)
 }
+t1 <- Sys.time()
 set.seed(1)
-obs_sim <- simulation_function(parameters = c(0.2,0.1,0.005,0.1),
-                               replicates = 100)
-save(obs_sim, file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/obs_sim_low_rates_DI.RData"))
-load(file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/obs_sim_low_rates_DI.RData"))
+obs_sim <- simulation_function(parameters = c(0.5,0.3,0.02,0.5),
+                               replicates = 500)
+t2 <- Sys.time()
+dt <- t2 - t1
+dt
+save(obs_sim, file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/obs_sim_high_rates_DI.RData"))
+load(file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/obs_sim_high_rates_DI.RData"))
 
 MLE_DD <- list()
-for(i in 1:100){
+for(i in 1:50){
   MLE_DD[[i]] <- DAISIE::DAISIE_ML(
     datalist = obs_sim[[i]][[1]],
-    initparsopt = c(0.2,0.1,0.005,0.1),
+    initparsopt = c(0.5,0.3,0.02,0.5),
     idparsopt = c(1,2,4,5),
     parsfix = 40,
     idparsfix = 3,
@@ -40,14 +44,15 @@ for(i in 1:100){
     optimmethod = "subplex"
   )
 }
-save(MLE_DD, file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DD_low_rates.RData"))
-load(file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DD_low_rates.RData"))
+save(MLE_DD, file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DD_high_rates.RData"))
+load(file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DD_high_rates.RData"))
+
 
 MLE_DI <- list()
-for(i in 1:100){
+for(i in 1:50){
   MLE_DI[[i]] <- DAISIE::DAISIE_ML(
     datalist = obs_sim[[i]][[1]],
-    initparsopt = c(0.2,0.1,0.005,0.1),
+    initparsopt = c(0.5,0.3,0.02,0.5),
     idparsopt = c(1,2,4,5),
     parsfix = Inf,
     idparsfix = 3,
@@ -62,12 +67,12 @@ for(i in 1:100){
     optimmethod = "subplex"
   )
 }
-save(MLE_DI, file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DI_low_rates.RData"))
-load(file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DI_low_rates.RData"))
+save(MLE_DI, file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DI_high_rates.RData"))
+load(file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DI_high_rates.RData"))
 
 #### only make plots
 ## load MLE results
-load("G:/R/Traisie-ABC/results/ABC_cluster/R/allpars/MLE_DD_low_rates.RData")
+load(file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DI_low_rates.RData"))
 lac_MLE<- c()
 mu_MLE <-c()
 gam_MLE <- c()
@@ -148,8 +153,7 @@ abc20<- abc
 # abc <- rbind(abc1,abc2,abc4,abc5,abc6,abc7,abc8,abc9,abc10)
 # abc <- rbind(abc1,abc2,abc3,abc4,abc5,abc6,abc7,abc8,abc9,abc10,
 #              abc11,abc12,abc13,abc14,abc15,abc16,abc17,abc18,abc19,abc20)
-abc <- rbind(abc1,abc3,abc4,abc5,abc6,abc7,abc8,abc9,abc10,
-             abc11,abc12,abc13,abc14,abc15,abc16,abc17,abc18,abc19,abc20)
+abc <- rbind(abc1,abc3,abc4,abc5,abc6,abc7,abc8,abc9,abc10)
 
 lac_abc <- as.data.frame(abc)[,1]
 mu_abc <- as.data.frame(abc)[,2]
@@ -186,6 +190,7 @@ legend("right", c("MLE", "True","MCMC"),
        lty = c(2, 2, 2),
        col = c("green", "blue", "red"), lwd = 2)
 dev.off()
+
 png(paste0("G:/R/Traisie-ABC/plots/ABC_MCMC_MLE_lowrates_DI/ss",i,"_laa.png"))
 hist(laa_abc, breaks = seq(0, 0.5, by = 0.01), col = "grey", main = "laa")
 abline(v = 0.1, lty = 2, col = "blue", lwd = 2)
