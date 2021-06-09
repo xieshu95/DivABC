@@ -5,7 +5,7 @@ simulation_function <- function(parameters, replicates){
     sim[[j]] <- DAISIE::DAISIE_sim_constant_rate(
       time = 5,
       M = 1000,
-      pars = c(parameters[1],parameters[2],Inf,parameters[3],parameters[4]),
+      pars = c(parameters[1],parameters[2],40,parameters[3],parameters[4]),
       replicates = 1,
       sample_freq  = Inf,
       plot_sims = FALSE,
@@ -17,19 +17,19 @@ simulation_function <- function(parameters, replicates){
 }
 t1 <- Sys.time()
 set.seed(1)
-obs_sim <- simulation_function(parameters = c(0.5,0.3,0.02,0.5),
-                               replicates = 500)
+obs_sim <- simulation_function(parameters = c(0.3,0.2,0.008,0.2),
+                               replicates = 100)
 t2 <- Sys.time()
 dt <- t2 - t1
 dt
-save(obs_sim, file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/obs_sim_high_rates_DI.RData"))
-load(file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/obs_sim_high_rates_DI.RData"))
+save(obs_sim, file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/obs_sim_DD.RData"))
+# load(file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/obs_sim_DI.RData"))
 
 MLE_DD <- list()
 for(i in 1:50){
   MLE_DD[[i]] <- DAISIE::DAISIE_ML(
     datalist = obs_sim[[i]][[1]],
-    initparsopt = c(0.5,0.3,0.02,0.5),
+    initparsopt = c(0.3,0.2,0.008,0.2),
     idparsopt = c(1,2,4,5),
     parsfix = 40,
     idparsfix = 3,
@@ -44,15 +44,15 @@ for(i in 1:50){
     optimmethod = "subplex"
   )
 }
-save(MLE_DD, file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DD_high_rates.RData"))
-load(file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DD_high_rates.RData"))
+save(MLE_DD, file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DD.RData"))
+load(file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DD.RData"))
 
 
 MLE_DI <- list()
 for(i in 1:50){
   MLE_DI[[i]] <- DAISIE::DAISIE_ML(
     datalist = obs_sim[[i]][[1]],
-    initparsopt = c(0.5,0.3,0.02,0.5),
+    initparsopt = c(0.3,0.2,0.008,0.2),
     idparsopt = c(1,2,4,5),
     parsfix = Inf,
     idparsfix = 3,
@@ -67,8 +67,8 @@ for(i in 1:50){
     optimmethod = "subplex"
   )
 }
-save(MLE_DI, file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DI_high_rates.RData"))
-load(file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DI_high_rates.RData"))
+save(MLE_DI, file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DI.RData"))
+load(file=paste0("G:/R/Traisie-ABC/results/ABC_MLE/MLE_DI.RData"))
 
 #### only make plots
 ## load MLE results
