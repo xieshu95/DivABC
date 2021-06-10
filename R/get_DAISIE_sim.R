@@ -9,7 +9,7 @@
 #' @export
 
 
-DAISIE_sim <-  function(parameters, K, replicates){
+get_DAISIE_sim <-  function(parameters, K, replicates){
   sim <- list()
   for (j in seq_len(replicates)) {
     sim[[j]] <- DAISIE::DAISIE_sim_constant_rate(
