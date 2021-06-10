@@ -4,14 +4,7 @@
 #' @param K Carrying capacity, Inf for diverdity-independent models.
 #' @param replicates The number of replicates(islands) for DAISIE simulation.
 #'
-#' @return A list with numeric vectors of diff statistics for:
-#' \itemize{
-#'   \item{\code{$spec_nltt_error}}
-#'   \item{\code{$num_spec_error}}
-#'   \item{\code{$num_col_error}}
-#'   \item{\code{$endemic_nltt_error}}
-#'   \item{\code{$nonendemic_nltt_error}}
-#' }
+#' @return A list contains simulated islands
 #' @author Shu Xie
 #' @export
 
