@@ -15,8 +15,8 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
   prior_density_function,
   number_of_particles = 1000,
   sigma = 0.05,
-  stop_rate = 1e-5,
-  replicates,  ## simulation replicates for each parameter set
+  stop_rate = 1e-3,
+  replicates = 1,  ## simulation replicates for each parameter set
   num_iterations
 ) {
   #just to get the number of parameters to be estimated.
@@ -28,7 +28,6 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
   #   obs_statistics[i] <- statistics[[i]](datalist)
   # }
   #
-  stats <- c()
 
   #generate a matrix with epsilon values
   #we assume that the SMC algorithm converges within 50 iterations
@@ -106,22 +105,13 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
         accept <- TRUE
 
         #calculate the summary statistics for the simulated tree
-        df_stats <- nltt_within_param (sim1 = datalist,
-                                       sim2 = new_tree,
-                                       replicates = replicates)
+        df_stats <- calc_ss_diff (sim1 = datalist,
+                                  sim2 = new_tree,
+                                  replicates = replicates)
 
         # #check if the summary statistics are sufficiently
         # #close to the observed summary statistics
-        # for (k in seq_along(statistics)) {
-        #   if (abs(stats[k] - obs_statistics[k]) > epsilon[i, k]) {
-        #     accept <- FALSE
-        #     #the first step always accepts
-        #     if (i == 1) accept <- TRUE
-        #     break
-        #   }
-        # }
 
-        # Firstly try to use only one statistic (spec_nltt)
         median_df <- base::lapply(df_stats,median)
         for (k in seq_along(median_df)) {
           if (as.numeric(median_df[k]) > epsilon[i, k]) {
