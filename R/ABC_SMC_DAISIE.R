@@ -9,7 +9,7 @@
 
 ABC_SMC_DAISIE <- function( # nolint indeed a complex function
   obs_data,
-  simulation_function,
+  sim_function,
   init_epsilon_values,
   prior_generating_function,
   prior_density_function,
@@ -17,7 +17,8 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
   sigma = 0.05,
   stop_rate = 1e-3,
   replicates = 1,  ## simulation replicates for each parameter set
-  num_iterations
+  num_iterations,
+  K
 ) {
   #just to get the number of parameters to be estimated.
   parameters <- prior_generating_function()
@@ -101,12 +102,14 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
       #reject if outside the prior
       if (prior_density_function(parameters) > 0) {
         #simulate a new tree, given the proposed parameters
-        new_tree <- simulation_function(parameters,replicates)
+        new_sim <- sim_function(parameters = parameters,
+                                 K = K,
+                                 replicates = replicates)
         accept <- TRUE
 
         #calculate the summary statistics for the simulated tree
-        df_stats <- calc_ss_diff (sim1 = datalist,
-                                  sim2 = new_tree,
+        df_stats <- calc_ss_diff (sim1 = obs_data,
+                                  sim2 = new_sim,
                                   replicates = replicates)
 
         # #check if the summary statistics are sufficiently
@@ -128,9 +131,9 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
           accepted_weight <- 1
           #calculate the weight
           if (i > 1) {
-            accepted_weight <- calculate_weight(previous_weights,
-                                                previous_params, parameters,
-                                                sigma, prior_density_function)
+            accepted_weight <- calc_weight(previous_weights,
+                                           previous_params, parameters,
+                                           sigma, prior_density_function)
           }
           new_weights[number_accepted] <- accepted_weight
 

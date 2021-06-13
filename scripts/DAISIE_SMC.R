@@ -1,36 +1,6 @@
 
-calculate_weight <- function(weights, particles,
-                             current, sigma, prior_density_function) {
-  vals <- c()
-  for (i in seq_along(particles)) {
-    vals[i] <- weights[i]
-    for (j in seq_along(current)) {
-      diff <- log(current[j]) - log(particles[[i]][j])
-      vals[i] <- vals[i] * stats::dnorm(diff, mean = 0, sd = sigma)
-    }
-  }
 
-  numerator <- prior_density_function(current)
 
-  return(numerator / sum(vals))
-}
-
-simulation_function <- function(parameters, replicates){
-  sim <- list()
-  for (j in seq_len(replicates)) {
-    sim[[j]] <- DAISIE::DAISIE_sim_constant_rate(
-      time = 5,
-      M = 1000,
-      pars = c(parameters[1],parameters[2],40,parameters[3],parameters[4]),
-      replicates = 1,
-      sample_freq  = Inf,
-      plot_sims = FALSE,
-      verbose = FALSE,
-      cond = 0
-    )
-  }
-  return(sim)
-}
 
 
 abc_smc_nltt <- function( # nolint indeed a complex function
