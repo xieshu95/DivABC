@@ -20,7 +20,7 @@ Suggests:
     knitr,
     rmarkdown
 Imports: 
-    DAISIE (>= 3.1.0),
+    DAISIE (>= 4.0.2),
     DAISIErobustness,
     nLTT,
     readr,
