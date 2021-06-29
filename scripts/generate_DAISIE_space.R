@@ -8,7 +8,7 @@ mu <- c(0.1,0.2)
 gam <- c(0.005,0.01)
 laa <-c(0.1,0.2)
 
-DAISIE_space <- expand.grid(
+DAISIE_ABC <- expand.grid(
   rep = rep,
   lac = lac,
   mu = mu,
@@ -18,8 +18,8 @@ DAISIE_space <- expand.grid(
 )
 
 write.csv2(
-  DAISIE_space,
-  "data/DAISIE_pars.csv",
+  DAISIE_ABC,
+  "data/DAISIE_ABC.csv",
   row.names = FALSE
 )
 
