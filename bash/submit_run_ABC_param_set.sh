@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH --time=9-23:05:00
+#SBATCH --time=5-23:05:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --job-name=robustness
-#SBATCH --output=logs/robustness-%j.log
+#SBATCH --job-name=run_ABC
+#SBATCH --output=logs/ABC-%j.log
 #SBATCH --mem=2GB
 #SBATCH --partition=regular
 

@@ -1,3 +1,9 @@
+#' Run ABC
+#'
+#' @author Shu Xie
+#' @return
+#' @export
+
 run_ABC <- function(param_space_name,
                     param_set,
                     save_output = TRUE){
