@@ -13,7 +13,6 @@ ml R
 Rscript -e "remotes::install_github('xieshu95/TraisieABC')"
 
 param_space_name=$1
-replicates=$2
 
 for_length=`wc -l TraisieABC/data/${param_space_name}.csv | cut -f1 -d' '`
 for_length=$(( ${for_length} - 1 ))
