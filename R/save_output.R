@@ -40,11 +40,12 @@ create_output_file_name <- function(param_space_name,
 
   testit::assert(is.numeric(param_set) && is.finite(param_set))
   testit::assert(param_space_name %in% c("DAISIE_ABC"))
+  param_num <- (param_set - rep)/5 + 1
 
   output_file_name <- paste0(
     param_space_name,
     "_param_set_",
-    param_set,
+    param_num,
     "_rep",
     rep,
     ".RData"
