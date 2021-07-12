@@ -1,8 +1,3 @@
-
-
-
-
-
 abc_smc_nltt <- function( # nolint indeed a complex function
   datalist,
   simulation_function,
