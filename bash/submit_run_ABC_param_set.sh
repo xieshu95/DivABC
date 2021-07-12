@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH --time=5-23:05:00
+#SBATCH --time=9-23:05:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=run_ABC
 #SBATCH --output=logs/ABC-%j.log
 #SBATCH --mem=2GB
-#SBATCH --partition=regular
+#SBATCH --partition=gelifes
 
 # Arguments to follow the Rscript are as follows:
 param_space_name=$1
