@@ -15,8 +15,9 @@ get_DAISIE_sim <-  function(parameters, K, replicates){
     sim[[j]] <- DAISIE::DAISIE_sim_constant_rate(
       time = 5,
       M = 1000,
-      pars = c(parameters[1],parameters[2],K,parameters[3],parameters[4]),
+      pars = as.numeric(c(parameters[1],parameters[2],K,parameters[3],parameters[4])),
       replicates = 1,
+      nonoceanic_pars = c(0, 0),
       sample_freq  = Inf,
       plot_sims = FALSE,
       verbose = FALSE,

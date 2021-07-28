@@ -29,8 +29,11 @@ run_ABC <- function(param_space_name,
   set.seed(seed)
 
   obs_sim_pars <- param_space[param_set,]
-  obs_sim <- get_DAISIE_sim(parameters = as.numeric(obs_sim_pars[2:5]),
-                            K = as.numeric(obs_sim_pars[6]),
+  obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
+                                           obs_sim_pars$mu,
+                                           obs_sim_pars$gam,
+                                           obs_sim_pars$laa),
+                            K = as.numeric(obs_sim_pars$K),
                             replicates = 1)
   prior_gen <- function(){
     lac <- stats::runif(1,0,1)
@@ -48,15 +51,15 @@ run_ABC <- function(param_space_name,
   abc <- ABC_SMC_DAISIE (
     obs_data = obs_sim,
     sim_function = get_DAISIE_sim,
-    init_epsilon_values = c(150,150,50,50,50,20),
+    init_epsilon_values = c(200,200,100,100,100,20),
     prior_generating_function = prior_gen,
     prior_density_function = prior_dens,
-    number_of_particles = 4000,
+    number_of_particles = 3000,
     sigma = 0.05,
-    stop_rate = 1e-3,
+    stop_rate = 0.005,
     replicates = 1,  ## simulation replicates for each parameter set
     num_iterations = 10,
-    K = as.numeric(obs_sim_pars[6])
+    K = as.numeric(obs_sim_pars$K)
   )
   if (save_output == TRUE) {
     save_output(
