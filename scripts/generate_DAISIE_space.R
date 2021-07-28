@@ -24,3 +24,105 @@ write.csv2(
 )
 
 
+## create input parameter sets for ABC
+#2. ABC_DAISIE
+rep <- 1:5
+K <- c(40, Inf)
+## a. control
+lac <- 0.3
+mu <- 0.15
+gam <- 0.0075
+laa <- 0.15
+control <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+
+## b. lac
+lac <- c(0.1,0.2,0.4,0.5)
+mu <- 0.15
+gam <- 0.0075
+laa <- 0.15
+ABC_lac <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+
+## c. mu
+lac <- 0.3
+mu <- c(0.05,0.1,0.2,0.25)
+gam <- 0.0075
+laa <- 0.15
+ABC_mu <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+
+## d. gam
+lac <- 0.3
+mu <- 0.15
+gam <- c(0.0025,0.005,0.01,0.0125)
+laa <- 0.15
+ABC_gam <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+## e. laa
+lac <- 0.3
+mu <- 0.15
+gam <- 0.0075
+laa <- c(0.05,0.1,0.2,0.25)
+ABC_laa <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+
+DAISIE_ABC_single_change <- rbind(
+  control,
+  ABC_lac,
+  ABC_mu,
+  ABC_gam,
+  ABC_laa
+)
+
+write.csv2(
+  DAISIE_ABC_single_change,
+  "data/DAISIE_ABC_single_change.csv",
+  row.names = FALSE
+)
+
+
+## rondom sampled parameters from uniform distribution
+lac <- runif(500,0.1,0.5)
+mu <- runif(500,0.1,0.5)
+gam <- runif(500,0.005,0.01)
+laa <- runif(500,0.1,0.5)
+K <- rep(Inf,500)
+rep <- rep(1,500)
+random <- data.frame(rep,lac,mu,gam,laa,K,stringsAsFactors = TRUE)
+
+write.csv2(
+  random,
+  "data/DAISIE_ABC_random.csv",
+  row.names = FALSE
+)
