@@ -51,7 +51,7 @@ run_ABC <- function(param_space_name,
   abc <- ABC_SMC_DAISIE (
     obs_data = obs_sim,
     sim_function = get_DAISIE_sim,
-    init_epsilon_values = c(200,200,100,100,100,20),
+    init_epsilon_values = c(200,200,100,100,100,10),
     prior_generating_function = prior_gen,
     prior_density_function = prior_dens,
     number_of_particles = 3000,

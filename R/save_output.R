@@ -38,8 +38,6 @@ create_output_file_name <- function(param_space_name,
                                     param_set,
                                     rep) {
 
-  testit::assert(is.numeric(param_set) && is.finite(param_set))
-  testit::assert(param_space_name %in% c("DAISIE_ABC"))
   param_num <- (param_set - rep)/5 + 1
 
   output_file_name <- paste0(
@@ -51,7 +49,7 @@ create_output_file_name <- function(param_space_name,
     ".RData"
   )
 
-  testit::assert(is.character(output_file_name))
+
   return(output_file_name)
 }
 
