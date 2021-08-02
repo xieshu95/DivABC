@@ -38,12 +38,10 @@ create_output_file_name <- function(param_space_name,
                                     param_set,
                                     rep) {
 
-  param_num <- (param_set - rep)/5 + 1
-
   output_file_name <- paste0(
     param_space_name,
     "_param_set_",
-    param_num,
+    param_set,
     "_rep",
     rep,
     ".RData"

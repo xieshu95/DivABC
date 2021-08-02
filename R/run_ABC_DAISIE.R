@@ -51,12 +51,12 @@ run_ABC <- function(param_space_name,
   abc <- ABC_SMC_DAISIE (
     obs_data = obs_sim,
     sim_function = get_DAISIE_sim,
-    init_epsilon_values = c(200,200,100,100,100,10),
+    init_epsilon_values = c(120,120,30,30,20,2),
     prior_generating_function = prior_gen,
     prior_density_function = prior_dens,
-    number_of_particles = 3000,
+    number_of_particles = 5000,
     sigma = 0.05,
-    stop_rate = 0.005,
+    stop_rate = 0.002,
     replicates = 1,  ## simulation replicates for each parameter set
     num_iterations = 10,
     K = as.numeric(obs_sim_pars$K)
