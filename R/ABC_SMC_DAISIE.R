@@ -159,6 +159,7 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
       break
     }
   }
+  message("tried times: ", tried)
 
   output <- c()
   for (k in seq_along(previous_params)) {

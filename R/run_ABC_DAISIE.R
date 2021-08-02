@@ -12,21 +12,20 @@ run_ABC <- function(param_space_name,
 
   param_space <- load_param_space(param_space_name = param_space_name)
 
+  random <- sample(1:10000,1)
+  rep <- as.numeric(param_space[param_set,1])
+  seed <- rep * random
+  set.seed(seed)
+
   message(Sys.time())
   message("Param space name: ", param_space_name)
   message("Running param set: ", param_set)
-  message("CAUTION: Do not submit jobs simultaneously in order for jobs to have
-          different seeds.")
+  message("seed: ", seed)
 
   check_create_folders(
     param_space_name = param_space_name,
     save_output = save_output
   )
-
-  random <- sample(1:10000,1)
-  rep <- as.numeric(param_space[param_set,1])
-  seed <- rep * random
-  set.seed(seed)
 
   obs_sim_pars <- param_space[param_set,]
   obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
@@ -51,12 +50,12 @@ run_ABC <- function(param_space_name,
   abc <- ABC_SMC_DAISIE (
     obs_data = obs_sim,
     sim_function = get_DAISIE_sim,
-    init_epsilon_values = c(120,120,30,30,20,2),
+    init_epsilon_values = c(150,150,40,40,30,10),
     prior_generating_function = prior_gen,
     prior_density_function = prior_dens,
-    number_of_particles = 5000,
+    number_of_particles = 1000,
     sigma = 0.05,
-    stop_rate = 0.002,
+    stop_rate = 0.001,
     replicates = 1,  ## simulation replicates for each parameter set
     num_iterations = 10,
     K = as.numeric(obs_sim_pars$K)
