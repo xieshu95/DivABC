@@ -113,6 +113,7 @@ write.csv2(
 
 
 ## rondom sampled parameters from uniform distribution
+set.seed(42)
 lac <- runif(500,0.1,0.5)
 mu <- runif(500,0.1,0.5)
 gam <- runif(500,0.005,0.01)
