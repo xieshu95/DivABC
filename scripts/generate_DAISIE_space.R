@@ -27,26 +27,12 @@ write.csv2(
 ## create input parameter sets for ABC
 #2. ABC_DAISIE
 rep <- 1:5
-K <- c(40, Inf)
-## a. control
-lac <- 0.3
-mu <- 0.15
-gam <- 0.0075
-laa <- 0.15
-control <- expand.grid(
-  rep = rep,
-  lac = lac,
-  mu = mu,
-  gam = gam,
-  laa = laa,
-  K = K
-)
-
-## b. lac
-lac <- c(0.1,0.2,0.4,0.5)
-mu <- 0.15
-gam <- 0.0075
-laa <- 0.15
+K <- Inf
+## a. lac
+lac <- runif(50,0.05,0.5)
+mu <- 0.2
+gam <- 0.01
+laa <- 0.2
 ABC_lac <- expand.grid(
   rep = rep,
   lac = lac,
@@ -56,7 +42,7 @@ ABC_lac <- expand.grid(
   K = K
 )
 
-## c. mu
+## b. mu
 lac <- 0.3
 mu <- c(0.05,0.1,0.2,0.25)
 gam <- 0.0075
@@ -70,7 +56,7 @@ ABC_mu <- expand.grid(
   K = K
 )
 
-## d. gam
+## c. gam
 lac <- 0.3
 mu <- 0.15
 gam <- c(0.0025,0.005,0.01,0.0125)
@@ -83,7 +69,7 @@ ABC_gam <- expand.grid(
   laa = laa,
   K = K
 )
-## e. laa
+## d. laa
 lac <- 0.3
 mu <- 0.15
 gam <- 0.0075
