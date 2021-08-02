@@ -44,9 +44,9 @@ ABC_lac <- expand.grid(
 
 ## b. mu
 lac <- 0.3
-mu <- c(0.05,0.1,0.2,0.25)
-gam <- 0.0075
-laa <- 0.15
+mu <- runif(50,0.05,0.5)
+gam <- 0.01
+laa <- 0.2
 ABC_mu <- expand.grid(
   rep = rep,
   lac = lac,
@@ -58,9 +58,9 @@ ABC_mu <- expand.grid(
 
 ## c. gam
 lac <- 0.3
-mu <- 0.15
-gam <- c(0.0025,0.005,0.01,0.0125)
-laa <- 0.15
+mu <- 0.2
+gam <- runif(50,0.005,0.02)
+laa <- 0.2
 ABC_gam <- expand.grid(
   rep = rep,
   lac = lac,
@@ -71,9 +71,9 @@ ABC_gam <- expand.grid(
 )
 ## d. laa
 lac <- 0.3
-mu <- 0.15
-gam <- 0.0075
-laa <- c(0.05,0.1,0.2,0.25)
+mu <- 0.2
+gam <- 0.01
+laa <- runif(50,0.05,0.5)
 ABC_laa <- expand.grid(
   rep = rep,
   lac = lac,
@@ -84,7 +84,6 @@ ABC_laa <- expand.grid(
 )
 
 DAISIE_ABC_single_change <- rbind(
-  control,
   ABC_lac,
   ABC_mu,
   ABC_gam,
