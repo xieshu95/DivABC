@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --time=0:05:00
+#SBATCH --time=0:29:30
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=start_ABC

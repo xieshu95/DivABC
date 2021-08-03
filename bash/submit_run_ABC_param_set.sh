@@ -4,7 +4,7 @@
 #SBATCH --ntasks=1
 #SBATCH --job-name=run_ABC
 #SBATCH --output=logs/ABC-%j.log
-#SBATCH --mem=2GB
+#SBATCH --mem=1GB
 #SBATCH --partition=gelifes
 
 # Arguments to follow the Rscript are as follows:
