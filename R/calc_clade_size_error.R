@@ -7,13 +7,29 @@
 #' @export
 
 
+# clade_size_sd <- function(sim){
+#   clade_size <- c()
+#   if (length(sim[[1]][[1]]) == 1){
+#     clade_size_sd <- 0
+#   } else {
+#     for(i in 2:length(sim[[1]][[1]])){ ##clades
+#       clade_size[i - 1] <- length(sim[[1]][[1]][[i]]$branching_times) - 1
+#     }
+#     if(length(clade_size) == 1){
+#       clade_size_sd <- 0
+#     } else{
+#       clade_size_sd <- sd(clade_size)
+#     }
+#   }
+#   return(clade_size_sd)
+# }
 clade_size_sd <- function(sim){
   clade_size <- c()
-  if (length(sim[[1]][[1]]) == 1){
+  if (length(sim[[1]]) == 1){
     clade_size_sd <- 0
   } else {
-    for(i in 2:length(sim[[1]][[1]])){ ##clades
-      clade_size[i - 1] <- length(sim[[1]][[1]][[i]]$branching_times) - 1
+    for(i in 2:length(sim[[1]])){ ##clades
+      clade_size[i - 1] <- length(sim[[1]][[i]]$branching_times) - 1
     }
     if(length(clade_size) == 1){
       clade_size_sd <- 0
@@ -23,7 +39,6 @@ clade_size_sd <- function(sim){
   }
   return(clade_size_sd)
 }
-
 
 #' Calculate error of clade size standard deviation between two simulated data.
 #'

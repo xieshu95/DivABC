@@ -108,16 +108,15 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
         accept <- TRUE
 
         #calculate the summary statistics for the simulated tree
-        df_stats <- calc_ss_diff (sim1 = obs_data,
-                                  sim2 = new_sim,
-                                  replicates = replicates)
+        df_stats <- calc_ss_diff (sim1 = obs_data[[1]],
+                                  sim2 = new_sim[[1]])
 
         # #check if the summary statistics are sufficiently
         # #close to the observed summary statistics
 
-        median_df <- base::lapply(df_stats,median)
-        for (k in seq_along(median_df)) {
-          if (as.numeric(median_df[k]) > epsilon[i, k]) {
+        # median_df <- base::lapply(df_stats,median)
+        for (k in seq_along(df_stats)) {
+          if (as.numeric(df_stats[k]) > epsilon[i, k]) {
             accept <- FALSE
             #the first step always accepts
             if (i == 1) accept <- TRUE

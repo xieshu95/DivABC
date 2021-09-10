@@ -13,7 +13,7 @@
 
 
 calc_weight <- function(weights, particles,
-                        current, sigma, prior_density_function) {
+                        current, sigma, prior_density_function,idparsopt) {
   vals <- c()
   for (i in seq_along(particles)) {
     vals[i] <- weights[i]
@@ -22,8 +22,8 @@ calc_weight <- function(weights, particles,
       vals[i] <- vals[i] * stats::dnorm(diff, mean = 0, sd = sigma)
     }
   }
-
-  numerator <- prior_density_function(current)
+  # current_opt <- current[idparsopt]
+  numerator <- prior_density_function(current,idparsopt)
 
   return(numerator / sum(vals))
 }
