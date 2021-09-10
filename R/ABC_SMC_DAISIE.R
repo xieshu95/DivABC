@@ -18,10 +18,11 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
   stop_rate = 1e-3,
   replicates = 1,  ## simulation replicates for each parameter set
   num_iterations,
-  K
+  K,
+  idparsopt
 ) {
   #just to get the number of parameters to be estimated.
-  parameters <- prior_generating_function()
+  # parameters <- prior_generating_function(idparsopt)
 
   # # compute the observed statistics (no need)
   # obs_statistics <- c()
@@ -78,7 +79,7 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
     while (number_accepted < number_of_particles) {
       #in this initial step, generate parameters from the prior
       if (i == 1) {
-        parameters <- prior_generating_function()  ## one value for lac
+        parameters <- prior_generating_function(idparsopt)
       } else {
         #if not in the initial step, generate parameters
         #from the weighted previous distribution:
@@ -91,7 +92,7 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
 
         #only perturb one parameter, to avoid extremely
         #low acceptance rates due to simultaneous perturbation
-        to_change <- sample(seq_along(parameters), 1)
+        to_change <- sample(idparsopt, 1)
 
         # perturb the parameter a little bit,
         #on log scale, so parameter doesn't go < 0
@@ -100,11 +101,11 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
       }
 
       #reject if outside the prior
-      if (prior_density_function(parameters) > 0) {
+      if (prior_density_function(parameters,idparsopt) > 0) {
         #simulate a new tree, given the proposed parameters
         new_sim <- sim_function(parameters = parameters,
-                                 K = K,
-                                 replicates = replicates)
+                                K = K,
+                                replicates = replicates)
         accept <- TRUE
 
         #calculate the summary statistics for the simulated tree
@@ -131,8 +132,11 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
           #calculate the weight
           if (i > 1) {
             accepted_weight <- calc_weight(previous_weights,
-                                           previous_params, parameters,
-                                           sigma, prior_density_function)
+                                           previous_params,
+                                           parameters,
+                                           sigma,
+                                           prior_density_function,
+                                           idparsopt)
           }
           new_weights[number_accepted] <- accepted_weight
 

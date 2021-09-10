@@ -13,7 +13,6 @@ run_ABC_DAISIE <- function(param_space_name,
   rep <- as.numeric(param_space[param_set,1])
   set.seed(rep)
 
-  message(Sys.time())
   message("Param space name: ", param_space_name)
   message("Running param set: ", param_set)
   message("seed: ", rep)
@@ -34,17 +33,17 @@ run_ABC_DAISIE <- function(param_space_name,
 
   prior_gen <- function(idparsopt){
     if(1 %in% idparsopt){
-      lac <- stats::runif(1,0,0.2)
+      lac <- stats::runif(1,0,1)
     } else {
       lac <- 0.2
     }
     if(2 %in% idparsopt){
       mu <- stats::runif(1,0,1)
     } else {
-      mu <- 0.2
+      mu <- 0.1
     }
     if(3 %in% idparsopt){
-      gam <- stats::runif(1,0,0.02)
+      gam <- stats::runif(1,0,0.05)
     } else {
       gam <- 0.01
     }
@@ -58,7 +57,7 @@ run_ABC_DAISIE <- function(param_space_name,
 
   prior_dens <- function(x,idparsopt) {
     if(1 %in% idparsopt){
-      dens_lac <- stats::dunif(x[1],0,0.2)
+      dens_lac <- stats::dunif(x[1],0,1)
     } else {
       dens_lac <- 1
     }
@@ -68,7 +67,7 @@ run_ABC_DAISIE <- function(param_space_name,
       dens_mu <- 1
     }
     if(3 %in% idparsopt){
-      dens_gam <- stats::dunif(x[3],0,0.02)
+      dens_gam <- stats::dunif(x[3],0,0.05)
     } else {
       dens_gam <- 1
     }
