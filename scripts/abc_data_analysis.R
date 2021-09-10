@@ -132,12 +132,12 @@ whole_df <- data.frame(true_pars,MAE_lac,MAE_mu,MAE_gam,MAE_laa,
 whole_df$K[whole_df$K == "40"] <- "DD"
 whole_df$K[whole_df$K == "Inf"] <- "DI"
 
-p <- ggplot2::ggplot(whole_df, ggplot2::aes(x=lac, y=MAE_lac, color = K)) +  ##change y and factor  (shape = K)
+p <- ggplot2::ggplot(whole_df, ggplot2::aes(x=laa, y=MAE_laa, color = K)) +  ##change y and factor  (shape = K)
   ggplot2::theme_bw() +
   ggplot2::geom_jitter(position = ggplot2::position_jitterdodge(jitter.width = 0.01, dodge.width = 0.1)) +  ##position = ggplot2::position_jitterdodge(0.2)
   ggplot2::scale_color_brewer(palette = "Set2") +
   ggplot2::geom_hline(yintercept = 0.05, linetype = "dashed", size = 0.3) +
-  ggplot2::xlab("Rate differential ratio") +  #Rate differential ratio of anagenesis/Diversity dependence
+  ggplot2::xlab("lac") +  #Rate differential ratio of anagenesis/Diversity dependence
   ggplot2::ylab("Mean absolute error in lac") +
   ggplot2::theme(axis.title.y = ggplot2::element_text(size = 12)) +
   ggplot2::theme(axis.title.x = ggplot2::element_text(size = 12)) +
