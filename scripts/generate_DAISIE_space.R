@@ -1,27 +1,27 @@
 ## create input parameter sets for ABC
-#1. ABC_DAISIE
-
-rep <- 1:5
-K <- c(40, Inf)
-lac <- c(0.2,0.4)
-mu <- c(0.1,0.2)
-gam <- c(0.005,0.01)
-laa <-c(0.1,0.2)
-
-DAISIE_ABC <- expand.grid(
-  rep = rep,
-  lac = lac,
-  mu = mu,
-  gam = gam,
-  laa = laa,
-  K = K
-)
-
-write.csv2(
-  DAISIE_ABC,
-  "data/DAISIE_ABC.csv",
-  row.names = FALSE
-)
+# #1. ABC_DAISIE
+#
+# rep <- 1:5
+# K <- c(40, Inf)
+# lac <- c(0.2,0.4)
+# mu <- c(0.1,0.2)
+# gam <- c(0.005,0.01)
+# laa <-c(0.1,0.2)
+#
+# DAISIE_ABC <- expand.grid(
+#   rep = rep,
+#   lac = lac,
+#   mu = mu,
+#   gam = gam,
+#   laa = laa,
+#   K = K
+# )
+#
+# write.csv2(
+#   DAISIE_ABC,
+#   "data/DAISIE_ABC.csv",
+#   row.names = FALSE
+# )
 
 
 ## create input parameter sets for ABC
@@ -110,5 +110,90 @@ random <- data.frame(rep,lac,mu,gam,laa,K,stringsAsFactors = TRUE)
 write.csv2(
   random,
   "data/DAISIE_ABC_random.csv",
+  row.names = FALSE
+)
+
+
+## create input parameter sets for ABC
+#4. ABC_DAISIE default: lac=0.4 mu=0.2 gam=0.01 laa=0.4
+rep <- 1:10
+K <- Inf
+## a. lac
+lac <- c(1:10)*0.05
+mu <- 0.2
+gam <- 0.01
+laa <- 0.4
+ABC_lac <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+
+## b. mu
+lac <- 0.4
+mu <- c(1:10)*0.05
+gam <- 0.01
+laa <- 0.4
+ABC_mu <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+
+## c. gam
+lac <- 0.4
+mu <- 0.2
+gam <- c(6:15)*0.001
+laa <- 0.4
+ABC_gam <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+## d. laa
+lac <- 0.4
+mu <- 0.2
+gam <- 0.01
+laa <- c(1:10)*0.05
+ABC_laa <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+
+DAISIE_ABC <- rbind(
+  ABC_lac,
+  ABC_mu,
+  ABC_gam,
+  ABC_laa
+)
+
+write.csv2(
+  DAISIE_ABC,
+  "data/DAISIE_ABC.csv",
+  row.names = FALSE
+)
+
+
+
+## create input parameter sets for mcmc
+#5. mcmc_DAISIE default: lac=0.4 mu=0.2 gam=0.01 laa=0.4
+DAISIE_MCMC = DAISIE_ABC
+
+write.csv2(
+  DAISIE_MCMC,
+  "data/DAISIE_MCMC.csv",
   row.names = FALSE
 )
