@@ -22,7 +22,7 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
   idparsopt
 ) {
   #just to get the number of parameters to be estimated.
-  # parameters <- prior_generating_function(idparsopt)
+  parameters <- prior_generating_function(idparsopt)
 
   # # compute the observed statistics (no need)
   # obs_statistics <- c()
