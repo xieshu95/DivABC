@@ -166,8 +166,8 @@ mcmc_nltt <- function( # nolint indeed a complex function
 b <- mcmc_nltt(obs, ll_b,
                parameters = c(0.5),
                logtransforms = c(TRUE),
-               iterations = 100,
-               burnin = 10,
+               iterations = 20,
+               burnin = 2,
                thinning = 1,
                sigma = 1)
 b_mcmc <- coda::as.mcmc(b)
@@ -344,13 +344,13 @@ mcmc_nltt <- function( # nolint indeed a complex function
 }
 t1 <- Sys.time()
 mcmc <- mcmc_nltt(datalist = obs,
-               likelihood_function = ll_b,
-               parameters = c(1.5, 1.5),
-               logtransforms = c(TRUE,TRUE),
-               iterations = 1000,
-               burnin = 100,
-               thinning = 1,
-               sigma = 1)
+                  likelihood_function = ll_b,
+                  parameters = c(1.5, 1.5),
+                  logtransforms = c(TRUE,TRUE),
+                  iterations = 1000,
+                  burnin = 100,
+                  thinning = 1,
+                  sigma = 1)
 t2 <- Sys.time()
 
 save(b,file = "G:/R/Traisie-ABC/results/mcmc_b2_dd.RData")

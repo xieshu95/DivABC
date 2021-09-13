@@ -1,6 +1,29 @@
 ## estimation for whole 4 parameters(without K), DI for all estimations
-prior_dens <- function(x) {
-  return(dunif(x[1],0,1) * dunif(x[2],0,1) * dunif(x[3],0,0.1) * dunif(x[4],0,1))
+# prior_dens <- function(x) {
+#   return(dunif(x[1],0,1) * dunif(x[2],0,1) * dunif(x[3],0,0.1) * dunif(x[4],0,1))
+# }
+prior_dens <- function(x,idparsopt) {
+  if(1 %in% idparsopt){
+    dens_lac <- stats::dunif(x[1],0,0.2)
+  } else {
+    dens_lac <- 1
+  }
+  if(2 %in% idparsopt){
+    dens_mu <- stats::dunif(x[2],0,1)
+  } else {
+    dens_mu <- 1
+  }
+  if(3 %in% idparsopt){
+    dens_gam <- stats::dunif(x[3],0,0.02)
+  } else {
+    dens_gam <- 1
+  }
+  if(4 %in% idparsopt){
+    dens_laa <- stats::dunif(x[4],0,1)
+  } else {
+    dens_laa <- 1
+  }
+  return(dens_lac * dens_mu * dens_gam * dens_laa)
 }
 set.seed(1)
 obs_sim <- DAISIE::DAISIE_sim_constant_rate(
@@ -16,7 +39,7 @@ obs_sim <- DAISIE::DAISIE_sim_constant_rate(
 obs <- obs_sim[[1]]
 MLE_DI <- DAISIE::DAISIE_ML(
   datalist = obs,
-  initparsopt = c(1.5, 1.5, 40, 0.1, 1),
+  initparsopt = c(1.5, 1.5, Inf, 0.1, 1),
   idparsopt = 1:5,
   parsfix = NULL,
   idparsfix = NULL,
@@ -62,10 +85,33 @@ MLE_DD <- DAISIE::DAISIE_ML(
 # burnin = 10
 # thinning = 1
 # sigma = 1
+get_params <- function(idparsopt){
+  if(1 %in% idparsopt){
+    lac <- stats::runif(1,0,0.2)
+  } else {
+    lac <- 0.2
+  }
+  if(2 %in% idparsopt){
+    mu <- stats::runif(1,0,1)
+  } else {
+    mu <- 0.2
+  }
+  if(3 %in% idparsopt){
+    gam <- stats::runif(1,0,0.02)
+  } else {
+    gam <- 0.01
+  }
+  if(4 %in% idparsopt){
+    laa <- stats::runif(1,0,1)
+  } else {
+    laa <- 0.2
+  }
+  return(c(lac,mu,gam,laa))
+}
 ll_b <- function(params, datalist) {
   lnl <- DAISIE::DAISIE_loglik_all(
-    pars1 = c(params[1],params[2],40,params[3],params[4]),
-    pars2 = c(100, 11, 0, 0),
+    pars1 = c(params[1],params[2],Inf,params[3],params[4]),
+    pars2 = c(100, 0, 0, 0),
     datalist = datalist,
     methode = "lsodes"
   )
@@ -176,7 +222,7 @@ b <- mcmc_nltt(datalist = obs,
                thinning = 1,
                sigma = 1)
 t2 <- Sys.time()
-b_mcmc <- coda::as.mcmc(b)
+b_mcmc <- coda::as.mcmc(mcmc)
 plot(b_mcmc)
 save(b,file = "G:/R/Traisie-ABC/results/mcmc_4params_dd_1000.RData")
 mean(b[,1])
