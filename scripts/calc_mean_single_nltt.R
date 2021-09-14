@@ -1,5 +1,9 @@
 ### add a function to calculate the mean(nedian) of 500 nltts !!!!
-
+#' calculate the mean value of SS
+#'
+#' @author Shu Xie
+#' @return
+#' @export
 calc_mean_single_nltt <- function(sim1,sim2,replicates){
   spec_nltt_mean <- c()
   num_spec_mean <- c()
@@ -27,11 +31,11 @@ calc_mean_single_nltt <- function(sim1,sim2,replicates){
   return(list_s_mean)
 }
 
-mean_nltt <- calc_mean_single_nltt(sim1 = sim_gam1,
-                                   sim2 = sim_gam1,
-                                   replicates = 500)
-plot(mean_nltt$spec_nltt_mean)
-plot(mean_nltt$num_spec_mean)
-plot(mean_nltt$num_col_mean)
-plot(mean_nltt$endemic_nltt_mean)
-plot(mean_nltt$nonendemic_nltt_mean)
+# mean_nltt <- calc_mean_single_nltt(sim1 = sim_gam1,
+#                                    sim2 = sim_gam1,
+#                                    replicates = 500)
+# plot(mean_nltt$spec_nltt_mean)
+# plot(mean_nltt$num_spec_mean)
+# plot(mean_nltt$num_col_mean)
+# plot(mean_nltt$endemic_nltt_mean)
+# plot(mean_nltt$nonendemic_nltt_mean)

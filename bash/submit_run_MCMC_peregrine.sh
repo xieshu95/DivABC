@@ -2,8 +2,8 @@
 #SBATCH --time=0:29:30
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --job-name=start_ABC
-#SBATCH --output=logs/start_ABC.log
+#SBATCH --job-name=start_MCMC
+#SBATCH --output=logs/start_MCMC.log
 #SBATCH --mem=1GB
 #SBATCH --partition=short
 
@@ -20,7 +20,7 @@ for_length=$(( ${for_length} - 1 ))
 
 for (( param_set = 1; param_set <= $for_length; param_set++ ))
 do
-sbatch TraisieABC/bash/submit_run_ABC_param_set.sh ${param_space_name} \
+sbatch TraisieABC/bash/submit_run_MCMC_param_set.sh ${param_space_name} \
                                                    ${param_set} \
                                                    ${idparsopt}
 done

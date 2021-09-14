@@ -10,7 +10,9 @@
 # Arguments to follow the Rscript are as follows:
 param_space_name=$1
 param_set=$2
+idparsopt=$3
 
 ml R
 Rscript TraisieABC/scripts/run_ABC_peregrine.R ${param_space_name} \
-                                               ${param_set}
+                                               ${param_set} \
+                                               ${idparsopt}

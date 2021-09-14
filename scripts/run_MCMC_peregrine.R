@@ -8,7 +8,7 @@ metadata <- paste0("This is parameter set ", param_set)
 
 library(TraisieABC)
 
-run_ABC_DAISIE(
+run_MCMC_DAISIE(
   param_space_name = args[1],
   param_set = as.numeric(args[2]),
   idparsopt <- args[3],
