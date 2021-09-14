@@ -116,7 +116,7 @@ write.csv2(
 
 ## create input parameter sets for ABC
 #4. ABC_DAISIE default: lac=0.4 mu=0.2 gam=0.01 laa=0.4
-rep <- 1:10
+rep <- 1:5
 K <- Inf
 ## a. lac
 lac <- c(1:10)*0.05
