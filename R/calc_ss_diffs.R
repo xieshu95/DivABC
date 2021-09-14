@@ -68,6 +68,13 @@ calc_ss_diff <- function(sim1, sim2){
   return(ss_diff)
 }
 
+
+
+#' calculate the initial epsilon
+#'
+#' @author Shu Xie
+#' @return
+#' @export
 calc_epsilon_init <- function(sim){
   ss_diff_pairs <- c()
   replicates <- length(sim)
