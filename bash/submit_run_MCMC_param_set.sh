@@ -5,7 +5,7 @@
 #SBATCH --job-name=run_MCMC
 #SBATCH --output=logs/MCMC-%j.log
 #SBATCH --mem=1GB
-#SBATCH --partition=gelifes
+#SBATCH --partition=regular
 
 # Arguments to follow the Rscript are as follows:
 param_space_name=$1
