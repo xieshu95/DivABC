@@ -14,4 +14,5 @@ idparsopt=$3
 
 ml R
 Rscript TraisieABC/scripts/run_MCMC_peregrine.R ${param_space_name} \
-                                               ${param_set}
+                                               ${param_set} \
+                                               ${idparsopt}
