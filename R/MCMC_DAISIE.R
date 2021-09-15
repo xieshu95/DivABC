@@ -6,7 +6,6 @@
 MCMC_DAISIE <- function(datalist,
                         likelihood_function,
                         parameters,
-                        logtransforms = c(TRUE,TRUE,TRUE,TRUE),
                         iterations,
                         burnin = round(iterations / 3),
                         thinning = 1,
@@ -37,49 +36,25 @@ MCMC_DAISIE <- function(datalist,
   for (i in seq_len(burnin + iterations)) {
     #propose new values
     for (j in idparsopt) {
-      if (logtransforms[j] == TRUE) {
-        if (parameters[j] == 0) {
-          stop("Cannot propose new value for a parameter with value 0.0.")
-        }
+      if (parameters[j] == 0) {
+        stop("Cannot propose new value for a parameter with value 0.0.")
+      }
 
-        eta           <- log(parameters[j])
-        new_eta       <- eta + stats::rnorm(1, 0, sigma)
-        new_val       <- exp(new_eta)
-        # calculate the Hastings ratio
-        hr            <- log(new_val / parameters[j])
-        parameters[j] <- new_val
-        new_pp        <- likelihood_function(parameters, datalist,idparsopt)
+      eta           <- log(parameters[j])
+      new_eta       <- eta + stats::rnorm(1, 0, sigma)
+      new_val       <- exp(new_eta)
+      # calculate the Hastings ratio
+      hr            <- log(new_val / parameters[j])
+      parameters[j] <- new_val
+      new_pp        <- likelihood_function(parameters, datalist,idparsopt)
 
-        #accept or reject
-        if (is.finite(new_pp) &&
-            is.finite(hr) &&
-            new_pp - pp + hr > log(stats::runif(1, 0, 1))) {
-          pp <- new_pp
-        } else {
-          parameters[j] <- exp(eta)
-        }
+      #accept or reject
+      if (is.finite(new_pp) &&
+          is.finite(hr) &&
+          new_pp - pp + hr > log(stats::runif(1, 0, 1))) {
+        pp <- new_pp
       } else {
-
-        eta           <- parameters[j]
-        new_val       <- eta + stats::rnorm(1, 0, sigma)
-        #calculate the Hastings ratio
-        hr            <- 0.0
-        parameters[j] <- new_val
-
-        if (parameters[j] >= 0 & parameters[1] > 0) {
-          new_pp        <- likelihood_function(parameters, datalist)
-
-          #accept or reject
-          if (is.finite(new_pp) &&
-              is.finite(hr) &&
-              new_pp - pp + hr > log(stats::runif(1, 0, 1))) {
-            pp <- new_pp
-          } else {
-            parameters[j] <- eta
-          }
-        } else {
-          parameters[j] <- eta
-        }
+        parameters[j] <- exp(eta)
       }
     }
 
