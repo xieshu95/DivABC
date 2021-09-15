@@ -6,7 +6,7 @@
 MCMC_DAISIE <- function(datalist,
                         likelihood_function,
                         parameters,
-                        logtransforms,
+                        logtransforms = c(TRUE,TRUE,TRUE,TRUE),
                         iterations,
                         burnin = round(iterations / 3),
                         thinning = 1,
