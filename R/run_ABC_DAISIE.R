@@ -37,7 +37,7 @@ run_ABC_DAISIE <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_gen,
     prior_density_function = prior_dens,
-    number_of_particles = 2000,
+    number_of_particles = 200,
     sigma = 0.2,
     stop_rate = 0.001,
     replicates = 1,  ## simulation replicates for each parameter set
