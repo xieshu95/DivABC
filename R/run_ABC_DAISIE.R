@@ -28,7 +28,7 @@ run_ABC_DAISIE <- function(param_space_name,
                                            obs_sim_pars$gam,
                                            obs_sim_pars$laa),
                             K = as.numeric(obs_sim_pars$K),
-                            replicates = 5)
+                            replicates = 100)
   init_epsilon <- calc_epsilon_init(obs_sim)
 
   prior_gen <- function(idparsopt){
