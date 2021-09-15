@@ -8,7 +8,6 @@ MCMC_DAISIE(
   datalist,
   likelihood_function,
   parameters,
-  logtransforms = c(TRUE, TRUE, TRUE, TRUE),
   iterations,
   burnin = round(iterations/3),
   thinning = 1,
