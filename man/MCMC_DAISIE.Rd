@@ -12,7 +12,7 @@ MCMC_DAISIE(
   burnin = round(iterations/3),
   thinning = 1,
   sigma = 1,
-  idparsopt = 1:4
+  idparsopt
 )
 }
 \value{

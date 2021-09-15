@@ -10,7 +10,7 @@ MCMC_DAISIE <- function(datalist,
                         burnin = round(iterations / 3),
                         thinning = 1,
                         sigma = 1,
-                        idparsopt = 1:4)
+                        idparsopt)
 {
   # create a list for the samples & reserve memory for the chain
   chain <- array(dim = c(floor(iterations / thinning) + 1,
@@ -35,17 +35,17 @@ MCMC_DAISIE <- function(datalist,
 
   for (i in seq_len(burnin + iterations)) {
     #propose new values
-    for (j in idparsopt) {
-      if (parameters[j] == 0) {
+    for (m in idparsopt) {
+      if (parameters[m] == 0) {
         stop("Cannot propose new value for a parameter with value 0.0.")
       }
 
-      eta           <- log(parameters[j])
+      eta           <- log(parameters[m])
       new_eta       <- eta + stats::rnorm(1, 0, sigma)
       new_val       <- exp(new_eta)
       # calculate the Hastings ratio
-      hr            <- log(new_val / parameters[j])
-      parameters[j] <- new_val
+      hr            <- log(new_val / parameters[m])
+      parameters[m] <- new_val
       new_pp        <- likelihood_function(parameters, datalist,idparsopt)
 
       #accept or reject
@@ -54,7 +54,7 @@ MCMC_DAISIE <- function(datalist,
           new_pp - pp + hr > log(stats::runif(1, 0, 1))) {
         pp <- new_pp
       } else {
-        parameters[j] <- exp(eta)
+        parameters[m] <- exp(eta)
       }
     }
 
@@ -82,40 +82,12 @@ MCMC_DAISIE <- function(datalist,
 
 calc_loglik <- function(params, datalist,idparsopt) {
   lnl <- DAISIE::DAISIE_loglik_all(
-    pars1 = c(params[1],params[2],Inf,params[3],params[4]),
+    pars1 = as.numeric(c(params[1],params[2],Inf,params[3],params[4])),
     pars2 = c(100, 0, 0, 0),
     datalist = datalist,
     methode = "lsodes"
   )
   prior1  <- log(prior_dens(params, idparsopt)) # nolint
   return(lnl + prior1)
-}
-
-#' prior density function
-#'
-#' @return a numeric represents the log likelihood
-#' @export
-prior_dens <- function(x,idparsopt) {
-  if(1 %in% idparsopt){
-    dens_lac <- stats::dunif(x[1],0,1)
-  } else {
-    dens_lac <- 1
-  }
-  if(2 %in% idparsopt){
-    dens_mu <- stats::dunif(x[2],0,1)
-  } else {
-    dens_mu <- 1
-  }
-  if(3 %in% idparsopt){
-    dens_gam <- stats::dunif(x[3],0,0.05)
-  } else {
-    dens_gam <- 1
-  }
-  if(4 %in% idparsopt){
-    dens_laa <- stats::dunif(x[4],0,1)
-  } else {
-    dens_laa <- 1
-  }
-  return(dens_lac * dens_mu * dens_gam * dens_laa)
 }
 
