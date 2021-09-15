@@ -35,12 +35,12 @@ run_ABC_DAISIE <- function(param_space_name,
     if(1 %in% idparsopt){
       lac <- stats::runif(1,0,1)
     } else {
-      lac <- 0.2
+      lac <- 0.4
     }
     if(2 %in% idparsopt){
       mu <- stats::runif(1,0,1)
     } else {
-      mu <- 0.1
+      mu <- 0.2
     }
     if(3 %in% idparsopt){
       gam <- stats::runif(1,0,0.05)
@@ -50,7 +50,7 @@ run_ABC_DAISIE <- function(param_space_name,
     if(4 %in% idparsopt){
       laa <- stats::runif(1,0,1)
     } else {
-      laa <- 0.2
+      laa <- 0.4
     }
     return(c(lac,mu,gam,laa))
   }
@@ -85,11 +85,11 @@ run_ABC_DAISIE <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_gen,
     prior_density_function = prior_dens,
-    number_of_particles = 2000,
+    number_of_particles = 20,
     sigma = 0.5,
     stop_rate = 0.002,
     replicates = 1,  ## simulation replicates for each parameter set
-    num_iterations = 10,
+    num_iterations = 4,
     K = as.numeric(obs_sim_pars$K),
     idparsopt = idparsopt
   )
