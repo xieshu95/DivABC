@@ -11,6 +11,6 @@ library(TraisieABC)
 run_ABC_DAISIE(
   param_space_name = args[1],
   param_set = as.numeric(args[2]),
-  idparsopt <- args[3],
+  idparsopt = args[3],
   save_output = save_output
 )
