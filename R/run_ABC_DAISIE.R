@@ -28,7 +28,7 @@ run_ABC_DAISIE <- function(param_space_name,
                                            obs_sim_pars$gam,
                                            obs_sim_pars$laa),
                             K = as.numeric(obs_sim_pars$K),
-                            replicates = 10)
+                            replicates = 50)
   init_epsilon <- calc_epsilon_init(obs_sim)
 
   abc <- ABC_SMC_DAISIE (
@@ -37,11 +37,11 @@ run_ABC_DAISIE <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_gen,
     prior_density_function = prior_dens,
-    number_of_particles = 10,
+    number_of_particles = 2000,
     sigma = 0.2,
-    stop_rate = 0.001,
+    stop_rate = 0.0005,
     replicates = 1,  ## simulation replicates for each parameter set
-    num_iterations = 3,
+    num_iterations = 10,
     K = as.numeric(obs_sim_pars$K),
     idparsopt = as.numeric(idparsopt),
     fixpars = as.numeric(obs_sim_pars[2:5])
