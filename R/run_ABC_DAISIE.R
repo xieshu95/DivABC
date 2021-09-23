@@ -50,8 +50,7 @@ run_ABC_DAISIE <- function(param_space_name,
     save_output(
       output = abc,
       param_space_name = param_space_name,
-      param_set = param_set,
-      rep = rep
+      param_set = param_set
     )
   } else {
     return(abc)

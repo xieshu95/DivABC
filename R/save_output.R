@@ -1,12 +1,10 @@
 save_output <- function(output,
                         param_space_name,
-                        param_set,
-                        rep){
+                        param_set){
 
   output_file_name <- create_output_file_name(
     param_space_name = param_space_name,
-    param_set = param_set,
-    rep = rep
+    param_set = param_set
   )
 
   output_folder <- file.path(
@@ -35,15 +33,12 @@ save_output <- function(output,
 
 
 create_output_file_name <- function(param_space_name,
-                                    param_set,
-                                    rep) {
+                                    param_set) {
 
   output_file_name <- paste0(
     param_space_name,
     "_param_set_",
     param_set,
-    "_rep",
-    rep,
     ".RData"
   )
 

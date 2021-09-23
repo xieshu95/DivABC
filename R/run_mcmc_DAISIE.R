@@ -45,8 +45,7 @@ run_MCMC_DAISIE <- function(param_space_name,
     save_output(
       output = mcmc,
       param_space_name = param_space_name,
-      param_set = param_set,
-      rep = rep
+      param_set = param_set
     )
   } else {
     return(mcmc)
