@@ -19,10 +19,11 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
   replicates = 1,  ## simulation replicates for each parameter set
   num_iterations,
   K,
-  idparsopt
+  idparsopt,
+  fixpars
 ) {
   #just to get the number of parameters to be estimated.
-  parameters <- prior_generating_function(idparsopt)
+  parameters <- prior_generating_function(fixpars,idparsopt)
 
   # # compute the observed statistics (no need)
   # obs_statistics <- c()
@@ -79,7 +80,7 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
     while (number_accepted < number_of_particles) {
       #in this initial step, generate parameters from the prior
       if (i == 1) {
-        parameters <- prior_generating_function(idparsopt)
+        parameters <- prior_generating_function(fixpars,idparsopt)
       } else {
         #if not in the initial step, generate parameters
         #from the weighted previous distribution:
@@ -92,7 +93,11 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
 
         #only perturb one parameter, to avoid extremely
         #low acceptance rates due to simultaneous perturbation
-        to_change <- sample(idparsopt, 1)
+        if(length(idparsopt) == 1){
+          to_change <- as.numeric(idparsopt)
+        } else {
+          to_change <- sample(idparsopt, 1)
+        }
 
         # perturb the parameter a little bit,
         #on log scale, so parameter doesn't go < 0

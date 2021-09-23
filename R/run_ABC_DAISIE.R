@@ -43,7 +43,8 @@ run_ABC_DAISIE <- function(param_space_name,
     replicates = 1,  ## simulation replicates for each parameter set
     num_iterations = 10,
     K = as.numeric(obs_sim_pars$K),
-    idparsopt = idparsopt
+    idparsopt = as.numeric(idparsopt),
+    fixpars = as.numeric(obs_sim_pars[2:5])
   )
   if (save_output == TRUE) {
     save_output(
