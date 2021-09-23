@@ -16,7 +16,8 @@ ABC_SMC_DAISIE(
   replicates = 1,
   num_iterations,
   K,
-  idparsopt
+  idparsopt,
+  fixpars
 )
 }
 \value{

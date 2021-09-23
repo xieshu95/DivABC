@@ -4,7 +4,7 @@
 \alias{prior_dens}
 \title{prior density function}
 \usage{
-prior_dens(x, idparsopt)
+prior_dens(pars, idparsopt)
 }
 \value{
 a numeric represents the log likelihood

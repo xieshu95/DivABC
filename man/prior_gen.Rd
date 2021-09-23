@@ -4,7 +4,7 @@
 \alias{prior_gen}
 \title{prior function to generate parameters}
 \usage{
-prior_gen(idparsopt)
+prior_gen(pars, idparsopt)
 }
 \value{
 a numeric represents the log likelihood
