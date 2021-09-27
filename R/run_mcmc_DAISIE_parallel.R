@@ -1,4 +1,4 @@
-#' Run ABC in parallel
+#' Run mcmc in parallel
 #'
 #' @author Tianjian Qin, Shu Xie
 #' @return
