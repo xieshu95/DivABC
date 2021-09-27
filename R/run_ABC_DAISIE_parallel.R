@@ -11,7 +11,6 @@ run_ABC_DAISIE_parallel <- function(param_space_name,
                            workers = NULL){
 
   obs_sim_pars <- load_param_space(param_space_name = param_space_name)
-  obs_sim_pars <- obs_sim_pars[1:16, ]
   rep <- as.numeric(param_space[param_set,1])
   set.seed(rep)
 
@@ -34,26 +33,34 @@ run_ABC_DAISIE_parallel <- function(param_space_name,
   ))
   future::plan(strategy, workers = workers)
   future_opts <- furrr::furrr_options(seed = TRUE)
-  output <- furrr::future_map(
+  furrr::future_map(
     .x = obs_sim_pars,
     .f = TraisieABC::run_ABC_DAISIE_wrapper,
     .options = future_opts,
     idparsopt = idparsopt
   )
 
-  return(abc)
+  if (save_output == TRUE) {
+    save_output(
+      output = abc,
+      param_space_name = param_space_name,
+      param_set = param_set
+    )
+  } else {
+    return(abc)
+  }
 }
 
 run_ABC_DAISIE_wrapper <- function(obs_sim_pars, idparsopt) {
   obs_sim <- get_DAISIE_sim(
     parameters = c(
-      obs_sim_pars[2],
-      obs_sim_pars[3],
-      obs_sim_pars[4],
-      obs_sim_pars[5]
+      obs_sim_pars$lac,
+      obs_sim_pars$mu,
+      obs_sim_pars$gam,
+      obs_sim_pars$laa
     ),
-    K = as.numeric(obs_sim_pars[6]),
-    replicates = 5
+    K = as.numeric(obs_sim_pars$K),
+    replicates = 50
   )
   init_epsilon <- calc_epsilon_init(obs_sim)
 
@@ -63,7 +70,7 @@ run_ABC_DAISIE_wrapper <- function(obs_sim_pars, idparsopt) {
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_gen,
     prior_density_function = prior_dens,
-    number_of_particles = 2,
+    number_of_particles = 5,
     sigma = 0.2,
     stop_rate = 0.0005,
     replicates = 1,
@@ -73,6 +80,4 @@ run_ABC_DAISIE_wrapper <- function(obs_sim_pars, idparsopt) {
     idparsopt = as.numeric(idparsopt),
     fixpars = as.numeric(obs_sim_pars[2:5])
   )
-
-  return(abc)
 }
