@@ -177,6 +177,18 @@ DAISIE_ABC <- rbind(
   ABC_lac,
   ABC_mu,
   ABC_gam,
+  ABC_laa,
+  ABC_lac,
+  ABC_mu,
+  ABC_gam,
+  ABC_laa,
+  ABC_lac,
+  ABC_mu,
+  ABC_gam,
+  ABC_laa,
+  ABC_lac,
+  ABC_mu,
+  ABC_gam,
   ABC_laa
 )
 
