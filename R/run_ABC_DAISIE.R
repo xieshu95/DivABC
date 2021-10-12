@@ -10,12 +10,12 @@ run_ABC_DAISIE <- function(param_space_name,
                            save_output = TRUE){
 
   param_space <- load_param_space(param_space_name = param_space_name)
-  rep <- as.numeric(param_space[param_set,1])
-  set.seed(rep)
+  seed <- as.integer(Sys.time()) %% 1000000L * param_set
+  set.seed(seed)
 
   message("Param space name: ", param_space_name)
   message("Running param set: ", param_set)
-  message("seed: ", rep)
+  message("seed: ", seed)
 
   check_create_folders(
     param_space_name = param_space_name,
@@ -37,7 +37,7 @@ run_ABC_DAISIE <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_gen,
     prior_density_function = prior_dens,
-    number_of_particles = 5000,
+    number_of_particles = 3000,
     sigma = 0.2,
     stop_rate = 0.001,
     replicates = 1,  ## simulation replicates for each parameter set

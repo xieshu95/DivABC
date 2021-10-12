@@ -2,7 +2,7 @@
 #SBATCH --time=9-23:05:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --job-name=run_ABC
+#SBATCH --job-name=ABC
 #SBATCH --output=logs/ABC-%j.log
 #SBATCH --mem=1GB
 #SBATCH --partition=regular

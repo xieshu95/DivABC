@@ -10,12 +10,12 @@ run_MCMC_DAISIE <- function(param_space_name,
                             save_output = TRUE){
 
   param_space <- load_param_space(param_space_name = param_space_name)
-  rep <- as.numeric(param_space[param_set,1])
-  set.seed(rep)
+  seed <- as.integer(Sys.time()) %% 1000000L * param_set
+  set.seed(seed)
 
   message("Param space name: ", param_space_name)
   message("Running param set: ", param_set)
-  message("seed: ", rep)
+  message("seed: ", seed)
 
   check_create_folders(
     param_space_name = param_space_name,
