@@ -99,24 +99,31 @@ write.csv2(
 
 ## rondom sampled parameters from uniform distribution
 set.seed(42)
-lac <- runif(500,0.1,0.5)
-mu <- runif(500,0.1,0.5)
-gam <- runif(500,0.005,0.01)
-laa <- runif(500,0.1,0.5)
-K <- rep(Inf,500)
-rep <- rep(1,500)
-random <- data.frame(rep,lac,mu,gam,laa,K,stringsAsFactors = TRUE)
+lac <- runif(200,0.1,0.5)
+mu <- runif(200,0.1,0.5)
+gam <- runif(200,0.005,0.01)
+laa <- runif(200,0.1,0.5)
+K <- rep(Inf,200)
+rep <- rep(1,200)
+random_ABC <- data.frame(rep,lac,mu,gam,laa,K,stringsAsFactors = TRUE)
 
 write.csv2(
-  random,
+  random_ABC,
   "data/DAISIE_ABC_random.csv",
+  row.names = FALSE
+)
+
+random_MCMC = random_ABC
+write.csv2(
+  random_MCMC,
+  "data/DAISIE_MCMC_random.csv",
   row.names = FALSE
 )
 
 
 ## create input parameter sets for ABC
 #4. ABC_DAISIE default: lac=0.4 mu=0.2 gam=0.01 laa=0.4
-rep <- 1:5
+rep <- 1:20
 K <- Inf
 ## a. lac
 lac <- c(1:10)*0.05
@@ -174,18 +181,6 @@ ABC_laa <- expand.grid(
 )
 
 DAISIE_ABC <- rbind(
-  ABC_lac,
-  ABC_mu,
-  ABC_gam,
-  ABC_laa,
-  ABC_lac,
-  ABC_mu,
-  ABC_gam,
-  ABC_laa,
-  ABC_lac,
-  ABC_mu,
-  ABC_gam,
-  ABC_laa,
   ABC_lac,
   ABC_mu,
   ABC_gam,
