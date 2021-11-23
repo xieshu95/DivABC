@@ -13,7 +13,7 @@ get_DAISIE_sim <-  function(parameters, K, replicates){
   sim <- list()
   for (j in seq_len(replicates)) {
     sim[[j]] <- DAISIE::DAISIE_sim_constant_rate(
-      time = 5,
+      time = 2,
       M = 1000,
       pars = as.numeric(c(parameters[1],parameters[2],K,parameters[3],parameters[4])),
       replicates = 1,
@@ -31,7 +31,7 @@ get_trait_DAISIE_sim <-  function(parameters, K, replicates){
   sim <- list()
   for (j in seq_len(replicates)) {
     sim[[j]] <- DAISIE::DAISIE_sim_trait_dependent(
-      time = 5,
+      time = 2,
       M = 500,
       pars = c(parameters[1],parameters[2],K,parameters[3],parameters[4]),
       replicates = 1,
