@@ -53,10 +53,13 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
   previous_weights <- c()
   previous_params  <- list(c(seq_along(parameters)))
   indices <- 1:number_of_particles
+  n_iter <- 0
+
 
   #convergence is expected within 50 iterations
   #usually convergence occurs within 20 iterations
   for (i in 1:num_iterations) {
+    n_iter <- n_iter + 1
     cat("\nGenerating Particles for iteration\t", i, "\n")
     cat("0--------25--------50--------75--------100\n")
     cat("*")
@@ -169,13 +172,15 @@ ABC_SMC_DAISIE <- function( # nolint indeed a complex function
   }
   message("tried times: ", tried)
 
-  output <- c()
+  ABC <- c()
   for (k in seq_along(previous_params)) {
     add <- c()
     for (m in seq_along(parameters)) {
       add <- c(add, previous_params[[k]][m])
     }
-    output <- rbind(output, add)
+    ABC <- rbind(ABC, add)
   }
+  output <- list(ABC = ABC,
+                 n_iter = n_iter)
   return(output)
 }
