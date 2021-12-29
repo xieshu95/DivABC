@@ -62,8 +62,8 @@ calc_ss_diff <- function(sim1, sim2){
                                             sim_2 = sim2)
   ss_diff <-as.numeric(c(s$endemic_error,
                          s$nonendemic_error,
-                         clade_size_error,
-                         colon_time_error))
+                         s$num_col_error,
+                         clade_size_error))
 
   return(ss_diff)
 }
