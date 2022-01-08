@@ -52,15 +52,18 @@
 # }
 
 calc_ss_diff <- function(sim1, sim2){
-  s <- calc_error(sim_1 = sim1,   ##DAISIErobustness:::calc_error
-                  sim_2 = sim2,
-                  replicates = 1,
-                  distance_method = "abs")
+  s <- calc_error_nltt(sim_1 = sim1,   ##calc_error
+                       sim_2 = sim2,
+                       replicates = 1,
+                       distance_method = "abs")
   clade_size_error <- calc_clade_size_error(sim_1 = sim1,
                                             sim_2 = sim2)
   colon_time_error <- calc_colon_time_error(sim_1 = sim1,
                                             sim_2 = sim2)
-  ss_diff <-as.numeric(c(s$endemic_error,
+  ss_diff <-as.numeric(c(s$spec_nltt_error,
+                         s$endemic_nltt_error,
+                         s$nonendemic_nltt_error,
+                         s$num_spec_error,
                          s$num_col_error,
                          clade_size_error,
                          colon_time_error))
