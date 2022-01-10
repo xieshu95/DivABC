@@ -37,11 +37,11 @@ run_ABC_DAISIE <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_gen,
     prior_density_function = prior_dens,
-    number_of_particles = 5, ##2000
+    number_of_particles = 2000, ##2000
     sigma = 1,
     stop_rate = 0.001,
     replicates = 1,  ## simulation replicates for each parameter set
-    num_iterations = 2, ###10
+    num_iterations = 10, ###10
     K = as.numeric(obs_sim_pars$K),
     idparsopt = as.numeric(idparsopt),
     fixpars = as.numeric(obs_sim_pars[2:5])
