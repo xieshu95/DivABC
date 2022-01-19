@@ -1,66 +1,3 @@
-## calc error of SRTT,ESRTT,NESRTT, but not delta nltt
-calc_error <- function(sim_1,
-                       sim_2,
-                       replicates,
-                       distance_method) {
-  num_spec_error <- c()
-  num_col_error <- c()
-  endemic_error <- c()
-  nonendemic_error <- c()
-
-  stt_last_row_sim_1 <-
-    length(sim_1[[1]][[1]]$stt_all[, "present"])
-  num_spec_sim_1 <-
-    as.numeric(
-      sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nI"] +
-        sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nA"] +
-        sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nC"])
-  stt_last_row_sim_2 <-
-    length(sim_2[[1]][[1]]$stt_all[, "present"])
-  num_spec_sim_2 <-
-    as.numeric(
-      sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nI"] +
-        sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nA"] +
-        sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nC"])
-  num_spec_error <-
-    abs(num_spec_sim_1 - num_spec_sim_2)
-  num_col_sim_1 <-
-    as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "present"])
-  num_col_sim_2 <-
-    as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "present"])
-  num_col_error <-
-    abs(num_col_sim_1 - num_col_sim_2)
-
-  # Endemic error
-  endemic_sim_1 <-
-    as.numeric(
-        sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nA"] +
-        sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nC"])
-  endemic_sim_2 <-
-    as.numeric(
-        sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nA"] +
-        sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nC"])
-  endemic_error <-
-    abs(endemic_sim_1 - endemic_sim_2)
-
-  # Nonendemic error
-  nonendemic_sim_1 <-
-    as.numeric(
-      sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nI"])
-  nonendemic_sim_2 <-
-    as.numeric(
-      sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nI"])
-  nonendemic_error <-
-    abs(nonendemic_sim_1 - nonendemic_sim_2)
-
-  return(
-    list(num_spec_error = num_spec_error,
-         num_col_error = num_col_error,
-         endemic_error = endemic_error,
-         nonendemic_error = nonendemic_error)
-  )
-}
-
 #' Calculates error metrics between two simulations
 #'
 #' Calculates error in number of species and colonists, number of
@@ -83,15 +20,10 @@ calc_error <- function(sim_1,
 #'     the non-endemic species between the two simulations.}
 #' }
 #'
-calc_error_nltt <- function(sim_1,
-                            sim_2,
-                            replicates,
-                            distance_method) {
-  spec_nltt_error <- c()
-  num_spec_error <- c()
-  num_col_error <- c()
-  endemic_nltt_error <- c()
-  nonendemic_nltt_error <- c()
+calc_error <- function(sim_1,
+                       sim_2,
+                       replicates,
+                       distance_method) {
   # Spec error
   sim_1_event_times <-
     sim_1[[1]][[1]]$stt_all[, "Time"]
@@ -114,28 +46,6 @@ calc_error_nltt <- function(sim_1,
     time_unit = "ago",
     normalize = FALSE
   )
-  stt_last_row_sim_1 <-
-    length(sim_1[[1]][[1]]$stt_all[, "present"])
-  num_spec_sim_1 <-
-    as.numeric(
-      sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nI"] +
-        sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nA"] +
-        sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nC"])
-  stt_last_row_sim_2 <-
-    length(sim_2[[1]][[1]]$stt_all[, "present"])
-  num_spec_sim_2 <-
-    as.numeric(
-      sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nI"] +
-        sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nA"] +
-        sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nC"])
-  num_spec_error <-
-    abs(num_spec_sim_1 - num_spec_sim_2)
-  num_col_sim_1 <-
-    as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "present"])
-  num_col_sim_2 <-
-    as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "present"])
-  num_col_error <-
-    abs(num_col_sim_1 - num_col_sim_2)
 
   # Endemic error
   sim_1_event_times <-
@@ -177,12 +87,60 @@ calc_error_nltt <- function(sim_1,
     normalize = FALSE
   )
 
+  stt_last_row_sim_1 <-
+    length(sim_1[[1]][[1]]$stt_all[, "present"])
+  num_spec_sim_1 <-
+    as.numeric(
+      sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nI"] +
+        sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nA"] +
+        sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nC"])
+  stt_last_row_sim_2 <-
+    length(sim_2[[1]][[1]]$stt_all[, "present"])
+  num_spec_sim_2 <-
+    as.numeric(
+      sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nI"] +
+        sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nA"] +
+        sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nC"])
+  num_spec_error <-
+    abs(num_spec_sim_1 - num_spec_sim_2)
+  num_col_sim_1 <-
+    as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "present"])
+  num_col_sim_2 <-
+    as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "present"])
+  num_col_error <-
+    abs(num_col_sim_1 - num_col_sim_2)
+
+  # Endemic error
+  endemic_sim_1 <-
+    as.numeric(
+      sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nA"] +
+        sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nC"])
+  endemic_sim_2 <-
+    as.numeric(
+      sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nA"] +
+        sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nC"])
+  endemic_error <-
+    abs(endemic_sim_1 - endemic_sim_2)
+
+  # Nonendemic error
+  nonendemic_sim_1 <-
+    as.numeric(
+      sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nI"])
+  nonendemic_sim_2 <-
+    as.numeric(
+      sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nI"])
+  nonendemic_error <-
+    abs(nonendemic_sim_1 - nonendemic_sim_2)
+
+
   return(
     list(spec_nltt_error = spec_nltt_error,
-         num_spec_error = num_spec_error,
-         num_col_error = num_col_error,
          endemic_nltt_error = endemic_nltt_error,
-         nonendemic_nltt_error = nonendemic_nltt_error)
+         nonendemic_nltt_error = nonendemic_nltt_error,
+         num_spec_error = num_spec_error,
+         endemic_error = endemic_error,
+         nonendemic_error = nonendemic_error,
+         num_col_error = num_col_error)
   )
 }
 

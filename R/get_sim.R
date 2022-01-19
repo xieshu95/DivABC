@@ -9,7 +9,7 @@
 #' @export
 
 
-get_DAISIE_sim <-  function(parameters, K, replicates){
+get_DAISIE_sim <- function(parameters, K, replicates){
   sim <- list()
   for (j in seq_len(replicates)) {
     sim[[j]] <- DAISIE::DAISIE_sim_constant_rate(
@@ -27,7 +27,17 @@ get_DAISIE_sim <-  function(parameters, K, replicates){
   return(sim)
 }
 
-get_trait_DAISIE_sim <-  function(parameters, K, replicates){
+
+#' Simulation fucntion to create simulated data as observed data in ABC.
+#'
+#' @param parameters A vector for CES rates.
+#' @param K Carrying capacity, Inf for diverdity-independent models.
+#' @param replicates The number of replicates(islands) for TraiSIE simulation.
+#'
+#' @return A list contains simulated islands
+#' @author Shu Xie
+#' @export
+get_TraiSIE_sim <- function(parameters, K, replicates){
   sim <- list()
   for (j in seq_len(replicates)) {
     sim[[j]] <- DAISIE::DAISIE_sim_trait_dependent(

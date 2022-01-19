@@ -1,4 +1,30 @@
 ## create input parameter sets for TRAISIE ABC
+rep <- 1:10
+K <- Inf
+## a. lac
+lac <- c(1:10)*0.1
+mu <- 0.5
+gam <- 0.02
+laa <- 0.5
+ABC_trait_lac <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+
+
+
+
+
+
+
+
+
+################################
+##
 #2. ABC_trait
 rep <- 1:5
 K <- Inf
@@ -148,3 +174,6 @@ write.csv2(
   "data/trait_DAISIE_single_change.csv",
   row.names = FALSE
 )
+
+
+
