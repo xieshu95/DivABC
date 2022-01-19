@@ -14,6 +14,13 @@ idparsopt_lac=$3
 idparsopt_mu=$4
 idparsopt_gam=$5
 idparsopt_laa=$6
+idparsopt_lac2=$7
+idparsopt_mu2=$8
+idparsopt_gam2=$9
+idparsopt_laa2=$10
+idparsopt_trans=$11
+idparsopt_trans2=$12
+
 
 ml R
 Rscript TraisieABC/scripts/run_ABC_peregrine.R ${param_space_name} \
@@ -21,4 +28,10 @@ Rscript TraisieABC/scripts/run_ABC_peregrine.R ${param_space_name} \
                                                ${idparsopt_lac} \
                                                ${idparsopt_mu} \
                                                ${idparsopt_gam} \
-                                               ${idparsopt_laa}
+                                               ${idparsopt_laa} \
+                                               ${idparsopt_lac2} \
+                                               ${idparsopt_mu2} \
+                                               ${idparsopt_gam2} \
+                                               ${idparsopt_laa2} \
+                                               ${idparsopt_trans} \
+                                               ${idparsopt_trans2}
