@@ -52,21 +52,40 @@
 # }
 
 calc_ss_diff <- function(sim1, sim2){
-  s <- calc_error_nltt(sim_1 = sim1,   ##calc_error
-                       sim_2 = sim2,
-                       replicates = 1,
-                       distance_method = "abs")
+
   clade_size_error <- calc_clade_size_error(sim_1 = sim1,
                                             sim_2 = sim2)
   colon_time_error <- calc_colon_time_error(sim_1 = sim1,
                                             sim_2 = sim2)
-  ss_diff <-as.numeric(c(s$endemic_nltt_error,
-                         s$nonendemic_nltt_error,
-                         s$num_spec_error,
-                         s$num_col_error,
-                         clade_size_error,
-                         colon_time_error))
-
+  if("stt_two_states" %in% names(sim1[[1]][[1]])){  ##TraiSIE
+    s <- calc_error_nltt_trait(sim_1 = sim1,
+                               sim_2 = sim2,
+                               replicates = 1,
+                               distance_method = "abs")
+    ss_diff <-as.numeric(c(s$spec_nltt_error_state1,
+                           s$spec_nltt_error_state2,
+                           s$endemic_nltt_error_state1,
+                           s$endemic_nltt_error_state2,
+                           s$nonendemic_nltt_error_state1,
+                           s$nonendemic_nltt_error_state2,
+                           s$num_spec_error_state1,
+                           s$num_spec_error_state2,
+                           s$num_col_error,
+                           s$tip_ratio_error,
+                           clade_size_error,
+                           colon_time_error))
+  } else { ## DAISIE
+    s <- calc_error_nltt(sim_1 = sim1,   ##calc_error
+                         sim_2 = sim2,
+                         replicates = 1,
+                         distance_method = "abs")
+    ss_diff <-as.numeric(c(s$endemic_nltt_error,
+                           s$nonendemic_nltt_error,
+                           s$num_spec_error,
+                           s$num_col_error,
+                           clade_size_error,
+                           colon_time_error))
+  }
   return(ss_diff)
 }
 
