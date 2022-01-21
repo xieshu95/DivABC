@@ -7,7 +7,7 @@
 #' @export
 
 
-ABC_SMC_DAISIE <- function( # nolint indeed a complex function
+ABC_SMC <- function( # nolint indeed a complex function
   obs_data,
   sim_function,
   init_epsilon_values,

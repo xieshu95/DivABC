@@ -59,7 +59,7 @@ run_ABC <- function(param_space_name,
 
   init_epsilon <- calc_epsilon_init(obs_sim)
 
-  abc <- ABC_SMC_DAISIE (
+  abc <- ABC_SMC (
     obs_data = obs_sim,
     sim_function = sim_function,
     init_epsilon_values = init_epsilon,
