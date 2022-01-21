@@ -35,10 +35,11 @@ run_ABC <- function(param_space_name,
                                              obs_sim_pars$gam,
                                              obs_sim_pars$laa),
                               K = as.numeric(obs_sim_pars$K),
-                              replicates = 30)
+                              replicates = 5)  ## replicates = 30
     sim_function <- get_DAISIE_sim
     prior_generating_function <- prior_gen
     prior_density_function <- prior_dens
+    fixpars = as.numeric(obs_sim_pars[2:5])
   } else if (sim_model == "TraiSIE") {
     obs_sim <- get_TraiSIE_sim(parameters = as.numeric(c(obs_sim_pars$lac,
                                                          obs_sim_pars$mu,
@@ -51,10 +52,11 @@ run_ABC <- function(param_space_name,
                                                          obs_sim_pars$trans,
                                                          obs_sim_pars$trans2)),
                                K = as.numeric(obs_sim_pars$K),
-                               replicates = 30)
+                               replicates = 5) ## replicates = 30
     sim_function <- get_TraiSIE_sim
     prior_generating_function <- prior_gen_trait
     prior_density_function <- prior_dens_trait
+    fixpars = as.numeric(obs_sim_pars[c(2:5,7:12)])
   }
 
   init_epsilon <- calc_epsilon_init(obs_sim)
@@ -67,12 +69,12 @@ run_ABC <- function(param_space_name,
     prior_density_function = prior_density_function,
     number_of_particles = 5, #2000
     sigma = 1,
-    stop_rate = 0.001,
+    stop_rate = 0.0005,
     replicates = 1,  ## simulation replicates for each parameter set
     num_iterations = 2,
     K = as.numeric(obs_sim_pars$K),
     idparsopt = as.numeric(idparsopt),
-    fixpars = as.numeric(obs_sim_pars[2:5])
+    fixpars = fixpars
   )
   if (save_output == TRUE) {
     save_output(
