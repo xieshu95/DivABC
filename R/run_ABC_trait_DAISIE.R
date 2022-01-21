@@ -10,6 +10,7 @@ run_ABC_TraiSIE <- function(param_space_name,
                             save_output = TRUE){
 
   param_space <- read.csv2(file = 'data/trait_DAISIE_single_change.csv')
+  param_space <- read.csv2(file = 'data/DAISIE_ABC.csv')
   seed <- param_set
   set.seed(seed)
 
