@@ -35,7 +35,7 @@ run_ABC <- function(param_space_name,
                                              obs_sim_pars$gam,
                                              obs_sim_pars$laa),
                               K = as.numeric(obs_sim_pars$K),
-                              replicates = 5)  ## replicates = 30
+                              replicates = 30)  ## replicates = 30
     sim_function <- get_DAISIE_sim
     prior_generating_function <- prior_gen
     prior_density_function <- prior_dens
@@ -52,13 +52,12 @@ run_ABC <- function(param_space_name,
                                                          obs_sim_pars$trans,
                                                          obs_sim_pars$trans2)),
                                K = as.numeric(obs_sim_pars$K),
-                               replicates = 5) ## replicates = 30
+                               replicates = 30) ## replicates = 30
     sim_function <- get_TraiSIE_sim
     prior_generating_function <- prior_gen_trait
     prior_density_function <- prior_dens_trait
     fixpars = as.numeric(obs_sim_pars[c(2:5,7:12)])
   }
-  message("sim_model: ", sim_model)
   init_epsilon <- calc_epsilon_init(obs_sim)
 
   abc <- ABC_SMC (
@@ -67,11 +66,11 @@ run_ABC <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_generating_function,
     prior_density_function = prior_density_function,
-    number_of_particles = 5, #2000
+    number_of_particles = 1000, #2000
     sigma = 1,
     stop_rate = 0.0005,
     replicates = 1,  ## simulation replicates for each parameter set
-    num_iterations = 2,
+    num_iterations = 10,
     K = as.numeric(obs_sim_pars$K),
     idparsopt = as.numeric(idparsopt),
     fixpars = fixpars

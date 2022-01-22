@@ -12,18 +12,18 @@
 ml R
 Rscript -e "remotes::install_github('xieshu95/TraisieABC')"
 
-param_space_name=$1
-idparsopt_lac=$2
-idparsopt_mu=$3
-idparsopt_gam=$4
-idparsopt_laa=$5
-idparsopt_lac2=$6
-idparsopt_mu2=$7
-idparsopt_gam2=$8
-idparsopt_laa2=$9
-idparsopt_trans=$10
-idparsopt_trans2=$11
-sim_model=$12
+param_space_name=${1}
+idparsopt_lac=${2}
+idparsopt_mu=${3}
+idparsopt_gam=${4}
+idparsopt_laa=${5}
+idparsopt_lac2=${6}
+idparsopt_mu2=${7}
+idparsopt_gam2=${8}
+idparsopt_laa2=${9}
+idparsopt_trans=${10}
+idparsopt_trans2=${11}
+sim_model=${12}
 
 for_length=`wc -l TraisieABC/data/${param_space_name}.csv | cut -f1 -d' '`
 for_length=$(( ${for_length} - 1 ))
