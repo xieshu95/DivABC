@@ -27,7 +27,7 @@ run_ABC <- function(param_space_name,
     param_space_name = param_space_name,
     save_output = save_output
   )
-
+  message("sim_model: ", sim_model)
   obs_sim_pars <- param_space[param_set,]
   if (sim_model == "DAISIE") {
     obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
@@ -58,7 +58,7 @@ run_ABC <- function(param_space_name,
     prior_density_function <- prior_dens_trait
     fixpars = as.numeric(obs_sim_pars[c(2:5,7:12)])
   }
-
+  message("sim_model: ", sim_model)
   init_epsilon <- calc_epsilon_init(obs_sim)
 
   abc <- ABC_SMC (
