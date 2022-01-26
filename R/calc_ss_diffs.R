@@ -68,12 +68,7 @@ calc_ss_diff <- function(sim1, sim2){
                            s$endemic_nltt_error_state2,
                            s$nonendemic_nltt_error_state1,
                            s$nonendemic_nltt_error_state2,
-                           s$num_spec_error_state1,
-                           s$num_spec_error_state2,
-                           s$num_col_error,
-                           s$tip_ratio_error,
-                           clade_size_error,
-                           colon_time_error))
+                           s$tip_ratio_error))
   } else { ## DAISIE
     s <- calc_error(sim_1 = sim1,   ##calc_error
                     sim_2 = sim2,
@@ -90,7 +85,19 @@ calc_ss_diff <- function(sim1, sim2){
   return(ss_diff)
 }
 
-
+# all ss:
+# s$spec_nltt_error_state1,
+# s$spec_nltt_error_state2,
+# s$endemic_nltt_error_state1,
+# s$endemic_nltt_error_state2,
+# s$nonendemic_nltt_error_state1,
+# s$nonendemic_nltt_error_state2,
+# s$num_spec_error_state1,
+# s$num_spec_error_state2,
+# s$num_col_error,
+# s$tip_ratio_error,
+# clade_size_error,
+# colon_time_error
 
 
 #' calculate the initial epsilon
