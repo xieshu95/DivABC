@@ -4,42 +4,8 @@
 #2. ABC_trait default: lac=0.5 mu=0.5 gam=0.02 laa=0.5
 rep <- 1:5
 K <- Inf
-## a. symmetric for all pars
-lac <- 0.5
-mu <- 0.5
-gam <- 0.02
-laa <- 0.5
-sym <- expand.grid(
-  rep = rep,
-  lac = lac,
-  mu = mu,
-  gam = gam,
-  laa = laa,
-  K = K
-)
-sym1 <- cbind(
-  sym,
-  lac2 = 1.0 - sym[,2],
-  mu2 = 1.0 - sym[,3],
-  gam2 = 0.04 - sym[,4],
-  laa2 = 1.0 - sym[,5],
-  trans = 0,
-  trans2 = 0
-)
-
-sym2 <- cbind(
-  sym,
-  lac2 = 1.0 - sym[,2],
-  mu2 = 1.0 - sym[,3],
-  gam2 = 0.04 - sym[,4],
-  laa2 = 1.0 - sym[,5],
-  trans = 0.02,
-  trans2 = 0.2
-)
-
-
-## b. lac mean = 0.5
-lac <- c(0.1,0.2,0.3,0.4)
+## a. lac mean = 0.5
+lac <- c(0.1,0.2,0.3,0.4,0.5)
 mu <- 0.5
 gam <- 0.02
 laa <- 0.5
@@ -71,9 +37,9 @@ ABC_trait_lac2 <- cbind(
   trans2 = 0.2
 )
 
-## c. mu
+## b. mu
 lac <- 0.5
-mu <- c(0.1,0.2,0.3,0.4)
+mu <- c(0.1,0.2,0.3,0.4,0.5)
 gam <- 0.02
 laa <- 0.5
 ABC_trait_mu <- expand.grid(
@@ -103,10 +69,10 @@ ABC_trait_mu2 <- cbind(
   trans = 0.02,
   trans2 = 0.2
 )
-## d. gam
+## c. gam
 lac <- 0.5
 mu <- 0.5
-gam <- c(0.004,0.008,0.012,0.016)
+gam <- c(0.004,0.008,0.012,0.016,0.02)
 laa <- 0.5
 ABC_trait_gam <- expand.grid(
   rep = rep,
@@ -135,11 +101,11 @@ ABC_trait_gam2 <- cbind(
   trans = 0.02,
   trans2 = 0.2
 )
-## e. laa
+## d. laa
 lac <- 0.5
 mu <- 0.5
 gam <- 0.02
-laa <- c(0.1,0.2,0.3,0.4)
+laa <- c(0.1,0.2,0.3,0.4,0.5)
 ABC_trait_laa <- expand.grid(
   rep = rep,
   lac = lac,
@@ -169,15 +135,13 @@ ABC_trait_laa2 <- cbind(
 )
 
 TraiSIE_ABC_DI <- rbind(
-  sym1,
   ABC_trait_lac1,
-  ABC_trait_mu1,
-  ABC_trait_gam1,
-  ABC_trait_laa1,
-  sym2,
   ABC_trait_lac2,
+  ABC_trait_mu1,
   ABC_trait_mu2,
+  ABC_trait_gam1,
   ABC_trait_gam2,
+  ABC_trait_laa1,
   ABC_trait_laa2
 )
 
@@ -191,42 +155,8 @@ write.csv2(
 ########### Diversity dependent
 rep <- 1:5
 K <- 20
-## a. symmetric for all pars
-lac <- 0.5
-mu <- 0.5
-gam <- 0.02
-laa <- 0.5
-sym <- expand.grid(
-  rep = rep,
-  lac = lac,
-  mu = mu,
-  gam = gam,
-  laa = laa,
-  K = K
-)
-sym1 <- cbind(
-  sym,
-  lac2 = 1.0 - sym[,2],
-  mu2 = 1.0 - sym[,3],
-  gam2 = 0.04 - sym[,4],
-  laa2 = 1.0 - sym[,5],
-  trans = 0,
-  trans2 = 0
-)
-
-sym2 <- cbind(
-  sym,
-  lac2 = 1.0 - sym[,2],
-  mu2 = 1.0 - sym[,3],
-  gam2 = 0.04 - sym[,4],
-  laa2 = 1.0 - sym[,5],
-  trans = 0.02,
-  trans2 = 0.2
-)
-
-
-## b. lac mean = 0.5
-lac <- c(0.1,0.2,0.3,0.4)
+## a. lac mean = 0.5
+lac <- c(0.1,0.2,0.3,0.4,0.5)
 mu <- 0.5
 gam <- 0.02
 laa <- 0.5
@@ -258,9 +188,9 @@ ABC_trait_lac2 <- cbind(
   trans2 = 0.2
 )
 
-## c. mu
+## b. mu
 lac <- 0.5
-mu <- c(0.1,0.2,0.3,0.4)
+mu <- c(0.1,0.2,0.3,0.4,0.5)
 gam <- 0.02
 laa <- 0.5
 ABC_trait_mu <- expand.grid(
@@ -290,10 +220,10 @@ ABC_trait_mu2 <- cbind(
   trans = 0.02,
   trans2 = 0.2
 )
-## d. gam
+## c. gam
 lac <- 0.5
 mu <- 0.5
-gam <- c(0.004,0.008,0.012,0.016)
+gam <- c(0.004,0.008,0.012,0.016,0.02)
 laa <- 0.5
 ABC_trait_gam <- expand.grid(
   rep = rep,
@@ -322,11 +252,11 @@ ABC_trait_gam2 <- cbind(
   trans = 0.02,
   trans2 = 0.2
 )
-## e. laa
+## d. laa
 lac <- 0.5
 mu <- 0.5
 gam <- 0.02
-laa <- c(0.1,0.2,0.3,0.4)
+laa <- c(0.1,0.2,0.3,0.4,0.5)
 ABC_trait_laa <- expand.grid(
   rep = rep,
   lac = lac,
@@ -356,15 +286,13 @@ ABC_trait_laa2 <- cbind(
 )
 
 TraiSIE_ABC_DD <- rbind(
-  sym1,
   ABC_trait_lac1,
-  ABC_trait_mu1,
-  ABC_trait_gam1,
-  ABC_trait_laa1,
-  sym2,
   ABC_trait_lac2,
+  ABC_trait_mu1,
   ABC_trait_mu2,
+  ABC_trait_gam1,
   ABC_trait_gam2,
+  ABC_trait_laa1,
   ABC_trait_laa2
 )
 
