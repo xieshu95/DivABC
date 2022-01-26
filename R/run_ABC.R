@@ -16,7 +16,7 @@ run_ABC <- function(param_space_name,
                     save_output = TRUE){
 
   param_space <- load_param_space(param_space_name = param_space_name)
-  seed <- param_set
+  seed <- as.integer(Sys.time()) %% 1000000L * param_set
   set.seed(seed)
 
   message("Param space name: ", param_space_name)
