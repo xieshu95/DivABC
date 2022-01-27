@@ -23,8 +23,8 @@ ABC_trait_lac1 <- cbind(
   mu2 = 1.0 - ABC_trait_lac[,3],
   gam2 = 0.04 - ABC_trait_lac[,4],
   laa2 = 1.0 - ABC_trait_lac[,5],
-  trans = 0,
-  trans2 = 0
+  trans = 0.001,
+  trans2 = 0.001
 )
 
 ABC_trait_lac2 <- cbind(
@@ -56,8 +56,8 @@ ABC_trait_mu1 <- cbind(
   mu2 = 1.0 - ABC_trait_mu[,3],
   gam2 = 0.04 - ABC_trait_mu[,4],
   laa2 = 1.0 - ABC_trait_mu[,5],
-  trans = 0,
-  trans2 = 0
+  trans = 0.001,
+  trans2 = 0.001
 )
 
 ABC_trait_mu2 <- cbind(
@@ -88,8 +88,8 @@ ABC_trait_gam1 <- cbind(
   mu2 = 1.0 - ABC_trait_gam[,3],
   gam2 = 0.04 - ABC_trait_gam[,4],
   laa2 = 1.0 - ABC_trait_gam[,5],
-  trans = 0,
-  trans2 = 0
+  trans = 0.001,
+  trans2 = 0.001
 )
 
 ABC_trait_gam2 <- cbind(
@@ -120,8 +120,8 @@ ABC_trait_laa1 <- cbind(
   mu2 = 1.0 - ABC_trait_laa[,3],
   gam2 = 0.04 - ABC_trait_laa[,4],
   laa2 = 1.0 - ABC_trait_laa[,5],
-  trans = 0,
-  trans2 = 0
+  trans = 0.001,
+  trans2 = 0.001
 )
 
 ABC_trait_laa2 <- cbind(
@@ -174,8 +174,8 @@ ABC_trait_lac1 <- cbind(
   mu2 = 1.0 - ABC_trait_lac[,3],
   gam2 = 0.04 - ABC_trait_lac[,4],
   laa2 = 1.0 - ABC_trait_lac[,5],
-  trans = 0,
-  trans2 = 0
+  trans = 0.001,
+  trans2 = 0.001
 )
 
 ABC_trait_lac2 <- cbind(
@@ -207,8 +207,8 @@ ABC_trait_mu1 <- cbind(
   mu2 = 1.0 - ABC_trait_mu[,3],
   gam2 = 0.04 - ABC_trait_mu[,4],
   laa2 = 1.0 - ABC_trait_mu[,5],
-  trans = 0,
-  trans2 = 0
+  trans = 0.001,
+  trans2 = 0.001
 )
 
 ABC_trait_mu2 <- cbind(
@@ -239,8 +239,8 @@ ABC_trait_gam1 <- cbind(
   mu2 = 1.0 - ABC_trait_gam[,3],
   gam2 = 0.04 - ABC_trait_gam[,4],
   laa2 = 1.0 - ABC_trait_gam[,5],
-  trans = 0,
-  trans2 = 0
+  trans = 0.001,
+  trans2 = 0.001
 )
 
 ABC_trait_gam2 <- cbind(
@@ -271,8 +271,8 @@ ABC_trait_laa1 <- cbind(
   mu2 = 1.0 - ABC_trait_laa[,3],
   gam2 = 0.04 - ABC_trait_laa[,4],
   laa2 = 1.0 - ABC_trait_laa[,5],
-  trans = 0,
-  trans2 = 0
+  trans = 0.001,
+  trans2 = 0.001
 )
 
 ABC_trait_laa2 <- cbind(
