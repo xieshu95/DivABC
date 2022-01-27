@@ -67,7 +67,7 @@ calc_error_trait <- function(sim_1,
     normalize = FALSE
   )
 
-  # Endemic error
+  # Endemic nltt error
   sim_1_event_times <-
     sim_1[[1]][[1]]$stt_two_states[, "Time"]
   sim_1_endemic_spec_state1 <-
@@ -104,7 +104,7 @@ calc_error_trait <- function(sim_1,
     normalize = FALSE
   )
 
-  # Nonendemic error
+  # Nonendemic nltt error
   sim_1_event_times <-
     sim_1[[1]][[1]]$stt_two_states[, "Time"]
   sim_1_nonendemic_spec_state1 <-
@@ -177,6 +177,49 @@ calc_error_trait <- function(sim_1,
   num_col_error <-
     abs(num_col_sim_1 - num_col_sim_2)
 
+  # number of endemic
+  endemic_sim_1_state1 <-
+    as.numeric(
+      sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nA"] +
+        sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nC"])
+  endemic_sim_1_state2 <-
+    as.numeric(
+      sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nA2"] +
+        sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nC2"])
+
+  endemic_sim_2_state1 <-
+    as.numeric(
+      sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nA"] +
+        sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nC"])
+
+  endemic_sim_2_state2 <-
+    as.numeric(
+      sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nA2"] +
+        sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nC2"])
+
+  endemic_error_state1 <-
+    abs(endemic_sim_1_state1 - endemic_sim_2_state1)
+  endemic_error_state2 <-
+    abs(endemic_sim_1_state2 - endemic_sim_2_state2)
+
+  # number of Nonendemic
+  nonendemic_sim_1_state1 <-
+    as.numeric(
+      sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nI"])
+  nonendemic_sim_1_state2 <-
+    as.numeric(
+      sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nI2"])
+
+  nonendemic_sim_2_state1 <-
+    as.numeric(
+      sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nI"])
+  nonendemic_sim_2_state2 <-
+    as.numeric(
+      sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nI2"])
+  nonendemic_error_state1 <-
+    abs(nonendemic_sim_1_state1 - nonendemic_sim_2_state1)
+  nonendemic_error_state2 <-
+    abs(nonendemic_sim_1_state2 - nonendemic_sim_2_state2)
 
 
   return(
@@ -188,6 +231,10 @@ calc_error_trait <- function(sim_1,
          nonendemic_nltt_error_state2 = nonendemic_nltt_error_state2,
          num_spec_error_state1 = num_spec_error_state1,
          num_spec_error_state2 = num_spec_error_state2,
+         endemic_error_state1 = endemic_error_state1,
+         endemic_error_state2 = endemic_error_state2,
+         nonendemic_error_state1 = nonendemic_error_state1,
+         nonendemic_error_state2 = nonendemic_error_state2,
          tip_ratio_error = tip_ratio_error,
          num_col_error = num_col_error)
   )
