@@ -21,7 +21,7 @@ get_DAISIE_sim <- function(parameters, K, replicates){
       sample_freq  = Inf,
       plot_sims = FALSE,
       verbose = FALSE,
-      cond = 0
+      cond = 1
     )
   }
   return(sim)
@@ -47,7 +47,7 @@ get_TraiSIE_sim <- function(parameters, K, replicates){
       replicates = 1,
       sample_freq  = Inf,
       plot_sims = FALSE,
-      cond = 0,
+      cond = 1,
       verbose = FALSE,
       trait_pars = DAISIE::create_trait_pars(clado_rate2 = parameters[5],
                                              ext_rate2 = parameters[6],
