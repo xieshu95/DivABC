@@ -47,22 +47,39 @@ calc_error <- function(sim_1,
     normalize = FALSE
   )
 
-  # Endemic error
+  # Anagenesis Endemic error
   sim_1_event_times <-
     sim_1[[1]][[1]]$stt_all[, "Time"]
-  sim_1_endemic_spec <-
-    sim_1[[1]][[1]]$stt_all[, "nA"] +
+  sim_1_ana_endemic_spec <-
+    sim_1[[1]][[1]]$stt_all[, "nA"]
+  sim_2_event_times <-
+    sim_2[[1]][[1]]$stt_all[, "Time"]
+  sim_2_ana_endemic_spec <-
+    sim_2[[1]][[1]]$stt_all[, "nA"]
+  ana_endemic_nltt_error <- nLTT::nltt_diff_exact_extinct(
+    event_times = sim_1_event_times,
+    species_number = sim_1_ana_endemic_spec,
+    event_times2 = sim_2_event_times,
+    species_number2 = sim_2_ana_endemic_spec,
+    distance_method = distance_method,
+    time_unit = "ago",
+    normalize = FALSE
+  )
+
+  # Cladogenesis Endemic error
+  sim_1_event_times <-
+    sim_1[[1]][[1]]$stt_all[, "Time"]
+  sim_1_clado_endemic_spec <-
     sim_1[[1]][[1]]$stt_all[, "nC"]
   sim_2_event_times <-
     sim_2[[1]][[1]]$stt_all[, "Time"]
-  sim_2_endemic_spec <-
-    sim_2[[1]][[1]]$stt_all[, "nA"] +
+  sim_2_clado_endemic_spec <-
     sim_2[[1]][[1]]$stt_all[, "nC"]
-  endemic_nltt_error <- nLTT::nltt_diff_exact_extinct(
+  clado_endemic_nltt_error <- nLTT::nltt_diff_exact_extinct(
     event_times = sim_1_event_times,
-    species_number = sim_1_endemic_spec,
+    species_number = sim_1_clado_endemic_spec,
     event_times2 = sim_2_event_times,
-    species_number2 = sim_2_endemic_spec,
+    species_number2 = sim_2_clado_endemic_spec,
     distance_method = distance_method,
     time_unit = "ago",
     normalize = FALSE
@@ -110,17 +127,29 @@ calc_error <- function(sim_1,
   num_col_error <-
     abs(num_col_sim_1 - num_col_sim_2)
 
-  # Endemic error
-  endemic_sim_1 <-
+  # Anagenesis Endemic error
+  ana_endemic_sim_1 <-
     as.numeric(
       sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nA"] +
         sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nC"])
-  endemic_sim_2 <-
+  ana_endemic_sim_2 <-
     as.numeric(
       sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nA"] +
         sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nC"])
-  endemic_error <-
-    abs(endemic_sim_1 - endemic_sim_2)
+  ana_endemic_error <-
+    abs(ana_endemic_sim_1 - ana_endemic_sim_2)
+
+  # Cladogenesis Endemic error
+  clado_endemic_sim_1 <-
+    as.numeric(
+      sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nA"] +
+        sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nC"])
+  clado_endemic_sim_2 <-
+    as.numeric(
+      sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nA"] +
+        sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nC"])
+  clado_endemic_error <-
+    abs(clado_endemic_sim_1 - clado_endemic_sim_2)
 
   # Nonendemic error
   nonendemic_sim_1 <-
@@ -135,10 +164,12 @@ calc_error <- function(sim_1,
 
   return(
     list(spec_nltt_error = spec_nltt_error,
-         endemic_nltt_error = endemic_nltt_error,
+         ana_endemic_nltt_error = ana_endemic_nltt_error,
+         clado_endemic_nltt_error = clado_endemic_nltt_error,
          nonendemic_nltt_error = nonendemic_nltt_error,
          num_spec_error = num_spec_error,
-         endemic_error = endemic_error,
+         ana_endemic_error = ana_endemic_error,
+         clado_endemic_error = clado_endemic_error,
          nonendemic_error = nonendemic_error,
          num_col_error = num_col_error)
   )
