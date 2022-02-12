@@ -127,7 +127,7 @@ rep <- 1:10
 K <- Inf
 ## a. lac
 lac <- c(1:10)*0.1
-mu <- 0.5
+mu <- 0.00001
 gam <- 0.02
 laa <- 0.5
 ABC_lac <- expand.grid(
@@ -155,7 +155,7 @@ ABC_mu <- expand.grid(
 
 ## c. gam
 lac <- 0.5
-mu <- 0.5
+mu <- 0.00001
 gam <- c(6:15)*0.002
 laa <- 0.5
 ABC_gam <- expand.grid(
@@ -168,7 +168,7 @@ ABC_gam <- expand.grid(
 )
 ## d. laa
 lac <- 0.5
-mu <- 0.5
+mu <- 0.00001
 gam <- 0.02
 laa <- c(1:10)*0.1
 ABC_laa <- expand.grid(
