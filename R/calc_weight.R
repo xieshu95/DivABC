@@ -18,7 +18,11 @@ calc_weight <- function(weights, particles,
   for (i in seq_along(particles)) {
     vals[i] <- weights[i]
     for (j in seq_along(current)) {
-      diff <- log(current[j]) - log(particles[[i]][j])
+      if(current[j] == 0 || particles[[i]][j] == 0){
+        diff <- 0
+      } else {
+        diff <- log(current[j]) - log(particles[[i]][j])
+      }
       vals[i] <- vals[i] * stats::dnorm(diff, mean = 0, sd = sigma)
     }
   }
