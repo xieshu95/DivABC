@@ -75,10 +75,12 @@ calc_ss_diff <- function(sim1, sim2){
                     replicates = 1,
                     distance_method = "abs")
     ss_diff <-as.numeric(c(s$spec_nltt_error,
-                           s$endemic_nltt_error,
+                           s$ana_endemic_nltt_error,
+                           s$clado_endemic_nltt_error,
                            s$nonendemic_nltt_error,
                            s$num_spec_error,
-                           s$endemic_error,
+                           s$ana_endemic_error,
+                           s$clado_endemic_error,
                            s$nonendemic_error,
                            s$num_col_error,
                            clade_size_error,
@@ -87,7 +89,22 @@ calc_ss_diff <- function(sim1, sim2){
   return(ss_diff)
 }
 
-# all ss:
+# all ss for DAISIE
+# spec_nltt_error = spec_nltt_error,
+# ana_endemic_nltt_error = ana_endemic_nltt_error,
+# clado_endemic_nltt_error = clado_endemic_nltt_error,
+# nonendemic_nltt_error = nonendemic_nltt_error,
+# num_spec_error = num_spec_error,
+# ana_endemic_error = ana_endemic_error,
+# clado_endemic_error = clado_endemic_error,
+# nonendemic_error = nonendemic_error,
+# num_col_error = num_col_error
+
+
+
+
+
+# all ss trait:
 # s$spec_nltt_error_state1,
 # s$spec_nltt_error_state2,
 # s$endemic_nltt_error_state1,
@@ -121,6 +138,6 @@ calc_epsilon_init <- function(sim){
     }
   }
   ss_diff_pairs_median <- apply(ss_diff_pairs,2,median)
-  epsilon_init <- 3*ss_diff_pairs_median
+  epsilon_init <- 2*ss_diff_pairs_median
   return(epsilon_init)
 }
