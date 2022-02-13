@@ -28,7 +28,7 @@ sim_model=${12}
 for_length=`wc -l TraisieABC/data/${param_space_name}.csv | cut -f1 -d' '`
 for_length=$(( ${for_length} - 1 ))
 
-for (( param_set = 51; param_set <= 100; param_set++ ))
+for (( param_set = 101; param_set <= 200; param_set++ ))
 do
 sbatch TraisieABC/bash/submit_run_ABC_param_set.sh ${param_space_name} \
                                                    ${param_set} \
