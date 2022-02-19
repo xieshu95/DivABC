@@ -78,10 +78,6 @@ calc_ss_diff <- function(sim1, sim2){
                            s$ana_endemic_nltt_error,
                            s$clado_endemic_nltt_error,
                            s$nonendemic_nltt_error,
-                           s$num_spec_error,
-                           s$ana_endemic_error,
-                           s$clado_endemic_error,
-                           s$nonendemic_error,
                            s$num_col_error,
                            clade_size_error,
                            colon_time_error))
@@ -138,6 +134,6 @@ calc_epsilon_init <- function(sim){
     }
   }
   ss_diff_pairs_median <- apply(ss_diff_pairs,2,median)
-  epsilon_init <- 2*ss_diff_pairs_median
+  epsilon_init <- 3*ss_diff_pairs_median
   return(epsilon_init)
 }

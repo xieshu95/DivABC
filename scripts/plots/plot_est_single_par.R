@@ -1,5 +1,5 @@
 ### analysis for optimize single parameter
-folder_path <- "G:/results/project 2/tip_info/4ss_no_totnum_sdcol/ABC_single_par/DAISIE_ABC"
+folder_path <- "G:/results/project 2/tip_info/DAISIE_ABC"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC.csv")
 
@@ -38,7 +38,7 @@ for(i in 1:400){
 }
 
 
-folder_path <- "G:/results/project 2/tip_info/all_6ss/MCMC_single_par/DAISIE_MCMC"
+folder_path <- "G:/results/project 2/tip_info/round1/all_6ss/MCMC_single_par/DAISIE_MCMC"
 files <- list.files(folder_path)
 lac_mcmc <- c()
 mu_mcmc <- c()
@@ -69,6 +69,7 @@ for(i in 1:400){
     laa_mcmc[i] <- NA
   }
 }
+
 
 whole_df <- data.frame(param_data,
                        lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,lac_abc,mu_abc,gam_abc,laa_abc,n_iter) #,lac_abc,mu_abc,gam_abc,laa_abc
