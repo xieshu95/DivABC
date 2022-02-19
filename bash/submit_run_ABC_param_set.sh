@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --time=5-00:00:00
+#SBATCH --time=7-12:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=est_TR
