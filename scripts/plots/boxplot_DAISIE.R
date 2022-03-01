@@ -10,13 +10,12 @@
 # nltt_all
 # nltt_no_specnltt
 
-
-folder_path <- "G:/results/project 2/tip_info/nltt_all/ABC_single_par/DAISIE_ABC"
+### results of ABC
+folder_path <- "G:/results/project 2/tip_info/round2/nltt_all/DAISIE_ABC"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC.csv")
 
-param_data2<-param_data[rep(seq_len(nrow(param_data)), each=2000),]
-param_data3<-param_data[rep(seq_len(nrow(param_data)), each=50001),]
+param_data2<-param_data[rep(seq_len(nrow(param_data)), each=1000),]
 
 lac_abc <- c()
 mu_abc <- c()
@@ -39,10 +38,10 @@ for(i in 1:400){
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
     if(output$n_iter <= 2){
-      lac_abc <- c(lac_abc, rep(NA,2000))
-      mu_abc <- c(mu_abc, rep(NA,2000))
-      gam_abc <- c(gam_abc, rep(NA,2000))
-      laa_abc <- c(laa_abc, rep(NA,2000))
+      lac_abc <- c(lac_abc, rep(NA,1000))
+      mu_abc <- c(mu_abc, rep(NA,1000))
+      gam_abc <- c(gam_abc, rep(NA,1000))
+      laa_abc <- c(laa_abc, rep(NA,1000))
     } else{
       lac_abc <- c(lac_abc, output$ABC[,1])
       mu_abc <- c(mu_abc, output$ABC[,2])
@@ -50,81 +49,75 @@ for(i in 1:400){
       laa_abc <- c(laa_abc, output$ABC[,4])
     }
   } else {
-    lac_abc <- c(lac_abc, rep(NA,2000))
-    mu_abc <- c(mu_abc, rep(NA,2000))
-    gam_abc <- c(gam_abc, rep(NA,2000))
-    laa_abc <- c(laa_abc, rep(NA,2000))
+    lac_abc <- c(lac_abc, rep(NA,1000))
+    mu_abc <- c(mu_abc, rep(NA,1000))
+    gam_abc <- c(gam_abc, rep(NA,1000))
+    laa_abc <- c(laa_abc, rep(NA,1000))
   }
 }
-
-
-# folder_path <- "G:/results/project 2/tip_info/all_6ss/MCMC_single_par/DAISIE_MCMC"
-# files <- list.files(folder_path)
-# lac_mcmc <- c()
-# mu_mcmc <- c()
-# gam_mcmc <- c()
-# laa_mcmc <- c()
-# for(i in 1:400){
-#   # param_set = (param_num-1)*5 + i
-#   file_to_load <- grep(paste0("DAISIE_MCMC_param_set_", i,".RData"), #"_rep",rep,
-#                        files,
-#                        value = TRUE,
-#                        fixed = TRUE)
-#
-#   if (!identical(file_to_load, character())) {
-#     load(file.path(folder_path, file_to_load))
-#     lac_mcmc <- c(lac_mcmc, output[,1])
-#     mu_mcmc <- c(mu_mcmc, output[,2])
-#     gam_mcmc <- c(gam_mcmc, output[,3])
-#     laa_mcmc <- c(laa_mcmc, output[,4])
-#   }
-#   # else {
-#   #   lac_mcmc <- c(lac_mcmc, rep(NA,2000))
-#   #   mu_mcmc <- c(mu_mcmc, rep(NA,2000))
-#   #   gam_mcmc <- c(gam_mcmc, rep(NA,2000))
-#   #   laa_mcmc <- c(laa_mcmc, rep(NA,2000))
-#   # }
-# }
-
 whole_df_ABC <- data.frame(param_data2,
                            # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                            lac_abc,mu_abc,gam_abc,laa_abc)
+save(whole_df_ABC,file = "G:/results/project 2/tip_info/round2/nltt_all/whole_df_ABC.RData")
 
-# whole_df_MCMC <- data.frame(param_data3,
-#                             lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc)
+#### combine results of MCMC
+param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC.csv")
+param_data3<-param_data[rep(seq_len(nrow(param_data)), each=50001),]
+folder_path <- "G:/results/project 2/tip_info/round2/MCMC_all/DAISIE_MCMC"
+files <- list.files(folder_path)
+lac_mcmc <- c()
+mu_mcmc <- c()
+gam_mcmc <- c()
+laa_mcmc <- c()
+for(i in 1:400){
+  # param_set = (param_num-1)*5 + i
+  file_to_load <- grep(paste0("DAISIE_MCMC_param_set_", i,".RData"), #"_rep",rep,
+                       files,
+                       value = TRUE,
+                       fixed = TRUE)
+
+  if (!identical(file_to_load, character())) {
+    load(file.path(folder_path, file_to_load))
+    lac_mcmc <- c(lac_mcmc, output[,1])
+    mu_mcmc <- c(mu_mcmc, output[,2])
+    gam_mcmc <- c(gam_mcmc, output[,3])
+    laa_mcmc <- c(laa_mcmc, output[,4])
+  } else {
+    lac_mcmc <- c(lac_mcmc, rep(NA,50001))
+    mu_mcmc <- c(mu_mcmc, rep(NA,50001))
+    gam_mcmc <- c(gam_mcmc, rep(NA,50001))
+    laa_mcmc <- c(laa_mcmc, rep(NA,50001))
+  }
+}
+
+whole_df_MCMC <- data.frame(param_data3,
+                            lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc)
 #lac_abc,mu_abc,gam_abc,laa_abc,n_iter)
-save(whole_df_ABC,file = "G:/results/project 2/tip_info/nltt_all/ABC_single_par/whole_df_ABC.RData")
-# save(whole_df_MCMC,file = "G:/results/project 2/tip_info/4ss_no_totnum_clade_size/ABC_single_par/whole_df_MCMC.RData")
-load("G:/results/project 2/tip_info/nltt_all/ABC_single_par/whole_df_ABC.RData")
-load("G:/results/project 2/tip_info/5ss_no_totnum/ABC_single_par/whole_df_MCMC.RData")
+save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round2/MCMC_all/whole_df_MCMC.RData")
 
-# lac_whole <- whole_df[c(1:100),]
-# mu_whole <- whole_df[c(101:200),]
-# gam_whole <- whole_df[c(201:300),]
-# laa_whole <- whole_df[c(301:400),]
-# lac_ABC <- whole_df_ABC[c(0:200000),]
-# mu_ABC <- whole_df_ABC[c(200001:400000),]
-# gam_ABC <- whole_df_ABC[c(400001:600000),]
-# laa_ABC <- whole_df_ABC[c(600001:800000),]
-# lac_MCMC <- whole_df_MCMC[c(0:5000100),]
-# mu_MCMC <- whole_df_MCMC[c(5000101:10000200),]
-# gam_MCMC <- whole_df_MCMC[c(10000201:15000300),]
-# laa_MCMC <- whole_df_MCMC[c(15000301:20000400),]
-#
-#
+
+#### analysis
+load("G:/results/project 2/tip_info/round2/nltt_all/whole_df_ABC.RData")
+load("G:/results/project 2/tip_info/round2/MCMC_all/whole_df_MCMC.RData")
+load("G:/results/project 2/tip_info/round2/MLE_all/whole_df_MLE.RData")
+
+
 # reps <- subset(whole_df_ABC, lac == 0.5 & mu == 0.5 & gam == 0.02 & laa == 0.5)
 
 
 library(ggplot2)
-colors <- c("MCMC"="red","ABC"="blue")
-tiff("G:/results/project 2/tip_info/nltt_all/ABC_single_par/boxplot_lac.tiff", units="px", width=800, height=500)
-g1 <- ggplot2::ggplot(whole_df_ABC[c(0:200000),], aes(x = lac,y = lac_abc, group = lac)) +
+colors <- c("MCMC"="red","ABC"="blue3")
+tiff("G:/results/project 2/tip_info/round2/nltt_single/boxplot_lac.tiff", units="px", width=800, height=500)
+g1 <- ggplot2::ggplot(whole_df_ABC[c(1:100000),], aes(x = lac,y = lac_abc, group = lac)) +
   ggplot2::theme_bw() +
-  ggplot2::geom_boxplot(aes(x = lac, y = lac_abc, color = "ABC",fill = "ABC"),alpha = 0.4)+ ##aes(x = lac, y = lac_abc, color = "ABC")
-  ggplot2::geom_boxplot(data= whole_df_MCMC[c(0:5000100),], aes(x = lac,y = lac_mcmc, color = "MCMC",fill = "MCMC"),alpha = 0.3)+
+  ggplot2::geom_boxplot(aes(x = lac, y = lac_abc, color = "ABC",fill = "ABC"),alpha = 0.4,outlier.shape = NA)+ ##aes(x = lac, y = lac_abc, color = "ABC")
+  ggplot2::geom_boxplot(data= whole_df_MCMC[c(1:5000100),],
+                        aes(x = lac,y = lac_mcmc, color = "MCMC",fill = "MCMC"),
+                        alpha = 0.5,outlier.shape = NA)+
   # ggplot2::geom_point(data = whole_df2[c(1:100),],aes(y = lac_mcmc, color = "MCMC"),size = 2)+
   # ggplot2::geom_point(aes(y = lac_mcmc, color = "MCMC"))+
-  ggplot2::geom_point(aes(x = lac, y = lac),color = "black",size = 3) +
+  ggplot2::geom_point(data= whole_df_MLE[c(1:100),],aes(x = lac, y = lac_MLE),color = "black",shape = 17,size = 1.5) +
+  # ggplot2::geom_point(aes(x = lac, y = lac),color = "black",size = 3) +
   labs(x = "Real rate",
        y = "Estimated rate",
        color = "Methods",
@@ -144,12 +137,15 @@ g1 <- ggplot2::ggplot(whole_df_ABC[c(0:200000),], aes(x = lac,y = lac_abc, group
 print(g1)
 while (!is.null(dev.list()))  dev.off()
 
-tiff("G:/results/project 2/tip_info/nltt_all/ABC_single_par/boxplot_mu.tiff", units="px", width=800, height=500)
-g2 <- ggplot2::ggplot(whole_df_ABC[c(200001:400000),], aes(x = mu,y = mu_abc, group = mu)) +
+tiff("G:/results/project 2/tip_info/round2/nltt_single/boxplot_mu.tiff", units="px", width=800, height=500)
+g2 <- ggplot2::ggplot(whole_df_ABC[c(100001:200000),], aes(x = mu,y = mu_abc, group = mu)) +
   ggplot2::theme_bw() +
-  ggplot2::geom_boxplot(aes(x = mu, y = mu_abc, color = "ABC",fill = "ABC"),alpha = 0.4)+ ##aes(x = lac, y = lac_abc, color = "ABC")
-  ggplot2::geom_boxplot(data= whole_df_MCMC[c(5000101:10000200),], aes(x = mu,y = mu_mcmc, color = "MCMC",fill = "MCMC"),alpha = 0.3)+
-  ggplot2::geom_point(aes(x = mu, y = mu),color = "black",size = 3) +
+  ggplot2::geom_boxplot(aes(x = mu, y = mu_abc, color = "ABC",fill = "ABC"),alpha = 0.4,outlier.shape = NA)+ ##aes(x = lac, y = lac_abc, color = "ABC")
+  ggplot2::geom_boxplot(data= whole_df_MCMC[c(5000101:10000200),],
+                        aes(x = mu,y = mu_mcmc, color = "MCMC",fill = "MCMC"),
+                        alpha = 0.5,outlier.shape = NA)+
+  ggplot2::geom_point(data= whole_df_MLE[c(101:200),],aes(x = mu, y = mu_MLE),color = "black",shape = 17,size = 1.5) +
+  # ggplot2::geom_point(aes(x = mu, y = mu),color = "black",size = 3) +
   labs(x = "Real rate",
        y = "Estimated rate",
        color = "Methods",
@@ -169,12 +165,15 @@ g2 <- ggplot2::ggplot(whole_df_ABC[c(200001:400000),], aes(x = mu,y = mu_abc, gr
 print(g2)
 while (!is.null(dev.list()))  dev.off()
 
-tiff("G:/results/project 2/tip_info/nltt_all/ABC_single_par/boxplot_gam.tiff", units="px", width=800, height=500)
-g3 <- ggplot2::ggplot(whole_df_ABC[c(400001:600000),], aes(x = gam,y = gam_abc, group = gam)) +
+tiff("G:/results/project 2/tip_info/round2/nltt_single/boxplot_gam.tiff", units="px", width=800, height=500)
+g3 <- ggplot2::ggplot(whole_df_ABC[c(200001:300000),], aes(x = gam,y = gam_abc, group = gam)) +
   ggplot2::theme_bw() +
-  ggplot2::geom_boxplot(aes(x = gam, y = gam_abc, color = "ABC",fill = "ABC"),alpha = 0.4)+ ##aes(x = lac, y = lac_abc, color = "ABC")
-  ggplot2::geom_boxplot(data= whole_df_MCMC[c(10000201:15000300),], aes(x = gam,y = gam_mcmc, color = "MCMC",fill = "MCMC"),alpha = 0.3)+
-  ggplot2::geom_point(aes(x = gam, y = gam),color = "black",size = 3) +
+  ggplot2::geom_boxplot(aes(x = gam, y = gam_abc, color = "ABC",fill = "ABC"),alpha = 0.4,outlier.shape = NA)+ ##aes(x = lac, y = lac_abc, color = "ABC")
+  ggplot2::geom_boxplot(data= whole_df_MCMC[c(10000201:15000300),],
+                        aes(x = gam,y = gam_mcmc, color = "MCMC",fill = "MCMC"),
+                        alpha = 0.5,outlier.shape = NA)+
+  ggplot2::geom_point(data= whole_df_MLE[c(201:300),],aes(x = gam, y = gam_MLE),color = "black",shape = 17,size = 1.5) +
+  # ggplot2::geom_point(aes(x = gam, y = gam),color = "black",size = 3) +
   labs(x = "Real rate",
        y = "Estimated rate",
        color = "Methods",
@@ -194,12 +193,15 @@ g3 <- ggplot2::ggplot(whole_df_ABC[c(400001:600000),], aes(x = gam,y = gam_abc, 
 print(g3)
 while (!is.null(dev.list()))  dev.off()
 
-tiff("G:/results/project 2/tip_info/nltt_all/ABC_single_par/boxplot_laa.tiff", units="px", width=800, height=500)
-g4 <- ggplot2::ggplot(whole_df_ABC[c(600001:800000),], aes(x = laa,y = laa_abc, group = laa)) +
+tiff("G:/results/project 2/tip_info/round2/nltt_single/boxplot_laa.tiff", units="px", width=800, height=500)
+g4 <- ggplot2::ggplot(whole_df_ABC[c(300001:400000),], aes(x = laa,y = laa_abc, group = laa)) +
   ggplot2::theme_bw() +
-  ggplot2::geom_boxplot(aes(x = laa, y = laa_abc, color = "ABC",fill = "ABC"),alpha = 0.4)+ ##aes(x = lac, y = lac_abc, color = "ABC")
-  ggplot2::geom_boxplot(data= whole_df_MCMC[c(15000301:20000400),], aes(x = laa,y = laa_mcmc, color = "MCMC",fill = "MCMC"),alpha = 0.3)+
-  ggplot2::geom_point(aes(x = laa, y = laa),color = "black",size = 3) +
+  ggplot2::geom_boxplot(aes(x = laa, y = laa_abc, color = "ABC",fill = "ABC"),alpha = 0.4,outlier.shape = NA)+ ##aes(x = lac, y = lac_abc, color = "ABC")
+  ggplot2::geom_boxplot(data= whole_df_MCMC[c(15000301:20000400),],
+                        aes(x = laa,y = laa_mcmc, color = "MCMC",fill = "MCMC"),
+                        alpha = 0.5,outlier.shape = NA)+
+  ggplot2::geom_point(data= whole_df_MLE[c(301:400),],aes(x = laa, y = laa_MLE),color = "black",shape = 17,size = 1.5) +
+  # ggplot2::geom_point(aes(x = laa, y = laa),color = "black",size = 3) +
   labs(x = "Real rate",
        y = "Estimated rate",
        color = "Methods",
