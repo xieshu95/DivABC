@@ -212,7 +212,7 @@ lac_MLE<- c()
 mu_MLE <-c()
 gam_MLE <- c()
 laa_MLE <-c()
-for(i in 1:400) {
+for(i in 31:400) {
   message("set: ", i)
   set.seed(i)
   obs_sim_pars <- param_space[i,]
@@ -252,3 +252,7 @@ MLE_all <- data.frame(param_space,lac_MLE,mu_MLE,gam_MLE,laa_MLE)
 save(MLE_30,file = "G:/results/project 2/tip_info/round2/MLE_all/MLE_30.RData")
 
 MLE_30 <- data.frame(lac_MLE,mu_MLE,gam_MLE,laa_MLE)
+load("G:/results/project 2/tip_info/round2/MLE_all/MLE_30.RData")
+MLE_19 <-data.frame(lac_MLE,mu_MLE,gam_MLE,laa_MLE)
+MLE_49 <- rbind(MLE_30, MLE_19)
+save(MLE_49,file = "G:/results/project 2/tip_info/round2/MLE_all/MLE_49.RData")
