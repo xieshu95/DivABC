@@ -250,7 +250,8 @@ for(i in 1:400) {
 }
 MLE_all <- data.frame(param_space,lac_MLE,mu_MLE,gam_MLE,laa_MLE)
 save(MLE_all,file = "G:/results/project 2/tip_info/round2/MLE_all/MLE_all.RData")
-
+whole_df_MLE <- data.frame(param_space,MLE_400)
+save(whole_df_MLE,file = "G:/results/project 2/tip_info/round2/MLE_all/whole_df_MLE.RData")
 # MLE_30 <- data.frame(lac_MLE,mu_MLE,gam_MLE,laa_MLE)
 # load("G:/results/project 2/tip_info/round2/MLE_all/MLE_276.RData")
 # MLE_124 <-data.frame(lac_MLE,mu_MLE,gam_MLE,laa_MLE)
