@@ -11,7 +11,7 @@
 # nltt_no_specnltt
 
 ### results of ABC
-folder_path <- "G:/results/project 2/tip_info/round2/pass_4ss/DAISIE_ABC"
+folder_path <- "G:/results/project 2/tip_info/round2/no_logs_allss/DAISIE_ABC"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC.csv")
 
@@ -58,7 +58,7 @@ for(i in 1:400){
 whole_df_ABC <- data.frame(param_data2,
                            # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                            lac_abc,mu_abc,gam_abc,laa_abc)
-save(whole_df_ABC,file = "G:/results/project 2/tip_info/round2/pass_4ss/whole_df_ABC.RData")
+save(whole_df_ABC,file = "G:/results/project 2/tip_info/round2/no_logs_allss/whole_df_ABC.RData")
 
 #### combine results of MCMC
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC.csv")
@@ -97,7 +97,7 @@ save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round2/MCMC_all/whole_d
 
 
 #### analysis
-load("G:/results/project 2/tip_info/round2/pass_4ss/whole_df_ABC.RData")
+load("G:/results/project 2/tip_info/round2/no_logs_allss/whole_df_ABC.RData")
 load("G:/results/project 2/tip_info/round2/MCMC_single/whole_df_MCMC.RData")
 load("G:/results/project 2/tip_info/round2/MLE_single/whole_df_MLE.RData")
 
@@ -107,7 +107,7 @@ load("G:/results/project 2/tip_info/round2/MLE_single/whole_df_MLE.RData")
 
 library(ggplot2)
 colors <- c("MCMC"="red","ABC"="blue3")
-tiff("G:/results/project 2/tip_info/round2/pass_4ss/boxplot_lac.tiff", units="px", width=800, height=500)
+tiff("G:/results/project 2/tip_info/round2/no_logs_allss/boxplot_lac.tiff", units="px", width=800, height=500)
 g1 <- ggplot2::ggplot(whole_df_ABC[c(1:100000),], aes(x = lac,y = lac_abc, group = lac)) +
   ggplot2::theme_bw() +
   ggplot2::geom_boxplot(aes(x = lac, y = lac_abc, color = "ABC",fill = "ABC"),alpha = 0.4,outlier.shape = NA)+ ##aes(x = lac, y = lac_abc, color = "ABC")
@@ -137,7 +137,7 @@ g1 <- ggplot2::ggplot(whole_df_ABC[c(1:100000),], aes(x = lac,y = lac_abc, group
 print(g1)
 while (!is.null(dev.list()))  dev.off()
 
-tiff("G:/results/project 2/tip_info/round2/pass_4ss/boxplot_mu.tiff", units="px", width=800, height=500)
+tiff("G:/results/project 2/tip_info/round2/no_logs_allss/boxplot_mu.tiff", units="px", width=800, height=500)
 g2 <- ggplot2::ggplot(whole_df_ABC[c(100001:200000),], aes(x = mu,y = mu_abc, group = mu)) +
   ggplot2::theme_bw() +
   ggplot2::geom_boxplot(aes(x = mu, y = mu_abc, color = "ABC",fill = "ABC"),alpha = 0.4,outlier.shape = NA)+ ##aes(x = lac, y = lac_abc, color = "ABC")
@@ -165,7 +165,7 @@ g2 <- ggplot2::ggplot(whole_df_ABC[c(100001:200000),], aes(x = mu,y = mu_abc, gr
 print(g2)
 while (!is.null(dev.list()))  dev.off()
 
-tiff("G:/results/project 2/tip_info/round2/pass_4ss/boxplot_gam.tiff", units="px", width=800, height=500)
+tiff("G:/results/project 2/tip_info/round2/no_logs_allss/boxplot_gam.tiff", units="px", width=800, height=500)
 g3 <- ggplot2::ggplot(whole_df_ABC[c(200001:300000),], aes(x = gam,y = gam_abc, group = gam)) +
   ggplot2::theme_bw() +
   ggplot2::geom_boxplot(aes(x = gam, y = gam_abc, color = "ABC",fill = "ABC"),alpha = 0.4,outlier.shape = NA)+ ##aes(x = lac, y = lac_abc, color = "ABC")
@@ -193,7 +193,7 @@ g3 <- ggplot2::ggplot(whole_df_ABC[c(200001:300000),], aes(x = gam,y = gam_abc, 
 print(g3)
 while (!is.null(dev.list()))  dev.off()
 
-tiff("G:/results/project 2/tip_info/round2/pass_4ss/boxplot_laa.tiff", units="px", width=800, height=500)
+tiff("G:/results/project 2/tip_info/round2/no_logs_allss/boxplot_laa.tiff", units="px", width=800, height=500)
 g4 <- ggplot2::ggplot(whole_df_ABC[c(300001:400000),], aes(x = laa,y = laa_abc, group = laa)) +
   ggplot2::theme_bw() +
   ggplot2::geom_boxplot(aes(x = laa, y = laa_abc, color = "ABC",fill = "ABC"),alpha = 0.4,outlier.shape = NA)+ ##aes(x = lac, y = lac_abc, color = "ABC")
