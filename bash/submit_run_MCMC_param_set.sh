@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --time=5-23:05:00
+#SBATCH --time=4-23:05:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=MCMC
 #SBATCH --output=logs/MCMC-%j.log
-#SBATCH --mem=1GB
+#SBATCH --mem=0.5GB
 #SBATCH --partition=regular
 
 # Arguments to follow the Rscript are as follows:
