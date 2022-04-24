@@ -54,6 +54,9 @@ ABC_SMC <- function( # nolint indeed a complex function
   previous_params  <- list(c(seq_along(parameters)))
   indices <- 1:number_of_particles
   n_iter <- 0
+  ABC_list <- list()
+  # ss_reject <- c()
+  # ss_accept <- c()
 
 
   #convergence is expected within 50 iterations
@@ -79,6 +82,7 @@ ABC_SMC <- function( # nolint indeed a complex function
     }
 
     stoprate_reached <- FALSE
+    # ss_logic <- c()
 
     while (number_accepted < number_of_particles) {
       #in this initial step, generate parameters from the prior
@@ -102,10 +106,14 @@ ABC_SMC <- function( # nolint indeed a complex function
           to_change <- sample(idparsopt, 1)
         }
 
-        # perturb the parameter a little bit,
-        #on log scale, so parameter doesn't go < 0
-        eta <- log(parameters[to_change]) + stats::rnorm(1, 0, sigma)
-        parameters[to_change] <- exp(eta)
+        sigma_temp <- 0
+        if(to_change == 3 || to_change == 7){
+          sigma_temp <- sigma/10
+        } else {
+          sigma_temp <- sigma
+        }
+        # perturb the parameter a little bit
+        parameters[to_change] <- parameters[to_change] + stats::rnorm(1, 0, sigma_temp)
       }
 
       #reject if outside the prior
@@ -124,6 +132,7 @@ ABC_SMC <- function( # nolint indeed a complex function
         # #close to the observed summary statistics
 
         # median_df <- base::lapply(df_stats,median)
+
         for (k in seq_along(df_stats)) {
           if (as.numeric(df_stats[k]) > epsilon[i, k]) {
             accept <- FALSE
@@ -132,6 +141,23 @@ ABC_SMC <- function( # nolint indeed a complex function
             break
           }
         }
+
+        # ss_logic_particle <- c()
+        # for (k in seq_along(df_stats)) {
+        #   if (as.numeric(df_stats[k]) > epsilon[i, k]) {
+        #     ss_logic_particle[k] <- FALSE
+        #   } else {
+        #     ss_logic_particle[k] <- TRUE
+        #   }
+        # }
+        #
+        #
+        # if(sum(ss_logic_particle == TRUE) < 4 && i > 1) {
+        #   accept <- FALSE
+        # }
+        #
+        #
+        # ss_logic <- rbind(ss_logic,ss_logic_particle)
 
         if (accept) {
           number_accepted <- number_accepted + 1
@@ -156,31 +182,47 @@ ABC_SMC <- function( # nolint indeed a complex function
         }
       }
 
+
       #convergence if the acceptance rate gets too low
       tried <- tried + 1
-      if (tried > (1 / stop_rate) & n_iter > 2) {
+      if (tried > (1 / stop_rate) & n_iter > 5) {
         if ((number_accepted / tried) < stop_rate) {
           stoprate_reached <- TRUE
           break
         }
       }
     }
+    # ss_reject <- rbind(ss_reject,apply(ss_logic,2,function(x) sum(x == FALSE)))
+    # ss_accept <- rbind(ss_accept,apply(ss_logic,2,function(x) sum(x == TRUE)))
+    ABC <- c()
+    for (k in seq_along(new_params)) {
+      add <- c()
+      for (m in seq_along(parameters)) {
+        add <- c(add, new_params[[k]][m])
+      }
+      ABC <- rbind(ABC, add)
+    }
+    ABC_list[[i]] <- ABC
 
     if (stoprate_reached) {
       break
     }
+
+
   }
   message("tried times: ", tried)
 
-  ABC <- c()
-  for (k in seq_along(previous_params)) {
-    add <- c()
-    for (m in seq_along(parameters)) {
-      add <- c(add, previous_params[[k]][m])
-    }
-    ABC <- rbind(ABC, add)
-  }
-  output <- list(ABC = ABC,
+  # ABC <- c()
+  # for (k in seq_along(previous_params)) {
+  #   add <- c()
+  #   for (m in seq_along(parameters)) {
+  #     add <- c(add, previous_params[[k]][m])
+  #   }
+  #   ABC <- rbind(ABC, add)
+  # }
+  output <- list(ABC = ABC_list,
                  n_iter = n_iter)
+  # ss_reject = ss_reject,
+  # ss_accept = ss_accept)
   return(output)
 }

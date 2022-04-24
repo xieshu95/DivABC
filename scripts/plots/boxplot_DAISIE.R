@@ -101,7 +101,6 @@ load("G:/results/project 2/tip_info/round2/no_logs_allss/whole_df_ABC.RData")
 load("G:/results/project 2/tip_info/round2/MCMC_single/whole_df_MCMC.RData")
 load("G:/results/project 2/tip_info/round2/MLE_single/whole_df_MLE.RData")
 
-
 # reps <- subset(whole_df_ABC, lac == 0.5 & mu == 0.5 & gam == 0.02 & laa == 0.5)
 
 
@@ -137,6 +136,7 @@ g1 <- ggplot2::ggplot(whole_df_ABC[c(1:100000),], aes(x = lac,y = lac_abc, group
 print(g1)
 while (!is.null(dev.list()))  dev.off()
 
+
 tiff("G:/results/project 2/tip_info/round2/no_logs_allss/boxplot_mu.tiff", units="px", width=800, height=500)
 g2 <- ggplot2::ggplot(whole_df_ABC[c(100001:200000),], aes(x = mu,y = mu_abc, group = mu)) +
   ggplot2::theme_bw() +
@@ -165,6 +165,7 @@ g2 <- ggplot2::ggplot(whole_df_ABC[c(100001:200000),], aes(x = mu,y = mu_abc, gr
 print(g2)
 while (!is.null(dev.list()))  dev.off()
 
+
 tiff("G:/results/project 2/tip_info/round2/no_logs_allss/boxplot_gam.tiff", units="px", width=800, height=500)
 g3 <- ggplot2::ggplot(whole_df_ABC[c(200001:300000),], aes(x = gam,y = gam_abc, group = gam)) +
   ggplot2::theme_bw() +
@@ -192,6 +193,7 @@ g3 <- ggplot2::ggplot(whole_df_ABC[c(200001:300000),], aes(x = gam,y = gam_abc, 
   ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)
 print(g3)
 while (!is.null(dev.list()))  dev.off()
+
 
 tiff("G:/results/project 2/tip_info/round2/no_logs_allss/boxplot_laa.tiff", units="px", width=800, height=500)
 g4 <- ggplot2::ggplot(whole_df_ABC[c(300001:400000),], aes(x = laa,y = laa_abc, group = laa)) +

@@ -16,6 +16,7 @@ run_ABC <- function(param_space_name,
                     save_output = TRUE){
 
   param_space <- load_param_space(param_space_name = param_space_name)
+  # param_space <- read.csv2(file = 'data/DAISIE_ABC.csv')
   seed <- param_set ##as.integer(Sys.time()) %% 1000000L * param_set
   set.seed(seed)
 
@@ -67,8 +68,8 @@ run_ABC <- function(param_space_name,
     prior_generating_function = prior_generating_function,
     prior_density_function = prior_density_function,
     number_of_particles = 1000, #2000
-    sigma = 1,
-    stop_rate = 0.0005,
+    sigma = 0.1,
+    stop_rate = 0.0002,
     replicates = 1,  ## simulation replicates for each parameter set
     num_iterations = 10,
     K = as.numeric(obs_sim_pars$K),

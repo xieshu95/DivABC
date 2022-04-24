@@ -17,13 +17,15 @@ calc_weight <- function(weights, particles,
   vals <- c()
   for (i in seq_along(particles)) {
     vals[i] <- weights[i]
-    for (j in seq_along(current)) {
-      if(current[j] == 0 || particles[[i]][j] == 0){
-        diff <- 0
+    for (j in idparsopt) {
+      sigma_temp <- 0
+      if(j == 3|| j == 7) {
+        sigma_temp <- sigma / 10
       } else {
-        diff <- log(current[j]) - log(particles[[i]][j])
+        sigma_temp <- sigma
       }
-      vals[i] <- vals[i] * stats::dnorm(diff, mean = 0, sd = sigma)
+      diff <- current[j] - particles[[i]][j]
+      vals[i] <- vals[i] * stats::dnorm(diff, mean = 0, sd = sigma_temp)
     }
   }
   # current_opt <- current[idparsopt]
