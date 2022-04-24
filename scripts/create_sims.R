@@ -1,4 +1,4 @@
-
+### create simulations for plotting nltt
 set.seed(1)
 t1 <- Sys.time()
 replicates <- 500
