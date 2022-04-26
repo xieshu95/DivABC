@@ -74,7 +74,7 @@ calc_ss_diff <- function(sim1, sim2){
                     sim_2 = sim2,
                     replicates = 1,
                     distance_method = "abs")
-    ss_diff <-as.numeric(c(s$spec_nltt_error,
+    ss_diff <-as.numeric(c(s$clade_nltt_error,
                            s$ana_endemic_nltt_error,
                            s$clado_endemic_nltt_error,
                            s$nonendemic_nltt_error,
