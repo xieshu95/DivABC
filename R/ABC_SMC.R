@@ -102,6 +102,8 @@ ABC_SMC <- function( # nolint indeed a complex function
         #low acceptance rates due to simultaneous perturbation
         if(length(idparsopt) == 1){
           to_change <- as.numeric(idparsopt)
+        } else if(length(idparsopt) == 4){
+          to_change <- sample(idparsopt, 1, TRUE, c(0.2,0.3,0.2,0.3))
         } else {
           to_change <- sample(idparsopt, 1)
           # to_change <- sample(idparsopt, 1, TRUE,c(0.2,0.3,0.2,0.3))
