@@ -2,7 +2,7 @@
 #SBATCH --time=7-12:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --job-name=est_TR
+#SBATCH --job-name=DA_DI
 #SBATCH --output=logs/ABC-%j.log
 #SBATCH --mem=1GB
 #SBATCH --partition=regular
