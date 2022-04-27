@@ -134,6 +134,6 @@ calc_epsilon_init <- function(sim){
     }
   }
   ss_diff_pairs_median <- apply(ss_diff_pairs,2,median)
-  epsilon_init <- 5*ss_diff_pairs_median
+  epsilon_init <- 7*ss_diff_pairs_median
   return(epsilon_init)
 }
