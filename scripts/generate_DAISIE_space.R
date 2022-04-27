@@ -126,10 +126,10 @@ write.csv2(
 rep <- 1:10
 K <- Inf
 ## a. lac
-lac <- c(1:10)*0.1
-mu <- 0.00001
-gam <- 0.02
-laa <- 0.5
+lac <- c(0.2,0.4,0.6,0.8)
+mu <- 0.05
+gam <- 0.015
+laa <- 0.2
 ABC_lac <- expand.grid(
   rep = rep,
   lac = lac,
@@ -141,9 +141,9 @@ ABC_lac <- expand.grid(
 
 ## b. mu
 lac <- 0.5
-mu <- c(1:10)*0.1
-gam <- 0.02
-laa <- 0.5
+mu <- c(0.05,0.1,0.15,0.2)
+gam <- 0.015
+laa <- 0.2
 ABC_mu <- expand.grid(
   rep = rep,
   lac = lac,
@@ -155,9 +155,9 @@ ABC_mu <- expand.grid(
 
 ## c. gam
 lac <- 0.5
-mu <- 0.00001
-gam <- c(6:15)*0.002
-laa <- 0.5
+mu <- 0.05
+gam <- c(0.01,0.015,0.02,0.025)
+laa <- 0.2
 ABC_gam <- expand.grid(
   rep = rep,
   lac = lac,
@@ -168,9 +168,9 @@ ABC_gam <- expand.grid(
 )
 ## d. laa
 lac <- 0.5
-mu <- 0.00001
-gam <- 0.02
-laa <- c(1:10)*0.1
+mu <- 0.05
+gam <- 0.015
+laa <- c(0.2,0.4,0.6,0.8)
 ABC_laa <- expand.grid(
   rep = rep,
   lac = lac,
@@ -202,5 +202,90 @@ DAISIE_MCMC = DAISIE_ABC
 write.csv2(
   DAISIE_MCMC,
   "data/DAISIE_MCMC.csv",
+  row.names = FALSE
+)
+
+
+## create input parameter sets for ABC
+#4. ABC_DAISIE default: lac=0.5 mu=0.05 gam=0.015 laa=0.2
+rep <- 1:10
+K <- 40
+## a. lac
+lac <- c(0.2,0.4,0.6,0.8)
+mu <- 0.05
+gam <- 0.015
+laa <- 0.2
+ABC_lac_DD <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+
+## b. mu
+lac <- 0.5
+mu <- c(0.05,0.1,0.15,0.2)
+gam <- 0.015
+laa <- 0.2
+ABC_mu_DD <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+
+## c. gam
+lac <- 0.5
+mu <- 0.05
+gam <- c(0.01,0.015,0.02,0.025)
+laa <- 0.2
+ABC_gam_DD <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+## d. laa
+lac <- 0.5
+mu <- 0.05
+gam <- 0.015
+laa <- c(0.2,0.4,0.6,0.8)
+ABC_laa_DD <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+
+DAISIE_ABC_DD <- rbind(
+  ABC_lac_DD,
+  ABC_mu_DD,
+  ABC_gam_DD,
+  ABC_laa_DD
+)
+
+write.csv2(
+  DAISIE_ABC_DD,
+  "data/DAISIE_ABC_DD.csv",
+  row.names = FALSE
+)
+
+
+
+## create input parameter sets for mcmc
+#5. mcmc_DAISIE default: lac=0.4 mu=0.2 gam=0.01 laa=0.4
+DAISIE_MCMC_DD = DAISIE_ABC_DD
+
+write.csv2(
+  DAISIE_MCMC_DD,
+  "data/DAISIE_MCMC_DD.csv",
   row.names = FALSE
 )
