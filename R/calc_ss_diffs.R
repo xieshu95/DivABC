@@ -62,13 +62,12 @@ calc_ss_diff <- function(sim1, sim2){
                           sim_2 = sim2,
                           replicates = 1,
                           distance_method = "abs")
-    ss_diff <-as.numeric(c(s$spec_nltt_error_state1,
-                           s$spec_nltt_error_state2,
-                           s$endemic_nltt_error_state1,
-                           s$endemic_nltt_error_state2,
-                           s$nonendemic_nltt_error_state1,
-                           s$nonendemic_nltt_error_state2,
-                           s$tip_ratio_error))
+    ss_diff <-as.numeric(c(s$spec_nltt_error,
+                           s$ana_endemic_nltt_error,
+                           s$clado_endemic_nltt_error,
+                           s$nonendemic_nltt_error,
+                           s$tip_ratio_error,
+                           s$num_col_error))
   } else { ## DAISIE
     s <- calc_error(sim_1 = sim1,   ##calc_error
                     sim_2 = sim2,
