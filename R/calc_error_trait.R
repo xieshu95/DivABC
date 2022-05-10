@@ -25,116 +25,86 @@ calc_error_trait <- function(sim_1,
                              replicates,
                              distance_method) {
 
-  # Spec nltt error
+  # Spec nltt
   sim_1_event_times <-
-    sim_1[[1]][[1]]$stt_two_states[, "Time"]
-  sim_1_num_spec_state1 <-
-    sim_1[[1]][[1]]$stt_two_states[, "nI"] +
-    sim_1[[1]][[1]]$stt_two_states[, "nA"] +
-    sim_1[[1]][[1]]$stt_two_states[, "nC"]
-  sim_1_num_spec_state2 <-
-    sim_1[[1]][[1]]$stt_two_states[, "nI2"] +
-    sim_1[[1]][[1]]$stt_two_states[, "nA2"] +
-    sim_1[[1]][[1]]$stt_two_states[, "nC2"]
-
+    sim_1[[1]][[1]]$stt_all[, "Time"]
+  sim_1_num_spec <-
+    sim_1[[1]][[1]]$stt_all[, "nI"] +
+    sim_1[[1]][[1]]$stt_all[, "nA"] +
+    sim_1[[1]][[1]]$stt_all[, "nC"]
   sim_2_event_times <-
-    sim_2[[1]][[1]]$stt_two_states[, "Time"]
-  sim_2_num_spec_state1 <-
-    sim_2[[1]][[1]]$stt_two_states[, "nI"] +
-    sim_2[[1]][[1]]$stt_two_states[, "nA"] +
-    sim_2[[1]][[1]]$stt_two_states[, "nC"]
-  sim_2_num_spec_state2 <-
-    sim_2[[1]][[1]]$stt_two_states[, "nI2"] +
-    sim_2[[1]][[1]]$stt_two_states[, "nA2"] +
-    sim_2[[1]][[1]]$stt_two_states[, "nC2"]
-
-  spec_nltt_error_state1 <- nLTT::nltt_diff_exact_extinct(
+    sim_2[[1]][[1]]$stt_all[, "Time"]
+  sim_2_num_spec <-
+    sim_2[[1]][[1]]$stt_all[, "nI"] +
+    sim_2[[1]][[1]]$stt_all[, "nA"] +
+    sim_2[[1]][[1]]$stt_all[, "nC"]
+  spec_nltt_error <- nLTT::nltt_diff_exact_extinct(
     event_times = sim_1_event_times,
-    species_number = sim_1_num_spec_state1,
+    species_number = sim_1_num_spec,
     event_times2 = sim_2_event_times,
-    species_number2 = sim_2_num_spec_state1,
-    distance_method = distance_method,
-    time_unit = "ago",
-    normalize = FALSE
-  )
-  spec_nltt_error_state2 <- nLTT::nltt_diff_exact_extinct(
-    event_times = sim_1_event_times,
-    species_number = sim_1_num_spec_state2,
-    event_times2 = sim_2_event_times,
-    species_number2 = sim_2_num_spec_state2,
+    species_number2 = sim_2_num_spec,
     distance_method = distance_method,
     time_unit = "ago",
     normalize = FALSE
   )
 
-  # Endemic nltt error
+  # Anagenesis Endemic nltt
   sim_1_event_times <-
-    sim_1[[1]][[1]]$stt_two_states[, "Time"]
-  sim_1_endemic_spec_state1 <-
-    sim_1[[1]][[1]]$stt_two_states[, "nA"] +
-    sim_1[[1]][[1]]$stt_two_states[, "nC"]
-  sim_1_endemic_spec_state2 <-
-    sim_1[[1]][[1]]$stt_two_states[, "nA2"] +
-    sim_1[[1]][[1]]$stt_two_states[, "nC2"]
+    sim_1[[1]][[1]]$stt_all[, "Time"]
+  sim_1_ana_endemic_spec <-
+    sim_1[[1]][[1]]$stt_all[, "nA"]
   sim_2_event_times <-
-    sim_2[[1]][[1]]$stt_two_states[, "Time"]
-  sim_2_endemic_spec_state1 <-
-    sim_2[[1]][[1]]$stt_two_states[, "nA"] +
-    sim_2[[1]][[1]]$stt_two_states[, "nC"]
-  sim_2_endemic_spec_state2 <-
-    sim_2[[1]][[1]]$stt_two_states[, "nA2"] +
-    sim_2[[1]][[1]]$stt_two_states[, "nC2"]
-
-  endemic_nltt_error_state1 <- nLTT::nltt_diff_exact_extinct(
+    sim_2[[1]][[1]]$stt_all[, "Time"]
+  sim_2_ana_endemic_spec <-
+    sim_2[[1]][[1]]$stt_all[, "nA"]
+  ana_endemic_nltt_error <- nLTT::nltt_diff_exact_extinct(
     event_times = sim_1_event_times,
-    species_number = sim_1_endemic_spec_state1,
+    species_number = sim_1_ana_endemic_spec,
     event_times2 = sim_2_event_times,
-    species_number2 = sim_2_endemic_spec_state1,
-    distance_method = distance_method,
-    time_unit = "ago",
-    normalize = FALSE
-  )
-  endemic_nltt_error_state2 <- nLTT::nltt_diff_exact_extinct(
-    event_times = sim_1_event_times,
-    species_number = sim_1_endemic_spec_state2,
-    event_times2 = sim_2_event_times,
-    species_number2 = sim_2_endemic_spec_state2,
+    species_number2 = sim_2_ana_endemic_spec,
     distance_method = distance_method,
     time_unit = "ago",
     normalize = FALSE
   )
 
-  # Nonendemic nltt error
+  # Cladogenesis Endemic nltt
   sim_1_event_times <-
-    sim_1[[1]][[1]]$stt_two_states[, "Time"]
-  sim_1_nonendemic_spec_state1 <-
-    sim_1[[1]][[1]]$stt_two_states[, "nI"]
-  sim_1_nonendemic_spec_state2 <-
-    sim_1[[1]][[1]]$stt_two_states[, "nI2"]
+    sim_1[[1]][[1]]$stt_all[, "Time"]
+  sim_1_clado_endemic_spec <-
+    sim_1[[1]][[1]]$stt_all[, "nC"]
   sim_2_event_times <-
-    sim_2[[1]][[1]]$stt_two_states[, "Time"]
-  sim_2_nonendemic_spec_state1 <-
-    sim_2[[1]][[1]]$stt_two_states[, "nI"]
-  sim_2_nonendemic_spec_state2 <-
-    sim_2[[1]][[1]]$stt_two_states[, "nI2"]
-  nonendemic_nltt_error_state1 <- nLTT::nltt_diff_exact_extinct(
+    sim_2[[1]][[1]]$stt_all[, "Time"]
+  sim_2_clado_endemic_spec <-
+    sim_2[[1]][[1]]$stt_all[, "nC"]
+  clado_endemic_nltt_error <- nLTT::nltt_diff_exact_extinct(
     event_times = sim_1_event_times,
-    species_number = sim_1_nonendemic_spec_state1,
+    species_number = sim_1_clado_endemic_spec,
     event_times2 = sim_2_event_times,
-    species_number2 = sim_2_nonendemic_spec_state1,
+    species_number2 = sim_2_clado_endemic_spec,
     distance_method = distance_method,
     time_unit = "ago",
     normalize = FALSE
   )
-  nonendemic_nltt_error_state2 <- nLTT::nltt_diff_exact_extinct(
+
+  # Nonendemic nltt
+  sim_1_event_times <-
+    sim_1[[1]][[1]]$stt_all[, "Time"]
+  sim_1_nonendemic_spec <-
+    sim_1[[1]][[1]]$stt_all[, "nI"]
+  sim_2_event_times <-
+    sim_2[[1]][[1]]$stt_all[, "Time"]
+  sim_2_nonendemic_spec <-
+    sim_2[[1]][[1]]$stt_all[, "nI"]
+  nonendemic_nltt_error <- nLTT::nltt_diff_exact_extinct(
     event_times = sim_1_event_times,
-    species_number = sim_1_nonendemic_spec_state2,
+    species_number = sim_1_nonendemic_spec,
     event_times2 = sim_2_event_times,
-    species_number2 = sim_2_nonendemic_spec_state2,
+    species_number2 = sim_2_nonendemic_spec,
     distance_method = distance_method,
     time_unit = "ago",
     normalize = FALSE
   )
+
   ### number of species
   stt_last_row_sim_1 <-
     length(sim_1[[1]][[1]]$stt_two_states[, "present"])
@@ -177,64 +147,56 @@ calc_error_trait <- function(sim_1,
   num_col_error <-
     abs(num_col_sim_1 - num_col_sim_2)
 
-  # number of endemic
-  endemic_sim_1_state1 <-
-    as.numeric(
-      sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nA"] +
-        sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nC"])
-  endemic_sim_1_state2 <-
-    as.numeric(
-      sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nA2"] +
-        sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nC2"])
-
-  endemic_sim_2_state1 <-
-    as.numeric(
-      sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nA"] +
-        sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nC"])
-
-  endemic_sim_2_state2 <-
-    as.numeric(
-      sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nA2"] +
-        sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nC2"])
-
-  endemic_error_state1 <-
-    abs(endemic_sim_1_state1 - endemic_sim_2_state1)
-  endemic_error_state2 <-
-    abs(endemic_sim_1_state2 - endemic_sim_2_state2)
-
-  # number of Nonendemic
-  nonendemic_sim_1_state1 <-
-    as.numeric(
-      sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nI"])
-  nonendemic_sim_1_state2 <-
-    as.numeric(
-      sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nI2"])
-
-  nonendemic_sim_2_state1 <-
-    as.numeric(
-      sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nI"])
-  nonendemic_sim_2_state2 <-
-    as.numeric(
-      sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nI2"])
-  nonendemic_error_state1 <-
-    abs(nonendemic_sim_1_state1 - nonendemic_sim_2_state1)
-  nonendemic_error_state2 <-
-    abs(nonendemic_sim_1_state2 - nonendemic_sim_2_state2)
+  # # number of endemic
+  # endemic_sim_1_state1 <-
+  #   as.numeric(
+  #     sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nA"] +
+  #       sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nC"])
+  # endemic_sim_1_state2 <-
+  #   as.numeric(
+  #     sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nA2"] +
+  #       sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nC2"])
+  #
+  # endemic_sim_2_state1 <-
+  #   as.numeric(
+  #     sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nA"] +
+  #       sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nC"])
+  #
+  # endemic_sim_2_state2 <-
+  #   as.numeric(
+  #     sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nA2"] +
+  #       sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nC2"])
+  #
+  # endemic_error_state1 <-
+  #   abs(endemic_sim_1_state1 - endemic_sim_2_state1)
+  # endemic_error_state2 <-
+  #   abs(endemic_sim_1_state2 - endemic_sim_2_state2)
+  #
+  # # number of Nonendemic
+  # nonendemic_sim_1_state1 <-
+  #   as.numeric(
+  #     sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nI"])
+  # nonendemic_sim_1_state2 <-
+  #   as.numeric(
+  #     sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nI2"])
+  #
+  # nonendemic_sim_2_state1 <-
+  #   as.numeric(
+  #     sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nI"])
+  # nonendemic_sim_2_state2 <-
+  #   as.numeric(
+  #     sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nI2"])
+  # nonendemic_error_state1 <-
+  #   abs(nonendemic_sim_1_state1 - nonendemic_sim_2_state1)
+  # nonendemic_error_state2 <-
+  #   abs(nonendemic_sim_1_state2 - nonendemic_sim_2_state2)
 
 
   return(
-    list(spec_nltt_error_state1 = spec_nltt_error_state1,
-         spec_nltt_error_state2 = spec_nltt_error_state2,
-         endemic_nltt_error_state1 = endemic_nltt_error_state1,
-         endemic_nltt_error_state2 = endemic_nltt_error_state2,
-         nonendemic_nltt_error_state1 = nonendemic_nltt_error_state1,
-         nonendemic_nltt_error_state2 = nonendemic_nltt_error_state2,
-         num_spec_error_state1 = num_spec_error_state1,
-         num_spec_error_state2 = num_spec_error_state2,
-         endemic_error_state1 = endemic_error_state1,
-         endemic_error_state2 = endemic_error_state2,
-         nonendemic_error_state1 = nonendemic_error_state1,
-         nonendemic_error_state2 = nonendemic_error_state2,
+    list(spec_nltt_error = spec_nltt_error,
+         ana_endemic_nltt_error = ana_endemic_nltt_error,
+         clado_endemic_nltt_error = clado_endemic_nltt_error,
+         nonendemic_nltt_error = nonendemic_nltt_error,
          tip_ratio_error = tip_ratio_error,
          num_col_error = num_col_error)
   )
