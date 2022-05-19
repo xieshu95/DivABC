@@ -109,7 +109,7 @@ ABC_SMC <- function( # nolint indeed a complex function
           # to_change <- sample(idparsopt, 1, TRUE,c(0.2,0.3,0.2,0.3))
         }
 
-        sigma_temp <- sigma * exp(-0.5 * (i - 1))
+        sigma_temp <- sigma * exp(-0.2 * (i - 1))
         if(to_change == 3 || to_change == 7){
           sigma_temp <- sigma_temp/10
         } else {
