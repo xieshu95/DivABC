@@ -17,40 +17,6 @@
 #' @author Shu Xie
 #' @export
 
-
-# calc_ss_diff <- function(sim1, sim2, replicates){
-#   spec_nltt_error <- c()
-#   endemic_nltt_error <- c()
-#   nonendemic_nltt_error <- c()
-#   num_spec_error <- c()
-#   num_col_error <- c()
-#   for(i in 1:replicates){
-#     s <- DAISIErobustness:::calc_error(sim_1 = sim1[[1]],
-#                                        sim_2 = sim2[[i]],
-#                                        replicates = 1,
-#                                        distance_method = "abs")
-#     spec_nltt_error <- append(spec_nltt_error,
-#                               s$spec_nltt_error)
-#     endemic_nltt_error <- append(endemic_nltt_error,
-#                                  s$endemic_nltt_error)
-#     nonendemic_nltt_error <- append(nonendemic_nltt_error,
-#                                     s$nonendemic_nltt_error)
-#     num_spec_error <- append(num_spec_error,
-#                              s$num_spec_error)
-#     num_col_error <- append(num_col_error,
-#                             s$num_col_error)
-#   }
-#   clade_size_error <- calc_clade_size_error(sim_1 = sim1,
-#                                             sim_2 = sim2)
-#   list_s <- list(spec_nltt_error = spec_nltt_error,
-#                  endemic_nltt_error = endemic_nltt_error,
-#                  nonendemic_nltt_error = nonendemic_nltt_error,
-#                  num_spec_error = num_spec_error,
-#                  num_col_error = num_col_error,
-#                  clade_size_error = clade_size_error)
-#   return(list_s)
-# }
-
 calc_ss_diff <- function(sim1, sim2){
 
   clade_size_error <- calc_clade_size_error(sim_1 = sim1,
