@@ -40,7 +40,7 @@ get_DAISIE_sim <- function(parameters, K, replicates){
 get_TraiSIE_sim <- function(parameters, K, replicates){
   sim <- list()
   for (j in seq_len(replicates)) {
-    sim[[j]] <- TRAISIERCPP::DAISIE_sim_trait_dep_cpp(
+    sim[[j]] <- TRAISIERCPP::DAISIE_sim_trait_dep_cpp( ##TRAISIERCPP
       time = 2,
       M = 500,
       pars = c(parameters[1],parameters[2],K,parameters[3],parameters[4]),
