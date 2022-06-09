@@ -8,12 +8,20 @@ run_ABC_TraiSIE <- function(param_space_name,
                             param_set,
                             idparsopt,
                             save_output = TRUE){
-
-  param_space <- read.csv2(file = 'data/trait_DAISIE_single_change.csv')
-  param_space <- read.csv2(file = 'data/DAISIE_ABC.csv')
+  param_space <- load_param_space(param_space_name = param_space_name)
+  # param_space <- read.csv2(file = 'data/trait_DAISIE_single_change.csv')
+  # param_space <- read.csv2(file = 'data/DAISIE_ABC.csv')
   seed <- param_set
   set.seed(seed)
-
+  message("Param space name: ", param_space_name)
+  message("Running param set: ", param_set)
+  message("seed: ", seed)
+  check_create_folders(
+    param_space_name = param_space_name,
+    save_output = save_output
+  )
+  message("sim_model: ", sim_model)
+  obs_sim_pars <- param_space[param_set,]
   obs_sim_pars <- param_space[param_set,]
   obs_sim <- get_TraiSIE_sim(parameters = as.numeric(c(obs_sim_pars$lac,
                                                        obs_sim_pars$mu,
