@@ -23,6 +23,7 @@ Imports:
     DAISIE (>= 4.1.1),
     DAISIErobustness,
     nLTT,
+    TRAISIERCPP,
     readr,
     testit
 Remotes:
