@@ -32,8 +32,10 @@ calc_ss_diff <- function(sim1, sim2){
                            s$clado_endemic_nltt_error,
                            s$nonendemic_nltt_error,
                            s$clade_nltt_error,
-                           s$num_end_error_state1,
-                           s$num_end_error_state2,
+                           s$num_ana_error_state1,
+                           s$num_ana_error_state2,
+                           s$num_clado_error_state1,
+                           s$num_clado_error_state2,
                            s$num_nonend_error_state1,
                            s$num_nonend_error_state2))
   } else { ## DAISIE
@@ -101,6 +103,6 @@ calc_epsilon_init <- function(sim){
     }
   }
   ss_diff_pairs_median <- apply(ss_diff_pairs,2,median)
-  epsilon_init <- 8*ss_diff_pairs_median ##9 for DAISIE
+  epsilon_init <- 10*ss_diff_pairs_median ##9 for DAISIE
   return(epsilon_init)
 }
