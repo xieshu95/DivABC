@@ -48,7 +48,7 @@ save(whole_df_ABC,file = "G:/results/project 2/tip_info/round3/dec_kernel/allpar
 library(ggplot2)
 
 load("G:/results/project 2/tip_info/round3/dec_kernel/allpars_DI/whole_df_ABC.RData")
-for(i in 1：160){
+for(i in 1:160){
   param_abc <- whole_df_ABC[((i*200-199)):(i*200),]
   p_lac <-ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +

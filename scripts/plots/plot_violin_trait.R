@@ -11,11 +11,11 @@
 # nltt_no_specnltt
 
 
-folder_path <- "G:/results/project 2/tip_info/trait_nltt_message/TraiSIE_ABC_DD"
+folder_path <- "G:/results/project 2/tip_info/round3/TRAISIE_DI/TraiSIE_ABC_DI"
 files <- list.files(folder_path)
-param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/TraiSIE_ABC_DD.csv")
+param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/TraiSIE_ABC_DI.csv")
 
-param_data2<-param_data[rep(seq_len(nrow(param_data)), each=1000),]
+param_data2<-param_data[rep(seq_len(nrow(param_data)), each=200),]
 
 lac_abc1 <- c()
 mu_abc1 <- c()
@@ -28,14 +28,14 @@ laa_abc2 <- c()
 trans_abc1 <- c()
 trans_abc2 <- c()
 n_iter <-c()
-for(i in 1:200){
+for(i in 1:240){
   # if(i%%5 == 0){
   #   rep <- 5
   # } else {
   #   rep <- i%%5
   # }
   # param_set = (param_num-1)*5 + i
-  file_to_load <- grep(paste0("TraiSIE_ABC_DD_param_set_", i,".RData"),  #,"_rep",rep
+  file_to_load <- grep(paste0("TraiSIE_ABC_DI_param_set_", i,".RData"),  #,"_rep",rep
                        files,
                        value = TRUE,
                        fixed = TRUE)
@@ -44,39 +44,39 @@ for(i in 1:200){
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
     if(output$n_iter <= 2){
-      lac_abc1 <- c(lac_abc1, rep(NA,1000))
-      mu_abc1 <- c(mu_abc1, rep(NA,1000))
-      gam_abc1 <- c(gam_abc1, rep(NA,1000))
-      laa_abc1 <- c(laa_abc1, rep(NA,1000))
-      lac_abc2 <- c(lac_abc2, rep(NA,1000))
-      mu_abc2 <- c(mu_abc2, rep(NA,1000))
-      gam_abc2 <- c(gam_abc2, rep(NA,1000))
-      laa_abc2 <- c(laa_abc2, rep(NA,1000))
-      trans_abc1 <- c(trans_abc1, rep(NA,1000))
-      trans_abc2 <- c(trans_abc2, rep(NA,1000))
+      lac_abc1 <- c(lac_abc1, rep(NA,200))
+      mu_abc1 <- c(mu_abc1, rep(NA,200))
+      gam_abc1 <- c(gam_abc1, rep(NA,200))
+      laa_abc1 <- c(laa_abc1, rep(NA,200))
+      lac_abc2 <- c(lac_abc2, rep(NA,200))
+      mu_abc2 <- c(mu_abc2, rep(NA,200))
+      gam_abc2 <- c(gam_abc2, rep(NA,200))
+      laa_abc2 <- c(laa_abc2, rep(NA,200))
+      trans_abc1 <- c(trans_abc1, rep(NA,200))
+      trans_abc2 <- c(trans_abc2, rep(NA,200))
     } else{
-      lac_abc1 <- c(lac_abc1, output$ABC[,1])
-      mu_abc1 <- c(mu_abc1, output$ABC[,2])
-      gam_abc1 <- c(gam_abc1, output$ABC[,3])
-      laa_abc1 <- c(laa_abc1, output$ABC[,4])
-      lac_abc2 <- c(lac_abc2, output$ABC[,5])
-      mu_abc2 <- c(mu_abc2, output$ABC[,6])
-      gam_abc2 <- c(gam_abc2, output$ABC[,7])
-      laa_abc2 <- c(laa_abc2, output$ABC[,8])
-      trans_abc1 <- c(trans_abc1, output$ABC[,9])
-      trans_abc2 <- c(trans_abc2, output$ABC[,10])
+      lac_abc1 <- c(lac_abc1, output$ABC[[5]][,1])
+      mu_abc1 <- c(mu_abc1, output$ABC[[5]][,2])
+      gam_abc1 <- c(gam_abc1, output$ABC[[5]][,3])
+      laa_abc1 <- c(laa_abc1, output$ABC[[5]][,4])
+      lac_abc2 <- c(lac_abc2, output$ABC[[5]][,5])
+      mu_abc2 <- c(mu_abc2, output$ABC[[5]][,6])
+      gam_abc2 <- c(gam_abc2, output$ABC[[5]][,7])
+      laa_abc2 <- c(laa_abc2, output$ABC[[5]][,8])
+      trans_abc1 <- c(trans_abc1, output$ABC[[5]][,9])
+      trans_abc2 <- c(trans_abc2, output$ABC[[5]][,10])
     }
   } else {
-    lac_abc1 <- c(lac_abc1, rep(NA,1000))
-    mu_abc1 <- c(mu_abc1, rep(NA,1000))
-    gam_abc1 <- c(gam_abc1, rep(NA,1000))
-    laa_abc1 <- c(laa_abc1, rep(NA,1000))
-    lac_abc2 <- c(lac_abc2, rep(NA,1000))
-    mu_abc2 <- c(mu_abc2, rep(NA,1000))
-    gam_abc2 <- c(gam_abc2, rep(NA,1000))
-    laa_abc2 <- c(laa_abc2, rep(NA,1000))
-    trans_abc1 <- c(trans_abc1, rep(NA,1000))
-    trans_abc2 <- c(trans_abc2, rep(NA,1000))
+    lac_abc1 <- c(lac_abc1, rep(NA,200))
+    mu_abc1 <- c(mu_abc1, rep(NA,200))
+    gam_abc1 <- c(gam_abc1, rep(NA,200))
+    laa_abc1 <- c(laa_abc1, rep(NA,200))
+    lac_abc2 <- c(lac_abc2, rep(NA,200))
+    mu_abc2 <- c(mu_abc2, rep(NA,200))
+    gam_abc2 <- c(gam_abc2, rep(NA,200))
+    laa_abc2 <- c(laa_abc2, rep(NA,200))
+    trans_abc1 <- c(trans_abc1, rep(NA,200))
+    trans_abc2 <- c(trans_abc2, rep(NA,200))
   }
 }
 
@@ -89,13 +89,13 @@ whole_df_ABC <- data.frame(param_data2,
 
 
 #lac_abc,mu_abc,gam_abc,laa_abc,n_iter)
-save(whole_df_ABC,file = "G:/results/project 2/tip_info/trait_nltt_message/DD_whole_df_ABC.RData")
-load("G:/results/project 2/tip_info/trait_nltt_message/TraiSIE_ABC_DD/DD_whole_df_ABC.RData")
+save(whole_df_ABC,file = "G:/results/project 2/tip_info/round3/TRAISIE_DI/DI_whole_df_ABC.RData")
+load("G:/results/project 2/tip_info/round3/TRAISIE_DI/DI_whole_df_ABC.RData")
 
 
 library(ggplot2)
 colors <- c("State1"="red","State2"="blue")
-g1 <- ggplot2::ggplot(whole_df_ABC[c(0:50000),], aes(group = lac)) +
+g1 <- ggplot2::ggplot(whole_df_ABC[c(0:12000),], aes(group = lac)) +
   ggplot2::theme_bw() +
   ggplot2::geom_violin(aes(x = lac, y = lac_abc1, color = "State1",fill = "State1"),alpha = 0.5)+ ##aes(x = lac, y = lac_abc, color = "ABC")
   ggplot2::geom_violin(aes(x = lac2, y = lac_abc2, color = "State2",fill = "State2"),alpha = 0.5)+
