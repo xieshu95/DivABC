@@ -53,7 +53,7 @@ run_ABC <- function(param_space_name,
                                                          obs_sim_pars$trans,
                                                          obs_sim_pars$trans2)),
                                K = as.numeric(obs_sim_pars$K),
-                               replicates = 5) ## replicates = 30
+                               replicates = 30) ## replicates = 30
     sim_function <- get_TraiSIE_sim
     prior_generating_function <- prior_gen_trait
     prior_density_function <- prior_dens_trait
@@ -69,7 +69,7 @@ run_ABC <- function(param_space_name,
     prior_density_function = prior_density_function,
     number_of_particles = 200, #200
     sigma = 0.5,
-    stop_rate = 0.005,
+    stop_rate = 0.0025,
     replicates = 1,  ## simulation replicates for each parameter set
     num_iterations = 10,
     K = as.numeric(obs_sim_pars$K),
