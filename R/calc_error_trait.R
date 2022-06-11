@@ -94,33 +94,46 @@ calc_error_trait <- function(sim_1,
   ### 5. number of singleton speciation
   stt_last_row_sim_1 <-
     length(sim_1[[1]][[1]]$stt_two_states[, "present"])
-  num_end_sim_1_state1 <-
+  num_ana_sim_1_state1 <-
     as.numeric(
-      sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nC"] +
         sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nA"])
-  num_end_sim_1_state2 <-
+  num_ana_sim_1_state2 <-
     as.numeric(
-      sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nC2"] +
         sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nA2"])
 
   stt_last_row_sim_2 <-
     length(sim_2[[1]][[1]]$stt_two_states[, "present"])
-  num_end_sim_2_state1 <-
+  num_ana_sim_2_state1 <-
     as.numeric(
-      sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nC"] +
         sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nA"])
-  num_end_sim_2_state2 <-
+  num_ana_sim_2_state2 <-
     as.numeric(
-      sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nC2"] +
         sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nA2"])
-  num_end_error_state1 <-
-    abs(num_end_sim_1_state1 - num_end_sim_2_state1)
-  num_end_error_state2 <-
-    abs(num_end_sim_1_state2 - num_end_sim_2_state2)
+  num_ana_error_state1 <-
+    abs(num_ana_sim_1_state1 - num_ana_sim_2_state1)
+  num_ana_error_state2 <-
+    abs(num_ana_sim_1_state2 - num_ana_sim_2_state2)
 
+  ### 6. number of multiple lineage speciation(cladogenesis)
+  num_clado_sim_1_state1 <-
+    as.numeric(
+      sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nC"])
+  num_clado_sim_1_state2 <-
+    as.numeric(
+      sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nC2"])
 
+  num_clado_sim_2_state1 <-
+    as.numeric(
+      sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nC"])
+  num_clado_sim_2_state2 <-
+    as.numeric(
+      sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nC2"])
+  num_clado_error_state1 <-
+    abs(num_clado_sim_1_state1 - num_clado_sim_2_state1)
+  num_clado_error_state2 <-
+    abs(num_clado_sim_1_state2 - num_clado_sim_2_state2)
 
-  # 6. number of Nonendemic
+  # 7. number of Nonendemic
   nonendemic_sim_1_state1 <-
     as.numeric(
       sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nI"])
@@ -153,8 +166,10 @@ calc_error_trait <- function(sim_1,
          clado_endemic_nltt_error = clado_endemic_nltt_error,
          nonendemic_nltt_error = nonendemic_nltt_error,
          clade_nltt_error = clade_nltt_error,
-         num_end_error_state1 = num_end_error_state1,
-         num_end_error_state2 = num_end_error_state2,
+         num_ana_error_state1 = num_ana_error_state1,
+         num_ana_error_state2 = num_ana_error_state2,
+         num_clado_error_state1 = num_clado_error_state1,
+         num_clado_error_state2 = num_clado_error_state2,
          num_nonend_error_state1 = num_nonend_error_state1,
          num_nonend_error_state2 = num_nonend_error_state2)
   )
