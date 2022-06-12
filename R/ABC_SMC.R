@@ -43,7 +43,7 @@ ABC_SMC <- function( # nolint indeed a complex function
     }
 
     for (i in seq_len(50)) {
-      epsilon[i, j] <- init_epsilon_values[j] * exp(-0.5 * (i - 1))
+      epsilon[i, j] <- init_epsilon_values[j] * exp(-0.4 * (i - 1))
     }
   }
 
@@ -188,7 +188,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
       #convergence if the acceptance rate gets too low
       tried <- tried + 1
-      if (tried > (1 / stop_rate) & n_iter > 6) {
+      if (tried > (1 / stop_rate) & n_iter > 5) {
         if ((number_accepted / tried) < stop_rate) {
           stoprate_reached <- TRUE
           break
