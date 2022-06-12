@@ -3,7 +3,7 @@
 ##
 #2. ABC_trait default: lac=0.5 mu=0.5 gam=0.02 laa=0.5
 rep <- 1:5
-K <- Inf
+K <- 20
 ## reference rates: 0.5,0.1,0.02,0.2
 ## a. lac mean = 0.5
 lac <- c(0.2,0.3,0.4,0.5)
@@ -174,7 +174,7 @@ ABC_trait_laa3 <- cbind(
   trans2 = 0.02
 )
 
-TraiSIE_ABC_DI <- rbind(
+TraiSIE_ABC_DD <- rbind(
   ABC_trait_lac1,
   ABC_trait_lac2,
   ABC_trait_lac3,
@@ -190,8 +190,8 @@ TraiSIE_ABC_DI <- rbind(
 )
 
 write.csv2(
-  TraiSIE_ABC_DI,
-  "data/TraiSIE_ABC_DI.csv",
+  TraiSIE_ABC_DD,
+  "data/TraiSIE_ABC_DD.csv",
   row.names = FALSE
 )
 
