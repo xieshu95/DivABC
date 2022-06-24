@@ -55,6 +55,7 @@ ABC_SMC <- function( # nolint indeed a complex function
   indices <- 1:number_of_particles
   n_iter <- 0
   ABC_list <- list()
+  sim_list <- list()
   # ss_reject <- c()
   # ss_accept <- c()
 
@@ -165,6 +166,7 @@ ABC_SMC <- function( # nolint indeed a complex function
         if (accept) {
           number_accepted <- number_accepted + 1
           new_params[[number_accepted]] <- parameters
+          sim_list[[number_accepted]] <- new_sim[[1]]
           accepted_weight <- 1
           #calculate the weight
           if (i > 1) {
@@ -223,7 +225,8 @@ ABC_SMC <- function( # nolint indeed a complex function
   #   }
   #   ABC <- rbind(ABC, add)
   # }
-  output <- list(ABC = ABC_list,
+  output <- list(sim_list = sim_list,
+                 ABC = ABC_list,
                  n_iter = n_iter)
   # ss_reject = ss_reject,
   # ss_accept = ss_accept)
