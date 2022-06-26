@@ -69,9 +69,9 @@ run_ABC <- function(param_space_name,
     prior_density_function = prior_density_function,
     number_of_particles = 200, #200
     sigma = 0.5,
-    stop_rate = 0.0025,
+    stop_rate = 0.002,
     replicates = 1,  ## simulation replicates for each parameter set
-    num_iterations = 10,
+    num_iterations = 12,
     K = as.numeric(obs_sim_pars$K),
     idparsopt = as.numeric(idparsopt),
     fixpars = fixpars
