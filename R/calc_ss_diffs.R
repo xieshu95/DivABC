@@ -103,6 +103,6 @@ calc_epsilon_init <- function(sim){
     }
   }
   ss_diff_pairs_median <- apply(ss_diff_pairs,2,median)
-  epsilon_init <- 9*ss_diff_pairs_median ##9 for DAISIE
+  epsilon_init <- 8*ss_diff_pairs_median ##9 for DAISIE
   return(epsilon_init)
 }
