@@ -1,7 +1,7 @@
 ### cowplot relationships between rates ---per parameter set
 
 #### Decreasing kernel
-folder_path <- "G:/results/project 2/tip_info/round3/dec_kernel/allpars_DI/DAISIE_ABC"
+folder_path <- "G:/results/project 2/tip_info/round3/dec_kernel/DAISIE_ABC"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC.csv")
 
@@ -42,12 +42,12 @@ for(i in 1:160){
 whole_df_ABC <- data.frame(param_data2,
                            # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                            lac_abc,mu_abc,gam_abc,laa_abc)
-save(whole_df_ABC,file = "G:/results/project 2/tip_info/round3/dec_kernel/allpars_DI/whole_df_ABC.RData")
+save(whole_df_ABC,file = "G:/results/project 2/tip_info/round3/dec_kernel/whole_df_ABC.RData")
 
 
 library(ggplot2)
 
-load("G:/results/project 2/tip_info/round3/dec_kernel/allpars_DI/whole_df_ABC.RData")
+load("G:/results/project 2/tip_info/round3/dec_kernel/whole_df_ABC.RData")
 for(i in 1:160){
   param_abc <- whole_df_ABC[((i*200-199)):(i*200),]
   p_lac <-ggplot2::ggplot(data = param_abc) +
@@ -207,7 +207,7 @@ for(i in 1:160){
 
   p_emp <- ggplot() + theme_void()
 
-  tiff(paste0("G:/results/project 2/tip_info/round3/dec_kernel/allpars_DI/cowplot_each_rep/param_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round3/dec_kernel/cowplot_each_rep/param_",i,".tiff"),
        units="px", width=3000, height=2000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lac,p_emp,p_emp,p_emp,
