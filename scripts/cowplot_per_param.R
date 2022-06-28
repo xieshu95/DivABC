@@ -21,7 +21,7 @@ for(i in 1:160){
     load(file.path(folder_path, file_to_load))
     num_iter <- output$n_iter
     n_iteration[i] <- num_iter
-    if(output$n_iter <= 2){
+    if(output$n_iter <= 6){
       lac_abc <- c(lac_abc, rep(NA,200))
       mu_abc <- c(mu_abc, rep(NA,200))
       gam_abc <- c(gam_abc, rep(NA,200))

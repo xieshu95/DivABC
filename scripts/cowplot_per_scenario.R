@@ -11,9 +11,9 @@
 # load(file.path(folder_path, file_to_load))
 library(ggplot2)
 
-load("G:/results/project 2/tip_info/round3/dec_kernel/allpars_DI/whole_df_ABC.RData")
-load("G:/results/project 2/tip_info/round3/dec_kernel/MCMC_allpars/whole_df_MCMC.RData")
-load("G:/results/project 2/tip_info/round3/dec_kernel/MLE_allpars/MLE_all.RData")
+load("G:/results/project 2/tip_info/round3/dec_kernel/whole_df_ABC_all.RData")
+load("G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/whole_df_MCMC.RData")
+load("G:/results/project 2/tip_info/round3/dec_kernel_old/MLE_allpars/MLE_all.RData")
 
 param_abc <- whole_df_ABC[1:10,]
 param_mcmc <- whole_df_MCMC[1:10,]
@@ -284,7 +284,7 @@ for(i in 1:16){
 
   p_emp <- ggplot() + theme_void()
 
-  tiff(paste0("G:/results/project 2/tip_info/round3/dec_kernel/allpars_DI/cowplot_ABC_MCMC_MLE/param_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round3/dec_kernel/cowplot_ABC_MCMC_MLE_all/param_",i,".tiff"),
        units="px", width=3000, height=2000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lac,p_emp,p_emp,p_emp,
