@@ -1,5 +1,5 @@
 ## boxplot for all rates (single per scenario)
-load("G:/results/project 2/tip_info/round3/dec_kernel_old/ABC_allpars/whole_df_ABC.RData")
+load("G:/results/project 2/tip_info/round3/dec_kernel_tip/whole_df_ABC.RData")
 load("G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/whole_df_MCMC.RData")
 load("G:/results/project 2/tip_info/round3/dec_kernel_old/MLE_allpars/MLE_all.RData")
 
@@ -7,7 +7,7 @@ whole_df_MLE <- MLE_all
 
 library(ggplot2)
 colors <- c("MCMC" = "#F7903D", "ABC" = "#4D85BD", "MLE" = "#59A95A")
-tiff("G:/results/project 2/tip_info/round3/dec_kernel_old/ABC_allpars/boxplots/boxplot_lac.tiff", units="px", width=700, height=400)
+tiff("G:/results/project 2/tip_info/round3/dec_kernel_tip/boxplots/boxplot_lac.tiff", units="px", width=700, height=400)
 i = 1
 param_abc <- whole_df_ABC[((i*8000-7999)):(i*8000),]
 # param_abc <- whole_df_ABC[((i*4000-3999)):(i*4000),]
@@ -47,7 +47,7 @@ while (!is.null(dev.list()))  dev.off()
 
 
 
-tiff("G:/results/project 2/tip_info/round3/dec_kernel_old/ABC_allpars/boxplots/boxplot_mu.tiff", units="px", width=700, height=400)
+tiff("G:/results/project 2/tip_info/round3/dec_kernel_tip/boxplots/boxplot_mu.tiff", units="px", width=700, height=400)
 i = 2
 param_abc <- whole_df_ABC[((i*8000-7999)):(i*8000),]
 # param_abc <- whole_df_ABC[((i*4000-3999)):(i*4000),]
@@ -86,7 +86,7 @@ print(g2)
 while (!is.null(dev.list()))  dev.off()
 
 
-tiff("G:/results/project 2/tip_info/round3/dec_kernel_old/ABC_allpars/boxplots/boxplot_gam.tiff", units="px", width=700, height=400)
+tiff("G:/results/project 2/tip_info/round3/dec_kernel_tip/boxplots/boxplot_gam.tiff", units="px", width=700, height=400)
 i = 3
 param_abc <- whole_df_ABC[((i*8000-7999)):(i*8000),]
 # param_abc <- whole_df_ABC[((i*4000-3999)):(i*4000),]
@@ -125,7 +125,7 @@ print(g3)
 while (!is.null(dev.list()))  dev.off()
 
 
-tiff("G:/results/project 2/tip_info/round3/dec_kernel_old/ABC_allpars/boxplots/boxplot_laa.tiff", units="px", width=700, height=400)
+tiff("G:/results/project 2/tip_info/round3/dec_kernel_tip/boxplots/boxplot_laa.tiff", units="px", width=700, height=400)
 i = 4
 param_abc <- whole_df_ABC[((i*8000-7999)):(i*8000),]
 # param_abc <- whole_df_ABC[((i*4000-3999)):(i*4000),]
@@ -163,7 +163,7 @@ g4 <- ggplot2::ggplot(param_abc, aes(x = laa,y = laa_abc, group = laa)) +
 print(g4)
 while (!is.null(dev.list()))  dev.off()
 
-tiff(paste0("G:/results/project 2/tip_info/round3/dec_kernel_old/ABC_allpars/boxplots/boxplot_all.tiff"),
+tiff(paste0("G:/results/project 2/tip_info/round3/dec_kernel_tip/boxplots/boxplot_all.tiff"),
      units="px", width=3000, height=2000,res = 300,compression="lzw")
 param_estimates <- cowplot::plot_grid(
   g1,g2,g3,g4,

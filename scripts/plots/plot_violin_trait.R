@@ -11,9 +11,9 @@
 # nltt_no_specnltt
 
 
-folder_path <- "G:/results/project 2/tip_info/round3/TRAISIE_DI/TraiSIE_ABC_DI"
+folder_path <- "G:/results/project 2/tip_info/round3/TRAISIE_DD/TraiSIE_ABC_DD"
 files <- list.files(folder_path)
-param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/TraiSIE_ABC_DI.csv")
+param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/TraiSIE_ABC_DD.csv")
 
 param_data2<-param_data[rep(seq_len(nrow(param_data)), each=200),]
 
@@ -89,9 +89,14 @@ whole_df_ABC <- data.frame(param_data2,
 
 
 #lac_abc,mu_abc,gam_abc,laa_abc,n_iter)
-save(whole_df_ABC,file = "G:/results/project 2/tip_info/round3/TRAISIE_DI/DI_whole_df_ABC.RData")
-load("G:/results/project 2/tip_info/round3/TRAISIE_DI/DI_whole_df_ABC.RData")
+save(whole_df_ABC,file = "G:/results/project 2/tip_info/round3/TRAISIE_DD/DD_whole_df_ABC.RData")
 
+### start to plot
+load("G:/results/project 2/tip_info/round3/TRAISIE_DD/DD_whole_df_ABC.RData")
+whole_df_ABC$Transition <- whole_df_ABC$trans
+whole_df_ABC$Transition[whole_df_ABC$trans == "0.02" & whole_df_ABC$trans2 == "0.02"] <- "ll"
+whole_df_ABC$Transition[whole_df_ABC$trans == "0.02" & whole_df_ABC$trans2 == "0.2"] <- "lh"
+whole_df_ABC$Transition[whole_df_ABC$trans == "0.2" & whole_df_ABC$trans2 == "0.02"] <- "hl"
 
 library(ggplot2)
 colors <- c("State1"="red","State2"="blue")

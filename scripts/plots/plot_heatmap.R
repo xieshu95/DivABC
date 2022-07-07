@@ -74,9 +74,9 @@ for(i in 1:16){
   ss_diff <- whole_df_with_ss[(i*2000-1999):(i*2000),11:17]
   ss_diff <- ss_diff %>% tidyr::drop_na()
   ss_name <- c(expression(Delta * "CTT"),
-               expression(Delta * "AESTT"),
-               expression(Delta * "CESTT"),
-               expression(Delta * "NESTT"),
+               expression(Delta * "SESTT"),   ## Singleton-endemic
+               expression(Delta * "MESTT"),   ## Multiple-endemic
+               expression(Delta * "NESTT"),   ## Non-endemic
                expression("N Col"),
                expression("SD-CS"),
                expression("SD-CT"))
@@ -114,9 +114,9 @@ for(i in 1:16){
 ss_diff <- whole_df_with_ss[,11:17]
 ss_diff <- ss_diff %>% tidyr::drop_na()
 ss_name <- c(expression(Delta * "CTT"),
-             expression(Delta * "AESTT"),
-             expression(Delta * "CESTT"),
-             expression(Delta * "NESTT"),
+             expression(Delta * "SESTT"),   ## Singleton-endemic
+             expression(Delta * "MESTT"),   ## Multiple-endemic
+             expression(Delta * "NESTT"),   ## Non-endemic
              expression("N Col"),
              expression("SD-CS"),
              expression("SD-CT"))
