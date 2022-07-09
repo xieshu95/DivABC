@@ -1,11 +1,11 @@
 ### heatmap for all the accepted simulations
 
 # 1. heatmap for DAISIE analysis
-folder_path <- "G:/results/project 2/tip_info/round3/dec_kernel/DAISIE_ABC"
+folder_path <- "G:/results/project 2/tip_info/round3/test_epsilon/DAISIE_ABC"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC.csv")
 
-param_data2<-param_data[rep(seq_len(nrow(param_data)), each=200),]
+param_data2<-param_data[rep(seq_len(nrow(param_data)), each=100),]
 #### ABC
 
 # s1 = clade_nltt_error,
@@ -32,7 +32,7 @@ for(i in 1:160){
                        fixed = TRUE)
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-    n_iteration <- c(n_iteration, rep(output$n_iter,200))
+    n_iteration <- c(n_iteration, rep(output$n_iter,100))
     obs_sim_pars <- param_data[i,]
     obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
                                              obs_sim_pars$mu,
@@ -41,7 +41,7 @@ for(i in 1:160){
                               K = as.numeric(obs_sim_pars$K),
                               replicates = 2)
     accepted_sims <- output$sim_list
-    for (j in 1:200) {
+    for (j in 1:100) {
       df_stats <- calc_ss_diff (sim1 = obs_sim[[1]],
                               sim2 = accepted_sims[[j]])
       s1 <- c(s1,df_stats[1])
@@ -53,25 +53,25 @@ for(i in 1:160){
       s7 <- c(s7,df_stats[7])
     }
   } else {
-    n_iteration <- c(n_iteration, rep(NA,200))
-    s1 <- c(s1, rep(NA,200))
-    s2 <- c(s2, rep(NA,200))
-    s3 <- c(s3, rep(NA,200))
-    s4 <- c(s4, rep(NA,200))
-    s5 <- c(s5, rep(NA,200))
-    s6 <- c(s6, rep(NA,200))
-    s7 <- c(s7, rep(NA,200))
+    n_iteration <- c(n_iteration, rep(NA,100))
+    s1 <- c(s1, rep(NA,100))
+    s2 <- c(s2, rep(NA,100))
+    s3 <- c(s3, rep(NA,100))
+    s4 <- c(s4, rep(NA,100))
+    s5 <- c(s5, rep(NA,100))
+    s6 <- c(s6, rep(NA,100))
+    s7 <- c(s7, rep(NA,100))
   }
 }
 whole_df_ss <- data.frame(s1,s2,s3,s4,s5,s6,s7)
-save(whole_df_ss,file = "G:/results/project 2/tip_info/round3/dec_kernel/whole_df_ss.RData")
+save(whole_df_ss,file = "G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ss.RData")
 
-load("G:/results/project 2/tip_info/round3/dec_kernel/whole_df_ABC.RData")
+load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ABC.RData")
 whole_df_with_ss <- cbind(whole_df_ABC,whole_df_ss)
-save(whole_df_with_ss,file = "G:/results/project 2/tip_info/round3/dec_kernel/whole_df_with_ss.RData")
+save(whole_df_with_ss,file = "G:/results/project 2/tip_info/round3/test_epsilon/whole_df_with_ss.RData")
 
 for(i in 1:16){
-  ss_diff <- whole_df_with_ss[(i*2000-1999):(i*2000),11:17]
+  ss_diff <- whole_df_with_ss[(i*1000-999):(i*1000),11:17]
   ss_diff <- ss_diff %>% tidyr::drop_na()
   ss_name <- c(expression(Delta * "CTT"),
                expression(Delta * "SESTT"),   ## Singleton-endemic

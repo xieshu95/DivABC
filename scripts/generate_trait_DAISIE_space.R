@@ -2,7 +2,7 @@
 ################################
 ##
 #2. ABC_trait default: lac=0.5 mu=0.5 gam=0.02 laa=0.5
-rep <- 1:5
+rep <- 1:10
 K <- 20
 ## reference rates: 0.5,0.1,0.02,0.2
 ## a. lac mean = 0.5
@@ -24,8 +24,8 @@ ABC_trait_lac1 <- cbind(
   mu2 = 0.2 - ABC_trait_lac[,3],
   gam2 = 0.04 - ABC_trait_lac[,4],
   laa2 = 0.4 - ABC_trait_lac[,5],
-  trans = 0.02,
-  trans2 = 0.02
+  trans = 0,
+  trans2 = 0
 )
 
 ABC_trait_lac2 <- cbind(
@@ -49,7 +49,7 @@ ABC_trait_lac3 <- cbind(
 )
 ## b. mu
 lac <- 0.5
-mu <- c(0,0.025,0.05,0.1)
+mu <- c(0.025,0.05,0.075,0.1)
 gam <- 0.02
 laa <- 0.2
 ABC_trait_mu <- expand.grid(
@@ -66,8 +66,8 @@ ABC_trait_mu1 <- cbind(
   mu2 = 0.2 - ABC_trait_mu[,3],
   gam2 = 0.04 - ABC_trait_mu[,4],
   laa2 = 0.4 - ABC_trait_mu[,5],
-  trans = 0.02,
-  trans2 = 0.02
+  trans = 0,
+  trans2 = 0
 )
 
 ABC_trait_mu2 <- cbind(
@@ -108,8 +108,8 @@ ABC_trait_gam1 <- cbind(
   mu2 = 0.2 - ABC_trait_gam[,3],
   gam2 = 0.04 - ABC_trait_gam[,4],
   laa2 = 0.4 - ABC_trait_gam[,5],
-  trans = 0.02,
-  trans2 = 0.02
+  trans = 0,
+  trans2 = 0
 )
 
 ABC_trait_gam2 <- cbind(
@@ -150,8 +150,8 @@ ABC_trait_laa1 <- cbind(
   mu2 = 0.2 - ABC_trait_laa[,3],
   gam2 = 0.04 - ABC_trait_laa[,4],
   laa2 = 0.4 - ABC_trait_laa[,5],
-  trans = 0.02,
-  trans2 = 0.02
+  trans = 0,
+  trans2 = 0
 )
 
 ABC_trait_laa2 <- cbind(
