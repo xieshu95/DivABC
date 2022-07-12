@@ -1,17 +1,18 @@
 ## boxplot for all rates (single per scenario)
 load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ABC.RData")
-load("G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/whole_df_MCMC.RData")
+load("G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/whole_df_MCMC_short.RData")
 load("G:/results/project 2/tip_info/round3/dec_kernel_old/MLE_allpars/MLE_all.RData")
 
 whole_df_MLE <- MLE_all
 
 library(ggplot2)
 colors <- c("MCMC" = "#F7903D", "ABC" = "#4D85BD", "MLE" = "#59A95A")
-tiff("G:/results/project 2/tip_info/round3/test_epsilon/boxplots/boxplot_lac.tiff", units="px", width=700, height=400)
+tiff("G:/results/project 2/tip_info/round3/test_epsilon/boxplots/MCMC_short//boxplot_lac.tiff", units="px", width=700, height=400)
 i = 1
 # param_abc <- whole_df_ABC[((i*8000-7999)):(i*8000),]
 param_abc <- whole_df_ABC[((i*4000-3999)):(i*4000),]
-param_mcmc <- whole_df_MCMC[((i*80000-79999)):(i*80000),]
+# param_mcmc <- whole_df_MCMC[((i*80000-79999)):(i*80000),]
+param_mcmc <- whole_df_MCMC[((i*40000-39999)):(i*40000),]
 param_mle <- whole_df_MLE[((i*40-39)):(i*40),]
 g1 <- ggplot2::ggplot(param_abc, aes(x = lac,y = lac_abc, group = lac)) +
   # ggplot2::theme_bw() +
@@ -49,11 +50,12 @@ while (!is.null(dev.list()))  dev.off()
 
 
 
-tiff("G:/results/project 2/tip_info/round3/test_epsilon/boxplots/boxplot_mu.tiff", units="px", width=700, height=400)
+tiff("G:/results/project 2/tip_info/round3/test_epsilon/boxplots/MCMC_short/boxplot_mu.tiff", units="px", width=700, height=400)
 i = 2
 # param_abc <- whole_df_ABC[((i*8000-7999)):(i*8000),]
 param_abc <- whole_df_ABC[((i*4000-3999)):(i*4000),]
-param_mcmc <- whole_df_MCMC[((i*80000-79999)):(i*80000),]
+# param_mcmc <- whole_df_MCMC[((i*80000-79999)):(i*80000),]
+param_mcmc <- whole_df_MCMC[((i*40000-39999)):(i*40000),]
 param_mle <- whole_df_MLE[((i*40-39)):(i*40),]
 g2 <- ggplot2::ggplot(param_abc, aes(x = mu,y = mu_abc, group = mu)) +
   ggplot2::geom_boxplot(data= param_mcmc,
@@ -88,11 +90,12 @@ print(g2)
 while (!is.null(dev.list()))  dev.off()
 
 
-tiff("G:/results/project 2/tip_info/round3/test_epsilon/boxplots/boxplot_gam.tiff", units="px", width=700, height=400)
+tiff("G:/results/project 2/tip_info/round3/test_epsilon/boxplots/MCMC_short/boxplot_gam.tiff", units="px", width=700, height=400)
 i = 3
 # param_abc <- whole_df_ABC[((i*8000-7999)):(i*8000),]
 param_abc <- whole_df_ABC[((i*4000-3999)):(i*4000),]
-param_mcmc <- whole_df_MCMC[((i*80000-79999)):(i*80000),]
+# param_mcmc <- whole_df_MCMC[((i*80000-79999)):(i*80000),]
+param_mcmc <- whole_df_MCMC[((i*40000-39999)):(i*40000),]
 param_mle <- whole_df_MLE[((i*40-39)):(i*40),]
 g3 <- ggplot2::ggplot(param_abc, aes(x = gam,y = gam_abc, group = gam)) +
   ggplot2::geom_boxplot(data= param_mcmc,
@@ -127,11 +130,12 @@ print(g3)
 while (!is.null(dev.list()))  dev.off()
 
 
-tiff("G:/results/project 2/tip_info/round3/test_epsilon/boxplots/boxplot_laa.tiff", units="px", width=700, height=400)
+tiff("G:/results/project 2/tip_info/round3/test_epsilon/boxplots/MCMC_short/boxplot_laa.tiff", units="px", width=700, height=400)
 i = 4
 # param_abc <- whole_df_ABC[((i*8000-7999)):(i*8000),]
 param_abc <- whole_df_ABC[((i*4000-3999)):(i*4000),]
-param_mcmc <- whole_df_MCMC[((i*80000-79999)):(i*80000),]
+# param_mcmc <- whole_df_MCMC[((i*80000-79999)):(i*80000),]
+param_mcmc <- whole_df_MCMC[((i*40000-39999)):(i*40000),]
 param_mle <- whole_df_MLE[((i*40-39)):(i*40),]
 g4 <- ggplot2::ggplot(param_abc, aes(x = laa,y = laa_abc, group = laa)) +
   ggplot2::geom_boxplot(data= param_mcmc,
@@ -165,7 +169,7 @@ g4 <- ggplot2::ggplot(param_abc, aes(x = laa,y = laa_abc, group = laa)) +
 print(g4)
 while (!is.null(dev.list()))  dev.off()
 
-tiff(paste0("G:/results/project 2/tip_info/round3/test_epsilon/boxplots/boxplot_all.tiff"),
+tiff(paste0("G:/results/project 2/tip_info/round3/test_epsilon/boxplots/MCMC_short/boxplot_all.tiff"),
      units="px", width=3000, height=2000,res = 300,compression="lzw")
 param_estimates <- cowplot::plot_grid(
   g1,g2,g3,g4,

@@ -45,8 +45,8 @@ save(whole_df_ABC,file = "G:/results/project 2/tip_info/round3/dec_kernel/allpar
 
 ####MCMC
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC.csv")
-param_data3<-param_data[rep(seq_len(nrow(param_data)), each=2000),]
-folder_path <- "G:/results/project 2/tip_info/round3/dec_kernel/MCMC_allpars/DAISIE_MCMC"
+param_data3<-param_data[rep(seq_len(nrow(param_data)), each=1000),]
+folder_path <- "G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/DAISIE_MCMC"
 files <- list.files(folder_path)
 lac_mcmc <- c()
 mu_mcmc <- c()
@@ -61,22 +61,22 @@ for(i in 1:160){
 
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-    lac_mcmc <- c(lac_mcmc, output[,1][3001:5000])  ## [1:10000] for first_1w particles
-    mu_mcmc <- c(mu_mcmc, output[,2][3001:5000])
-    gam_mcmc <- c(gam_mcmc, output[,3][3001:5000])
-    laa_mcmc <- c(laa_mcmc, output[,4][3001:5000])
+    lac_mcmc <- c(lac_mcmc, output[,1][4001:5000])  ## [1:10000] for first_1w particles
+    mu_mcmc <- c(mu_mcmc, output[,2][4001:5000])
+    gam_mcmc <- c(gam_mcmc, output[,3][4001:5000])
+    laa_mcmc <- c(laa_mcmc, output[,4][4001:5000])
   } else {
-    lac_mcmc <- c(lac_mcmc, rep(NA,2000))
-    mu_mcmc <- c(mu_mcmc, rep(NA,2000))
-    gam_mcmc <- c(gam_mcmc, rep(NA,2000))
-    laa_mcmc <- c(laa_mcmc, rep(NA,2000))
+    lac_mcmc <- c(lac_mcmc, rep(NA,1000))
+    mu_mcmc <- c(mu_mcmc, rep(NA,1000))
+    gam_mcmc <- c(gam_mcmc, rep(NA,1000))
+    laa_mcmc <- c(laa_mcmc, rep(NA,1000))
   }
 }
 
 whole_df_MCMC <- data.frame(param_data3,
                                      lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc)
 #lac_abc,mu_abc,gam_abc,laa_abc,n_iter)
-save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round3/dec_kernel/MCMC_allpars/whole_df_MCMC.RData")
+save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/whole_df_MCMC_short.RData")
 
 #### MLE_allpars
 ##### MLE for all parameters

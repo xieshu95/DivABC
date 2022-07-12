@@ -11,9 +11,27 @@
 # load(file.path(folder_path, file_to_load))
 library(ggplot2)
 
-load("G:/results/project 2/tip_info/round3/dec_kernel/whole_df_ABC_all.RData")
-load("G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/whole_df_MCMC.RData")
+load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ABC.RData")
+load("G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/whole_df_MCMC_short.RData")
 load("G:/results/project 2/tip_info/round3/dec_kernel_old/MLE_allpars/MLE_all.RData")
+
+# whole_df_ABC$dlac_abc <-whole_df_ABC$lac_abc -  whole_df_ABC$lac
+# whole_df_ABC$dmu_abc <-whole_df_ABC$mu_abc -  whole_df_ABC$mu
+# whole_df_ABC$dgam_abc <-whole_df_ABC$gam_abc -  whole_df_ABC$gam
+# whole_df_ABC$dlaa_abc <-whole_df_ABC$laa_abc -  whole_df_ABC$laa
+# save(whole_df_ABC,file = "G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ABC.RData")
+#
+# whole_df_MCMC$dlac_mcmc <-whole_df_MCMC$lac_mcmc -  whole_df_MCMC$lac
+# whole_df_MCMC$dmu_mcmc <-whole_df_MCMC$mu_mcmc -  whole_df_MCMC$mu
+# whole_df_MCMC$dgam_mcmc <-whole_df_MCMC$gam_mcmc -  whole_df_MCMC$gam
+# whole_df_MCMC$dlaa_mcmc <-whole_df_MCMC$laa_mcmc -  whole_df_MCMC$laa
+# save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/whole_df_MCMC_short.RData")
+#
+# MLE_all$dlac_MLE <-MLE_all$lac_MLE -  MLE_all$lac
+# MLE_all$dmu_MLE <-MLE_all$mu_MLE -  MLE_all$mu
+# MLE_all$dgam_MLE <-MLE_all$gam_MLE -  MLE_all$gam
+# MLE_all$dlaa_MLE <-MLE_all$laa_MLE -  MLE_all$laa
+# save(MLE_all,file = "G:/results/project 2/tip_info/round3/dec_kernel_old/MLE_allpars/MLE_all.RData")
 
 param_abc <- whole_df_ABC[1:10,]
 param_mcmc <- whole_df_MCMC[1:10,]
@@ -54,8 +72,8 @@ color_values <-c("MCMC" = "#F7903D", "ABC" = "#4D85BD", "MLE" = "#59A95A")
 # fillin_colors <- c("MCMC"="#F7903D","ABC"="#4D85BD","MLE"= "#59A95A")
 # colors <- c("MCMC"="red4","ABC"="blue3","MLE"= "gree4")
 for(i in 1:16){
-  param_abc <- whole_df_ABC[((i*2000-1999)):(i*2000),]
-  param_mcmc <- whole_df_MCMC[((i*20000-19999)):(i*20000),]
+  param_abc <- whole_df_ABC[((i*1000-999)):(i*1000),]
+  param_mcmc <- whole_df_MCMC[((i*10000-9999)):(i*10000),]
   param_mle <- MLE_all[((i*10-9)):(i*10),]
   p_lac <-ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
@@ -81,7 +99,7 @@ for(i in 1:16){
                                values = color_values,
                                labels = c("MCMC", "ABC", "MLE"))+
     ggplot2::theme(legend.position = "none") +
-    ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), linetype = "dashed", size = 0.5)
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), linetype = "dashed", size = 0.8)
 
 
 
@@ -110,7 +128,7 @@ for(i in 1:16){
                                values = color_values,
                                labels = c("MCMC", "ABC", "MLE"))+
     ggplot2::theme(legend.position = "none") +
-    ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), linetype = "dashed", size = 0.5)
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), linetype = "dashed", size = 0.8)
 
 
   p_gam <-ggplot2::ggplot(data = param_abc) +
@@ -137,7 +155,7 @@ for(i in 1:16){
                                values = color_values,
                                labels = c("MCMC", "ABC", "MLE"))+
     ggplot2::theme(legend.position = "none") +
-    ggplot2::geom_vline(data= param_abc, aes(xintercept = gam), linetype = "dashed", size = 0.5)
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = gam), linetype = "dashed", size = 0.8)
 
 
 
@@ -165,16 +183,17 @@ for(i in 1:16){
                                values = color_values,
                                labels = c("MCMC", "ABC", "MLE"))+
     ggplot2::theme(legend.position = "none") +
-    ggplot2::geom_vline(data= param_abc, aes(xintercept = laa), linetype = "dashed", size = 0.5)
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = laa), linetype = "dashed", size = 0.8)
 
 
   mu_vs_lac <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
     xlim(0,2)+
+    ylim(0,2)+
     ggplot2::geom_point(data = param_mcmc,mapping = ggplot2::aes(x = lac_mcmc,y = mu_mcmc),
-                        colour = "#F7903D",shape = 16,alpha = 0.1) +
+                        colour = "#F7903D",shape = 16,alpha = 0.3) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = lac_abc,y = mu_abc),
-                        colour = "#4D85BD",shape = 16,alpha = 0.3) +
+                        colour = "#4D85BD",shape = 16,alpha = 0.5) +
     ggplot2::geom_point(data = param_mle,mapping = ggplot2::aes(x = lac_MLE,y = mu_MLE),
                         colour = "#54B345",shape = 16,alpha = 2) +
     ggplot2::theme_classic() +
@@ -183,17 +202,18 @@ for(i in 1:16){
     ggplot2::ylab(expression(mu)) +
     ggplot2::xlab(expression(lambda^c)) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = lac,y = mu),
-                        colour = "black",shape = 16,size = 2.5)
-  # ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), colour = "grey50") +
-  # ggplot2::geom_hline(data= param_abc, aes(yintercept = mu), colour = "grey50")
+                        colour = "black",shape = 16,size = 2.5)+
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = mu), linetype = "dashed", colour = "grey50",size = 0.8)
 
   gam_vs_lac <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
     xlim(0,2)+
+    ylim(0,0.07)+
     ggplot2::geom_point(data = param_mcmc,mapping = ggplot2::aes(x = lac_mcmc,y = gam_mcmc),
-                        colour = "#F7903D",shape = 16,alpha = 0.1) +
+                        colour = "#F7903D",shape = 16,alpha = 0.3) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = lac_abc,y = gam_abc),
-                        colour = "#4D85BD",shape = 16,alpha = 0.3) +
+                        colour = "#4D85BD",shape = 16,alpha = 0.5) +
     ggplot2::geom_point(data = param_mle,mapping = ggplot2::aes(x = lac_MLE,y = gam_MLE),
                         colour = "#54B345",shape = 16,alpha = 2) +
     ggplot2::theme_classic() +
@@ -202,17 +222,18 @@ for(i in 1:16){
     ggplot2::ylab(expression(gamma)) +
     ggplot2::xlab(expression(lambda^c)) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = lac,y = gam),
-                        colour = "black",shape = 16,size = 2.5)
-  # ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), colour = "grey50") +
-  # ggplot2::geom_hline(data= param_abc, aes(yintercept = gam), colour = "grey50")
+                        colour = "black",shape = 16,size = 2.5)+
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = gam), linetype = "dashed", colour = "grey50",size = 0.8)
 
   laa_vs_lac <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
     xlim(0,2)+
+    ylim(0,2)+
     ggplot2::geom_point(data = param_mcmc,mapping = ggplot2::aes(x = lac_mcmc,y = laa_mcmc),
-                        colour = "#F7903D",shape = 16,alpha = 0.1) +
+                        colour = "#F7903D",shape = 16,alpha = 0.3) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = lac_abc,y = laa_abc),
-                        colour = "#4D85BD",shape = 16,alpha = 0.3) +
+                        colour = "#4D85BD",shape = 16,alpha = 0.5) +
     ggplot2::geom_point(data = param_mle,mapping = ggplot2::aes(x = lac_MLE,y = laa_MLE),
                         colour = "#54B345",shape = 16,alpha = 2) +
     ggplot2::theme_classic() +
@@ -221,17 +242,19 @@ for(i in 1:16){
     ggplot2::ylab(expression(lambda^a)) +
     ggplot2::xlab(expression(lambda^c)) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = lac,y = laa),
-                        colour = "black",shape = 16,size = 2.5)
-  # ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), colour = "grey50") +
-  # ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), colour = "grey50")
+                        colour = "black",shape = 16,size = 2.5)+
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), linetype = "dashed", colour = "grey50",size = 0.8)
+
 
   gam_vs_mu <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
     xlim(0,2)+
+    ylim(0,0.07)+
     ggplot2::geom_point(data = param_mcmc,mapping = ggplot2::aes(x = mu_mcmc,y = gam_mcmc),
-                        colour = "#F7903D",shape = 16,alpha = 0.1) +
+                        colour = "#F7903D",shape = 16,alpha = 0.3) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = mu_abc,y = gam_abc),
-                        colour = "#4D85BD",shape = 16,alpha = 0.3) +
+                        colour = "#4D85BD",shape = 16,alpha = 0.5) +
     ggplot2::geom_point(data = param_mle,mapping = ggplot2::aes(x = mu_MLE,y = gam_MLE),
                         colour = "#54B345",shape = 16,alpha = 2) +
     ggplot2::theme_classic() +
@@ -240,17 +263,18 @@ for(i in 1:16){
     ggplot2::ylab(expression(gamma)) +
     ggplot2::xlab(expression(mu)) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = mu,y = gam),
-                        colour = "black",shape = 16,size = 2.5)
-  # ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), colour = "grey50") +
-  # ggplot2::geom_hline(data= param_abc, aes(yintercept = gam), colour = "grey50")
+                        colour = "black",shape = 16,size = 2.5)+
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = gam), linetype = "dashed", colour = "grey50",size = 0.8)
 
   laa_vs_mu <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
     xlim(0,2)+
+    ylim(0,2)+
     ggplot2::geom_point(data = param_mcmc,mapping = ggplot2::aes(x = mu_mcmc,y = laa_mcmc),
-                        colour = "#F7903D",shape = 16,alpha = 0.1) +
+                        colour = "#F7903D",shape = 16,alpha = 0.3) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = mu_abc,y = laa_abc),
-                        colour = "#4D85BD",shape = 16,alpha = 0.3) +
+                        colour = "#4D85BD",shape = 16,alpha = 0.5) +
     ggplot2::geom_point(data = param_mle,mapping = ggplot2::aes(x = mu_MLE,y = laa_MLE),
                         colour = "#54B345",shape = 16,alpha = 2) +
     ggplot2::theme_classic() +
@@ -259,17 +283,18 @@ for(i in 1:16){
     ggplot2::ylab(expression(lambda^a)) +
     ggplot2::xlab(expression(mu)) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = mu,y = laa),
-                        colour = "black",shape = 16,size = 2.5)
-  # ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), colour = "grey50") +
-  # ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), colour = "grey50")
+                        colour = "black",shape = 16,size = 2.5)+
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), linetype = "dashed", colour = "grey50",size = 0.8)
 
   laa_vs_gam <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
     xlim(0,0.07)+
+    ylim(0,2)+
     ggplot2::geom_point(data = param_mcmc,mapping = ggplot2::aes(x = gam_mcmc,y = laa_mcmc),
-                        colour = "#F7903D",shape = 16,alpha = 0.1) +
+                        colour = "#F7903D",shape = 16,alpha = 0.3) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = gam_abc,y = laa_abc),
-                        colour = "#4D85BD",shape = 16,alpha = 0.3) +
+                        colour = "#4D85BD",shape = 16,alpha = 0.5) +
     ggplot2::geom_point(data = param_mle,mapping = ggplot2::aes(x = gam_MLE,y = laa_MLE),
                         colour = "#54B345",shape = 16,alpha = 2) +
     ggplot2::theme_classic() +
@@ -278,18 +303,137 @@ for(i in 1:16){
     ggplot2::ylab(expression(lambda^a)) +
     ggplot2::xlab(expression(gamma)) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = gam,y = laa),
-                        colour = "black",shape = 16,size = 2.5)
-  # ggplot2::geom_vline(data= param_abc, aes(xintercept = gam), colour = "grey50") +
-  # ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), colour = "grey50")
+                        colour = "black",shape = 16,size = 2.5)+
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = gam), linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), linetype = "dashed", colour = "grey50",size = 0.8)
 
-  p_emp <- ggplot() + theme_void()
+  dmu_vs_dlac <- ggplot2::ggplot(data = param_abc) +
+    ggplot2::theme_bw() +
+    xlim(-0.5,1.5)+
+    ylim(-0.5,1.5)+
+    ggplot2::geom_point(data = param_mcmc,mapping = ggplot2::aes(y = dlac_mcmc,x = dmu_mcmc),
+                        colour = "#F7903D",shape = 16,alpha = 0.3) +
+    ggplot2::geom_point(mapping = ggplot2::aes(y = dlac_abc,x = dmu_abc),
+                        colour = "#4D85BD",shape = 16,alpha = 0.5) +
+    ggplot2::geom_point(data = param_mle,mapping = ggplot2::aes(y = dlac_MLE,x = dmu_MLE),
+                        colour = "#54B345",shape = 16,alpha = 2) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 10),
+                   text = ggplot2::element_text(size = 7)) +
+    ggplot2::xlab(expression(Delta~mu)) +
+    ggplot2::ylab(expression(Delta~lambda^c)) +
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = 0), linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = 0), linetype = "dashed", colour = "grey50",size = 0.8)
 
-  tiff(paste0("G:/results/project 2/tip_info/round3/dec_kernel/cowplot_ABC_MCMC_MLE_all/param_",i,".tiff"),
+
+  dgam_vs_dlac <- ggplot2::ggplot(data = param_abc) +
+    ggplot2::theme_bw() +
+    xlim(-0.01,0.05)+
+    ylim(-0.5,1.5)+
+    ggplot2::geom_point(data = param_mcmc,mapping = ggplot2::aes(y = dlac_mcmc,x = dgam_mcmc),
+                        colour = "#F7903D",shape = 16,alpha = 0.3) +
+    ggplot2::geom_point(mapping = ggplot2::aes(y = dlac_abc,x = dgam_abc),
+                        colour = "#4D85BD",shape = 16,alpha = 0.5) +
+    ggplot2::geom_point(data = param_mle,mapping = ggplot2::aes(y = dlac_MLE,x = dgam_MLE),
+                        colour = "#54B345",shape = 16,alpha = 2) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 10),
+                   text = ggplot2::element_text(size = 7)) +
+    ggplot2::xlab(expression(Delta~gamma)) +
+    ggplot2::ylab(expression(Delta~lambda^c)) +
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8)
+
+  dlaa_vs_dlac <- ggplot2::ggplot(data = param_abc) +
+    ggplot2::theme_bw() +
+    xlim(-0.5,1.5)+
+    ylim(-0.5,1.5)+
+    ggplot2::geom_point(data = param_mcmc,mapping = ggplot2::aes(y = dlac_mcmc,x = dlaa_mcmc),
+                        colour = "#F7903D",shape = 16,alpha = 0.3) +
+    ggplot2::geom_point(mapping = ggplot2::aes(y = dlac_abc,x = dlaa_abc),
+                        colour = "#4D85BD",shape = 16,alpha = 0.5) +
+    ggplot2::geom_point(data = param_mle,mapping = ggplot2::aes(y = dlac_MLE,x = dlaa_MLE),
+                        colour = "#54B345",shape = 16,alpha = 2) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 10),
+                   text = ggplot2::element_text(size = 7)) +
+    ggplot2::xlab(expression(Delta~lambda^a)) +
+    ggplot2::ylab(expression(Delta~lambda^c)) +
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8)
+
+  dgam_vs_dmu <- ggplot2::ggplot(data = param_abc) +
+    ggplot2::theme_bw() +
+    xlim(-0.01,0.05)+
+    ylim(-0.5,1.5)+
+    ggplot2::geom_point(data = param_mcmc,mapping = ggplot2::aes(y = dmu_mcmc,x = dgam_mcmc),
+                        colour = "#F7903D",shape = 16,alpha = 0.3) +
+    ggplot2::geom_point(mapping = ggplot2::aes(y = dmu_abc,x = dgam_abc),
+                        colour = "#4D85BD",shape = 16,alpha = 0.5) +
+    ggplot2::geom_point(data = param_mle,mapping = ggplot2::aes(y = dmu_MLE,x = dgam_MLE),
+                        colour = "#54B345",shape = 16,alpha = 2) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 10),
+                   text = ggplot2::element_text(size = 7)) +
+    ggplot2::xlab(expression(Delta~gamma)) +
+    ggplot2::ylab(expression(Delta~mu)) +
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8)
+
+  dlaa_vs_dmu <- ggplot2::ggplot(data = param_abc) +
+    ggplot2::theme_bw() +
+    xlim(-0.5,1.5)+
+    ylim(-0.5,1.5)+
+    ggplot2::geom_point(data = param_mcmc,mapping = ggplot2::aes(y = dmu_mcmc,x = dlaa_mcmc),
+                        colour = "#F7903D",shape = 16,alpha = 0.3) +
+    ggplot2::geom_point(mapping = ggplot2::aes(y = dmu_abc,x = dlaa_abc),
+                        colour = "#4D85BD",shape = 16,alpha = 0.5) +
+    ggplot2::geom_point(data = param_mle,mapping = ggplot2::aes(y = dmu_MLE,x = dlaa_MLE),
+                        colour = "#54B345",shape = 16,alpha = 2) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 10),
+                   text = ggplot2::element_text(size = 7)) +
+    ggplot2::xlab(expression(Delta~lambda^a)) +
+    ggplot2::ylab(expression(Delta~mu)) +
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8)
+
+  dlaa_vs_dgam <- ggplot2::ggplot(data = param_abc) +
+    ggplot2::theme_bw() +
+    xlim(-0.5,1.5)+
+    ylim(-0.01,0.05)+
+    ggplot2::geom_point(data = param_mcmc,mapping = ggplot2::aes(y = dgam_mcmc,x = dlaa_mcmc),
+                        colour = "#F7903D",shape = 16,alpha = 0.3) +
+    ggplot2::geom_point(mapping = ggplot2::aes(y = dgam_abc,x = dlaa_abc),
+                        colour = "#4D85BD",shape = 16,alpha = 0.5) +
+    ggplot2::geom_point(data = param_mle,mapping = ggplot2::aes(y = dgam_MLE,x = dlaa_MLE),
+                        colour = "#54B345",shape = 16,alpha = 2) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 10),
+                   text = ggplot2::element_text(size = 7)) +
+    ggplot2::xlab(expression(Delta~lambda^a)) +
+    ggplot2::ylab(expression(Delta~gamma)) +
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8)
+
+  # p_emp <- ggplot() + theme_void()
+
+  tiff(paste0("G:/results/project 2/tip_info/round3/test_epsilon/cowplot_ABC_MCMC_MLE_with_drates/param_",i,".tiff"),
        units="px", width=3000, height=2000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
-    p_lac,p_emp,p_emp,p_emp,
-    mu_vs_lac,p_mu,p_emp,p_emp,
-    gam_vs_lac,gam_vs_mu,p_gam,p_emp,
+    p_lac,dmu_vs_dlac,dgam_vs_dlac,dlaa_vs_dlac,
+    mu_vs_lac,p_mu,dgam_vs_dmu,dlaa_vs_dmu,
+    gam_vs_lac,gam_vs_mu,p_gam,dlaa_vs_dgam,
     laa_vs_lac,laa_vs_mu,laa_vs_gam,p_laa,
     align = "hv", nrow = 4, ncol = 4
   )

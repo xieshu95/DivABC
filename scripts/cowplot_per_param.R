@@ -47,9 +47,9 @@ save(whole_df_ABC,file = "G:/results/project 2/tip_info/round3/dec_kernel/whole_
 
 library(ggplot2)
 
-load("G:/results/project 2/tip_info/round3/dec_kernel/whole_df_ABC.RData")
+load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ABC.RData")
 for(i in 1:160){
-  param_abc <- whole_df_ABC[((i*200-199)):(i*200),]
+  param_abc <- whole_df_ABC[((i*100-99)):(i*100),]
   p_lac <-ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
     xlim(0,2)+
@@ -58,7 +58,7 @@ for(i in 1:160){
     #                       alpha = 0.3, binwidth = 0.01) +
     ggplot2::geom_density(ggplot2::aes(x = lac_abc),
                           fill = "royalblue",colour = "blue3",
-                          alpha = 0.3) +
+                          alpha = 0.5) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 10),
                    text = ggplot2::element_text(size = 7)) +
@@ -74,7 +74,7 @@ for(i in 1:160){
     #                       alpha = 0.3, binwidth = 0.01) +
     ggplot2::geom_density(mapping = ggplot2::aes(x = mu_abc),
                           fill = "royalblue",colour = "blue3",
-                          alpha = 0.3) +
+                          alpha = 0.5) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 10),
                    text = ggplot2::element_text(size = 7)) +
@@ -90,7 +90,7 @@ for(i in 1:160){
     #                       alpha = 0.3, binwidth = 0.0005) +
     ggplot2::geom_density(mapping = ggplot2::aes(x = gam_abc),
                           fill = "royalblue",colour = "blue3",
-                          alpha = 0.3) +
+                          alpha = 0.5) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 10),
                    text = ggplot2::element_text(size = 7)) +
@@ -107,7 +107,7 @@ for(i in 1:160){
     #                       alpha = 0.3, binwidth = 0.01) +
     ggplot2::geom_density(mapping = ggplot2::aes(x = laa_abc),
                           fill = "royalblue",colour = "blue3",
-                          alpha = 0.3) +
+                          alpha = 0.5) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 10),
                    text = ggplot2::element_text(size = 7)) +
@@ -118,101 +118,209 @@ for(i in 1:160){
   mu_vs_lac <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
     xlim(0,2)+
+    ylim(0,2)+
     ggplot2::geom_point(mapping = ggplot2::aes(x = lac_abc,y = mu_abc),
-                        colour = "royalblue",shape = 16,alpha = 0.2) +
+                        colour = "royalblue",shape = 16,alpha = 0.5) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 10),
                    text = ggplot2::element_text(size = 7)) +
     ggplot2::ylab(expression(mu)) +
     ggplot2::xlab(expression(lambda^c)) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = lac,y = mu),
-                        colour = "black",shape = 16,size = 2.5)
-  # ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), colour = "grey50") +
-  # ggplot2::geom_hline(data= param_abc, aes(yintercept = mu), colour = "grey50")
+                        colour = "black",shape = 16,size = 2.5)+
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), colour = "grey50") +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = mu), colour = "grey50")
 
   gam_vs_lac <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
     xlim(0,2)+
+    ylim(0,0.07)+
     ggplot2::geom_point(mapping = ggplot2::aes(x = lac_abc,y = gam_abc),
-                        colour = "royalblue",shape = 16,alpha = 0.2) +
+                        colour = "royalblue",shape = 16,alpha = 0.5) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 10),
                    text = ggplot2::element_text(size = 7)) +
     ggplot2::ylab(expression(gamma)) +
     ggplot2::xlab(expression(lambda^c)) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = lac,y = gam),
-                        colour = "black",shape = 16,size = 2.5)
-  # ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), colour = "grey50") +
-  # ggplot2::geom_hline(data= param_abc, aes(yintercept = gam), colour = "grey50")
+                        colour = "black",shape = 16,size = 2.5)+
+  ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), colour = "grey50") +
+  ggplot2::geom_hline(data= param_abc, aes(yintercept = gam), colour = "grey50")
 
   laa_vs_lac <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
     xlim(0,2)+
+    ylim(0,2)+
     ggplot2::geom_point(mapping = ggplot2::aes(x = lac_abc,y = laa_abc),
-                        colour = "royalblue",shape = 16,alpha = 0.2) +
+                        colour = "royalblue",shape = 16,alpha = 0.5) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 10),
                    text = ggplot2::element_text(size = 7)) +
     ggplot2::ylab(expression(lambda^a)) +
     ggplot2::xlab(expression(lambda^c)) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = lac,y = laa),
-                        colour = "black",shape = 16,size = 2.5)
-  # ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), colour = "grey50") +
-  # ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), colour = "grey50")
+                        colour = "black",shape = 16,size = 2.5)+
+  ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), colour = "grey50") +
+  ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), colour = "grey50")
 
   gam_vs_mu <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
     xlim(0,2)+
+    ylim(0,0.07)+
     ggplot2::geom_point(mapping = ggplot2::aes(x = mu_abc,y = gam_abc),
-                        colour = "royalblue",shape = 16,alpha = 0.2) +
+                        colour = "royalblue",shape = 16,alpha = 0.5) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 10),
                    text = ggplot2::element_text(size = 7)) +
     ggplot2::ylab(expression(gamma)) +
     ggplot2::xlab(expression(mu)) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = mu,y = gam),
-                        colour = "black",shape = 16,size = 2.5)
-  # ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), colour = "grey50") +
-  # ggplot2::geom_hline(data= param_abc, aes(yintercept = gam), colour = "grey50")
+                        colour = "black",shape = 16,size = 2.5)+
+  ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), colour = "grey50") +
+  ggplot2::geom_hline(data= param_abc, aes(yintercept = gam), colour = "grey50")
 
   laa_vs_mu <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
     xlim(0,2)+
+    ylim(0,2)+
     ggplot2::geom_point(mapping = ggplot2::aes(x = mu_abc,y = laa_abc),
-                        colour = "royalblue",shape = 16,alpha = 0.2) +
+                        colour = "royalblue",shape = 16,alpha = 0.5) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 10),
                    text = ggplot2::element_text(size = 7)) +
     ggplot2::ylab(expression(lambda^a)) +
     ggplot2::xlab(expression(mu)) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = mu,y = laa),
-                        colour = "black",shape = 16,size = 2.5)
-  # ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), colour = "grey50") +
-  # ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), colour = "grey50")
+                        colour = "black",shape = 16,size = 2.5)+
+  ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), colour = "grey50") +
+  ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), colour = "grey50")
 
   laa_vs_gam <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
     xlim(0,0.07)+
+    ylim(0,2)+
     ggplot2::geom_point(mapping = ggplot2::aes(x = gam_abc,y = laa_abc),
-                        colour = "royalblue",shape = 16,alpha = 0.2) +
+                        colour = "royalblue",shape = 16,alpha = 0.5) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 10),
                    text = ggplot2::element_text(size = 7)) +
     ggplot2::ylab(expression(lambda^a)) +
     ggplot2::xlab(expression(gamma)) +
     ggplot2::geom_point(mapping = ggplot2::aes(x = gam,y = laa),
-                        colour = "black",shape = 16,size = 2.5)
-  # ggplot2::geom_vline(data= param_abc, aes(xintercept = gam), colour = "grey50") +
-  # ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), colour = "grey50")
+                        colour = "black",shape = 16,size = 2.5)+
+  ggplot2::geom_vline(data= param_abc, aes(xintercept = gam), colour = "grey50") +
+  ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), colour = "grey50")
+
+
+  dmu_vs_dlac <- ggplot2::ggplot(data = param_abc) +
+    ggplot2::theme_bw() +
+    xlim(-0.5,1.5)+
+    ylim(-0.5,1.5)+
+    ggplot2::geom_point(mapping = ggplot2::aes(y = dlac_abc,x = dmu_abc),
+                        colour = "royalblue",shape = 16,alpha = 0.8) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 10),
+                   text = ggplot2::element_text(size = 7)) +
+    ggplot2::xlab(expression(Delta~mu)) +
+    ggplot2::ylab(expression(Delta~lambda^c)) +
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8)
+
+
+  dgam_vs_dlac <- ggplot2::ggplot(data = param_abc) +
+    ggplot2::theme_bw() +
+    xlim(-0.01,0.05)+
+    ylim(-0.5,1.5)+
+    ggplot2::geom_point(mapping = ggplot2::aes(y = dlac_abc,x = dgam_abc),
+                        colour = "royalblue",shape = 16,alpha = 0.8) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 10),
+                   text = ggplot2::element_text(size = 7)) +
+    ggplot2::xlab(expression(Delta~gamma)) +
+    ggplot2::ylab(expression(Delta~lambda^c)) +
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8)
+
+  dlaa_vs_dlac <- ggplot2::ggplot(data = param_abc) +
+    ggplot2::theme_bw() +
+    xlim(-0.5,1.5)+
+    ylim(-0.5,1.5)+
+    ggplot2::geom_point(mapping = ggplot2::aes(y = dlac_abc,x = dlaa_abc),
+                        colour = "#4D85BD",shape = 16,alpha = 0.8) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 10),
+                   text = ggplot2::element_text(size = 7)) +
+    ggplot2::xlab(expression(Delta~lambda^a)) +
+    ggplot2::ylab(expression(Delta~lambda^c)) +
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8)
+
+  dgam_vs_dmu <- ggplot2::ggplot(data = param_abc) +
+    ggplot2::theme_bw() +
+    xlim(-0.01,0.05)+
+    ylim(-0.5,1.5)+
+    ggplot2::geom_point(mapping = ggplot2::aes(y = dmu_abc,x = dgam_abc),
+                        colour = "#4D85BD",shape = 16,alpha = 0.8) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 10),
+                   text = ggplot2::element_text(size = 7)) +
+    ggplot2::xlab(expression(Delta~gamma)) +
+    ggplot2::ylab(expression(Delta~mu)) +
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8)
+
+  dlaa_vs_dmu <- ggplot2::ggplot(data = param_abc) +
+    ggplot2::theme_bw() +
+    xlim(-0.5,1.5)+
+    ylim(-0.5,1.5)+
+    ggplot2::geom_point(mapping = ggplot2::aes(y = dmu_abc,x = dlaa_abc),
+                        colour = "#4D85BD",shape = 16,alpha = 0.8) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 10),
+                   text = ggplot2::element_text(size = 7)) +
+    ggplot2::xlab(expression(Delta~lambda^a)) +
+    ggplot2::ylab(expression(Delta~mu)) +
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8)
+
+  dlaa_vs_dgam <- ggplot2::ggplot(data = param_abc) +
+    ggplot2::theme_bw() +
+    xlim(-0.5,1.5)+
+    ylim(-0.01,0.05)+
+    ggplot2::geom_point(mapping = ggplot2::aes(y = dgam_abc,x = dlaa_abc),
+                        colour = "#4D85BD",shape = 16,alpha = 0.8) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 10),
+                   text = ggplot2::element_text(size = 7)) +
+    ggplot2::xlab(expression(Delta~lambda^a)) +
+    ggplot2::ylab(expression(Delta~gamma)) +
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8) +
+    ggplot2::geom_hline(data= param_abc, aes(yintercept = 0),
+                        linetype = "dashed", colour = "grey50",size = 0.8)
 
   p_emp <- ggplot() + theme_void()
 
-  tiff(paste0("G:/results/project 2/tip_info/round3/dec_kernel/cowplot_each_rep/param_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round3/test_epsilon/cowplot_each_rep/with_delta_rates/param_",i,".tiff"),
        units="px", width=3000, height=2000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
-    p_lac,p_emp,p_emp,p_emp,
-    mu_vs_lac,p_mu,p_emp,p_emp,
-    gam_vs_lac,gam_vs_mu,p_gam,p_emp,
+    # p_lac,p_emp,p_emp,p_emp,
+    # mu_vs_lac,p_mu,p_emp,p_emp,
+    # gam_vs_lac,gam_vs_mu,p_gam,p_emp,
+    # laa_vs_lac,laa_vs_mu,laa_vs_gam,p_laa,
+    p_lac,dmu_vs_dlac,dgam_vs_dlac,dlaa_vs_dlac,
+    mu_vs_lac,p_mu,dgam_vs_dmu,dlaa_vs_dmu,
+    gam_vs_lac,gam_vs_mu,p_gam,dlaa_vs_dgam,
     laa_vs_lac,laa_vs_mu,laa_vs_gam,p_laa,
     align = "hv", nrow = 4, ncol = 4
   )
@@ -223,11 +331,11 @@ for(i in 1:160){
 
 
 #########################################################################
-### cowplot_per_param  with MCMC AND MLE
+### cowplot_per_param  with MCMC AND MLE (didn't finish yet!!)
 library(ggplot2)
 
-load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ABC_all.RData")
-load("G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/whole_df_MCMC.RData")
+load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ABC.RData")
+   load("G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/whole_df_MCMC.RData")
 load("G:/results/project 2/tip_info/round3/dec_kernel_old/MLE_allpars/MLE_all.RData")
 
 param_abc <- whole_df_ABC[1:10,]
@@ -245,9 +353,9 @@ p_legend <-ggplot2::ggplot(data = param_abc) +
   ggplot2::geom_density(ggplot2::aes(x = lac_abc,
                                      fill = "ABC"),colour = "blue3",
                         alpha = 0.7) +
-  ggplot2::geom_density(data = param_mle,
-                        ggplot2::aes(x = lac_MLE,fill = "MLE"),colour = "green4",
-                        alpha = 0.5) +
+  # ggplot2::geom_density(data = param_mle,
+  #                       ggplot2::aes(x = lac_MLE,fill = "MLE"),colour = "green4",
+  #                       alpha = 0.5) +
   ggplot2::theme_classic() +
   ggplot2::theme(title = ggplot2::element_text(size = 10),
                  text = ggplot2::element_text(size = 7)) +
@@ -264,7 +372,9 @@ p_legend <-ggplot2::ggplot(data = param_abc) +
 legend_all <- cowplot::get_legend(
   p_legend + theme(legend.box.margin = margin(0, 0, 0, 6))
 )
-color_values <-c("MCMC" = "#F7903D", "ABC" = "#4D85BD", "MLE" = "#59A95A")
+
+# color_values <-c("MCMC" = "#226E9C", "ABC" = "#E31B23", "MLE" = "#00B000")
+color_values <-c("MCMC" = "#F7903D", "ABC" = "#4D85BD", "MLE" = "#00B000")
 #
 # fillin_colors <- c("MCMC"="#F7903D","ABC"="#4D85BD","MLE"= "#59A95A")
 # colors <- c("MCMC"="red4","ABC"="blue3","MLE"= "gree4")
@@ -283,7 +393,7 @@ for(i in 1:160){
                           alpha = 0.9) +
     ggplot2::geom_density(ggplot2::aes(x = lac_abc,
                                        fill = "ABC"),colour = "blue3",
-                          alpha = 0.7) +
+                          alpha = 0.8) +
     # ggplot2::geom_density(data = param_mle,
     #                       ggplot2::aes(x = lac_MLE,fill = "MLE"),colour = "green4",
     #                       alpha = 0.5) +
@@ -295,12 +405,9 @@ for(i in 1:160){
     ggplot2::scale_fill_manual(name = "Method",
                                values = color_values,
                                labels = c("MCMC", "ABC", "MLE"))+
-    ggplot2::theme(legend.position = "none") +
+    # ggplot2::theme(legend.position = "none") +
     ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), linetype = "dashed", size = 0.5)+
-    ggplot2::geom_vline(data= param_mle, aes(xintercept = lac_MLE), size = 0.5)
-
-
-
+    ggplot2::geom_vline(data= param_mle, aes(xintercept = lac_MLE),color = "#59A95A",size = 1)
 
 
   p_mu <-ggplot2::ggplot(data = param_abc) +
@@ -314,10 +421,10 @@ for(i in 1:160){
                           alpha = 0.9) +
     ggplot2::geom_density(ggplot2::aes(x = mu_abc,
                                        fill = "ABC"),colour = "blue3",
-                          alpha = 0.7) +
-    ggplot2::geom_density(data = param_mle,
-                          ggplot2::aes(x = mu_MLE,fill = "MLE"),colour = "green4",
-                          alpha = 0.5) +
+                          alpha = 0.8) +
+    # ggplot2::geom_density(data = param_mle,
+    #                       ggplot2::aes(x = mu_MLE,fill = "MLE"),colour = "green4",
+    #                       alpha = 0.5) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 10),
                    text = ggplot2::element_text(size = 7)) +
@@ -327,7 +434,9 @@ for(i in 1:160){
                                values = color_values,
                                labels = c("MCMC", "ABC", "MLE"))+
     ggplot2::theme(legend.position = "none") +
-    ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), linetype = "dashed", size = 0.5)
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), linetype = "dashed", size = 0.5)+
+    ggplot2::geom_vline(data= param_mle, aes(xintercept = mu_MLE),color = "#59A95A",size = 1)
+
 
 
   p_gam <-ggplot2::ggplot(data = param_abc) +
@@ -341,10 +450,10 @@ for(i in 1:160){
                           alpha = 0.9) +
     ggplot2::geom_density(ggplot2::aes(x = gam_abc,
                                        fill = "ABC"),colour = "blue3",
-                          alpha = 0.7) +
-    ggplot2::geom_density(data = param_mle,
-                          ggplot2::aes(x = gam_MLE,fill = "MLE"),colour = "green4",
-                          alpha = 0.5) +
+                          alpha = 0.8) +
+    # ggplot2::geom_density(data = param_mle,
+    #                       ggplot2::aes(x = gam_MLE,fill = "MLE"),colour = "green4",
+    #                       alpha = 0.5) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 10),
                    text = ggplot2::element_text(size = 7)) +
@@ -354,7 +463,9 @@ for(i in 1:160){
                                values = color_values,
                                labels = c("MCMC", "ABC", "MLE"))+
     ggplot2::theme(legend.position = "none") +
-    ggplot2::geom_vline(data= param_abc, aes(xintercept = gam), linetype = "dashed", size = 0.5)
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = gam), linetype = "dashed", size = 0.5)+
+    ggplot2::geom_vline(data= param_mle, aes(xintercept = lac_MLE),color = "#59A95A",size = 1)
+
 
 
 
@@ -369,10 +480,10 @@ for(i in 1:160){
                           alpha = 0.9) +
     ggplot2::geom_density(ggplot2::aes(x = laa_abc,
                                        fill = "ABC"),colour = "blue3",
-                          alpha = 0.7) +
-    ggplot2::geom_density(data = param_mle,
-                          ggplot2::aes(x = laa_MLE,fill = "MLE"),colour = "green4",
-                          alpha = 0.5) +
+                          alpha = 0.8) +
+    # ggplot2::geom_density(data = param_mle,
+    #                       ggplot2::aes(x = laa_MLE,fill = "MLE"),colour = "green4",
+    #                       alpha = 0.5) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 10),
                    text = ggplot2::element_text(size = 7)) +
@@ -382,7 +493,9 @@ for(i in 1:160){
                                values = color_values,
                                labels = c("MCMC", "ABC", "MLE"))+
     ggplot2::theme(legend.position = "none") +
-    ggplot2::geom_vline(data= param_abc, aes(xintercept = laa), linetype = "dashed", size = 0.5)
+    ggplot2::geom_vline(data= param_abc, aes(xintercept = laa), linetype = "dashed", size = 0.5)+
+    ggplot2::geom_vline(data= param_mle, aes(xintercept = lac_MLE),color = "#59A95A",size = 1)
+
 
 
   mu_vs_lac <- ggplot2::ggplot(data = param_abc) +
