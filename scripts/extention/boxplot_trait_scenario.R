@@ -1,20 +1,20 @@
 ## plot TRAISIE_DD
-load("G:/results/project 2/tip_info/round3/TRAISIE_DD/DD_whole_df_ABC.RData")
+load("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/DD_whole_df_ABC.RData")
 whole_df_ABC$Transition <- whole_df_ABC$trans
-whole_df_ABC$Transition[whole_df_ABC$trans == "0.02" & whole_df_ABC$trans2 == "0.02"] <- "ll"
+whole_df_ABC$Transition[whole_df_ABC$trans == "0" & whole_df_ABC$trans2 == "0"] <- "nn"
 whole_df_ABC$Transition[whole_df_ABC$trans == "0.02" & whole_df_ABC$trans2 == "0.2"] <- "lh"
 whole_df_ABC$Transition[whole_df_ABC$trans == "0.2" & whole_df_ABC$trans2 == "0.02"] <- "hl"
 
 library(ggplot2)
 colors <- c("State1"="red","State2"="blue")
 whole_df_ABC$Transition <- factor(whole_df_ABC$Transition,
-                             levels = c("hl","lh","ll"),
+                             levels = c("hl","lh","nn"),
                              labels = c(expression("high"~italic(q)[12]~"low"~italic(q)[21]),
                                         expression("low"~italic(q)[12]~"high"~italic(q)[21]),
-                                        expression("low"~italic(q)[12]~"low"~italic(q)[21])))
+                                        expression("no"~italic(q)[12]~"no"~italic(q)[21])))
 
 i = 1
-data <- whole_df_ABC[((i*12000-11999)):(i*12000),]
+data <- whole_df_ABC[((i*24000-23999)):(i*24000),]
 p_lac1 <- ggplot2::ggplot(data) +
   ggplot2::theme_bw() +
   ylim(0,2)+
@@ -52,7 +52,7 @@ p_lac2 <- ggplot2::ggplot(data) +
   ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)
 p_lac2
 
-tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD/boxplots/scenario_",i,".tiff"),
+tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/boxplots/scenario_",i,".tiff"),
      units="px", width=3000, height=2000,res = 300,compression="lzw")
 param_estimates <- cowplot::plot_grid(
   p_lac1,p_lac2,
@@ -63,7 +63,8 @@ while (!is.null(dev.list()))  dev.off()
 
 
 i = 2
-data <- whole_df_ABC[((i*12000-11999)):(i*12000),]
+# data <- whole_df_ABC[((i*12000-11999)):(i*12000),]
+data <- whole_df_ABC[((i*24000-23999)):(i*24000),]
 p_mu1 <- ggplot2::ggplot(data) +
   ggplot2::theme_bw() +
   ylim(0,2)+
@@ -101,7 +102,7 @@ p_mu2 <- ggplot2::ggplot(data) +
   ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)
 
 
-tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD/boxplots/scenario_",i,".tiff"),
+tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/boxplots/scenario_",i,".tiff"),
      units="px", width=3000, height=2000,res = 300,compression="lzw")
 param_estimates <- cowplot::plot_grid(
   p_mu1,p_mu2,
@@ -112,7 +113,8 @@ while (!is.null(dev.list()))  dev.off()
 
 
 i = 3
-data <- whole_df_ABC[((i*12000-11999)):(i*12000),]
+# data <- whole_df_ABC[((i*12000-11999)):(i*12000),]
+data <- whole_df_ABC[((i*24000-23999)):(i*24000),]
 p_gam1 <- ggplot2::ggplot(data) +
   ggplot2::theme_bw() +
   ylim(0,0.07)+
@@ -150,7 +152,7 @@ p_gam2 <- ggplot2::ggplot(data) +
   ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)
 
 
-tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD/boxplots/scenario_",i,".tiff"),
+tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/boxplots/scenario_",i,".tiff"),
      units="px", width=3000, height=2000,res = 300,compression="lzw")
 param_estimates <- cowplot::plot_grid(
   p_gam1,p_gam2,
@@ -162,7 +164,7 @@ while (!is.null(dev.list()))  dev.off()
 
 
 i = 4
-data <- whole_df_ABC[((i*12000-11999)):(i*12000),]
+data <- whole_df_ABC[((i*24000-23999)):(i*24000),]
 p_laa1 <- ggplot2::ggplot(data) +
   ggplot2::theme_bw() +
   ylim(0,2)+
@@ -200,7 +202,7 @@ p_laa2 <- ggplot2::ggplot(data) +
   ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)
 
 
-tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD/boxplots/scenario_",i,".tiff"),
+tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/boxplots/scenario_",i,".tiff"),
      units="px", width=3000, height=2000,res = 300,compression="lzw")
 param_estimates <- cowplot::plot_grid(
   p_laa1,p_laa2,
