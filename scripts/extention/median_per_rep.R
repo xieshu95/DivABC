@@ -1,8 +1,10 @@
-load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_with_ss_dss.RData")
+#####
+load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_with_ss_dss_fix.RData")
 whole_df <- data.frame(matrix(0, ncol = 32, nrow = 160))
 colnames(whole_df) <- colnames(whole_df_with_ss)
 for(i in 1:160) {
   param_data <- whole_df_with_ss[((i*100-99)):(i*100),]
+  param_data <- na.omit(param_data)
   whole_df[i,] <- apply(param_data,2,median)
 }
 whole_df_median <- whole_df
@@ -497,13 +499,94 @@ p_emp <- ggplot() + theme_void()
 tiff(paste0("G:/results/project 2/tip_info/round3/test_epsilon/median/ss_vs_ss.tiff"),
      units="px", width=6000, height=4000,res = 300,compression="lzw")
 param_estimates <- cowplot::plot_grid(
-  ss1_vs_ss2,p_emp,p_emp,p_emp,p_emp,p_emp,
-  ss1_vs_ss3,ss2_vs_ss3,p_emp,p_emp,p_emp,p_emp,
-  ss1_vs_ss4,ss2_vs_ss4,ss3_vs_ss4,p_emp,p_emp,p_emp,
-  ss1_vs_ss5,ss2_vs_ss5,ss3_vs_ss5,ss4_vs_ss5,p_emp,p_emp,
-  ss1_vs_ss6,ss2_vs_ss6,ss3_vs_ss6,ss4_vs_ss6,ss5_vs_ss6,p_emp,
-  ss1_vs_ss7,ss2_vs_ss7,ss3_vs_ss7,ss4_vs_ss7,ss5_vs_ss7,ss6_vs_ss7,
-  align = "hv", nrow = 6, ncol = 6
+  # ss1_vs_ss2,p_emp,p_emp,p_emp,p_emp,p_emp,
+  # ss1_vs_ss3,ss2_vs_ss3,p_emp,p_emp,p_emp,p_emp,
+  # ss1_vs_ss4,ss2_vs_ss4,ss3_vs_ss4,p_emp,p_emp,p_emp,
+  # ss1_vs_ss5,ss2_vs_ss5,ss3_vs_ss5,ss4_vs_ss5,p_emp,p_emp,
+  # ss1_vs_ss6,ss2_vs_ss6,ss3_vs_ss6,ss4_vs_ss6,ss5_vs_ss6,p_emp,
+  # ss1_vs_ss7,ss2_vs_ss7,ss3_vs_ss7,ss4_vs_ss7,ss5_vs_ss7,ss6_vs_ss7,
+  # align = "hv", nrow = 6, ncol = 6
+  ss1_vs_ss2,p_emp,p_emp,p_emp,p_emp,
+  ss1_vs_ss3,ss2_vs_ss3,p_emp,p_emp,p_emp,
+  ss1_vs_ss4,ss2_vs_ss4,ss3_vs_ss4,p_emp,p_emp,
+  ss1_vs_ss6,ss2_vs_ss6,ss3_vs_ss6,ss4_vs_ss6,p_emp,
+  ss1_vs_ss7,ss2_vs_ss7,ss3_vs_ss7,ss4_vs_ss7,ss6_vs_ss7,
+  align = "hv", nrow = 5, ncol = 5
+)
+print(param_estimates)
+while (!is.null(dev.list()))  dev.off()
+
+
+#############
+library(ggplot2)
+load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_median_perrep.RData")
+
+ss_name <- c(expression(Delta * "CTT"),     ##s1
+             expression(Delta * "SESTT"),   ##s2  Singleton-endemic
+             expression(Delta * "MESTT"),   ##s3  Multiple-endemic
+             expression(Delta * "NESTT"),   ##s4  Non-endemic
+             expression("N Col"),           ##s5   delete
+             expression("SD-CS"),           ##s6
+             expression("SD-CT"))           ##s7
+
+
+x_lable <-expression("N Non-Endemic")
+param_abc <- whole_df_median
+
+p_lac <- ggplot2::ggplot(data = param_abc) +
+  ggplot2::theme_bw() +
+  # xlim(0,280)+
+  ylim(-0.5,1.5)+
+  ggplot2::geom_point(mapping = ggplot2::aes(x = s11,y = dlac_abc),
+                      colour = "royalblue",shape = 16,alpha = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab(x_lable) +
+  ggplot2::ylab(expression(Delta ~ lambda^c))
+
+p_mu <- ggplot2::ggplot(data = param_abc) +
+  ggplot2::theme_bw() +
+  # xlim(0,280)+
+  ylim(-0.5,1.5)+
+  ggplot2::geom_point(mapping = ggplot2::aes(x = s11,y = dmu_abc),
+                      colour = "royalblue",shape = 16,alpha = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab(x_lable) +
+  ggplot2::ylab(expression(Delta ~ mu))
+
+p_gam <- ggplot2::ggplot(data = param_abc) +
+  ggplot2::theme_bw() +
+  # xlim(0,280)+
+  ylim(-0.01,0.03)+
+  ggplot2::geom_point(mapping = ggplot2::aes(x = s11,y = dgam_abc),
+                      colour = "royalblue",shape = 16,alpha = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab(x_lable) +
+  ggplot2::ylab(expression(Delta ~ gamma))
+
+p_laa <- ggplot2::ggplot(data = param_abc) +
+  ggplot2::theme_bw() +
+  # xlim(0,280)+
+  ylim(-0.6,1.5)+
+  ggplot2::geom_point(mapping = ggplot2::aes(x = s11,y = dlaa_abc),
+                      colour = "royalblue",shape = 16,alpha = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab(x_lable) +
+  ggplot2::ylab(expression(Delta ~ lambda^a))
+
+tiff(paste0("G:/results/project 2/tip_info/round3/test_epsilon/median/ss11_vs_rates.tiff"),
+     units="px", width=2000, height=2000,res = 300,compression="lzw")
+
+param_estimates <- cowplot::plot_grid(
+  p_lac,p_mu,p_gam,p_laa,
+  align = "hv", nrow = 2, ncol = 2
 )
 print(param_estimates)
 while (!is.null(dev.list()))  dev.off()

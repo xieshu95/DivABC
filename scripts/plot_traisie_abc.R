@@ -11,7 +11,7 @@
 # nltt_no_specnltt
 
 
-folder_path <- "G:/results/project 2/tip_info/round3/TRAISIE_DD/TraiSIE_ABC_DD"
+folder_path <- "G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/TraiSIE_ABC_DD"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/TraiSIE_ABC_DD.csv")
 
@@ -32,7 +32,7 @@ trans_abc1 <- c()
 trans_abc2 <- c()
 n_iter <-c()
 n_iteration <- c()
-for(i in 1:240){
+for(i in 1:480){
   # if(i%%5 == 0){
   #   rep <- 5
   # } else {
@@ -95,8 +95,8 @@ whole_df_ABC <- data.frame(param_data2,
 
 
 #lac_abc,mu_abc,gam_abc,laa_abc,n_iter)
-save(whole_df_ABC,file = "G:/results/project 2/tip_info/round3/TRAISIE_DD/DD_whole_df_ABC.RData")
-load("G:/results/project 2/tip_info/round3/TRAISIE_DD/DD_whole_df_ABC.RData")
+save(whole_df_ABC,file = "G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/DD_whole_df_ABC.RData")
+load("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/DD_whole_df_ABC.RData")
 
 
 library(ggplot2)
@@ -105,7 +105,7 @@ library(ggplot2)
 # 1. plot estimations for each parameter set (single replicate)
 
 ## lac scenario, estimation: lac1 and lac2 (others are fixed)
-for(i in 1:60){
+for(i in 1:120){
   param_abc <- whole_df_ABC[((i*200-199)):(i*200),]
   # param_abc <- whole_df_ABC[((i*1000-999)):(i*1000),]
   p_lac1 <- ggplot2::ggplot(data = param_abc) +
@@ -162,7 +162,7 @@ for(i in 1:60){
     ggplot2::geom_hline(data= param_abc, aes(yintercept = lac2),linetype = "dashed", colour = "black")
 
 
-  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD/plot_each_set/param_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/plot_each_set/param_",i,".tiff"),
        units="px", width=3000, height=1000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lac1,p_lac2,lac1_vs_lac2,
@@ -173,7 +173,7 @@ for(i in 1:60){
 }
 
 # mu scenario, estimation: mu1 and mu2 (others are fixed)
-for(i in 61:120){
+for(i in 121:240){
   param_abc <- whole_df_ABC[((i*200-199)):(i*200),]
   # param_abc <- whole_df_ABC[((i*1000-999)):(i*1000),]
   p_mu1 <- ggplot2::ggplot(data = param_abc) +
@@ -230,7 +230,7 @@ for(i in 61:120){
     ggplot2::geom_hline(data= param_abc, aes(yintercept = mu2),linetype = "dashed", colour = "black")
 
 
-  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD/plot_each_set/param_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/plot_each_set/param_",i,".tiff"),
        units="px", width=3000, height=1000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_mu1,p_mu2,mu1_vs_mu2,
@@ -242,7 +242,7 @@ for(i in 61:120){
 
 
 ## gam scenario, estimation: gam1 and gam2 (others are fixed)
-for(i in 121:180){
+for(i in 241:360){
   param_abc <- whole_df_ABC[((i*200-199)):(i*200),]
   # param_abc <- whole_df_ABC[((i*1000-999)):(i*1000),]
   p_gam1 <- ggplot2::ggplot(data = param_abc) +
@@ -299,7 +299,7 @@ for(i in 121:180){
     ggplot2::geom_hline(data= param_abc, aes(yintercept = gam2),linetype = "dashed", colour = "black")
 
 
-  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD/plot_each_set/param_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/plot_each_set/param_",i,".tiff"),
        units="px", width=3000, height=1000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_gam1,p_gam2,gam1_vs_gam2,
@@ -310,7 +310,7 @@ for(i in 121:180){
 }
 
 ## lac scenario, estimation: lac1 and lac2 (others are fixed)
-for(i in 181:240){
+for(i in 361:480){
   param_abc <- whole_df_ABC[((i*200-199)):(i*200),]
   # param_abc <- whole_df_ABC[((i*1000-999)):(i*1000),]
   p_laa1 <- ggplot2::ggplot(data = param_abc) +
@@ -367,7 +367,7 @@ for(i in 181:240){
     ggplot2::geom_hline(data= param_abc, aes(yintercept = laa2),linetype = "dashed", colour = "black")
 
 
-  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD/plot_each_set/param_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/plot_each_set/param_",i,".tiff"),
        units="px", width=3000, height=1000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_laa1,p_laa2,laa1_vs_laa2,
@@ -384,9 +384,9 @@ for(i in 181:240){
 
 # 2. plot estimations for each parameter values (combine the replicates)
 
-## lac scenario, estimation: lac1 and lac2 (others are fixed)
+## lac scenario, estimation: lac1 and lac2 (others are fixed) 10reps*200 particles
 for(i in 1:12){
-  param_abc <- whole_df_ABC[((i*1000-999)):(i*1000),]
+  param_abc <- whole_df_ABC[((i*2000-1999)):(i*2000),]
   # param_abc <- whole_df_ABC[((i*1000-999)):(i*1000),]
   p_lac1 <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
@@ -442,7 +442,7 @@ for(i in 1:12){
     ggplot2::geom_hline(data= param_abc, aes(yintercept = lac2),linetype = "dashed", colour = "black")
 
 
-  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD/plot_each_value/param_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/plot_each_value/param_",i,".tiff"),
        units="px", width=3000, height=1000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lac1,p_lac2,lac1_vs_lac2,
@@ -454,7 +454,7 @@ for(i in 1:12){
 
 # mu scenario, estimation: mu1 and mu2 (others are fixed)
 for(i in 13:24){
-  param_abc <- whole_df_ABC[((i*1000-999)):(i*1000),]
+  param_abc <- whole_df_ABC[((i*2000-1999)):(i*2000),]
   # param_abc <- whole_df_ABC[((i*1000-999)):(i*1000),]
   p_mu1 <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
@@ -510,7 +510,7 @@ for(i in 13:24){
     ggplot2::geom_hline(data= param_abc, aes(yintercept = mu2),linetype = "dashed", colour = "black")
 
 
-  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD/plot_each_value/param_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/plot_each_value/param_",i,".tiff"),
        units="px", width=3000, height=1000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_mu1,p_mu2,mu1_vs_mu2,
@@ -523,7 +523,7 @@ for(i in 13:24){
 
 ## gam scenario, estimation: gam1 and gam2 (others are fixed)
 for(i in 25:36){
-  param_abc <- whole_df_ABC[((i*1000-999)):(i*1000),]
+  param_abc <- whole_df_ABC[((i*2000-1999)):(i*2000),]
   # param_abc <- whole_df_ABC[((i*1000-999)):(i*1000),]
   p_gam1 <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
@@ -579,7 +579,7 @@ for(i in 25:36){
     ggplot2::geom_hline(data= param_abc, aes(yintercept = gam2),linetype = "dashed", colour = "black")
 
 
-  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD/plot_each_value/param_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/plot_each_value/param_",i,".tiff"),
        units="px", width=3000, height=1000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_gam1,p_gam2,gam1_vs_gam2,
@@ -591,7 +591,7 @@ for(i in 25:36){
 
 ## lac scenario, estimation: lac1 and lac2 (others are fixed)
 for(i in 37:48){
-  param_abc <- whole_df_ABC[((i*1000-999)):(i*1000),]
+  param_abc <- whole_df_ABC[((i*2000-1999)):(i*2000),]
   # param_abc <- whole_df_ABC[((i*1000-999)):(i*1000),]
   p_laa1 <- ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
@@ -647,7 +647,7 @@ for(i in 37:48){
     ggplot2::geom_hline(data= param_abc, aes(yintercept = laa2),linetype = "dashed", colour = "black")
 
 
-  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD/plot_each_value/param_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/plot_each_value/param_",i,".tiff"),
        units="px", width=3000, height=1000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_laa1,p_laa2,laa1_vs_laa2,

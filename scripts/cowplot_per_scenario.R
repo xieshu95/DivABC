@@ -11,10 +11,10 @@
 # load(file.path(folder_path, file_to_load))
 library(ggplot2)
 
-load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ABC.RData")
+load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_with_ss_dss_fix.RData")
 load("G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/whole_df_MCMC_short.RData")
 load("G:/results/project 2/tip_info/round3/dec_kernel_old/MLE_allpars/MLE_all.RData")
-
+whole_df_ABC <-whole_df_with_ss
 # whole_df_ABC$dlac_abc <-whole_df_ABC$lac_abc -  whole_df_ABC$lac
 # whole_df_ABC$dmu_abc <-whole_df_ABC$mu_abc -  whole_df_ABC$mu
 # whole_df_ABC$dgam_abc <-whole_df_ABC$gam_abc -  whole_df_ABC$gam
