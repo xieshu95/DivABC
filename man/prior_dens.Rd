@@ -7,7 +7,7 @@
 prior_dens(pars, idparsopt)
 }
 \value{
-a numeric represents the log likelihood
+Density of the given parameter set
 }
 \description{
 prior density function

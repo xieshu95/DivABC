@@ -35,12 +35,13 @@ MCMC_DAISIE <- function(datalist,
 
   for (i in seq_len(burnin + iterations)) {
     #propose new values
+    parameters_old <- parameters
     for (m in idparsopt) {
       if (parameters[m] == 0) {
         stop("Cannot propose new value for a parameter with value 0.0.")
       }
-
       parameters[m] <- exp(stats::rnorm(1, log(parameters[m]), sigma))
+    }
       # calculate the Hastings ratio
       hr            <- 0
       new_pp        <- likelihood_function(parameters, datalist,idparsopt)
@@ -51,9 +52,8 @@ MCMC_DAISIE <- function(datalist,
           new_pp - pp + hr > log(stats::runif(1, 0, 1))) {
         pp <- new_pp
       } else {
-        parameters[m] <- exp(eta)
+        parameters <- parameters_old
       }
-    }
 
     # sample the parameter
     if (i >= burnin) {
@@ -72,19 +72,19 @@ MCMC_DAISIE <- function(datalist,
 }
 
 
-#' Calculates the log likelihood
+#' Calculates the posterior probability
 #'
-#' @return a numeric represents the log likelihood
+#' @return a numeric represents the posterior probability
 #' @export
 
-calc_loglik <- function(params, datalist,idparsopt) {
-  lnl <- DAISIE::DAISIE_loglik_all(
+calc_log_pp <- function(params, datalist,idparsopt) {
+  log_lik <- DAISIE::DAISIE_loglik_all(
     pars1 = as.numeric(c(params[1],params[2],Inf,params[3],params[4])),
     pars2 = c(100, 0, 0, 0),
     datalist = datalist,
     methode = "lsodes"
   )
-  prior  <- log(prior_dens(params, idparsopt)) # nolint
-  return(lnl + prior)
+  log_prior  <- log(prior_dens(params, idparsopt)) # nolint
+  return(log_lik + log_prior)
 }
 
