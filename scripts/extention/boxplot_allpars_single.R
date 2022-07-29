@@ -3,6 +3,7 @@ load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ABC.RData")
 load("G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/whole_df_MCMC_short.RData")
 load("G:/results/project 2/tip_info/round3/dec_kernel_old/MLE_allpars/MLE_all.RData")
 
+
 whole_df_MLE <- MLE_all
 
 library(ggplot2)
@@ -170,7 +171,7 @@ print(g4)
 while (!is.null(dev.list()))  dev.off()
 
 tiff(paste0("G:/results/project 2/tip_info/round3/test_epsilon/boxplots/MCMC_short/boxplot_all.tiff"),
-     units="px", width=3000, height=2000,res = 300,compression="lzw")
+     units="px", width=4000, height=2000,res = 300,compression="lzw")
 param_estimates <- cowplot::plot_grid(
   g1,g2,g3,g4,
   align = "hv", nrow = 2, ncol = 2

@@ -18,38 +18,48 @@ data <- whole_df_ABC[((i*24000-23999)):(i*24000),]
 p_lac1 <- ggplot2::ggplot(data) +
   ggplot2::theme_bw() +
   ylim(0,2)+
-  xlim(0.1,0.6)+
+  xlim(0.15,0.55)+
   ggplot2::geom_boxplot(ggplot2::aes(x = lac, y = lac_abc1, group = lac),
                         fill = "royalblue",colour = "blue3",,alpha = 0.5,outlier.shape = NA)+
   ggplot2::geom_point(aes(x = lac, y = lac),color = "black",size = 2) +
   ggplot2::theme_classic() +
   ggplot2::ggtitle("Cladogenesis state 1") +
-  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(plot.title = ggplot2::element_text(size = 12, hjust = 0.5))+
+  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5, color = "black"))+
+  ggplot2::theme(legend.text = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(legend.title = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13, color = "black")) +
   ggplot2::ylab("Estimated rate") +
   ggplot2::xlab("Real rate")+  #expression(lambda[1]^c)
   ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)+
-  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)
+  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)+
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 13, color = "black"))
 p_lac1
 
 
 p_lac2 <- ggplot2::ggplot(data) +
   ggplot2::theme_bw() +
   ylim(0,2)+
-  xlim(0.4,0.9)+
+  xlim(0.45,0.85)+
   ggplot2::geom_boxplot(ggplot2::aes(x = lac2, y = lac_abc2, group = lac2),
                         fill = "red",colour = "red3",,alpha = 0.5,outlier.shape = NA)+
   ggplot2::geom_point(aes(x = lac2, y = lac2),color = "black",size = 2) +
   ggplot2::theme_classic() +
   ggplot2::ggtitle("Cladogenesis state 2") +
-  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(plot.title = ggplot2::element_text(size = 12, hjust = 0.5))+
+  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5, color = "black"))+
+  ggplot2::theme(legend.text = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(legend.title = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13, color = "black")) +
   ggplot2::ylab("Estimated rate") +
   ggplot2::xlab("Real rate")+  #expression(lambda[1]^c)
   ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)+
-  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)
+  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)+
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 13, color = "black"))
 p_lac2
 
 tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/boxplots/scenario_",i,".tiff"),
@@ -68,38 +78,48 @@ data <- whole_df_ABC[((i*24000-23999)):(i*24000),]
 p_mu1 <- ggplot2::ggplot(data) +
   ggplot2::theme_bw() +
   ylim(0,2)+
-  xlim(-0.02,0.12)+
+  xlim(0.015,0.11)+
   ggplot2::geom_boxplot(ggplot2::aes(x = mu, y = mu_abc1, group = mu),
                         fill = "royalblue",colour = "blue3",,alpha = 0.5,outlier.shape = NA)+
   ggplot2::geom_point(aes(x = mu, y = mu),color = "black",size = 2) +
   ggplot2::theme_classic() +
   ggplot2::ggtitle("Extinction state 1") +
-  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(plot.title = ggplot2::element_text(size = 12, hjust = 0.5))+
+  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5, color = "black"))+
+  ggplot2::theme(legend.text = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(legend.title = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13, color = "black")) +
   ggplot2::ylab("Estimated rate") +
   ggplot2::xlab("Real rate")+  #expression(lambda[1]^c)
   ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)+
-  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)
+  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)+
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 13, color = "black"))
 
 
 
 p_mu2 <- ggplot2::ggplot(data) +
   ggplot2::theme_bw() +
   ylim(0,2)+
-  xlim(0.08,0.22)+
+  xlim(0.09,0.185)+
   ggplot2::geom_boxplot(ggplot2::aes(x = mu2, y = mu_abc2, group = mu2),
                         fill = "red",colour = "red3",,alpha = 0.5,outlier.shape = NA)+
   ggplot2::geom_point(aes(x = mu2, y = mu2),color = "black",size = 2) +
   ggplot2::theme_classic() +
   ggplot2::ggtitle("Extinction state 2") +
-  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(plot.title = ggplot2::element_text(size = 12, hjust = 0.5))+
+  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5, color = "black"))+
+  ggplot2::theme(legend.text = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(legend.title = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13, color = "black")) +
   ggplot2::ylab("Estimated rate") +
   ggplot2::xlab("Real rate")+  #expression(lambda[1]^c)
   ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)+
-  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)
+  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)+
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 13, color = "black"))
 
 
 tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/boxplots/scenario_",i,".tiff"),
@@ -118,38 +138,48 @@ data <- whole_df_ABC[((i*24000-23999)):(i*24000),]
 p_gam1 <- ggplot2::ggplot(data) +
   ggplot2::theme_bw() +
   ylim(0,0.07)+
-  xlim(0,0.022)+
+  xlim(0.003,0.022)+
   ggplot2::geom_boxplot(ggplot2::aes(x = gam, y = gam_abc1, group = gam),
                         fill = "royalblue",colour = "blue3",,alpha = 0.5,outlier.shape = NA)+
   ggplot2::geom_point(aes(x = gam, y = gam),color = "black",size = 2) +
   ggplot2::theme_classic() +
   ggplot2::ggtitle("Colonization state 1") +
-  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(plot.title = ggplot2::element_text(size = 12, hjust = 0.5))+
+  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5, color = "black"))+
+  ggplot2::theme(legend.text = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(legend.title = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13, color = "black")) +
   ggplot2::ylab("Estimated rate") +
   ggplot2::xlab("Real rate")+  #expression(lambda[1]^c)
   ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)+
-  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)
+  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)+
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 13, color = "black"))
 
 
 
 p_gam2 <- ggplot2::ggplot(data) +
   ggplot2::theme_bw() +
   ylim(0,0.07)+
-  xlim(0.018,0.04)+
+  xlim(0.018,0.037)+
   ggplot2::geom_boxplot(ggplot2::aes(x = gam2, y = gam_abc2, group = gam2),
                         fill = "red",colour = "red3",,alpha = 0.5,outlier.shape = NA)+
   ggplot2::geom_point(aes(x = gam2, y = gam2),color = "black",size = 2) +
   ggplot2::theme_classic() +
   ggplot2::ggtitle("Colonization state 2") +
-  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(plot.title = ggplot2::element_text(size = 12, hjust = 0.5))+
+  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5, color = "black"))+
+  ggplot2::theme(legend.text = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(legend.title = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13, color = "black")) +
   ggplot2::ylab("Estimated rate") +
   ggplot2::xlab("Real rate")+  #expression(lambda[1]^c)
   ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)+
-  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)
+  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)+
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 13, color = "black"))
 
 
 tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/boxplots/scenario_",i,".tiff"),
@@ -168,38 +198,48 @@ data <- whole_df_ABC[((i*24000-23999)):(i*24000),]
 p_laa1 <- ggplot2::ggplot(data) +
   ggplot2::theme_bw() +
   ylim(0,2)+
-  xlim(0,0.25)+
+  xlim(0.02,0.23)+
   ggplot2::geom_boxplot(ggplot2::aes(x = laa, y = laa_abc1, group = laa),
                         fill = "royalblue",colour = "blue3",,alpha = 0.5,outlier.shape = NA)+
   ggplot2::geom_point(aes(x = laa, y = laa),color = "black",size = 2) +
   ggplot2::theme_classic() +
   ggplot2::ggtitle("Anagenesis state 1") +
-  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(plot.title = ggplot2::element_text(size = 12, hjust = 0.5))+
+  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5, color = "black"))+
+  ggplot2::theme(legend.text = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(legend.title = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13, color = "black")) +
   ggplot2::ylab("Estimated rate") +
   ggplot2::xlab("Real rate")+  #expression(lambda[1]^c)
   ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)+
-  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)
+  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)+
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 13, color = "black"))
 
 
 
 p_laa2 <- ggplot2::ggplot(data) +
   ggplot2::theme_bw() +
   ylim(0,2)+
-  xlim(0.15,0.4)+
+  xlim(0.17,0.38)+
   ggplot2::geom_boxplot(ggplot2::aes(x = laa2, y = laa_abc2, group = laa2),
                         fill = "red",colour = "red3",,alpha = 0.5,outlier.shape = NA)+
   ggplot2::geom_point(aes(x = laa2, y = laa2),color = "black",size = 2) +
   ggplot2::theme_classic() +
   ggplot2::ggtitle("Anagenesis state 2") +
-  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 12)) +
-  ggplot2::theme(plot.title = ggplot2::element_text(size = 12, hjust = 0.5))+
+  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5, color = "black"))+
+  ggplot2::theme(legend.text = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(legend.title = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13, color = "black")) +
   ggplot2::ylab("Estimated rate") +
   ggplot2::xlab("Real rate")+  #expression(lambda[1]^c)
   ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)+
-  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)
+  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)+
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 13, color = "black"))
 
 
 tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/boxplots/scenario_",i,".tiff"),
@@ -218,18 +258,201 @@ while (!is.null(dev.list()))  dev.off()
 ## plot TRAISIE_DD_with_q
 load("G:/results/project 2/tip_info/round3/TRAISIE_DD_with_q/DD_whole_df_ABC.RData")
 whole_df_ABC$Transition <- whole_df_ABC$trans
-whole_df_ABC$Transition[whole_df_ABC$trans == "0.02" & whole_df_ABC$trans2 == "0.02"] <- "ll"
+whole_df_ABC$Transition[whole_df_ABC$trans == "0.02" & whole_df_ABC$trans2 == "0.02"] <- "nn"
 whole_df_ABC$Transition[whole_df_ABC$trans == "0.02" & whole_df_ABC$trans2 == "0.2"] <- "lh"
 whole_df_ABC$Transition[whole_df_ABC$trans == "0.2" & whole_df_ABC$trans2 == "0.02"] <- "hl"
 
 library(ggplot2)
 colors <- c("State1"="red","State2"="blue")
 whole_df_ABC$Transition <- factor(whole_df_ABC$Transition,
-                                  levels = c("hl","lh","ll"),
+                                  levels = c("hl","lh","nn"),
                                   labels = c(expression("high"~italic(q)[12]~"low"~italic(q)[21]),
                                              expression("low"~italic(q)[12]~"high"~italic(q)[21]),
-                                             expression("low"~italic(q)[12]~"low"~italic(q)[21])))
+                                             expression("no"~italic(q)[12]~"no"~italic(q)[21])))
 
+
+
+i = 1
+data <- whole_df_ABC[((i*6000-5999)):(i*6000),]
+p_q12 <- ggplot2::ggplot(data) +
+  ggplot2::theme_bw() +
+  ylim(0,1.2)+
+  xlim(0.15,0.55)+
+  ggplot2::geom_boxplot(ggplot2::aes(x = lac, y = trans_abc1, group = lac),
+                        fill = "royalblue",colour = "blue3",,alpha = 0.5,outlier.shape = NA)+
+  ggplot2::geom_point(aes(x = lac, y = trans),color = "black",size = 2) +
+  ggplot2::theme_classic() +
+  ggplot2::ggtitle("Transition state 1 to 2") +
+  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5, color = "black"))+
+  ggplot2::theme(legend.text = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(legend.title = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::ylab("Estimated transition") +
+  ggplot2::xlab("Real cladogenesis")+  #expression(lambda[1]^c)
+  # ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)+
+  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)+
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 13, color = "black"))
+p_q12
+
+
+p_q21 <- ggplot2::ggplot(data) +
+  ggplot2::theme_bw() +
+  ylim(0,1.2)+
+  xlim(0.45,0.85)+
+  ggplot2::geom_boxplot(ggplot2::aes(x = lac2, y = trans_abc2, group = lac2),
+                        fill = "red",colour = "red3",,alpha = 0.5,outlier.shape = NA)+
+  ggplot2::geom_point(aes(x = lac2, y = trans2),color = "black",size = 2) +
+  ggplot2::theme_classic() +
+  ggplot2::ggtitle("Transition state 2 to 1") +
+  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5, color = "black"))+
+  ggplot2::theme(legend.text = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(legend.title = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::ylab("Estimated transition") +
+  ggplot2::xlab("Real cladogenesis")+  #expression(lambda[1]^c)
+  # ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)+
+  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)+
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 13, color = "black"))
+p_q21
+
+tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/boxplots/trans_",i,".tiff"),
+     units="px", width=3000, height=2000,res = 300,compression="lzw")
+param_estimates <- cowplot::plot_grid(
+  p_q12,p_q21,
+  align = "hv", nrow = 2, ncol = 1
+)
+print(param_estimates)
+while (!is.null(dev.list()))  dev.off()
+
+
+i = 3
+# data <- whole_df_ABC[((i*12000-11999)):(i*12000),]
+data <- whole_df_ABC[((i*6000-5999)):(i*6000),]
+p_trans_gam1 <- ggplot2::ggplot(data) +
+  ggplot2::theme_bw() +
+  ylim(0,1.2)+
+  xlim(0.003,0.022)+
+  ggplot2::geom_boxplot(ggplot2::aes(x = gam, y = trans_abc1, group = gam),
+                        fill = "royalblue",colour = "blue3",,alpha = 0.5,outlier.shape = NA)+
+  ggplot2::geom_point(aes(x = gam, y = trans),color = "black",size = 2) +
+  ggplot2::theme_classic() +
+  ggplot2::ggtitle("Transition state 1 to 2") +
+  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5, color = "black"))+
+  ggplot2::theme(legend.text = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(legend.title = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::ylab("Estimated transition") +
+  ggplot2::xlab("Real colonization")+  #expression(lambda[1]^c)
+  # ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)+
+  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)+
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 13, color = "black"))
+
+
+
+p_trans_gam2 <- ggplot2::ggplot(data) +
+  ggplot2::theme_bw() +
+  ylim(0,1.2)+
+  xlim(0.018,0.037)+
+  ggplot2::geom_boxplot(ggplot2::aes(x = gam2, y = trans_abc2, group = gam2),
+                        fill = "red",colour = "red3",,alpha = 0.5,outlier.shape = NA)+
+  ggplot2::geom_point(aes(x = gam2, y = trans2),color = "black",size = 2) +
+  ggplot2::theme_classic() +
+  ggplot2::ggtitle("Transition state 2 to 1") +
+  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5, color = "black"))+
+  ggplot2::theme(legend.text = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(legend.title = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::ylab("Estimated transition") +
+  ggplot2::xlab("Real colonization")+  #expression(lambda[1]^c)
+  # ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)+
+  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)+
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 13, color = "black"))
+
+
+tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/boxplots/trans_",i,".tiff"),
+     units="px", width=3000, height=2000,res = 300,compression="lzw")
+param_estimates <- cowplot::plot_grid(
+  p_trans_gam1,p_trans_gam2,
+  align = "hv", nrow = 2, ncol = 1
+)
+print(param_estimates)
+while (!is.null(dev.list()))  dev.off()
+
+
+i = 4
+data <- whole_df_ABC[((i*6000-5999)):(i*6000),]
+p_laa1 <- ggplot2::ggplot(data) +
+  ggplot2::theme_bw() +
+  ylim(0,1.2)+
+  xlim(0.02,0.23)+
+  ggplot2::geom_boxplot(ggplot2::aes(x = laa, y = trans_abc1, group = laa),
+                        fill = "royalblue",colour = "blue3",,alpha = 0.5,outlier.shape = NA)+
+  ggplot2::geom_point(aes(x = laa, y = trans),color = "black",size = 2) +
+  ggplot2::theme_classic() +
+  ggplot2::ggtitle("Anagenesis state 1") +
+  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5, color = "black"))+
+  ggplot2::theme(legend.text = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(legend.title = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::ylab("Estimated transition") +
+  ggplot2::xlab("Real anagenesis")+  #expression(lambda[1]^c)
+  # ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)+
+  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)+
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 13, color = "black"))
+
+
+
+p_laa2 <- ggplot2::ggplot(data) +
+  ggplot2::theme_bw() +
+  ylim(0,1.2)+
+  xlim(0.17,0.38)+
+  ggplot2::geom_boxplot(ggplot2::aes(x = laa2, y = trans_abc2, group = laa2),
+                        fill = "red",colour = "red3",,alpha = 0.5,outlier.shape = NA)+
+  ggplot2::geom_point(aes(x = laa2, y = trans2),color = "black",size = 2) +
+  ggplot2::theme_classic() +
+  ggplot2::ggtitle("Anagenesis state 2") +
+  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.title.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5, color = "black"))+
+  ggplot2::theme(legend.text = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(legend.title = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.y = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13, color = "black")) +
+  ggplot2::ylab("Estimated transition") +
+  ggplot2::xlab("Real anagenesis")+  #expression(lambda[1]^c)
+  ggplot2::geom_abline(slope = 1, linetype = "dashed", size = 0.5)+
+  ggplot2::facet_wrap(~Transition,labeller = ggplot2::label_parsed)+
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 13, color = "black"))
+
+
+tiff(paste0("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/boxplots/trans_",i,".tiff"),
+     units="px", width=3000, height=2000,res = 300,compression="lzw")
+param_estimates <- cowplot::plot_grid(
+  p_laa1,p_laa2,
+  align = "hv", nrow = 2, ncol = 1
+)
+print(param_estimates)
+while (!is.null(dev.list()))  dev.off()
+
+
+
+
+#########################
 i = 1
 data <- whole_df_ABC[((i*6000-5999)):(i*6000),]
 p_lac1 <- ggplot2::ggplot(data) +

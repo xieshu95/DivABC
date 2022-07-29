@@ -36,10 +36,10 @@ run_MCMC_DAISIE <- function(param_space_name,
                                                 obs_sim_pars$mu,
                                                 obs_sim_pars$gam,
                                                 obs_sim_pars$laa)),
-                      iterations = 5000, ##20000
-                      burnin = 1,
-                      thinning = 1,
-                      sigma = 0.2,
+                      iterations = 100000, ##20000
+                      burnin = 10000,
+                      thinning = 100,
+                      sigma = 0.1,
                       idparsopt = idparsopt)
 
   if (save_output == TRUE) {

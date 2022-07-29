@@ -1,5 +1,5 @@
 #####
-load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_with_ss_dss_fix.RData")
+load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_with_ss_dss.RData")
 whole_df <- data.frame(matrix(0, ncol = 32, nrow = 160))
 colnames(whole_df) <- colnames(whole_df_with_ss)
 for(i in 1:160) {

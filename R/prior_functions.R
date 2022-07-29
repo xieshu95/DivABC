@@ -1,6 +1,6 @@
 #' prior density function
 #'
-#' @return a numeric represents the log likelihood
+#' @return Density of the given parameter set
 #' @export
 prior_dens <- function(pars,idparsopt) {
   if(1 %in% idparsopt){
@@ -29,7 +29,7 @@ prior_dens <- function(pars,idparsopt) {
 
 #'prior function to generate parameters
 #'
-#' @return a numeric represents the log likelihood
+#' @return a vector of parameters
 #' @export
 prior_gen <- function(pars,idparsopt){
   if(1 %in% idparsopt){

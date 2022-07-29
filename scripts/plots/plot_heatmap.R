@@ -1,5 +1,12 @@
 ### heatmap for all the accepted simulations
 
+whole_df_ABC$dlac_abc <-whole_df_ABC$lac_abc -  whole_df_ABC$lac
+whole_df_ABC$dmu_abc <-whole_df_ABC$mu_abc -  whole_df_ABC$mu
+whole_df_ABC$dgam_abc <-whole_df_ABC$gam_abc -  whole_df_ABC$gam
+whole_df_ABC$dlaa_abc <-whole_df_ABC$laa_abc -  whole_df_ABC$laa
+save(whole_df_ABC,file = "G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ABC.RData")
+
+
 # 1. heatmap for DAISIE analysis
 folder_path <- "G:/results/project 2/tip_info/round3/test_epsilon/DAISIE_ABC"
 files <- list.files(folder_path)
@@ -114,6 +121,7 @@ whole_df_ss <- data.frame(ds1,ds2,ds3,ds4,ds5,ds6,ds7,
                           s1,s2,s3,s4,s5,s6,s7)
 save(whole_df_ss,file = "G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ss_all.RData")
 load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ss_all.RData")
+
 load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ABC.RData")
 whole_df_with_ss <- cbind(whole_df_ABC,whole_df_ss)
 save(whole_df_with_ss,file = "G:/results/project 2/tip_info/round3/test_epsilon/whole_df_with_ss_dss.RData")
@@ -166,12 +174,19 @@ save(whole_df_with_ss,file = "G:/results/project 2/tip_info/round3/test_epsilon/
 
 # plot dss_vs_dss: 16~21; plot ss_vs_ss: 23~28
 ### combine all the parameter sets
-ss_diff <- whole_df_with_ss[,23:28]  #16:21
+ss_diff <- whole_df_with_ss[,23:28]  #16:21/23:28
 ss_diff <- ss_diff %>% tidyr::drop_na()
-ss_name <- c(expression(Delta * "SESTT"),   ## Singleton-endemic
+ss_name <- c(expression("SESTT"),   ## Singleton-endemic  Delta * "SESTT"
+             expression("MESTT"),   ## Multiple-endemic
+             expression("NESTT"),   ## Non-endemic
+             expression("N Col"),
+             expression("SD-CS"),
+             expression("SD-CT"))
+
+ss_name <- c(expression(Delta * "CTT"),   ## clades
+             expression(Delta * "SESTT"),   ## Singleton-endemic
              expression(Delta * "MESTT"),   ## Multiple-endemic
              expression(Delta * "NESTT"),   ## Non-endemic
-             expression("N Col"),
              expression("SD-CS"),
              expression("SD-CT"))
 ##expression(Delta * "CTT"),
@@ -183,7 +198,7 @@ melted_cormat <- melt(cormat)
 library(ggplot2)
 
 label_names <- "Summary statistic"
-tiff(paste0("G:/results/project 2/tip_info/round3/test_epsilon/heatmap/heatmap_all_6ss.tiff"),
+tiff(paste0("G:/results/project 2/tip_info/round3/test_epsilon/heatmap/heatmap_ss_no_ss1.tiff"),
      units="px", width=3000, height=2000,res = 300,compression="lzw")
 heatmap <- ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
   geom_tile() +
