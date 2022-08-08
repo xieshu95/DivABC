@@ -1,6 +1,7 @@
 ## boxplot for all rates (all rates per scenario)
 load("G:/results/project 2/tip_info/round3/test_epsilon/whole_df_ABC.RData")
-load("G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/whole_df_MCMC.RData")
+# load("G:/results/project 2/tip_info/round3/dec_kernel_old/MCMC_allpars/whole_df_MCMC.RData")
+load("G:/results/project 2/tip_info/round3/fixed_mcmc/whole_df_MCMC.RData")
 load("G:/results/project 2/tip_info/round3/dec_kernel_old/MLE_allpars/MLE_all.RData")
 
 whole_df_MLE <- MLE_all
@@ -11,7 +12,8 @@ colors <- c("MCMC" = "#F7903D", "ABC" = "#4D85BD", "MLE" = "#59A95A")
 i = 1
 # param_abc <- whole_df_ABC[((i*8000-7999)):(i*8000),]
 param_abc <- whole_df_ABC[((i*4000-3999)):(i*4000),]
-param_mcmc <- whole_df_MCMC[((i*80000-79999)):(i*80000),]
+# param_mcmc <- whole_df_MCMC[((i*80000-79999)):(i*80000),]
+param_mcmc <- whole_df_MCMC[((i*40000-39999)):(i*40000),]
 param_mle <- whole_df_MLE[((i*40-39)):(i*40),]
 g1_lac <- ggplot2::ggplot(param_abc, aes(x = lac,y = lac_abc, group = lac)) +
   # ggplot2::theme_bw() +
