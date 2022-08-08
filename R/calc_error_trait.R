@@ -161,6 +161,24 @@ calc_error_trait <- function(sim_1,
   #   abs(num_col_sim_1 - num_col_sim_2)
 
 
+  #9. transition times
+  stt1 <- sim_1[[1]][[1]]$stt_two_states
+  ds1_sim1 <- diff(stt1[,2] + stt1[,3] + stt1[,4])
+  ds2_sim1 <- diff(stt1[,5] + stt1[,6] + stt1[,7])
+  ds1<- data.frame(ds1_sim1,ds2_sim1)
+  num_trans12_sim1 = sum(ds1$ds1_sim1 == -1 & ds1$ds2_sim1 == 1)
+  num_trans21_sim1 = sum(ds1$ds1_sim1 == 1 & ds1$ds2_sim1 == -1)
+
+  stt2 <- sim_2[[1]][[1]]$stt_two_states
+  ds1_sim2 <- diff(stt2[,2] + stt2[,3] + stt2[,4])
+  ds2_sim2 <- diff(stt2[,5] + stt2[,6] + stt2[,7])
+  ds1<- data.frame(ds1_sim2,ds2_sim2)
+  num_trans12_sim2 = sum(ds1$ds1_sim2 == -1 & ds1$ds2_sim2 == 1)
+  num_trans21_sim2 = sum(ds1$ds1_sim2 == 1 & ds1$ds2_sim2 == -1)
+
+  num_trans12_error = abs(num_trans12_sim1 - num_trans12_sim2)
+  num_trans21_error = abs(num_trans21_sim1 - num_trans21_sim2)
+
   return(
     list(ana_endemic_nltt_error = ana_endemic_nltt_error,
          clado_endemic_nltt_error = clado_endemic_nltt_error,
@@ -171,6 +189,8 @@ calc_error_trait <- function(sim_1,
          num_clado_error_state1 = num_clado_error_state1,
          num_clado_error_state2 = num_clado_error_state2,
          num_nonend_error_state1 = num_nonend_error_state1,
-         num_nonend_error_state2 = num_nonend_error_state2)
+         num_nonend_error_state2 = num_nonend_error_state2,
+         num_trans12_error = num_trans12_error,
+         num_trans21_error = num_trans21_error)
   )
 }

@@ -19,10 +19,6 @@
 
 calc_ss_diff <- function(sim1, sim2){
 
-  clade_size_error <- calc_clade_size_error(sim_1 = sim1,
-                                            sim_2 = sim2)
-  colon_time_error <- calc_colon_time_error(sim_1 = sim1,
-                                            sim_2 = sim2)
   if("stt_two_states" %in% names(sim1[[1]][[1]])){  ##TraiSIE
     s <- calc_error_trait(sim_1 = sim1,
                           sim_2 = sim2,
@@ -37,8 +33,14 @@ calc_ss_diff <- function(sim1, sim2){
                            s$num_clado_error_state1,
                            s$num_clado_error_state2,
                            s$num_nonend_error_state1,
-                           s$num_nonend_error_state2))
+                           s$num_nonend_error_state2,
+                           s$num_trans12_error,
+                           s$num_trans21_error))
   } else { ## DAISIE
+    clade_size_error <- calc_clade_size_error(sim_1 = sim1,
+                                              sim_2 = sim2)
+    colon_time_error <- calc_colon_time_error(sim_1 = sim1,
+                                              sim_2 = sim2)
     s <- calc_error(sim_1 = sim1,   ##calc_error
                     sim_2 = sim2,
                     replicates = 1,
@@ -103,6 +105,6 @@ calc_epsilon_init <- function(sim){
     }
   }
   ss_diff_pairs_median <- apply(ss_diff_pairs,2,median)
-  epsilon_init <- 9*ss_diff_pairs_median ##9 for DAISIE
+  epsilon_init <- 8*ss_diff_pairs_median ##9 for DAISIE
   return(epsilon_init)
 }
