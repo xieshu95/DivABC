@@ -35,7 +35,7 @@ ABC_SMC <- function( # nolint indeed a complex function
   #generate a matrix with epsilon values
   #we assume that the SMC algorithm converges within 50 iterations
   epsilon <- matrix(nrow = 50, ncol = length(init_epsilon_values))
-  epsilon_dec <- c(1,0.8,0.6,0.4,0.2,0.15,0.12,0.1,0.08,0.07,rep(0.06,40))
+  epsilon_dec <- c(1,0.8,0.6,0.4,0.2,0.15,0.12,0.11,0.1,0.09,0.08,0.07,0.06,rep(0.05,37))
   for (j in seq_along(init_epsilon_values)) {
     if (init_epsilon_values[j] < 0) {
       stop("abc_smc_nltt: ",
@@ -74,6 +74,7 @@ ABC_SMC <- function( # nolint indeed a complex function
     print_frequency <- 20
     tried <- 0
     number_accepted <- 0
+    sigma_temp <- sigma * exp(-0.2 * (i - 1))
 
     #replace all vectors
     if (i > 1) {
@@ -101,25 +102,19 @@ ABC_SMC <- function( # nolint indeed a complex function
           parameters[p_index] <- previous_params[[index]][p_index]
         }
 
-        #only perturb one parameter, to avoid extremely
-        #low acceptance rates due to simultaneous perturbation
-        if(length(idparsopt) == 1){
-          to_change <- as.numeric(idparsopt)
-        } else if(length(idparsopt) == 4){
-          to_change <- sample(idparsopt, 1, TRUE, c(0.2,0.3,0.2,0.3))
-        } else {
-          to_change <- sample(idparsopt, 1)
-          # to_change <- sample(idparsopt, 1, TRUE,c(0.2,0.3,0.2,0.3))
+        # change: perturb all parameter
+        # if(length(idparsopt) == 1){
+        #   to_change <- as.numeric(idparsopt)
+        # } else if(length(idparsopt) == 4){
+        #   to_change <- sample(idparsopt, 1, TRUE, c(0.2,0.3,0.2,0.3))
+        # } else {
+        #   to_change <- sample(idparsopt, 1)
+        #   # to_change <- sample(idparsopt, 1, TRUE,c(0.2,0.3,0.2,0.3))
+        # }
+        for(to_change in idparsopt){
+          parameters[to_change] <- exp(log(parameters[to_change]) +
+                                         stats::rnorm(1, 0, sigma_temp))
         }
-
-        sigma_temp <- sigma * exp(-0.1 * (i - 1))
-        if(to_change == 3 || to_change == 7){
-          sigma_temp <- sigma_temp/10
-        } else {
-          sigma_temp <- sigma_temp
-        }
-        # perturb the parameter a little bit
-        parameters[to_change] <- parameters[to_change] + stats::rnorm(1, 0, sigma_temp)
       }
 
       #reject if outside the prior
