@@ -35,7 +35,8 @@ ABC_SMC <- function( # nolint indeed a complex function
   #generate a matrix with epsilon values
   #we assume that the SMC algorithm converges within 50 iterations
   epsilon <- matrix(nrow = 50, ncol = length(init_epsilon_values))
-  epsilon_dec <- c(1,0.8,0.6,0.4,0.2,0.15,0.12,0.11,0.1,0.09,0.08,0.07,0.06,rep(0.05,37))
+  epsilon_dec <- c(1,0.8,0.6,0.4,0.2,0.17,0.15,0.13,
+                   0.12,0.11,0.1,0.09,0.08,0.07,0.06,rep(0.05,37))
   for (j in seq_along(init_epsilon_values)) {
     if (init_epsilon_values[j] < 0) {
       stop("abc_smc_nltt: ",
