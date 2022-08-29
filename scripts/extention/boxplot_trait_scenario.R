@@ -1,5 +1,98 @@
 ## plot TRAISIE_DD
-load("G:/results/project 2/tip_info/round3/TRAISIE_DD_10reps/DD_whole_df_ABC.RData")
+
+
+folder_path <- "G:/results/project 2/tip_info/round3/TRAISIE_DD_with_q/TraiSIE_ABC_DD/"
+files <- list.files(folder_path)
+param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/TraiSIE_ABC_DD.csv")
+
+param_data2<-param_data[rep(seq_len(nrow(param_data)), each=100),]
+#### ABC
+
+# s1 = s$ana_endemic_nltt_error,
+# s2 = s$clado_endemic_nltt_error,
+# s3 = s$nonendemic_nltt_error,
+# s4 = s$clade_nltt_error,
+# s5 = s$num_ana_error_state1,
+# s6 = s$num_ana_error_state2,
+# s7 = s$num_clado_error_state1,
+# s8 = s$num_clado_error_state2,
+# s9 = s$num_nonend_error_state1,
+# s10 = s$num_nonend_error_state2
+
+
+s1 <- c()
+s2 <- c()
+s3 <- c()
+s4 <- c()
+s5 <- c()
+s6 <- c()
+s7 <- c()
+s8 <- c()
+s9 <- c()
+s10 <- c()
+n_iteration <- c()
+for(i in 1:240){
+  message("param: ", i)
+  file_to_load <- grep(paste0("TraiSIE_ABC_DD_param_set_", i,".RData"),  #,"_rep",rep
+                       files,
+                       value = TRUE,
+                       fixed = TRUE)
+  if (!identical(file_to_load, character())) {
+    load(file.path(folder_path, file_to_load))
+    n_iteration <- c(n_iteration, rep(output$n_iter,100))
+    obs_sim_pars <- param_data[i,]
+    obs_sim <- get_TraiSIE_sim(parameters = as.numeric(c(obs_sim_pars$lac,
+                                                         obs_sim_pars$mu,
+                                                         obs_sim_pars$gam,
+                                                         obs_sim_pars$laa,
+                                                         obs_sim_pars$lac2,
+                                                         obs_sim_pars$mu2,
+                                                         obs_sim_pars$gam2,
+                                                         obs_sim_pars$laa2,
+                                                         obs_sim_pars$trans,
+                                                         obs_sim_pars$trans2)),
+                               K = as.numeric(obs_sim_pars$K),
+                               replicates = 2)
+    accepted_sims <- output$sim_list
+    for (j in 1:100) {
+      df_stats <- calc_ss_diff (sim1 = obs_sim[[1]],
+                                sim2 = accepted_sims[[j]])
+      s1 <- c(s1,df_stats[1])
+      s2 <- c(s2,df_stats[2])
+      s3 <- c(s3,df_stats[3])
+      s4 <- c(s4,df_stats[4])
+      s5 <- c(s5,df_stats[5])
+      s6 <- c(s6,df_stats[6])
+      s7 <- c(s7,df_stats[7])
+      s8 <- c(s8,df_stats[8])
+      s9 <- c(s9,df_stats[9])
+      s10 <- c(s10,df_stats[10])
+    }
+  } else {
+    n_iteration <- c(n_iteration, rep(NA,100))
+    s1 <- c(s1, rep(NA,100))
+    s2 <- c(s2, rep(NA,100))
+    s3 <- c(s3, rep(NA,100))
+    s4 <- c(s4, rep(NA,100))
+    s5 <- c(s5, rep(NA,100))
+    s6 <- c(s6, rep(NA,100))
+    s7 <- c(s7, rep(NA,100))
+    s8 <- c(s8, rep(NA,100))
+    s9 <- c(s9, rep(NA,100))
+    s10 <- c(s10, rep(NA,100))
+  }
+}
+whole_df_ss <- data.frame(s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,n_iteration)
+save(whole_df_ss,file = "G:/results/project 2/tip_info/round3/TRAISIE_DD_with_q/whole_df_ss.RData")
+load("G:/results/project 2/tip_info/round3/TRAISIE_DD_with_q/whole_df_ss.RData")
+load("G:/results/project 2/tip_info/round3/TRAISIE_DD_with_q/DD_whole_df_ABC.RData")
+whole_df_with_ss <- cbind(whole_df_ABC,whole_df_ss)
+save(whole_df_with_ss,file = "G:/results/project 2/tip_info/round3/TRAISIE_DD_with_q/whole_df_with_ss.RData")
+
+
+
+
+load("G:/results/project 2/tip_info/round3/TRAISIE_DD_lac_mu/DD_whole_df_ABC.RData")
 whole_df_ABC$Transition <- whole_df_ABC$trans
 whole_df_ABC$Transition[whole_df_ABC$trans == "0" & whole_df_ABC$trans2 == "0"] <- "nn"
 whole_df_ABC$Transition[whole_df_ABC$trans == "0.02" & whole_df_ABC$trans2 == "0.2"] <- "lh"

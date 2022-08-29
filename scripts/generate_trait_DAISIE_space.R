@@ -345,3 +345,64 @@ write.csv2(
 #   "data/TraiSIE_ABC_DD.csv",
 #   row.names = FALSE
 # )
+
+
+rep <- 1:50
+K <- 20
+## reference rates: 0.5,0.1,0.02,0.2
+## a. lac mean = 0.5
+lac <- c(0.2,0.3,0.4,0.5)
+mu <- 0.1
+gam <- 0.02
+laa <- 0.2
+ABC_trait_lac <- expand.grid(
+  rep = rep,
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+ABC_trait_lac1 <- cbind(
+  ABC_trait_lac,
+  lac2 = 1.0 - ABC_trait_lac[,2],
+  mu2 = 0.2 - ABC_trait_lac[,3],
+  gam2 = 0.04 - ABC_trait_lac[,4],
+  laa2 = 0.4 - ABC_trait_lac[,5],
+  trans = 0,
+  trans2 = 0
+)
+
+ABC_trait_lac2 <- cbind(
+  ABC_trait_lac,
+  lac2 = 1.0 - ABC_trait_lac[,2],
+  mu2 = 0.2 - ABC_trait_lac[,3],
+  gam2 = 0.04 - ABC_trait_lac[,4],
+  laa2 = 0.4 - ABC_trait_lac[,5],
+  trans = 0.02,
+  trans2 = 0.2
+)
+
+ABC_trait_lac3 <- cbind(
+  ABC_trait_lac,
+  lac2 = 1.0 - ABC_trait_lac[,2],
+  mu2 = 0.2 - ABC_trait_lac[,3],
+  gam2 = 0.04 - ABC_trait_lac[,4],
+  laa2 = 0.4 - ABC_trait_lac[,5],
+  trans = 0.2,
+  trans2 = 0.02
+)
+
+
+
+TraiSIE_ABC_lac <- rbind(
+  ABC_trait_lac1,
+  ABC_trait_lac2,
+  ABC_trait_lac3
+)
+
+write.csv2(
+  TraiSIE_ABC_lac,
+  "data/TraiSIE_ABC_lac.csv",
+  row.names = FALSE
+)
