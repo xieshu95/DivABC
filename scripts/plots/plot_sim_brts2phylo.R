@@ -67,10 +67,10 @@ lineage_brts <- function(sims) {
 }
 
 
-load("G:/results/project 1/trait_CES/trait_CES_param_set_200.RData")
+load("G:/results/project 1/final_all/trait_CES_param_set_200.RData")
 sim1 <- output$passed_oceanic_sims_1[[102]]
 brts <- lineage_brts(sims = sim1)
-brts1 <- brts[c(3)]
+brts1 <- brts[c(37,38)]
 phylo_tree <- list()
 tcols <- c()
 for (i in 1:length(brts1)){
@@ -101,8 +101,7 @@ metadata <- tibble::tibble(
   uncertain = FALSE  # whether colonization time is known for sure
 )
 age <- 5
-tiff(paste0("G:/R/Traisie-ABC/plots/phylotrees_ppt/tree12.tiff"),
-      units="px", width=400, height=200)
+# tiff(paste0("G:/R/Traisie-ABC/plots/phylotrees_ppt/tree12.tiff"),units="px", width=400, height=200)
 p <- DAISIE:::DAISIE_plot_input(
   phylo_tree,
   age,
@@ -112,7 +111,7 @@ p <- DAISIE:::DAISIE_plot_input(
   pargs = list(size = 2)
 )
 print(p)
-while (!is.null(dev.list()))  dev.off()
+# while (!is.null(dev.list()))  dev.off()
 
 # phylo_tree1 = phylo_tree
 
@@ -129,4 +128,27 @@ while (!is.null(dev.list()))  dev.off()
 # library(phytools)
 # plotTree(trees[[1]],node.numbers=T)
 
+# library(RPANDA)
+DAISIE_tree <- phylo_tree[[1]]
+plot(DAISIE_tree)
+data(Cetacea)
+plot(Cetacea)
+a <-RPANDA::spectR(Cetacea,meth="standard",zero_bound=FALSE)
+plot_spectR(a)
+b <-RPANDA::spectR(DAISIE_tree,meth="standard",zero_bound=FALSE)
+plot_spectR(b)
+
+
+remotes::install_github("thijsjanzen/treestats")
+library(RPANDA)
+library(treestats)
+set.seed(42)
+focal_tree <- ape::rphylo(n = 10, birth = 1, death = 0)
+plot(focal_tree)
+ref <- RPANDA::spectR(focal_tree)
+stat <- treestats::laplacian_spectrum(focal_tree)
+plot_spectR(stat)
+stat2 <- treestats::laplacian_spectrum(
+  phy = treestats::phylo_to_l(focal_tree)
+)
 

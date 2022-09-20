@@ -20,7 +20,7 @@
 #'     the non-endemic species between the two simulations.}
 #' }
 #'
-calc_error <- function(sim_1,
+calc_error_with_ext <- function(sim_1,
                        sim_2,
                        replicates,
                        distance_method) {

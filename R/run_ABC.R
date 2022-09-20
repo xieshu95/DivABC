@@ -36,7 +36,7 @@ run_ABC <- function(param_space_name,
                                              obs_sim_pars$gam,
                                              obs_sim_pars$laa),
                               K = as.numeric(obs_sim_pars$K),
-                              replicates = 30)  ## replicates = 30
+                              replicates = 5)  ## replicates = 30
     sim_function <- get_DAISIE_sim
     prior_generating_function <- prior_gen
     prior_density_function <- prior_dens

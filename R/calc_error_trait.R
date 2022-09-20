@@ -172,9 +172,9 @@ calc_error_trait <- function(sim_1,
   stt2 <- sim_2[[1]][[1]]$stt_two_states
   ds1_sim2 <- diff(stt2[,2] + stt2[,3] + stt2[,4])
   ds2_sim2 <- diff(stt2[,5] + stt2[,6] + stt2[,7])
-  ds1<- data.frame(ds1_sim2,ds2_sim2)
-  num_trans12_sim2 = sum(ds1$ds1_sim2 == -1 & ds1$ds2_sim2 == 1)
-  num_trans21_sim2 = sum(ds1$ds1_sim2 == 1 & ds1$ds2_sim2 == -1)
+  ds2<- data.frame(ds1_sim2,ds2_sim2)
+  num_trans12_sim2 = sum(ds2$ds1_sim2 == -1 & ds2$ds2_sim2 == 1)
+  num_trans21_sim2 = sum(ds2$ds1_sim2 == 1 & ds2$ds2_sim2 == -1)
 
   num_trans12_error = abs(num_trans12_sim1 - num_trans12_sim2)
   num_trans21_error = abs(num_trans21_sim1 - num_trans21_sim2)
