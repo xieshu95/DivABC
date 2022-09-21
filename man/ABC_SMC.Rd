@@ -17,7 +17,8 @@ ABC_SMC(
   num_iterations,
   K,
   idparsopt,
-  fixpars
+  fixpars,
+  ss_set = 1
 )
 }
 \value{

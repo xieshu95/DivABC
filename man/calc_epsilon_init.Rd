@@ -4,7 +4,7 @@
 \alias{calc_epsilon_init}
 \title{calculate the initial epsilon}
 \usage{
-calc_epsilon_init(sim)
+calc_epsilon_init(sim, ss_set)
 }
 \value{
 

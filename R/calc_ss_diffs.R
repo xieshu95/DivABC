@@ -17,44 +17,105 @@
 #' @author Shu Xie
 #' @export
 
-calc_ss_diff <- function(sim1, sim2){
+calc_ss_diff <- function(sim1, sim2, ss_set){
 
   if("stt_two_states" %in% names(sim1[[1]][[1]])){  ##TraiSIE
-    s <- calc_error_trait(sim_1 = sim1,
-                          sim_2 = sim2,
-                          replicates = 1,
-                          distance_method = "abs")
-    ss_diff <-as.numeric(c(s$ana_endemic_nltt_error,
-                           s$clado_endemic_nltt_error,
-                           s$nonendemic_nltt_error,
-                           s$clade_nltt_error,
-                           s$num_ana_error_state1,
-                           s$num_ana_error_state2,
-                           s$num_clado_error_state1,
-                           s$num_clado_error_state2,
-                           s$num_nonend_error_state1,
-                           s$num_nonend_error_state2,
-                           s$num_trans12_error,
-                           s$num_trans21_error))
+    ss <- calc_error_trait(sim_1 = sim1,
+                           sim_2 = sim2,
+                           replicates = 1,
+                           distance_method = "abs")
+    ss_diff <-as.numeric(c(ss$ana_endemic_nltt_error,
+                           ss$clado_endemic_nltt_error,
+                           ss$nonendemic_nltt_error,
+                           ss$clade_nltt_error,
+                           ss$num_ana_error_state1,
+                           ss$num_ana_error_state2,
+                           ss$num_clado_error_state1,
+                           ss$num_clado_error_state2,
+                           ss$num_nonend_error_state1,
+                           ss$num_nonend_error_state2,
+                           ss$num_trans12_error,
+                           ss$num_trans21_error))
   } else { ## DAISIE
-    clade_size_error <- calc_clade_size_error(sim_1 = sim1,
-                                              sim_2 = sim2)
-    colon_time_error <- calc_colon_time_error(sim_1 = sim1,
-                                              sim_2 = sim2)
-    s <- calc_error(sim_1 = sim1,   ##calc_error
-                    sim_2 = sim2,
-                    replicates = 1,
-                    distance_method = "abs")
-    ss_diff <-as.numeric(c(s$clade_nltt_error,
-                           s$ana_endemic_nltt_error,
-                           s$clado_endemic_nltt_error,
-                           s$nonendemic_nltt_error,
-                           s$num_col_error,
-                           clade_size_error,
-                           colon_time_error))
+    ss <- calc_error_no_ext(sim_1 = sim1,   ##calc_error
+                            sim_2 = sim2,
+                            replicates = 1,
+                            distance_method = "abs")
+    ss_diff <- select_ss(ss,ss_set)
   }
   return(ss_diff)
 }
+
+#' Select the combination of summary statitsics
+#'
+#' @param ss A vector contains all the calculated summary statistics
+#' @param ss_set A numeric to choose which combination of summary statistics
+#'
+#' @author Shu Xie
+#' @export
+select_ss <- function (ss,ss_set){
+  if(ss_set == 1){ ## calculate all summary statistics
+    select_ss <-as.numeric(c(ss$total_nltt_error,
+                             ss$clade_nltt_error,
+                             ss$num_ana_error,
+                             ss$num_clado_error,
+                             ss$num_nonend_error,
+                             ss$clade_size_error,
+                             ss$colon_time_error))
+  } else if (ss_set == 2) {  ## delete ss1
+    select_ss <-as.numeric(c(ss$clade_nltt_error,
+                             ss$num_ana_error,
+                             ss$num_clado_error,
+                             ss$num_nonend_error,
+                             ss$clade_size_error,
+                             ss$colon_time_error))
+  } else if (ss_set == 3) {  ## delete ss2
+    select_ss <-as.numeric(c(ss$total_nltt_error,
+                             ss$num_ana_error,
+                             ss$num_clado_error,
+                             ss$num_nonend_error,
+                             ss$clade_size_error,
+                             ss$colon_time_error))
+  } else if (ss_set == 4) {  ## delete ss3
+    select_ss <-as.numeric(c(ss$total_nltt_error,
+                             ss$clade_nltt_error,
+                             ss$num_clado_error,
+                             ss$num_nonend_error,
+                             ss$clade_size_error,
+                             ss$colon_time_error))
+  } else if (ss_set == 5) {  ## delete ss4
+    select_ss <-as.numeric(c(ss$total_nltt_error,
+                             ss$clade_nltt_error,
+                             ss$num_ana_error,
+                             ss$num_nonend_error,
+                             ss$clade_size_error,
+                             ss$colon_time_error))
+  } else if (ss_set == 6) {  ## delete ss5
+    select_ss <-as.numeric(c(ss$total_nltt_error,
+                             ss$clade_nltt_error,
+                             ss$num_ana_error,
+                             ss$num_clado_error,
+                             ss$clade_size_error,
+                             ss$colon_time_error))
+  } else if (ss_set == 7) {  ## delete ss6
+    select_ss <-as.numeric(c(ss$total_nltt_error,
+                             ss$clade_nltt_error,
+                             ss$num_ana_error,
+                             ss$num_clado_error,
+                             ss$num_nonend_error,
+                             ss$colon_time_error))
+  } else if (ss_set == 8) {  ## delete ss7
+    select_ss <-as.numeric(c(ss$total_nltt_error,
+                             ss$clade_nltt_error,
+                             ss$num_ana_error,
+                             ss$num_clado_error,
+                             ss$num_nonend_error,
+                             ss$clade_size_error))
+  }
+
+  return(select_ss)
+}
+
 
 # all ss for DAISIE
 # spec_nltt_error = spec_nltt_error,
@@ -95,12 +156,14 @@ calc_ss_diff <- function(sim1, sim2){
 #' @author Shu Xie
 #' @return
 #' @export
-calc_epsilon_init <- function(sim){
+calc_epsilon_init <- function(sim,ss_set){
   ss_diff_pairs <- c()
   replicates <- length(sim)
   for (i in 1:(replicates-1)){
     for (j in (i + 1):replicates){
-      ss_diff <- calc_ss_diff(sim1 = sim[[i]], sim2 =sim[[j]])
+      ss_diff <- calc_ss_diff(sim1 = sim[[i]],
+                              sim2 = sim[[j]],
+                              ss_set = ss_set)
       ss_diff_pairs <- data.frame(rbind(ss_diff_pairs,ss_diff))
     }
   }
