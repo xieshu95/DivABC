@@ -289,3 +289,39 @@ write.csv2(
   "data/DAISIE_MCMC_DD.csv",
   row.names = FALSE
 )
+
+
+
+
+
+
+### use less parameter sets to try
+K <- c(20,Inf)
+## a. lac
+lac <- c(0.2,0.5)
+mu <- c(0.05,0.1)
+gam <- c(0.01,0.02)
+laa <- c(0.1,0.2)
+DAISIE_ABC_short <- expand.grid(
+  lac = lac,
+  mu = mu,
+  gam = gam,
+  laa = laa,
+  K = K
+)
+
+
+write.csv2(
+  DAISIE_ABC_short,
+  "data/DAISIE_ABC_short.csv",
+  row.names = FALSE
+)
+
+
+DAISIE_MCMC_short = DAISIE_ABC_short
+
+write.csv2(
+  DAISIE_MCMC_short,
+  "data/DAISIE_MCMC_short.csv",
+  row.names = FALSE
+)
