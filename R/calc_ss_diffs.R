@@ -55,62 +55,62 @@ calc_ss_diff <- function(sim1, sim2, ss_set){
 #' @export
 select_ss <- function (ss,ss_set){
   if(ss_set == 1){ ## calculate all summary statistics
-    select_ss <-as.numeric(c(ss$total_nltt_error,
-                             ss$clade_nltt_error,
-                             ss$num_ana_error,
-                             ss$num_clado_error,
-                             ss$num_nonend_error,
-                             ss$clade_size_error,
-                             ss$colon_time_error))
+    select_ss <-as.numeric(c(ss$total_nltt,
+                             ss$clade_nltt,
+                             ss$num_ana,
+                             ss$num_clado,
+                             ss$num_nonend,
+                             ss$clade_size,
+                             ss$colon_time))
   } else if (ss_set == 2) {  ## delete ss1
-    select_ss <-as.numeric(c(ss$clade_nltt_error,
-                             ss$num_ana_error,
-                             ss$num_clado_error,
-                             ss$num_nonend_error,
-                             ss$clade_size_error,
-                             ss$colon_time_error))
+    select_ss <-as.numeric(c(ss$clade_nltt,
+                             ss$num_ana,
+                             ss$num_clado,
+                             ss$num_nonend,
+                             ss$clade_size,
+                             ss$colon_time))
   } else if (ss_set == 3) {  ## delete ss2
-    select_ss <-as.numeric(c(ss$total_nltt_error,
-                             ss$num_ana_error,
-                             ss$num_clado_error,
-                             ss$num_nonend_error,
-                             ss$clade_size_error,
-                             ss$colon_time_error))
+    select_ss <-as.numeric(c(ss$total_nltt,
+                             ss$num_ana,
+                             ss$num_clado,
+                             ss$num_nonend,
+                             ss$clade_size,
+                             ss$colon_time))
   } else if (ss_set == 4) {  ## delete ss3
-    select_ss <-as.numeric(c(ss$total_nltt_error,
-                             ss$clade_nltt_error,
-                             ss$num_clado_error,
-                             ss$num_nonend_error,
-                             ss$clade_size_error,
-                             ss$colon_time_error))
+    select_ss <-as.numeric(c(ss$total_nltt,
+                             ss$clade_nltt,
+                             ss$num_clado,
+                             ss$num_nonend,
+                             ss$clade_size,
+                             ss$colon_time))
   } else if (ss_set == 5) {  ## delete ss4
-    select_ss <-as.numeric(c(ss$total_nltt_error,
-                             ss$clade_nltt_error,
-                             ss$num_ana_error,
-                             ss$num_nonend_error,
-                             ss$clade_size_error,
-                             ss$colon_time_error))
+    select_ss <-as.numeric(c(ss$total_nltt,
+                             ss$clade_nltt,
+                             ss$num_ana,
+                             ss$num_nonend,
+                             ss$clade_size,
+                             ss$colon_time))
   } else if (ss_set == 6) {  ## delete ss5
-    select_ss <-as.numeric(c(ss$total_nltt_error,
-                             ss$clade_nltt_error,
-                             ss$num_ana_error,
-                             ss$num_clado_error,
-                             ss$clade_size_error,
-                             ss$colon_time_error))
+    select_ss <-as.numeric(c(ss$total_nltt,
+                             ss$clade_nltt,
+                             ss$num_ana,
+                             ss$num_clado,
+                             ss$clade_size,
+                             ss$colon_time))
   } else if (ss_set == 7) {  ## delete ss6
-    select_ss <-as.numeric(c(ss$total_nltt_error,
-                             ss$clade_nltt_error,
-                             ss$num_ana_error,
-                             ss$num_clado_error,
-                             ss$num_nonend_error,
-                             ss$colon_time_error))
+    select_ss <-as.numeric(c(ss$total_nltt,
+                             ss$clade_nltt,
+                             ss$num_ana,
+                             ss$num_clado,
+                             ss$num_nonend,
+                             ss$colon_time))
   } else if (ss_set == 8) {  ## delete ss7
-    select_ss <-as.numeric(c(ss$total_nltt_error,
-                             ss$clade_nltt_error,
-                             ss$num_ana_error,
-                             ss$num_clado_error,
-                             ss$num_nonend_error,
-                             ss$clade_size_error))
+    select_ss <-as.numeric(c(ss$total_nltt,
+                             ss$clade_nltt,
+                             ss$num_ana,
+                             ss$num_clado,
+                             ss$num_nonend,
+                             ss$clade_size))
   }
 
   return(select_ss)
@@ -156,18 +156,24 @@ select_ss <- function (ss,ss_set){
 #' @author Shu Xie
 #' @return
 #' @export
+# calc_epsilon_init <- function(sim,ss_set){
+#   ss_diff_pairs <- c()
+#   replicates <- length(sim)
+#   for (i in 1:(replicates-1)){
+#     for (j in (i + 1):replicates){
+#       ss_diff <- calc_ss_diff(sim1 = sim[[i]],
+#                               sim2 = sim[[j]],
+#                               ss_set = ss_set)
+#       ss_diff_pairs <- data.frame(rbind(ss_diff_pairs,ss_diff))
+#     }
+#   }
+#   ss_diff_pairs_median <- apply(ss_diff_pairs,2,mean)
+#   epsilon_init <- 8*ss_diff_pairs_median ##9 for DAISIE
+#   return(epsilon_init)
+# }
 calc_epsilon_init <- function(sim,ss_set){
-  ss_diff_pairs <- c()
-  replicates <- length(sim)
-  for (i in 1:(replicates-1)){
-    for (j in (i + 1):replicates){
-      ss_diff <- calc_ss_diff(sim1 = sim[[i]],
-                              sim2 = sim[[j]],
-                              ss_set = ss_set)
-      ss_diff_pairs <- data.frame(rbind(ss_diff_pairs,ss_diff))
-    }
-  }
-  ss_diff_pairs_median <- apply(ss_diff_pairs,2,median)
-  epsilon_init <- 8*ss_diff_pairs_median ##9 for DAISIE
-  return(epsilon_init)
+  ss <- calc_ss_no_ext(sim[[1]],1)
+  eps_init <- 20*select_ss(ss,ss_set)
+  return(eps_init)
 }
+
