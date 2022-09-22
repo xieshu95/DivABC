@@ -21,6 +21,7 @@ idparsopt_laa2=${10}
 idparsopt_trans=${11}
 idparsopt_trans2=${12}
 sim_model=${13}
+ss_set=${14}
 
 
 ml R
@@ -36,4 +37,5 @@ Rscript TraisieABC/scripts/run_ABC_peregrine.R ${param_space_name} \
                                                ${idparsopt_laa2} \
                                                ${idparsopt_trans} \
                                                ${idparsopt_trans2} \
-                                               ${sim_model}
+                                               ${sim_model} \
+                                               ${ss_set}

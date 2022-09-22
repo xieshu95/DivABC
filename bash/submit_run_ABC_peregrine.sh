@@ -24,6 +24,7 @@ idparsopt_laa2=${9}
 idparsopt_trans=${10}
 idparsopt_trans2=${11}
 sim_model=${12}
+ss_set=${13}
 
 for_length=`wc -l TraisieABC/data/${param_space_name}.csv | cut -f1 -d' '`
 for_length=$(( ${for_length} - 1 ))
@@ -42,5 +43,6 @@ sbatch TraisieABC/bash/submit_run_ABC_param_set.sh ${param_space_name} \
                                                    ${idparsopt_laa2} \
                                                    ${idparsopt_trans} \
                                                    ${idparsopt_trans2} \
-                                                   ${sim_model}
+                                                   ${sim_model} \
+                                                   ${ss_set}
 done
