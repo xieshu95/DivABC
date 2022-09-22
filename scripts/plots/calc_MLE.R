@@ -207,14 +207,14 @@ save(whole_df_MLE,file = "G:/results/project 2/tip_info/round2/MLE_single/whole_
 
 
 ##### MLE for all parameters
-param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC.csv")
+param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
 lac_MLE<- c()
 mu_MLE <-c()
 gam_MLE <- c()
 laa_MLE <-c()
-for(i in 1:400) {
+for(i in 1:32) {
   message("set: ", i)
-  set.seed(i)
+  set.seed(1)
   obs_sim_pars <- param_space[i,]
   obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
                                            obs_sim_pars$mu,
@@ -223,32 +223,26 @@ for(i in 1:400) {
                             K = as.numeric(obs_sim_pars$K),
                             replicates = 1)
 
-  MLE_DI_single <- DAISIE::DAISIE_ML(
+  MLE_single <- DAISIE::DAISIE_ML_CS(
     datalist = obs_sim[[1]][[1]],
-    initparsopt = c(obs_sim_pars$lac,
-                    obs_sim_pars$mu,
-                    obs_sim_pars$gam,
-                    obs_sim_pars$laa),
-    idparsopt = c(1,2,4,5),
-    parsfix = Inf,
-    idparsfix = 3,
-    ddmodel = 0,
+    datatype = "single",
+    initparsopt = c(0.1,0.1,5,0.01,0.1),
+    idparsopt = c(1,2,3,4,5),
+    parsfix = NULL,
+    idparsfix = NULL,
+    ddmodel = 11,
     cond = 1,
-    eqmodel = 0,
-    x_E = 0.95,
-    x_I = 0.98,
-    tol = c(1e-04, 1e-05, 1e-07),
-    maxiter = 1000 * round((1.25) ^ 4),
     methode = "lsodes",
     optimmethod = "subplex",
     jitter = -1e-5
   )
-  lac_MLE<- c(lac_MLE,MLE_DI_single$lambda_c)
-  mu_MLE <-c(mu_MLE,MLE_DI_single$mu)
-  gam_MLE <- c(gam_MLE,MLE_DI_single$gamma)
-  laa_MLE <-c(laa_MLE,MLE_DI_single$lambda_a)
+  lac_MLE<- c(lac_MLE,MLE_single$lambda_c)
+  mu_MLE <-c(mu_MLE,MLE_single$mu)
+  gam_MLE <- c(gam_MLE,MLE_single$gamma)
+  laa_MLE <-c(laa_MLE,MLE_single$lambda_a)
 }
 MLE_all <- data.frame(param_space,lac_MLE,mu_MLE,gam_MLE,laa_MLE)
+
 save(MLE_all,file = "G:/results/project 2/tip_info/round2/MLE_all/MLE_all.RData")
 whole_df_MLE <- data.frame(param_space,MLE_400)
 save(whole_df_MLE,file = "G:/results/project 2/tip_info/round2/MLE_all/whole_df_MLE.RData")

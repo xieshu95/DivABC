@@ -20,7 +20,8 @@ ABC_SMC <- function( # nolint indeed a complex function
   num_iterations,
   K,
   idparsopt,
-  fixpars
+  fixpars,
+  ss_set = 1
 ) {
   #just to get the number of parameters to be estimated.
   parameters <- prior_generating_function(fixpars,idparsopt)
@@ -35,8 +36,8 @@ ABC_SMC <- function( # nolint indeed a complex function
   #generate a matrix with epsilon values
   #we assume that the SMC algorithm converges within 50 iterations
   epsilon <- matrix(nrow = 50, ncol = length(init_epsilon_values))
-  epsilon_dec <- c(1,0.8,0.6,0.4,0.2,0.17,0.15,0.13,
-                   0.12,0.11,0.1,0.09,0.08,0.07,0.06,rep(0.05,37))
+  # epsilon_dec <- c(1,0.8,0.6,0.4,0.2,0.17,0.15,0.13,
+  #                  0.12,0.11,0.1,0.09,0.08,0.07,0.06,rep(0.05,35))
   for (j in seq_along(init_epsilon_values)) {
     if (init_epsilon_values[j] < 0) {
       stop("abc_smc_nltt: ",
@@ -45,8 +46,8 @@ ABC_SMC <- function( # nolint indeed a complex function
     }
 
     for (i in seq_len(50)) {
-      epsilon[i, j] <- init_epsilon_values[j] * epsilon_dec[i]
-      # epsilon[i, j] <- init_epsilon_values[j] * exp(-0.4 * (i - 1))
+      # epsilon[i, j] <- init_epsilon_values[j] * epsilon_dec[i]
+      epsilon[i, j] <- init_epsilon_values[j] * exp(-0.3 * (i - 1))
     }
   }
 
@@ -128,7 +129,8 @@ ABC_SMC <- function( # nolint indeed a complex function
 
         #calculate the summary statistics for the simulated tree
         df_stats <- calc_ss_diff (sim1 = obs_data[[1]],
-                                  sim2 = new_sim[[1]])
+                                  sim2 = new_sim[[1]],
+                                  ss_set = ss_set)
 
         # #check if the summary statistics are sufficiently
         # #close to the observed summary statistics

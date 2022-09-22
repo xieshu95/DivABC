@@ -3,19 +3,19 @@
 #pars <-c(0.2,0.1,40,0.005,0.1)
 set.seed(1)
 lac <- runif(50,0,1)
-replicates <- 100
+replicates <- 30
 novel_sim <- list()
 for (i in 1:length(lac)) {
   for (j in seq_len(replicates)) {
     novel_sim[[j]] <- DAISIE::DAISIE_sim_constant_rate(
       time = 5,
       M = 1000,
-      pars = c(lac[i],0.8,40,0.02,0.5),
+      pars = c(lac[i],0.1,40,0.02,0.2),
       replicates = 1,
       sample_freq  = Inf,
       plot_sims = FALSE,
       verbose = FALSE,
-      cond = 5
+      cond = 0
     )
   }
   file_name <- paste0("sim_lac",i,".RData")
