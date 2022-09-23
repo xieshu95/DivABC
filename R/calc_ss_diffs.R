@@ -173,7 +173,7 @@ select_ss <- function (ss,ss_set){
 # }
 calc_epsilon_init <- function(sim,ss_set){
   ss <- calc_ss_no_ext(sim[[1]],1)
-  eps_init <- 15*select_ss(ss,ss_set)
+  eps_init <- c(12,12,15,15,15,15,15)*select_ss(ss,ss_set)
   return(eps_init)
 }
 

@@ -4,7 +4,7 @@
 #' @export
 prior_dens <- function(pars,idparsopt) {
   if(1 %in% idparsopt){
-    dens_lac <- stats::dexp(pars[1],5)
+    dens_lac <- stats::dexp(pars[1],1.5)
   } else {
     dens_lac <- 1
   }
@@ -14,12 +14,12 @@ prior_dens <- function(pars,idparsopt) {
     dens_mu <- 1
   }
   if(3 %in% idparsopt){
-    dens_gam <- stats::dexp(pars[3],30)
+    dens_gam <- stats::dexp(pars[3],20)
   } else {
     dens_gam <- 1
   }
   if(4 %in% idparsopt){
-    dens_laa <- stats::dexp(pars[4],5)
+    dens_laa <- stats::dexp(pars[4],3)
   } else {
     dens_laa <- 1
   }
@@ -33,7 +33,7 @@ prior_dens <- function(pars,idparsopt) {
 #' @export
 prior_gen <- function(pars,idparsopt){
   if(1 %in% idparsopt){
-    lac <- stats::rexp(1,5)
+    lac <- stats::rexp(1,1.5)
   } else {
     lac <- pars[1]
   }
@@ -43,14 +43,16 @@ prior_gen <- function(pars,idparsopt){
     mu <- pars[2]
   }
   if(3 %in% idparsopt){
-    gam <- stats::rexp(1,30)
+    gam <- stats::rexp(1,20)
   } else {
     gam <- pars[3]
   }
   if(4 %in% idparsopt){
-    laa <- stats::rexp(1,5)
+    laa <- stats::rexp(1,3)
   } else {
     laa <- pars[4]
   }
   return(as.numeric(c(lac,mu,gam,laa)))
 }
+
+# plot(density(rexp(1000,3)))
