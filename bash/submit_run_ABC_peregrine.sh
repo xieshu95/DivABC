@@ -10,7 +10,7 @@
 
 # Start script
 ml R
-Rscript -e "remotes::install_github('xieshu95/TraisieABC@kernel')"
+Rscript -e "remotes::install_github('xieshu95/TraisieABC@kernel_ss')"
 
 param_space_name=${1}
 idparsopt_lac=${2}
