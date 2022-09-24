@@ -68,7 +68,7 @@ run_ABC <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_generating_function,
     prior_density_function = prior_density_function,
-    number_of_particles = 1000,
+    number_of_particles = 2000,
     sigma = 0.5,
     stop_rate = 0.002,
     replicates = 1,  ## simulation replicates for each parameter set
