@@ -2,7 +2,7 @@
 #SBATCH --time=5-23:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --job-name=test_eps
+#SBATCH --job-name=ss
 #SBATCH --output=logs/ABC-%j.log
 #SBATCH --mem=1GB
 #SBATCH --partition=gelifes
