@@ -186,21 +186,21 @@ calc_epsilon_init <- function(sim,ss_set){
 
 select_ss_multi <- function(ss_set){
   if (ss_set == 1) {
-    ss_multi <- c(12,12,15,15,15,12,12)
+    ss_multi <- c(10,6,12,12,12,10,6)
   } else if (ss_set == 2) {
-    ss_multi <- c(12,15,15,15,12,12)
+    ss_multi <- c(6,12,12,12,10,6)
   } else if (ss_set == 3) {
-    ss_multi <- c(12,15,15,15,12,12)
+    ss_multi <- c(10,12,12,12,10,6)
   } else if (ss_set == 4) {
-    ss_multi <- c(12,12,15,15,12,12)
+    ss_multi <- c(10,6,12,12,10,6)
   } else if (ss_set == 5) {
-    ss_multi <- c(12,12,15,15,12,12)
+    ss_multi <- c(10,6,12,12,10,6)
   } else if (ss_set == 6) {
-    ss_multi <- c(12,12,15,15,12,12)
+    ss_multi <- c(10,6,12,12,10,6)
   } else if (ss_set == 7) {
-    ss_multi <- c(12,12,15,15,15,12)
+    ss_multi <- c(10,6,12,12,12,6)
   } else if (ss_set == 8) {
-    ss_multi <- c(12,12,15,15,15,12)
+    ss_multi <- c(10,6,12,12,12,10)
   }
 
   return(ss_multi)

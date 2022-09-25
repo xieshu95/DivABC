@@ -1,14 +1,14 @@
 ### decide the parameter space and check the relationships between dss and ss
 
 ## calculate the MLE of each set
-param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
+param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short2.csv")
 lac_MLE<- c()
 mu_MLE <-c()
 gam_MLE <- c()
 laa_MLE <-c()
 for(i in 1:32) {
   message("set: ", i)
-  set.seed(42)
+  set.seed(1)
   obs_sim_pars <- param_space[i,]
   obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
                                            obs_sim_pars$mu,
@@ -20,7 +20,7 @@ for(i in 1:32) {
   MLE_single <- DAISIE::DAISIE_ML_CS(
     datalist = obs_sim[[1]][[1]],
     datatype = "single",
-    initparsopt = c(0.2,0.02,30,0.02,0.2),
+    initparsopt = c(0.2,0.02,50,0.02,0.2),
     idparsopt = c(1,2,3,4,5),
     parsfix = NULL,
     idparsfix = NULL,
@@ -35,6 +35,7 @@ for(i in 1:32) {
   laa_MLE <-c(laa_MLE,MLE_single$lambda_a)
 }
 MLE_all <- data.frame(param_space,lac_MLE,mu_MLE,gam_MLE,laa_MLE)
+save(MLE_all,file = "G:/results/project 2/tip_info/round4/space_short2_ss_seed1.RData")
 
 
 ### calculate the number of species for each set
@@ -89,7 +90,23 @@ ss5<-c()
 ss6<-c()
 ss7<-c()
 
-for(i in 1:32) {
+# calc_epsilon_init <- function(sim,ss_set){
+#   ss_diff_pairs <- c()
+#   replicates <- length(sim)
+#   for (i in 1:(replicates-1)){
+#     for (j in (i + 1):replicates){
+#       ss_diff <- calc_ss_diff(sim1 = sim[[i]],
+#                               sim2 = sim[[j]],
+#                               ss_set = ss_set)
+#       ss_diff_pairs <- data.frame(rbind(ss_diff_pairs,ss_diff))
+#     }
+#   }
+#   ss_diff_pairs_median <- apply(ss_diff_pairs,2,mean)
+#   epsilon_init <- 8*ss_diff_pairs_median ##9 for DAISIE
+#   return(epsilon_init)
+# }
+
+for(i in 1:2) {
   message("set: ", i)
   set.seed(i)
   obs_sim_pars <- param_space[i,]
@@ -99,7 +116,7 @@ for(i in 1:32) {
                                            obs_sim_pars$gam,
                                            obs_sim_pars$laa),
                             K = as.numeric(obs_sim_pars$K),
-                            replicates = 1)
+                            replicates = 30)
   init_ss_diff <- calc_epsilon_init(obs_sim,ss_set)
   ss <- calc_ss_no_ext(obs_sim[[1]],1)
 
@@ -126,10 +143,13 @@ ss <- data.frame(param_space,dss1,dss2,dss3,dss4,dss5,dss6,dss7,
 
 save(ss,file = "G:/results/project 2/tip_info/round4/no_ext_nltt/ss_seed_i.RData")
 
+load("G:/results/project 2/tip_info/round4/no_ext_nltt/ss_seed_i.RData")
 
-
-
-
+library(ggplot2)
+ggplot(ss, aes(x=ss7, y= dss7)) +
+  geom_point()+
+  geom_smooth(method = "lm", size =0.5)
+#####
 
 
 
