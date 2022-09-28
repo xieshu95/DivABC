@@ -37,15 +37,19 @@ for(i in 1:32) {
 MLE_all <- data.frame(param_space,lac_MLE,mu_MLE,gam_MLE,laa_MLE)
 save(MLE_all,file = "G:/results/project 2/tip_info/round4/space_short2_ss_seed1.RData")
 
+load("G:/results/project 2/tip_info/round4/MLE.RData")
+MLE_all <- MLE_all[1:16,]
+round(MLE_all,5)
 
 ### calculate the number of species for each set
+param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short2.csv")
 num_spec <- c()
 num_ana <- c()
 num_clado <- c()
 num_nonend <- c()
 num_clade <- c()
 
-for(i in 1:32) {
+for(i in 1:16) {
   message("set: ", i)
   set.seed(i)
   obs_sim_pars <- param_space[i,]
@@ -66,8 +70,8 @@ for(i in 1:32) {
 
 }
 
-num <- data.frame(param_space,num_spec,num_ana,num_clado,num_nonend,num_clade)
-save(num,file = "G:/results/project 2/tip_info/round4/no_ext_nltt/num_spec_seed_i.RData")
+num <- data.frame(param_space[1:16,],num_spec,num_ana,num_clado,num_nonend,num_clade)
+save(num,file = "G:/results/project 2/tip_info/round4/kernel3/num_spec_seed_i.RData")
 
 load("G:/results/project 2/tip_info/round4/no_ext_nltt/num_spec.RData")
 num1 = num
