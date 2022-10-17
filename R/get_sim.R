@@ -60,3 +60,47 @@ get_TraiSIE_sim <- function(parameters, K, replicates){
   }
   return(sim)
 }
+
+#' Simulation fucntion to create simulated data as observed data in ABC.
+#'
+#' @param parameters A vector for CES rates.
+#' @param replicates The number of replicates(islands) for secsse simulation.
+#'
+#' @return A list contains simulated islands
+#' @author Shu Xie
+#' @export
+
+get_secsse_sim <- function(parameters, K, replicates){
+  idparlist <- secsse::cla_id_paramPos(traits = c(1,2),
+                                       num_concealed_states = 2)
+  idparlist$lambdas[1,] <- rep(c(parameters[1], parameters[2]),2)
+  idparlist$mus[1:4]<- rep(c(parameters[3], parameters[4]),2)
+  masterBlock <- matrix(c(parameters[5], parameters[6]),
+                        ncol=2,nrow=2,byrow=TRUE)
+  diag(masterBlock) <- NA
+  q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)
+  q[1,3]<- q[2,4] <- q[3,1] <- q[4,2] <- 0
+
+  lambdas <- secsse::prepare_full_lambdas(c(1,2),2,idparlist$lambdas)
+  states <- names(idparlist$mus)
+  initialState<- sample(states,1)
+  speciesTraits <- c(initialState,initialState)
+
+  sim <- list()
+  suppressWarnings(
+    for (j in seq_len(replicates)) {
+      sim[[j]] <- secsse::secsse_sim(timeSimul = 10,
+                                     states = states,
+                                     lambdas = lambdas,
+                                     mus = idparlist$mus,
+                                     qs = q,
+                                     speciesTraits = speciesTraits,
+                                     maxSpec = 999)
+    }
+  )
+  return(sim)
+}
+
+# dimnames(q)[1:2]<-list(states)
+# idparlist$Q <- q
+# idparlist

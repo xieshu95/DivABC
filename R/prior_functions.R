@@ -56,3 +56,4 @@ prior_gen <- function(pars,idparsopt){
 }
 
 # plot(density(rexp(1000,3)))
+# median(stats::rexp(10000,5))

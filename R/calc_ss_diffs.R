@@ -36,12 +36,24 @@ calc_ss_diff <- function(sim1, sim2, ss_set){
                            ss$num_nonend_error_state2,
                            ss$num_trans12_error,
                            ss$num_trans21_error))
-  } else { ## DAISIE
+  } else if ("stt_all" %in% names(sim1[[1]][[1]])) { ## DAISIE
     ss <- calc_error_no_ext(sim_1 = sim1,   ##calc_error
                             sim_2 = sim2,
                             replicates = 1,
                             distance_method = "abs")
     ss_diff <- select_ss(ss,ss_set)
+  } else {
+    ss <- calc_error_secsse(sim_1 = sim1,
+                            sim_2 = sim2,
+                            distance_method = "abs")
+    ss_diff <- as.numeric(c(ss$mpd_all,
+                            ss$mpd_diff,
+                            ss$mntd_all,
+                            ss$mntd_diff,
+                            ss$K,
+                            ss$D,
+                            ss$num_state1,
+                            ss$num_state2))
   }
   return(ss_diff)
 }
@@ -174,6 +186,18 @@ select_ss <- function (ss,ss_set){
 calc_epsilon_init <- function(sim,ss_set){
   ss <- calc_ss_no_ext(sim[[1]],1)
   eps_init <- select_ss_multi(ss_set)*select_ss(ss,ss_set)
+  return(eps_init)
+}
+
+
+#' calculate the initial epsilon
+#'
+#' @author Shu Xie
+#' @return
+#' @export
+calc_epsilon_init_secsse <- function(sim){
+  ss <- calc_ss_secsse(sim[[1]])
+  eps_init <- as.numeric(unlist(ss)) * 10
   return(eps_init)
 }
 
