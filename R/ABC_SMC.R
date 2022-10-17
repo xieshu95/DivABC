@@ -26,18 +26,9 @@ ABC_SMC <- function( # nolint indeed a complex function
   #just to get the number of parameters to be estimated.
   parameters <- prior_generating_function(fixpars,idparsopt)
 
-  # # compute the observed statistics (no need)
-  # obs_statistics <- c()
-  # for (i in seq_along(statistics)) {
-  #   obs_statistics[i] <- statistics[[i]](datalist)
-  # }
-  #
-
   #generate a matrix with epsilon values
   #we assume that the SMC algorithm converges within 50 iterations
   epsilon <- matrix(nrow = 50, ncol = length(init_epsilon_values))
-  # epsilon_dec <- c(1,0.8,0.6,0.4,0.2,0.17,0.15,0.13,
-  #                  0.12,0.11,0.1,0.09,0.08,0.07,0.06,rep(0.05,35))
   for (j in seq_along(init_epsilon_values)) {
     if (init_epsilon_values[j] < 0) {
       stop("abc_smc_nltt: ",
@@ -46,7 +37,6 @@ ABC_SMC <- function( # nolint indeed a complex function
     }
 
     for (i in seq_len(50)) {
-      # epsilon[i, j] <- init_epsilon_values[j] * epsilon_dec[i]
       epsilon[i, j] <- init_epsilon_values[j] * exp(-0.3 * (i - 1))
     }
   }
@@ -60,8 +50,6 @@ ABC_SMC <- function( # nolint indeed a complex function
   n_iter <- 0
   ABC_list <- list()
   sim_list <- list()
-  # ss_reject <- c()
-  # ss_accept <- c()
 
 
   #convergence is expected within 50 iterations
@@ -104,15 +92,6 @@ ABC_SMC <- function( # nolint indeed a complex function
           parameters[p_index] <- previous_params[[index]][p_index]
         }
 
-        # change: perturb all parameter
-        # if(length(idparsopt) == 1){
-        #   to_change <- as.numeric(idparsopt)
-        # } else if(length(idparsopt) == 4){
-        #   to_change <- sample(idparsopt, 1, TRUE, c(0.2,0.3,0.2,0.3))
-        # } else {
-        #   to_change <- sample(idparsopt, 1)
-        #   # to_change <- sample(idparsopt, 1, TRUE,c(0.2,0.3,0.2,0.3))
-        # }
         for(to_change in idparsopt){
           parameters[to_change] <- exp(log(parameters[to_change]) +
                                          stats::rnorm(1, 0, sigma_temp))
@@ -133,10 +112,6 @@ ABC_SMC <- function( # nolint indeed a complex function
                                   ss_set = ss_set)
 
         # #check if the summary statistics are sufficiently
-        # #close to the observed summary statistics
-
-        # median_df <- base::lapply(df_stats,median)
-
         for (k in seq_along(df_stats)) {
           if (as.numeric(df_stats[k]) > epsilon[i, k]) {
             accept <- FALSE
@@ -145,23 +120,6 @@ ABC_SMC <- function( # nolint indeed a complex function
             break
           }
         }
-
-        # ss_logic_particle <- c()
-        # for (k in seq_along(df_stats)) {
-        #   if (as.numeric(df_stats[k]) > epsilon[i, k]) {
-        #     ss_logic_particle[k] <- FALSE
-        #   } else {
-        #     ss_logic_particle[k] <- TRUE
-        #   }
-        # }
-        #
-        #
-        # if(sum(ss_logic_particle == TRUE) < 4 && i > 1) {
-        #   accept <- FALSE
-        # }
-        #
-        #
-        # ss_logic <- rbind(ss_logic,ss_logic_particle)
 
         if (accept) {
           number_accepted <- number_accepted + 1
@@ -197,8 +155,6 @@ ABC_SMC <- function( # nolint indeed a complex function
         }
       }
     }
-    # ss_reject <- rbind(ss_reject,apply(ss_logic,2,function(x) sum(x == FALSE)))
-    # ss_accept <- rbind(ss_accept,apply(ss_logic,2,function(x) sum(x == TRUE)))
     ABC <- c()
     for (k in seq_along(new_params)) {
       add <- c()
@@ -212,24 +168,12 @@ ABC_SMC <- function( # nolint indeed a complex function
     if (stoprate_reached) {
       break
     }
-
-
   }
   message("tried times: ", tried)
 
-  # ABC <- c()
-  # for (k in seq_along(previous_params)) {
-  #   add <- c()
-  #   for (m in seq_along(parameters)) {
-  #     add <- c(add, previous_params[[k]][m])
-  #   }
-  #   ABC <- rbind(ABC, add)
-  # }
   output <- list(sim_list = sim_list,
                  ABC = ABC_list,
                  n_iter = n_iter,
                  init_epsilon = init_epsilon_values)
-  # ss_reject = ss_reject,
-  # ss_accept = ss_accept)
   return(output)
 }
