@@ -51,7 +51,6 @@ ABC_SMC <- function( # nolint indeed a complex function
   ABC_list <- list()
   sim_list <- list()
 
-
   #convergence is expected within 50 iterations
   #usually convergence occurs within 20 iterations
   for (i in 1:num_iterations) {
@@ -104,22 +103,32 @@ ABC_SMC <- function( # nolint indeed a complex function
         new_sim <- sim_function(parameters = parameters,
                                 K = K,
                                 replicates = replicates)
+
+
         accept <- TRUE
-
-        #calculate the summary statistics for the simulated tree
-        df_stats <- calc_ss_diff (sim1 = obs_data[[1]],
-                                  sim2 = new_sim[[1]],
-                                  ss_set = ss_set)
-
-        # #check if the summary statistics are sufficiently
-        for (k in seq_along(df_stats)) {
-          if (as.numeric(df_stats[k]) > epsilon[i, k]) {
+        if ("phy" %in% names(new_sim[[1]])) {
+          if (length(new_sim[[1]]$examTraits) < 10 ||
+              length(unique(new_sim[[1]]$examTraits)) < 2) {
             accept <- FALSE
-            #the first step always accepts
-            if (i == 1) accept <- TRUE
-            break
           }
         }
+        #calculate the summary statistics for the simulated tree
+        if (accept) {
+          df_stats <- calc_ss_diff (sim1 = obs_data[[1]],
+                                    sim2 = new_sim[[1]],
+                                    ss_set = ss_set)
+
+          # #check if the summary statistics are sufficiently
+          for (k in seq_along(df_stats)) {
+            if (as.numeric(df_stats[k]) > epsilon[i, k]) {
+              accept <- FALSE
+              #the first step always accepts
+              if (i == 1) accept <- TRUE
+              break
+            }
+          }
+        }
+
 
         if (accept) {
           number_accepted <- number_accepted + 1
@@ -148,7 +157,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
       #convergence if the acceptance rate gets too low
       tried <- tried + 1
-      if (tried > (1 / stop_rate) & n_iter > 5) {
+      if (tried > (1 / stop_rate) & n_iter > 1) {
         if ((number_accepted / tried) < stop_rate) {
           stoprate_reached <- TRUE
           break
