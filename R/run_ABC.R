@@ -16,11 +16,11 @@ run_ABC <- function(param_space_name,
                     save_output = TRUE,
                     ss_set = 1){
 
-  param_space <- readr::read_csv2("data/secsse_ABC.csv")
-  # param_space <- load_param_space(param_space_name = param_space_name)
+  # param_space <- readr::read_csv2("data/secsse_ABC.csv")
+  param_space <- load_param_space(param_space_name = param_space_name)
   # param_space <- read.csv2(file = 'data/DAISIE_ABC.csv')
   seed <- param_set ##as.integer(Sys.time()) %% 1000000L * param_set
-  set.seed(seed)
+  set.seed(42)
 
   message("Param space name: ", param_space_name)
   message("Running param set: ", param_set)
@@ -65,12 +65,13 @@ run_ABC <- function(param_space_name,
   } else if (sim_model == "secsse") {
     obs_sim <- get_secsse_sim(parameters = as.numeric(obs_sim_pars),
                               K = Inf,
-                              replicates = 10) ## replicates = 30
+                              replicates = 1) ## replicates = 30
     sim_function <- get_secsse_sim
     prior_generating_function <- prior_gen_secsse
     prior_density_function <- prior_dens_secsse
     fixpars = as.numeric(obs_sim_pars[1:6])
-    init_epsilon <- calc_epsilon_init_secsse(sim = obs_sim)
+    # init_epsilon <- calc_epsilon_init_secsse(sim = obs_sim)
+    init_epsilon <- c(20,10,1,1,1,1)
     obs_sim_pars$K <- Inf
   }
 
@@ -80,11 +81,11 @@ run_ABC <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_generating_function,
     prior_density_function = prior_density_function,
-    number_of_particles = 5,
+    number_of_particles = 200,
     sigma = 0.5,
-    stop_rate = 0.002,
+    stop_rate = 0.004,
     replicates = 1,  ## simulation replicates for each parameter set
-    num_iterations = 3,
+    num_iterations = 7,
     K = as.numeric(obs_sim_pars$K),
     idparsopt = as.numeric(idparsopt),
     fixpars = fixpars,
