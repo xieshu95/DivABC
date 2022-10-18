@@ -46,14 +46,12 @@ calc_ss_diff <- function(sim1, sim2, ss_set){
     ss <- calc_error_secsse(sim_1 = sim1,
                             sim_2 = sim2,
                             distance_method = "abs")
-    ss_diff <- as.numeric(c(ss$mpd_all,
-                            ss$mpd_diff,
-                            ss$mntd_all,
+    ss_diff <- as.numeric(c(ss$mpd_diff,
                             ss$mntd_diff,
-                            ss$K,
                             ss$D,
-                            ss$num_state1,
-                            ss$num_state2))
+                            ss$ratio_state1,
+                            ss$ratio_state2,
+                            ss$nltt))
   }
   return(ss_diff)
 }
@@ -197,7 +195,7 @@ calc_epsilon_init <- function(sim,ss_set){
 #' @export
 calc_epsilon_init_secsse <- function(sim){
   ss <- calc_ss_secsse(sim[[1]])
-  eps_init <- as.numeric(unlist(ss)) * 10
+  eps_init <- as.numeric(unlist(ss)) * 1
   return(eps_init)
 }
 

@@ -3,10 +3,10 @@ calc_error_secsse <- function(sim_1,
                               sim_2,
                               distance_method) {
 
-  # mpd_all
-  mpd_all_1 <- calc_mpd_trait(sim = sim_1,state_type = 3)
-  mpd_all_2 <- calc_mpd_trait(sim = sim_2,state_type = 3)
-  mpd_all <- abs(mpd_all_1 - mpd_all_2)
+  # # mpd_all
+  # mpd_all_1 <- calc_mpd_trait(sim = sim_1,state_type = 3)
+  # mpd_all_2 <- calc_mpd_trait(sim = sim_2,state_type = 3)
+  # mpd_all <- abs(mpd_all_1 - mpd_all_2)
 
   # mpd_diff
   mpd_diff_1 <- calc_mpd_trait(sim = sim_1,state_type = 0)
@@ -14,10 +14,10 @@ calc_error_secsse <- function(sim_1,
   mpd_diff <- abs(mpd_diff_1 - mpd_diff_2)
 
 
-  # mntd_all
-  mntd_all_1 <- calc_mntd_trait(sim = sim_1,state_type = 3)
-  mntd_all_2 <- calc_mntd_trait(sim = sim_2,state_type = 3)
-  mntd_all <- abs(mntd_all_1 - mntd_all_2)
+  # # mntd_all
+  # mntd_all_1 <- calc_mntd_trait(sim = sim_1,state_type = 3)
+  # mntd_all_2 <- calc_mntd_trait(sim = sim_2,state_type = 3)
+  # mntd_all <- abs(mntd_all_1 - mntd_all_2)
 
   # mntd_diff
   mntd_diff_1 <- calc_mntd_trait(sim = sim_1,state_type = 0)
@@ -25,13 +25,13 @@ calc_error_secsse <- function(sim_1,
   mntd_diff <- abs(mntd_diff_1 - mntd_diff_2)
 
   # K statistic
-  K1 <- adiv::K(sim_1$phy,
-                trait = sim_1$examTraits,
-                nrep = 1000, alter = c("two-sided"))
-  K2 <- adiv::K(sim_2$phy,
-                trait = sim_2$examTraits,
-                nrep = 1000, alter = c("two-sided"))
-  K <- abs(K1$obs - K2$obs)
+  # K1 <- adiv::K(sim_1$phy,
+  #               trait = sim_1$examTraits,
+  #               nrep = 1000, alter = c("two-sided"))
+  # K2 <- adiv::K(sim_2$phy,
+  #               trait = sim_2$examTraits,
+  #               nrep = 1000, alter = c("two-sided"))
+  # K <- abs(K1$obs - K2$obs)
 
   # D statistic
   D1 <- calc_D(sim_1)
@@ -42,24 +42,31 @@ calc_error_secsse <- function(sim_1,
   num_state1_sim1 <- length(which(sim_1$examTraits == 1))
   num_state2_sim1 <- length(which(sim_1$examTraits == 2))
 
+  ratio_state1_sim1 <- num_state1_sim1/(num_state1_sim1 + num_state2_sim1)
+  ratio_state2_sim1 <- 1 - ratio_state1_sim1
+
   num_state1_sim2 <- length(which(sim_2$examTraits == 1))
   num_state2_sim2 <- length(which(sim_2$examTraits == 2))
 
-  num_state1 <- abs(num_state1_sim1 - num_state1_sim2)
-  num_state2 <- abs(num_state2_sim1 - num_state2_sim2)
+  ratio_state1_sim2 <- num_state1_sim2/(num_state1_sim2 + num_state2_sim2)
+  ratio_state2_sim2 <- 1 - ratio_state1_sim2
+
+  # num_state1 <- abs(num_state1_sim1 - num_state1_sim2)
+  # num_state2 <- abs(num_state2_sim1 - num_state2_sim2)
+  ratio_state1 <- abs(ratio_state1_sim1 - ratio_state1_sim2)
+  ratio_state2 <- abs(ratio_state2_sim1 - ratio_state2_sim2)
+
 
   # nLTT
-  # nltt_error <- treestats::nLTT(sim_1$phy,sim_2$phy)
+  nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
 
   return(
-    list(mpd_all = mpd_all,
-         mpd_diff = mpd_diff,
-         mntd_all = mntd_all,
+    list(mpd_diff = mpd_diff,
          mntd_diff = mntd_diff,
-         K = K,
          D = D,
-         num_state1 = num_state1,
-         num_state2 = num_state2)
+         ratio_state1 = ratio_state1,
+         ratio_state2 = ratio_state2,
+         nltt = nltt)
   )
 }
 
@@ -119,7 +126,7 @@ calc_D <- function (sim) {
   trait = data.frame(sim$phy$tip.label,sim$examTraits)
   colnames(trait) <- c("tips","trait_val")
   data <- caper::comparative.data(sim$phy, trait, tips)
-  PhyloD <- caper::phylo.d(data, binvar=trait_val)
+  PhyloD <- caper::phylo.d(data, binvar=trait_val,permut = 500)
   return(as.numeric(PhyloD$DEstimate))
 }
 
@@ -147,13 +154,13 @@ calc_D <- function (sim) {
 calc_ss_secsse <- function(sim) {
 
   # mpd_all
-  mpd_all <- calc_mpd_trait(sim = sim,state_type = 3)
+  # mpd_all <- calc_mpd_trait(sim = sim,state_type = 3)
 
   # mpd_diff
   mpd_diff <- calc_mpd_trait(sim = sim,state_type = 0)
 
   # mntd_all
-  mntd_all <- calc_mntd_trait(sim = sim,state_type = 3)
+  # mntd_all <- calc_mntd_trait(sim = sim,state_type = 3)
 
   # mntd_diff
   mntd_diff <- calc_mntd_trait(sim = sim,state_type = 0)
@@ -179,13 +186,12 @@ calc_ss_secsse <- function(sim) {
   nltt <- treestats::nLTT_base(sim$phy)
 
   return(
-    list(mpd_all = mpd_all,
-         mpd_diff = mpd_diff,
-         mntd_all = mntd_all,
+    list(mpd_diff = mpd_diff,
          mntd_diff = mntd_diff,
          K = K,
          D = D,
          num_state1 = num_state1,
-         num_state2 = num_state2)
+         num_state2 = num_state2,
+         nltt = nltt)
   )
 }

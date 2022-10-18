@@ -95,7 +95,7 @@ get_secsse_sim <- function(parameters, K, replicates){
                                      mus = idparlist$mus,
                                      qs = q,
                                      speciesTraits = speciesTraits,
-                                     maxSpec = 999)
+                                     maxSpec = 500)
     }
   )
   return(sim)
