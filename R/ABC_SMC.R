@@ -37,7 +37,7 @@ ABC_SMC <- function( # nolint indeed a complex function
     }
 
     for (i in seq_len(50)) {
-      epsilon[i, j] <- init_epsilon_values[j] * exp(-0.3 * (i - 1))
+      epsilon[i, j] <- init_epsilon_values[j] * exp(-0.4 * (i - 1))
     }
   }
 
