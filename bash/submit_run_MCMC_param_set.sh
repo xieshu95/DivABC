@@ -4,7 +4,7 @@
 #SBATCH --ntasks=1
 #SBATCH --job-name=MCMC
 #SBATCH --output=logs/MCMC-%j.log
-#SBATCH --mem=0.5GB
+#SBATCH --mem=1GB
 #SBATCH --partition=regular
 
 # Arguments to follow the Rscript are as follows:
