@@ -31,9 +31,9 @@ run_MCMC_secsse <- function(param_space_name,
   mcmc <- MCMC_secsse(datalist = obs_sim[[1]],
                       likelihood_function=calc_log_pp_secsse,
                       parameters = as.numeric(c(obs_sim_pars_init)),
-                      iterations = 50000, ##100000
-                      burnin = 1000,
-                      thinning = 10,
+                      iterations = 500000, ##100000
+                      burnin = 10000,
+                      thinning = 100,
                       sigma = 0.05,
                       idparsopt = idparsopt)
 
