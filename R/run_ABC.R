@@ -63,9 +63,10 @@ run_ABC <- function(param_space_name,
     fixpars = as.numeric(obs_sim_pars[c(2:5,7:12)])
     init_epsilon <- calc_epsilon_init(sim = obs_sim, ss_set = ss_set)
   } else if (sim_model == "secsse") {
-    obs_sim <- get_secsse_sim(parameters = as.numeric(obs_sim_pars),
-                              K = Inf,
-                              replicates = 1) ## replicates = 30
+    obs_sim <- get_secsse_sim_create_obs(
+      parameters = as.numeric(obs_sim_pars),
+      K = Inf,
+      replicates = 1) ## replicates = 30
     sim_function <- get_secsse_sim
     prior_generating_function <- prior_gen_secsse
     prior_density_function <- prior_dens_secsse
@@ -81,11 +82,11 @@ run_ABC <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_generating_function,
     prior_density_function = prior_density_function,
-    number_of_particles = 500,
+    number_of_particles = 10,
     sigma = 0.2,
     stop_rate = 0.01,
     replicates = 1,  ## simulation replicates for each parameter set
-    num_iterations = 10,
+    num_iterations = 2,
     K = as.numeric(obs_sim_pars$K),
     idparsopt = as.numeric(idparsopt),
     fixpars = fixpars,

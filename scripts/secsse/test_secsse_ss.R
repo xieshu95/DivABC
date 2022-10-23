@@ -1,3 +1,4 @@
+## heatmap for random combinations
 lam1 <- runif(200,0.1,1.0)
 lam2 <- runif(200,0.1,1.0)
 mu1 <- runif(200,0.01,0.1)
@@ -66,3 +67,37 @@ heatmap <- ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
   ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5))
 print(heatmap)
 while (!is.null(dev.list()))  dev.off()
+
+
+
+### calculate ss for secsse space
+param_space <- readr::read_csv2("data/secsse_ABC_long.csv")
+
+ss <- c()
+for(i in 1:70){
+  set.seed(i)
+  message("set: ", i)
+  obs_sim_pars <- param_space[i,]
+  obs_sim <- get_secsse_sim(parameters = as.numeric(obs_sim_pars),
+                            K = Inf,
+                            replicates = 1) ## replicates = 30
+  sim_function <- get_secsse_sim
+  prior_generating_function <- prior_gen_secsse
+  prior_density_function <- prior_dens_secsse
+  fixpars = as.numeric(obs_sim_pars[1:6])
+  init_epsilon <- calc_epsilon_init_secsse(sim = obs_sim)
+  ss<-rbind(ss,init_epsilon)
+}
+
+
+colnames(ss) <- c("mpd","mpd_diff","mntd","mntd_diff","K","D","state1","state2","nltt")
+save(ss,file = "G:/results/project 2/tip_info/round4/secsse/obs_ss_long_space.RData")
+
+rownames(ss) <- 1:70
+pars_ss<-data.frame(param_space,ss)
+pars_ss$total <- pars_ss$state1+pars_ss$state2
+save(pars_ss,file = "G:/results/project 2/tip_info/round4/secsse/obs_ss_long_with_pars.RData")
+
+load("G:/results/project 2/tip_info/round4/secsse/obs_ss_with_pars.RData")
+
+density(stats::rexp(1000,5))
