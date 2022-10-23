@@ -154,13 +154,13 @@ calc_D <- function (sim) {
 calc_ss_secsse <- function(sim) {
 
   # mpd_all
-  # mpd_all <- calc_mpd_trait(sim = sim,state_type = 3)
+  mpd_all <- calc_mpd_trait(sim = sim,state_type = 3)
 
   # mpd_diff
   mpd_diff <- calc_mpd_trait(sim = sim,state_type = 0)
 
   # mntd_all
-  # mntd_all <- calc_mntd_trait(sim = sim,state_type = 3)
+  mntd_all <- calc_mntd_trait(sim = sim,state_type = 3)
 
   # mntd_diff
   mntd_diff <- calc_mntd_trait(sim = sim,state_type = 0)
@@ -186,7 +186,9 @@ calc_ss_secsse <- function(sim) {
   nltt <- treestats::nLTT_base(sim$phy)
 
   return(
-    list(mpd_diff = mpd_diff,
+    list(mpd_all = mpd_all,
+         mpd_diff = mpd_diff,
+         mntd_all = mntd_all,
          mntd_diff = mntd_diff,
          K = K,
          D = D,

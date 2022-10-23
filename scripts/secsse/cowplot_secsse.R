@@ -1,8 +1,8 @@
-folder_path <- "G:/results/project 2/tip_info/round4/secsse/secsse_ABC_lam"
+folder_path <- "G:/results/project 2/tip_info/round4/secsse/secsse_ABC"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/secsse_ABC.csv")
 
-param_data2<-param_data[rep(seq_len(nrow(param_data)), each=200),]
+param_data2<-param_data[rep(seq_len(nrow(param_data)), each=1000),]
 
 lam1_abc <- c()
 lam2_abc <- c()
@@ -19,7 +19,7 @@ for(i in 1:6){
   #   rep <- i%%5
   # }
   # param_set = (param_num-1)*5 + i
-  file_to_load <- grep(paste0("secsse_ABC_param_set_", i,"_ss_2.RData"),  #,"_rep",rep
+  file_to_load <- grep(paste0("secsse_ABC_param_set_", i,"_ss_1.RData"),  #,"_rep",rep
                        files,
                        value = TRUE,
                        fixed = TRUE)
@@ -30,39 +30,46 @@ for(i in 1:6){
     num_iter <- output$n_iter
     n_iteration[i] <- num_iter
     if(output$n_iter <= 2){
-      lam1_abc <- c(lam1_abc, rep(NA,200))
-      lam2_abc <- c(lam2_abc, rep(NA,200))
-      mu1_abc <- c(mu1_abc, rep(NA,200))
-      mu2_abc <- c(mu2_abc, rep(NA,200))
-      q12_abc <- c(q12_abc, rep(NA,200))
-      q21_abc <- c(q21_abc, rep(NA,200))
-    } else{
+      lam1_abc <- c(lam1_abc, rep(NA,1000))
+      lam2_abc <- c(lam2_abc, rep(NA,1000))
+      mu1_abc <- c(mu1_abc, rep(NA,1000))
+      mu2_abc <- c(mu2_abc, rep(NA,1000))
+      q12_abc <- c(q12_abc, rep(NA,1000))
+      q21_abc <- c(q21_abc, rep(NA,1000))
+    } else if (nrow(output$ABC[[output$n_iter]]) == 1000) {
       lam1_abc <- c(lam1_abc, output$ABC[[num_iter]][,1])
       lam2_abc <- c(lam2_abc, output$ABC[[num_iter]][,2])
       mu1_abc <- c(mu1_abc, output$ABC[[num_iter]][,3])
       mu2_abc <- c(mu2_abc, output$ABC[[num_iter]][,4])
       q12_abc <- c(q12_abc, output$ABC[[num_iter]][,5])
       q21_abc <- c(q21_abc, output$ABC[[num_iter]][,6])
+    } else {
+      lam1_abc <- c(lam1_abc, output$ABC[[num_iter-1]][,1])
+      lam2_abc <- c(lam2_abc, output$ABC[[num_iter-1]][,2])
+      mu1_abc <- c(mu1_abc, output$ABC[[num_iter-1]][,3])
+      mu2_abc <- c(mu2_abc, output$ABC[[num_iter-1]][,4])
+      q12_abc <- c(q12_abc, output$ABC[[num_iter-1]][,5])
+      q21_abc <- c(q21_abc, output$ABC[[num_iter-1]][,6])
     }
   } else {
-    lam1_abc <- c(lam1_abc, rep(NA,200))
-    lam2_abc <- c(lam2_abc, rep(NA,200))
-    mu1_abc <- c(mu1_abc, rep(NA,200))
-    mu2_abc <- c(mu2_abc, rep(NA,200))
-    q12_abc <- c(q12_abc, rep(NA,200))
-    q21_abc <- c(q21_abc, rep(NA,200))
+    lam1_abc <- c(lam1_abc, rep(NA,1000))
+    lam2_abc <- c(lam2_abc, rep(NA,1000))
+    mu1_abc <- c(mu1_abc, rep(NA,1000))
+    mu2_abc <- c(mu2_abc, rep(NA,1000))
+    q12_abc <- c(q12_abc, rep(NA,1000))
+    q21_abc <- c(q21_abc, rep(NA,1000))
   }
 }
 whole_df_ABC <- data.frame(param_data2,
                            # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                            lam1_abc,lam2_abc,mu1_abc,mu2_abc,q12_abc,q21_abc)
-save(whole_df_ABC,file = "G:/results/project 2/tip_info/round4/secsse/whole_df_ABC_lam.RData")
+save(whole_df_ABC,file = "G:/results/project 2/tip_info/round4/secsse/whole_df_ABC_long.RData")
 
 
 library(ggplot2)
-load(paste0("G:/results/project 2/tip_info/round4/secsse/whole_df_ABC_lam.RData"))
+load(paste0("G:/results/project 2/tip_info/round4/secsse/whole_df_ABC_long.RData"))
 for(i in 1:6){
-  param_abc <- whole_df_ABC[((i*200-199)):(i*200),]
+  param_abc <- whole_df_ABC[((i*1000-999)):(i*1000),]
 
   if(!is.na(param_abc[1,7])){
     p_lam1 <-ggplot2::ggplot(data = param_abc) +
@@ -183,7 +190,7 @@ for(i in 1:6){
 
     p_emp <- ggplot() + theme_void()
 
-    tiff(paste0("G:/results/project 2/tip_info/round4/secsse/cowplot_lam/param_",i,".tiff"),
+    tiff(paste0("G:/results/project 2/tip_info/round4/secsse/cowplot/param_",i,".tiff"),
          units="px", width=3000, height=2000,res = 300,compression="lzw")
     param_estimates <- cowplot::plot_grid(
       p_lam1,p_lam2,p_mu1,p_mu2,p_q12,p_q21,
