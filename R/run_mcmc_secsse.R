@@ -11,7 +11,7 @@ run_MCMC_secsse <- function(param_space_name,
 
   param_space <- load_param_space(param_space_name = param_space_name)
   seed <- param_set
-  set.seed(42)
+  set.seed(param_set)
 
   message("Param space name: ", param_space_name)
   message("Running param set: ", param_set)
@@ -23,7 +23,7 @@ run_MCMC_secsse <- function(param_space_name,
   )
 
   obs_sim_pars <- param_space[param_set,]
-  obs_sim <- get_secsse_sim(parameters = as.numeric(obs_sim_pars),
+  obs_sim <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
                                        K = Inf,
                                        replicates = 1)
 
