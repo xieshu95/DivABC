@@ -1,4 +1,4 @@
-param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/secsse_ABC.csv")
+param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/secsse_ABC_long.csv")
 lam1_MLE<- c()
 lam2_MLE <-c()
 mu1_MLE <- c()
@@ -23,17 +23,18 @@ create_ML_idpars <- function(traits,num_concealed_states) {
   return(idparslist)
 }
 
-for(i in 1:6) {
-  set.seed(42)
+for(i in 1:70) {
+  message("set",i)
+  set.seed(i)
   obs_sim_pars <- param_space[i,]
-  obs_sim <- get_secsse_sim(parameters = as.numeric(obs_sim_pars),
-                            K = Inf,
-                            replicates = 1)
-  startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))
-  initparsopt <- c(startingpoint$lambda0,startingpoint$lambda0,
-                   startingpoint$mu0,startingpoint$mu0,2,2)
+  obs_sim <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
+                                       K = Inf,
+                                       replicates = 1)
+  # startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))
+  initparsopt <- c(2,2,2,2,2,2)
   idparsopt = c(1,2,3,4,5,6)
-  MLE <- secsse::secsse_ml(
+
+  tryCatch(MLE <- secsse::secsse_ml(
     phy = obs_sim[[1]]$phy,
     traits = obs_sim[[1]]$examTraits,
     num_concealed_states = 2,
@@ -50,7 +51,10 @@ for(i in 1:6) {
     optimmethod = 'subplex',
     num_cycles = 1,
     verbose = FALSE
-  )
+  ), error=function(e) {
+    print("Optimization has not converged. Try again with different initial values.")
+  })
+
   lam1_MLE[i] <- MLE$MLpars[[1]][1]
   lam2_MLE[i] <- MLE$MLpars[[1]][2]
   mu1_MLE[i] <- MLE$MLpars[[2]][1]
@@ -60,6 +64,6 @@ for(i in 1:6) {
 }
 MLE_all <- data.frame(param_space,lam1_MLE,lam2_MLE,
                       mu1_MLE,mu2_MLE,q12_MLE,q21_MLE)
-save(MLE_all,file = "G:/results/project 2/tip_info/round4/secsse/MLE_secsse_ABC.RData")
+save(MLE_all,file = "G:/results/project 2/tip_info/round4/secsse_long/MLE_secsse_ABC.RData")
 
-load("G:/results/project 2/tip_info/round4/secsse/MLE_secsse_ABC.RData")
+load("G:/results/project 2/tip_info/round4/secsse_long/MLE_secsse_ABC.RData")
