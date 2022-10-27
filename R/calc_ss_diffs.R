@@ -42,16 +42,11 @@ calc_ss_diff <- function(sim1, sim2, ss_set){
                             replicates = 1,
                             distance_method = "abs")
     ss_diff <- select_ss(ss,ss_set)
-  } else {
+  } else { ## secsse
     ss <- calc_error_secsse(sim_1 = sim1,
                             sim_2 = sim2,
                             distance_method = "abs")
-    ss_diff <- as.numeric(c(ss$mpd_diff,
-                            ss$mntd_diff,
-                            ss$D,
-                            ss$ratio_state1,
-                            ss$ratio_state2,
-                            ss$nltt))
+    ss_diff <- select_ss_secsse(ss,ss_set)
   }
   return(ss_diff)
 }
@@ -230,3 +225,18 @@ select_ss_multi <- function(ss_set){
 }
 
 
+#' Select the combination of summary statitsics
+#'
+#' @param ss A vector contains all the calculated summary statistics
+#' @param ss_set A numeric to choose which combination of summary statistics
+#'
+#' @author Shu Xie
+#' @export
+select_ss_secsse <- function (ss,ss_set){
+  if(ss_set == 0){
+    select_ss <-as.numeric(ss)
+  } else {
+    select_ss <-as.numeric(ss[-ss_set])
+  }
+  return(select_ss)
+}
