@@ -29,17 +29,7 @@ ABC_SMC <- function( # nolint indeed a complex function
   #generate a matrix with epsilon values
   #we assume that the SMC algorithm converges within 50 iterations
   epsilon <- matrix(nrow = 50, ncol = length(init_epsilon_values))
-  for (j in seq_along(init_epsilon_values)) {
-    if (init_epsilon_values[j] < 0) {
-      stop("abc_smc_nltt: ",
-           "epsilon values have to be positive,",
-           "but were instead: ", init_epsilon_values[j])
-    }
-
-    for (i in seq_len(50)) {
-      epsilon[i, j] <- init_epsilon_values[j] * exp(-0.4 * (i - 1))
-    }
-  }
+  epsilon[1,] <- init_epsilon_values
 
   #store weights
   new_weights <- c()
@@ -50,6 +40,7 @@ ABC_SMC <- function( # nolint indeed a complex function
   n_iter <- 0
   ABC_list <- list()
   sim_list <- list()
+  ss_diff <- c()
 
   #convergence is expected within 50 iterations
   #usually convergence occurs within 20 iterations
@@ -117,7 +108,9 @@ ABC_SMC <- function( # nolint indeed a complex function
           df_stats <- calc_ss_diff (sim1 = obs_data[[1]],
                                     sim2 = new_sim[[1]],
                                     ss_set = ss_set)
-
+          if (i == 1) {
+            ss_diff <- rbind(ss_diff,df_stats)
+          }
           # #check if the summary statistics are sufficiently
           for (k in seq_along(df_stats)) {
             if (as.numeric(df_stats[k]) > epsilon[i, k]) {
@@ -135,6 +128,7 @@ ABC_SMC <- function( # nolint indeed a complex function
           new_params[[number_accepted]] <- parameters
           sim_list[[number_accepted]] <- new_sim[[1]]
           accepted_weight <- 1
+
           #calculate the weight
           if (i > 1) {
             accepted_weight <- calc_weight(previous_weights,
@@ -164,6 +158,21 @@ ABC_SMC <- function( # nolint indeed a complex function
         }
       }
     }
+
+    if (i == 1) {
+      ss_diff_mean <- apply(ss_diff,2,mean)
+      for (j in seq_along(init_epsilon_values)) {
+        if (init_epsilon_values[j] < 0) {
+          stop("abc_smc_nltt: ",
+               "epsilon values have to be positive,",
+               "but were instead: ", init_epsilon_values[j])
+        }
+        for (n in 2:50) {
+          epsilon[n, j] <- ss_diff_mean[j] * exp(-0.3 * (n - 2)) * 2.5
+        }
+      }
+    }
+
     ABC <- c()
     for (k in seq_along(new_params)) {
       add <- c()
@@ -184,6 +193,7 @@ ABC_SMC <- function( # nolint indeed a complex function
                  ABC = ABC_list,
                  n_iter = n_iter,
                  init_epsilon = init_epsilon_values,
-                 obs_sim = obs_data)
+                 obs_sim = obs_data,
+                 ss_diff = ss_diff)
   return(output)
 }
