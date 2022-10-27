@@ -9,7 +9,7 @@ idparsopt_mu2 <- as.numeric(args[6])
 idparsopt_trans12 <- as.numeric(args[7])
 idparsopt_trans21 <- as.numeric(args[8])
 sim_model <- args[9]
-ss_set <- args[10]
+ss_set <- as.numeric(args[10])
 idparsopt_all <- c(idparsopt_lac1,idparsopt_lac2,idparsopt_mu1,idparsopt_mu2,
                    idparsopt_trans12,idparsopt_trans21)
 idparsopt <- which(idparsopt_all == 1)
