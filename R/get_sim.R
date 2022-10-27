@@ -91,7 +91,7 @@ get_secsse_sim_create_obs <- function(parameters, K, replicates){
     for (j in seq_len(replicates)) {
       save <- 0
       while(save < 1){
-        sim[[j]] <- secsse::secsse_sim(timeSimul = 15,
+        sim[[j]] <- secsse_sim(timeSimul = 15,
                                      states = states,
                                      lambdas = lambdas,
                                      mus = idparlist$mus,
@@ -139,13 +139,13 @@ get_secsse_sim <- function(parameters, K, replicates){
   suppressWarnings(
     suppressMessages(
       for (j in seq_len(replicates)) {
-        sim[[j]] <- secsse::secsse_sim(timeSimul = 10,
+        sim[[j]] <- secsse_sim(timeSimul = 15,
                                        states = states,
                                        lambdas = lambdas,
                                        mus = idparlist$mus,
                                        qs = q,
                                        speciesTraits = speciesTraits,
-                                       maxSpec = 500)
+                                       maxSpec = 700)
       }
     )
   )
