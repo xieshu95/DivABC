@@ -300,7 +300,7 @@ K <- c(20,Inf)
 ## a. lac
 lac <- c(0.2,0.4)
 mu <- c(0.05,0.1)
-gam <- c(0.01,0.02)
+gam <- c(0.0075,0.015)
 laa <- c(0.1,0.2)
 DAISIE_ABC_short <- expand.grid(
   lac = lac,
@@ -325,3 +325,4 @@ write.csv2(
   "data/DAISIE_MCMC_short.csv",
   row.names = FALSE
 )
+
