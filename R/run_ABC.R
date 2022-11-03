@@ -43,7 +43,17 @@ run_ABC <- function(param_space_name,
     prior_generating_function <- prior_gen
     prior_density_function <- prior_dens
     fixpars = as.numeric(obs_sim_pars[1:4])
-    init_epsilon <- calc_epsilon_init(sim = obs_sim, ss_set = ss_set)
+
+    init_epsilon_all <- c()
+    if(ss_set == 0){
+      init_epsilon <- init_epsilon_all
+    } else if(ss_set == 9) {
+      init_epsilon <- init_epsilon_all[-c(1,3)]
+    } else if(ss_set == 10){
+      init_epsilon <- init_epsilon_all[-c(2,4)]
+    } else {
+      init_epsilon <- init_epsilon_all[-ss_set]
+    }
   } else if (sim_model == "TraiSIE") {
     obs_sim <- get_TraiSIE_sim(parameters = as.numeric(c(obs_sim_pars$lac,
                                                          obs_sim_pars$mu,
@@ -72,9 +82,13 @@ run_ABC <- function(param_space_name,
     prior_density_function <- prior_dens_secsse
     fixpars = as.numeric(obs_sim_pars[1:6])
     # init_epsilon <- calc_epsilon_init_secsse(sim = obs_sim)
-    init_epsilon_all <- c(20,20,20,20,20,20,20,20)
+    init_epsilon_all <- c(15,5,15,5,5,300,1,1)
     if(ss_set == 0){
       init_epsilon <- init_epsilon_all
+    } else if(ss_set == 9) {
+      init_epsilon <- init_epsilon_all[-c(1,3)]
+    } else if(ss_set == 10){
+      init_epsilon <- init_epsilon_all[-c(2,4)]
     } else {
       init_epsilon <- init_epsilon_all[-ss_set]
     }
@@ -87,11 +101,11 @@ run_ABC <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_generating_function,
     prior_density_function = prior_density_function,
-    number_of_particles = 500, #500
-    sigma = 0.2,
+    number_of_particles = 5, #500
+    sigma = 0.1,
     stop_rate = 0.005,
     replicates = 1,  ## simulation replicates for each parameter set
-    num_iterations = 10, #10
+    num_iterations = 2, #10
     K = as.numeric(obs_sim_pars$K),
     idparsopt = as.numeric(idparsopt),
     fixpars = fixpars,

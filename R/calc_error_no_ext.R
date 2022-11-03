@@ -96,13 +96,13 @@ calc_error_no_ext <- function(sim_1,
   colon_time <- calc_colon_time_error(sim_1,sim_2)
 
   return(
-    list(total_nltt = total_nltt,
-         clade_nltt = clade_nltt,
-         num_ana = num_ana,
-         num_clado = num_clado,
-         num_nonend = num_nonend,
-         clade_size = clade_size,
-         colon_time = colon_time)
+    c(total_nltt,
+         clade_nltt,
+         num_ana,
+         num_clado,
+         num_nonend,
+         clade_size,
+         colon_time)
   )
 }
 
