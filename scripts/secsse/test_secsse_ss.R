@@ -1,5 +1,5 @@
 ## heatmap for random combinations
-set.seed(42)
+set.seed(20)
 lam1 <- runif(500,0.2,1.0)
 lam2 <- runif(500,0.2,1.0)
 mu1 <- runif(500,0.01,0.1)
@@ -8,8 +8,8 @@ q12 <- runif(500,0.1,0.5)
 q21 <- runif(500,0.1,0.5)
 
 test_ss_space <- data.frame(lam1,lam2,mu1,mu2,q12,q21)
-save(test_ss_space,file = "G:/results/project 2/tip_info/round4/secsse/test_ss_space3_500.RData")
-# load("G:/results/project 2/tip_info/round4/secsse/test_ss_1/test_ss_space.RData")
+save(test_ss_space,file = "G:/results/project 2/tip_info/round4/secsse/test_ss_space4_500.RData")
+load("G:/results/project 2/tip_info/round4/secsse/test_ss_space4_500.RData")
 ss <- matrix(NA,nrow = 500,ncol = 13)
 
 t1 <- Sys.time()
@@ -34,7 +34,7 @@ colnames(ss) <- c("mpd","mpd_diff","mntd","mntd_diff",
                   "sdpd","sdpd_diff","sdntd","sdntd_diff",
                   "K","D","state1","state2","nltt")
 save(ss,file = "G:/results/project 2/tip_info/round4/secsse_long/test_ss_df_500.RData")
-
+load("G:/results/project 2/tip_info/round4/secsse_long/test_ss_df_500.RData")
 
 cormat <- round(cor(ss),2)
 # heatmap(cormat)
