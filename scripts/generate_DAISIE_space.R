@@ -298,7 +298,7 @@ write.csv2(
 ### use less parameter sets to try
 K <- c(20,Inf)
 ## a. lac
-lac <- c(0.2,0.5)
+lac <- c(0.2,0.4)
 mu <- c(0.05,0.1)
 gam <- c(0.01,0.02)
 laa <- c(0.1,0.2)
