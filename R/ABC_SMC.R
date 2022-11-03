@@ -28,7 +28,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
   #generate a matrix with epsilon values
   #we assume that the SMC algorithm converges within 50 iterations
-  epsilon <- matrix(nrow = 50, ncol = length(init_epsilon_values))
+  epsilon <- matrix(nrow = 20, ncol = length(init_epsilon_values))
   epsilon[1,] <- init_epsilon_values
 
   #store weights
@@ -40,11 +40,12 @@ ABC_SMC <- function( # nolint indeed a complex function
   n_iter <- 0
   ABC_list <- list()
   sim_list <- list()
-  ss_diff <- c()
+  ss_diff_list <- list()
 
   #convergence is expected within 50 iterations
   #usually convergence occurs within 20 iterations
   for (i in 1:num_iterations) {
+    ss_diff <- c()
     n_iter <- n_iter + 1
     cat("\nGenerating Particles for iteration\t", i, "\n")
     cat("0--------25--------50--------75--------100\n")
@@ -99,6 +100,7 @@ ABC_SMC <- function( # nolint indeed a complex function
         accept <- TRUE
         if ("phy" %in% names(new_sim[[1]])) {
           if (length(new_sim[[1]]$examTraits) < 20 ||
+              length(new_sim[[1]]$examTraits) >= 700 ||
               length(unique(new_sim[[1]]$examTraits)) < 2) {
             accept <- FALSE
           }
@@ -108,16 +110,14 @@ ABC_SMC <- function( # nolint indeed a complex function
           df_stats <- calc_ss_diff (sim1 = obs_data[[1]],
                                     sim2 = new_sim[[1]],
                                     ss_set = ss_set)
-          if (i == 1) {
-            ss_diff <- rbind(ss_diff,df_stats)
-          }
+
           # #check if the summary statistics are sufficiently
           for (k in seq_along(df_stats)) {
             if (as.numeric(df_stats[k]) > epsilon[i, k]) {
               accept <- FALSE
               #the first step always accepts
-              if (i == 1) accept <- TRUE
-              break
+              # if (i == 1) accept <- TRUE
+              # break
             }
           }
         }
@@ -128,6 +128,7 @@ ABC_SMC <- function( # nolint indeed a complex function
           new_params[[number_accepted]] <- parameters
           sim_list[[number_accepted]] <- new_sim[[1]]
           accepted_weight <- 1
+          ss_diff <- rbind(ss_diff,df_stats)
 
           #calculate the weight
           if (i > 1) {
@@ -151,7 +152,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
       #convergence if the acceptance rate gets too low
       tried <- tried + 1
-      if (tried > (1 / stop_rate) & n_iter > 3) {
+      if (tried > (1 / stop_rate) & n_iter > 2) {
         if ((number_accepted / tried) < stop_rate) {
           stoprate_reached <- TRUE
           break
@@ -159,19 +160,8 @@ ABC_SMC <- function( # nolint indeed a complex function
       }
     }
 
-    if (i == 1) {
-      ss_diff_mean <- apply(ss_diff,2,mean)
-      for (j in seq_along(init_epsilon_values)) {
-        if (init_epsilon_values[j] < 0) {
-          stop("abc_smc_nltt: ",
-               "epsilon values have to be positive,",
-               "but were instead: ", init_epsilon_values[j])
-        }
-        for (n in 2:50) {
-          epsilon[n, j] <- ss_diff_mean[j] * exp(-0.3 * (n - 2)) * 2.5
-        }
-      }
-    }
+    ss_diff_list[[i]] <- ss_diff
+    epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.4)
 
     ABC <- c()
     for (k in seq_along(new_params)) {
@@ -192,8 +182,8 @@ ABC_SMC <- function( # nolint indeed a complex function
   output <- list(sim_list = sim_list,
                  ABC = ABC_list,
                  n_iter = n_iter,
-                 init_epsilon = init_epsilon_values,
+                 epsilon = epsilon,
                  obs_sim = obs_data,
-                 ss_diff = ss_diff)
+                 ss_diff_list = ss_diff_list)
   return(output)
 }
