@@ -41,7 +41,7 @@ calc_ss_diff <- function(sim1, sim2, ss_set){
                             sim_2 = sim2,
                             replicates = 1,
                             distance_method = "abs")
-    ss_diff <- select_ss(ss,ss_set)
+    ss_diff <- select_ss_DAISIE(ss,ss_set)
   } else { ## secsse
     ss <- calc_error_secsse(sim_1 = sim1,
                             sim_2 = sim2,
@@ -51,75 +51,6 @@ calc_ss_diff <- function(sim1, sim2, ss_set){
   return(ss_diff)
 }
 
-#' Select the combination of summary statitsics
-#'
-#' @param ss A vector contains all the calculated summary statistics
-#' @param ss_set A numeric to choose which combination of summary statistics
-#'
-#' @author Shu Xie
-#' @export
-select_ss <- function (ss,ss_set){
-  if(ss_set == 1){ ## calculate all summary statistics
-    select_ss <-as.numeric(c(ss$total_nltt,
-                             ss$clade_nltt,
-                             ss$num_ana,
-                             ss$num_clado,
-                             ss$num_nonend,
-                             ss$clade_size,
-                             ss$colon_time))
-  } else if (ss_set == 2) {  ## delete ss1
-    select_ss <-as.numeric(c(ss$clade_nltt,
-                             ss$num_ana,
-                             ss$num_clado,
-                             ss$num_nonend,
-                             ss$clade_size,
-                             ss$colon_time))
-  } else if (ss_set == 3) {  ## delete ss2
-    select_ss <-as.numeric(c(ss$total_nltt,
-                             ss$num_ana,
-                             ss$num_clado,
-                             ss$num_nonend,
-                             ss$clade_size,
-                             ss$colon_time))
-  } else if (ss_set == 4) {  ## delete ss3
-    select_ss <-as.numeric(c(ss$total_nltt,
-                             ss$clade_nltt,
-                             ss$num_clado,
-                             ss$num_nonend,
-                             ss$clade_size,
-                             ss$colon_time))
-  } else if (ss_set == 5) {  ## delete ss4
-    select_ss <-as.numeric(c(ss$total_nltt,
-                             ss$clade_nltt,
-                             ss$num_ana,
-                             ss$num_nonend,
-                             ss$clade_size,
-                             ss$colon_time))
-  } else if (ss_set == 6) {  ## delete ss5
-    select_ss <-as.numeric(c(ss$total_nltt,
-                             ss$clade_nltt,
-                             ss$num_ana,
-                             ss$num_clado,
-                             ss$clade_size,
-                             ss$colon_time))
-  } else if (ss_set == 7) {  ## delete ss6
-    select_ss <-as.numeric(c(ss$total_nltt,
-                             ss$clade_nltt,
-                             ss$num_ana,
-                             ss$num_clado,
-                             ss$num_nonend,
-                             ss$colon_time))
-  } else if (ss_set == 8) {  ## delete ss7
-    select_ss <-as.numeric(c(ss$total_nltt,
-                             ss$clade_nltt,
-                             ss$num_ana,
-                             ss$num_clado,
-                             ss$num_nonend,
-                             ss$clade_size))
-  }
-
-  return(select_ss)
-}
 
 
 # all ss for DAISIE
@@ -178,7 +109,7 @@ select_ss <- function (ss,ss_set){
 # }
 calc_epsilon_init <- function(sim,ss_set){
   ss <- calc_ss_no_ext(sim[[1]],1)
-  eps_init <- select_ss_multi(ss_set)*select_ss(ss,ss_set)
+  eps_init <- as.numeric(unlist(ss)) * 1
   return(eps_init)
 }
 
@@ -195,33 +126,21 @@ calc_epsilon_init_secsse <- function(sim){
 }
 
 
-#' initial epsilon based on selected summary statistic
+#' Select the combination of summary statitsics
+#'
+#' @param ss A vector contains all the calculated summary statistics
+#' @param ss_set A numeric to choose which combination of summary statistics
 #'
 #' @author Shu Xie
-#' @return
 #' @export
 
-select_ss_multi <- function(ss_set){
-  if (ss_set == 1) {
-    ss_multi <- c(12,12,15,15,15,12,12)
-  } else if (ss_set == 2) {
-    ss_multi <- c(12,15,15,15,12,12)
-  } else if (ss_set == 3) {
-    ss_multi <- c(12,15,15,15,12,12)
-  } else if (ss_set == 4) {
-    ss_multi <- c(12,12,15,15,12,12)
-  } else if (ss_set == 5) {
-    ss_multi <- c(12,12,15,15,12,12)
-  } else if (ss_set == 6) {
-    ss_multi <- c(12,12,15,15,12,12)
-  } else if (ss_set == 7) {
-    ss_multi <- c(12,12,15,15,15,12)
-  } else if (ss_set == 8) {
-    ss_multi <- c(12,12,15,15,15,12)
+select_ss_DAISIE <- function(ss,ss_set){
+  if(ss_set == 0){
+    select_ss <- as.numeric(ss)
+  } else {
+    select_ss <- as.numeric(ss[-ss_set])
   }
-
-  return(ss_multi)
-
+  return(select_ss)
 }
 
 
@@ -235,6 +154,10 @@ select_ss_multi <- function(ss_set){
 select_ss_secsse <- function (ss,ss_set){
   if(ss_set == 0){
     select_ss <-as.numeric(ss)
+  } else if(ss_set == 9 ){
+    select_ss <-as.numeric(ss[-c(1,3)])
+  } else if(ss_set == 10 ){
+    select_ss <-as.numeric(ss[-c(2,4)])
   } else {
     select_ss <-as.numeric(ss[-ss_set])
   }
