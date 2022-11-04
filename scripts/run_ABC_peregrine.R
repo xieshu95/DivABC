@@ -13,7 +13,7 @@ idparsopt_laa2 <- as.numeric(args[10])
 idparsopt_trans <- as.numeric(args[11])
 idparsopt_trans2 <- as.numeric(args[12])
 sim_model <- args[13]
-ss_set <- args[14]
+ss_set <- as.numeric(args[14])
 idparsopt_all <- c(idparsopt_lac,idparsopt_mu,idparsopt_gam,idparsopt_laa,
                    idparsopt_lac2,idparsopt_mu2,idparsopt_gam2,idparsopt_laa2,
                    idparsopt_trans,idparsopt_trans2)
