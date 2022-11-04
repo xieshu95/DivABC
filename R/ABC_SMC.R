@@ -161,8 +161,9 @@ ABC_SMC <- function( # nolint indeed a complex function
     }
 
     ss_diff_list[[i]] <- ss_diff
-    epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.4)
-
+    if (stoprate_reached == FALSE) {
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.8)
+    }
     ABC <- c()
     for (k in seq_along(new_params)) {
       add <- c()
