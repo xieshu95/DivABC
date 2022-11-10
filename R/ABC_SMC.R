@@ -99,7 +99,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
         accept <- TRUE
         if ("phy" %in% names(new_sim[[1]])) {
-          if (length(new_sim[[1]]$examTraits) < 20 ||
+          if (length(new_sim[[1]]$examTraits) < 10 ||
               length(new_sim[[1]]$examTraits) >= 700 ||
               length(unique(new_sim[[1]]$examTraits)) < 2) {
             accept <- FALSE
@@ -152,7 +152,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
       #convergence if the acceptance rate gets too low
       tried <- tried + 1
-      if (tried > (1 / stop_rate) & n_iter > 3) {
+      if (tried > (1 / stop_rate) & n_iter > 4) {
         if ((number_accepted / tried) < stop_rate) {
           stoprate_reached <- TRUE
           break
@@ -162,7 +162,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7)
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.5) #0.5
     }
     ABC <- c()
     for (k in seq_along(new_params)) {

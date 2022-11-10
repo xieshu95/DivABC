@@ -30,8 +30,11 @@ for(i in 1:70) {
   obs_sim <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
                                        K = Inf,
                                        replicates = 1)
-  # startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))
-  initparsopt <- c(2,2,2,2,2,2)
+  startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))
+  # initparsopt <- obs_sim_pars
+  initparsopt <- c(startingpoint$lambda0,startingpoint$lambda0,
+                   startingpoint$mu0,startingpoint$mu0,
+                   0.1,0.1)
   idparsopt = c(1,2,3,4,5,6)
 
   tryCatch(MLE <- secsse::secsse_ml(
@@ -62,8 +65,8 @@ for(i in 1:70) {
   q12_MLE[i] <- MLE$MLpars[[3]][1,2]
   q21_MLE[i] <- MLE$MLpars[[3]][2,1]
 }
-MLE_all <- data.frame(param_space,lam1_MLE,lam2_MLE,
+ MLE_all <- data.frame(param_space,lam1_MLE,lam2_MLE,
                       mu1_MLE,mu2_MLE,q12_MLE,q21_MLE)
-save(MLE_all,file = "G:/results/project 2/tip_info/round4/secsse_long/MLE_secsse_ABC.RData")
+save(MLE_all,file = "G:/results/project 2/tip_info/round4/secsse_long_2/MLE_secsse_ABC.RData")
 
-load("G:/results/project 2/tip_info/round4/secsse_long/MLE_secsse_ABC.RData")
+load("G:/results/project 2/tip_info/round4/secsse_long_2/MLE_secsse_ABC.RData")

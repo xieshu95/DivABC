@@ -1,16 +1,17 @@
 
 ## prepare data go to file formate_results.R
-load("G:/results/project 2/tip_info/round4/secsse_long/whole_df_ABC_long.RData")
-load("G:/results/project 2/tip_info/round4/secsse_long/whole_df_MCMC.RData")
-load("G:/results/project 2/tip_info/round4/secsse_long/MLE_secsse_ABC.RData")
+# load("G:/results/project 2/tip_info/round4/secsse_long_2/whole_df_ABC_long.RData")
+load(paste0("G:/results/project 2/tip_info/round4/secsse_long_2/delta_whole_df_ABC_ss_set",0,".RData"))
+load("G:/results/project 2/tip_info/round4/secsse_long_2/whole_df_MCMC.RData")
+load("G:/results/project 2/tip_info/round4/secsse_long_2/MLE_secsse_ABC.RData")
 
 #####
 # 1. cowplot with only ABC (density)
 library(ggplot2)
 
-for(n in c(0,1,2,5,8)){
-  load(paste0("G:/results/project 2/tip_info/round4/secsse_long/whole_df_ABC_ss_set",n,".RData"))
-  for(i in 1:70){ #7/70
+for(n in c(0)){ #c(0,1,2,5,8)
+  load(paste0("G:/results/project 2/tip_info/round4/secsse_long_2/whole_df_ABC_ss_set",n,".RData"))
+  for(i in 1:10){ #7/70
     # param_abc <- whole_df_ABC[((i*5000-4999)):(i*5000),]  # for single scenario
     param_abc <- whole_df_ABC[((i*500-499)):(i*500),] #for single set
     if(!is.na(param_abc[1,7])){
@@ -132,7 +133,7 @@ for(n in c(0,1,2,5,8)){
 
       p_emp <- ggplot() + theme_void()
 
-      tiff(paste0("G:/results/project 2/tip_info/round4/secsse_long/cowplot/ss_",n,"_param_",i,".tiff"),
+      tiff(paste0("G:/results/project 2/tip_info/round4/secsse_long_2/cowplot/ss_",n,"_param_",i,".tiff"),
            units="px", width=3000, height=2000,res = 300,compression="lzw")
       param_estimates <- cowplot::plot_grid(
         p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
@@ -148,7 +149,7 @@ for(n in c(0,1,2,5,8)){
 ### for scenario
 library(ggplot2)
 for(n in c(0,1,2,5,8)){
-  load(paste0("G:/results/project 2/tip_info/round4/secsse_long/whole_df_ABC_ss_set",n,".RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/secsse_long_2/whole_df_ABC_ss_set",n,".RData"))
   for(i in 1:7){ #7/70
     param_abc <- whole_df_ABC[((i*5000-4999)):(i*5000),]  # for single scenario
     # param_abc <- whole_df_ABC[((i*500-499)):(i*500),] #for single set

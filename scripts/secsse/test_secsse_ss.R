@@ -1,27 +1,28 @@
 ## heatmap for random combinations
-set.seed(20)
-lam1 <- runif(500,0.2,1.0)
-lam2 <- runif(500,0.2,1.0)
-mu1 <- runif(500,0.01,0.1)
-mu2 <- runif(500,0.01,0.1)
-q12 <- runif(500,0.1,0.5)
-q21 <- runif(500,0.1,0.5)
+set.seed(1)
+lam1 <- runif(200,0.2,0.5)
+lam2 <- runif(200,0.2,0.5)
+mu1 <- runif(200,0.01,0.05)
+mu2 <- runif(200,0.01,0.05)
+q12 <- runif(200,0.1,0.5)
+q21 <- runif(200,0.1,0.5)
 
 test_ss_space <- data.frame(lam1,lam2,mu1,mu2,q12,q21)
 save(test_ss_space,file = "G:/results/project 2/tip_info/round4/secsse/test_ss_space4_500.RData")
 load("G:/results/project 2/tip_info/round4/secsse/test_ss_space4_500.RData")
-ss <- matrix(NA,nrow = 500,ncol = 13)
+ss <- matrix(NA,nrow = 200,ncol = 13)
 
 t1 <- Sys.time()
 set <- 1
 set.seed(1)
-while(set < 501){
+while(set < 201){
   message("set",set)
   pars <- test_ss_space[set,]
   obs_sim <- get_secsse_sim(parameters = as.numeric(pars),
                             K = Inf,
                             replicates = 1)
   if (length(obs_sim[[1]]$examTraits) > 10 &&
+      length(obs_sim[[1]]$examTraits) < 700 &&
       length(unique(obs_sim[[1]]$examTraits)) > 1) {
     ss[set,] <- calc_epsilon_init_secsse(sim = obs_sim)
     set <- set + 1
@@ -30,13 +31,16 @@ while(set < 501){
 t2 <- Sys.time()
 dt <- t2-t1
 dt
+
 colnames(ss) <- c("mpd","mpd_diff","mntd","mntd_diff",
                   "sdpd","sdpd_diff","sdntd","sdntd_diff",
                   "K","D","state1","state2","nltt")
-save(ss,file = "G:/results/project 2/tip_info/round4/secsse_long/test_ss_df_500.RData")
-load("G:/results/project 2/tip_info/round4/secsse_long/test_ss_df_500.RData")
+save(ss,file = "G:/results/project 2/tip_info/round4/secsse_long_2/test_ss_df_all.RData")
 
-cormat <- round(cor(ss),2)
+
+load("G:/results/project 2/tip_info/round4/secsse_long_2/test_ss_df_all.RData")
+a <- ss[,"state1"] + ss[,"state2"]
+cormat <- round(cor(ss[1:200,]),2)
 # heatmap(cormat)
 head(cormat)
 library(reshape2)
@@ -48,7 +52,7 @@ ss_name <- c("MPD","MPD_12","MNTD","MNTD_12",
              "K","D","State 1","State 2","NLTT")
 
 label_names <- "Summary statistic"
-tiff(paste0("G:/results/project 2/tip_info/round4/secsse_long/heatmap_ss_with_value_500.tiff"),
+tiff(paste0("G:/results/project 2/tip_info/round4/secsse_long_2/heatmap_ss_with_value_1.tiff"),
      units="px", width=3500, height=2500,res = 300,compression="lzw")
 heatmap <- ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
   geom_tile() +
@@ -74,6 +78,55 @@ print(heatmap)
 while (!is.null(dev.list()))  dev.off()
 
 
+# test conditioning
+## secsse parameter space(7 combinations),run 200 reps for each set
+# and see how many reps can be obs(10~700 species and 2 states)
+param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/secsse_ABC_long.csv")
+# function to get how many replicates satisfied the condition(10~700 species, 2 states)
+
+calc_num <- function(obs_sim){
+  state1 <- c()
+  state2 <- c()
+  total <- c()
+  n <- 0
+  for (rep in 1:length(obs_sim)){
+    state1[rep]<-length(which(obs_sim[[rep]]$examTraits == 1))
+    state2[rep]<-length(which(obs_sim[[rep]]$examTraits == 2))
+    total[rep] <- length(obs_sim[[rep]]$examTraits)
+    if (length(obs_sim[[rep]]$examTraits) > 10 && ## at least 50 species
+        length(obs_sim[[rep]]$examTraits) < 700 &&
+        length(unique(obs_sim[[rep]]$examTraits)) == 2){
+      n <- n + 1
+    }
+  }
+  num <- data.frame(state1,state2,total)
+  return(list(num = num,
+              n = n))
+}
+
+
+param_space <- param_data[c(1,11,21,31,41,51,61),]
+t1 <- Sys.time()
+num_cond_all <- c()
+for(i in 1:7){
+  set.seed(i)
+  message("set: ", i)
+  obs_sim_pars <- param_space[i,]
+  obs_sim <- get_secsse_sim(parameters = as.numeric(obs_sim_pars),
+                            K = Inf,
+                            replicates = 500) ## replicates = 30
+  num_spec <- calc_num(obs_sim)
+
+  data_list <- list(num_spec = num_spec,
+                    num_cond = num_cond,
+                    obs_sim = obs_sim)
+  save(data_list,file = paste0("G:/results/project 2/tip_info/round4/secsse_long_2/condition/num_cond_group",i,".RData"))
+  num_cond_all <- c(num_cond_all,num_cond)
+}
+save(num_cond_all,file = paste0("G:/results/project 2/tip_info/round4/secsse_long_2/condition/num_cond_all.RData"))
+t2 <- Sys.time()
+dt <- t2-t1
+
 
 ### calculate ss for secsse space
 param_space <- readr::read_csv2("data/secsse_ABC_long.csv")
@@ -83,26 +136,25 @@ for(i in 1:70){
   set.seed(i)
   message("set: ", i)
   obs_sim_pars <- param_space[i,]
-  obs_sim <- get_secsse_sim(parameters = as.numeric(obs_sim_pars),
+  obs_sim <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
                             K = Inf,
                             replicates = 1) ## replicates = 30
-  sim_function <- get_secsse_sim
-  prior_generating_function <- prior_gen_secsse
-  prior_density_function <- prior_dens_secsse
-  fixpars = as.numeric(obs_sim_pars[1:6])
   init_epsilon <- calc_epsilon_init_secsse(sim = obs_sim)
   ss<-rbind(ss,init_epsilon)
 }
 
 
-colnames(ss) <- c("mpd","mpd_diff","mntd","mntd_diff","K","D","state1","state2","nltt")
-save(ss,file = "G:/results/project 2/tip_info/round4/secsse/obs_ss_long_space.RData")
+colnames(ss) <- c("mpd","mpd_diff","mntd","mntd_diff",
+                  "sdpd","sdpd_diff","sdntd","sdntd_diff",
+                  "K","D","state1","state2","nltt")
+save(ss,file = "G:/results/project 2/tip_info/round4/secsse_long_2/obs_ss_long_space.RData")
+
 
 rownames(ss) <- 1:70
 pars_ss<-data.frame(param_space,ss)
 pars_ss$total <- pars_ss$state1+pars_ss$state2
-save(pars_ss,file = "G:/results/project 2/tip_info/round4/secsse/obs_ss_long_with_pars.RData")
+save(pars_ss,file = "G:/results/project 2/tip_info/round4/secsse_long_2/obs_ss_long_with_pars.RData")
 
-load("G:/results/project 2/tip_info/round4/secsse/obs_ss_with_pars.RData")
+load("G:/results/project 2/tip_info/round4/secsse_long_2/obs_ss_long_with_pars.RData")
 
-density(stats::rexp(1000,5))
+
