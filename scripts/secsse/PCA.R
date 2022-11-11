@@ -1,4 +1,4 @@
-load("G:/results/project 2/tip_info/round4/secsse_long/test_ss_df_500.RData")
+load("G:/results/project 2/tip_info/round4/secsse_long_2/test_ss_df_prior.RData")
 # install.packages("factoextra")
 library(factoextra)
 res.pca <- prcomp(ss, scale = TRUE)

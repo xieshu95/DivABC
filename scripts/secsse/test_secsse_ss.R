@@ -1,30 +1,33 @@
 ## heatmap for random combinations
-set.seed(1)
-lam1 <- runif(200,0.2,0.5)
-lam2 <- runif(200,0.2,0.5)
-mu1 <- runif(200,0.01,0.05)
-mu2 <- runif(200,0.01,0.05)
-q12 <- runif(200,0.1,0.5)
-q21 <- runif(200,0.1,0.5)
+# don't use given values but sample from prior
 
-test_ss_space <- data.frame(lam1,lam2,mu1,mu2,q12,q21)
-save(test_ss_space,file = "G:/results/project 2/tip_info/round4/secsse/test_ss_space4_500.RData")
-load("G:/results/project 2/tip_info/round4/secsse/test_ss_space4_500.RData")
-ss <- matrix(NA,nrow = 200,ncol = 13)
-
+# set.seed(1)
+# lam1 <- stats::rexp(500,2)
+# lam2 <- stats::rexp(500,2)
+# mu1 <- stats::rexp(500,20)
+# mu2 <- stats::rexp(500,20)
+# q12 <- stats::rexp(500,5)
+# q21 <- stats::rexp(500,5)
+#
+# test_ss_space <- data.frame(lam1,lam2,mu1,mu2,q12,q21)
+# save(test_ss_space,file = "G:/results/project 2/tip_info/round4/secsse/test_ss_space4_500.RData")
+# load("G:/results/project 2/tip_info/round4/secsse/test_ss_space4_500.RData")
+ss <- matrix(NA,nrow = 500,ncol = 13)
+pars_accept <- c()
 t1 <- Sys.time()
 set <- 1
 set.seed(1)
-while(set < 201){
+while(set < 501){
   message("set",set)
-  pars <- test_ss_space[set,]
+  pars <- prior_gen_secsse(1:6,1:6)
   obs_sim <- get_secsse_sim(parameters = as.numeric(pars),
                             K = Inf,
                             replicates = 1)
   if (length(obs_sim[[1]]$examTraits) > 10 &&
-      length(obs_sim[[1]]$examTraits) < 700 &&
+      length(obs_sim[[1]]$examTraits) < 999 &&
       length(unique(obs_sim[[1]]$examTraits)) > 1) {
     ss[set,] <- calc_epsilon_init_secsse(sim = obs_sim)
+    pars_accept <- rbind(pars_accept, pars)
     set <- set + 1
   }
 }
@@ -34,12 +37,14 @@ dt
 
 colnames(ss) <- c("mpd","mpd_diff","mntd","mntd_diff",
                   "sdpd","sdpd_diff","sdntd","sdntd_diff",
-                  "K","D","state1","state2","nltt")
-save(ss,file = "G:/results/project 2/tip_info/round4/secsse_long_2/test_ss_df_all.RData")
+                  "K","D","total","ratio","nltt")
+save(ss,file = "G:/results/project 2/tip_info/round4/secsse_long_2/test_ss_df_prior_save.RData")
 
+colnames(pars_accept) <- c("lam1","lam2","mu1","mu2","q12","q21")
+save(pars_accept,file = "G:/results/project 2/tip_info/round4/secsse_long_2/test_ss_pars_accept_save.RData")
 
-load("G:/results/project 2/tip_info/round4/secsse_long_2/test_ss_df_all.RData")
-a <- ss[,"state1"] + ss[,"state2"]
+load("G:/results/project 2/tip_info/round4/secsse_long_2/test_ss_df_prior.RData")
+
 cormat <- round(cor(ss[1:200,]),2)
 # heatmap(cormat)
 head(cormat)
@@ -49,10 +54,10 @@ library(ggplot2)
 
 ss_name <- c("MPD","MPD_12","MNTD","MNTD_12",
              "SDPD","SDPD_12","SDNTD","SDNTD_12",
-             "K","D","State 1","State 2","NLTT")
+             "K","D","Total","Ratio","NLTT")
 
 label_names <- "Summary statistic"
-tiff(paste0("G:/results/project 2/tip_info/round4/secsse_long_2/heatmap_ss_with_value_1.tiff"),
+tiff(paste0("G:/results/project 2/tip_info/round4/secsse_long_2/heatmap_ss_with_value_prior.tiff"),
      units="px", width=3500, height=2500,res = 300,compression="lzw")
 heatmap <- ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
   geom_tile() +

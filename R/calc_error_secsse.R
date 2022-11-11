@@ -214,6 +214,8 @@ calc_ss_secsse <- function(sim) {
   num_state1 <- length(which(sim$examTraits == 1))
   num_state2 <- length(which(sim$examTraits == 2))
 
+  total_spec <- num_state1 + num_state2
+  spec_ratio <- num_state1/total_spec
 
 
   # nLTT
@@ -238,8 +240,8 @@ calc_ss_secsse <- function(sim) {
          sdntd_diff = sdntd_diff,
          K = K,
          D = D,
-         num_state1 = num_state1,
-         num_state2 = num_state2,
+         total_spec = total_spec,
+         spec_ratio = spec_ratio,
          nltt = nltt)
   )
 }
