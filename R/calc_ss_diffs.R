@@ -107,7 +107,7 @@ calc_ss_diff <- function(sim1, sim2, ss_set){
 #   epsilon_init <- 8*ss_diff_pairs_median ##9 for DAISIE
 #   return(epsilon_init)
 # }
-calc_epsilon_init <- function(sim,ss_set){
+calc_epsilon_init <- function(sim){
   ss <- calc_ss_no_ext(sim[[1]],1)
   eps_init <- as.numeric(unlist(ss)) * 1
   return(eps_init)
