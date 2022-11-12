@@ -30,17 +30,17 @@ run_MCMC_DAISIE <- function(param_space_name,
                             K = as.numeric(obs_sim_pars$K),
                             replicates = 1)
 
-  obs_sim_pars <- mcmc_init(idparsopt, obs_sim_pars)
+  obs_sim_pars_init <- obs_sim_pars + 0.0001
   mcmc <- MCMC_DAISIE(datalist = obs_sim[[1]][[1]],
                       likelihood_function=calc_log_pp,
-                      parameters = as.numeric(c(obs_sim_pars$lac,
-                                                obs_sim_pars$mu,
-                                                obs_sim_pars$gam,
-                                                obs_sim_pars$laa)),
-                      iterations = 100000, ##20000
-                      burnin = 1000,
+                      parameters = as.numeric(c(obs_sim_pars_init$lac,
+                                                obs_sim_pars_init$mu,
+                                                obs_sim_pars_init$gam,
+                                                obs_sim_pars_init$laa)),
+                      iterations = 300000, ##20000
+                      burnin = 10000,
                       thinning = 100,
-                      sigma = 0.1,
+                      sigma = 0.02,
                       idparsopt = idparsopt)
 
   if (save_output == TRUE) {
