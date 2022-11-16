@@ -37,7 +37,7 @@ calc_ss_diff <- function(sim1, sim2, ss_set){
                            ss$num_trans12_error,
                            ss$num_trans21_error))
   } else if ("stt_all" %in% names(sim1[[1]][[1]])) { ## DAISIE
-    ss <- calc_error_no_ext(sim_1 = sim1,   ##calc_error
+    ss <- calc_error_pairwise(sim_1 = sim1,   ##calc_error
                             sim_2 = sim2,
                             replicates = 1,
                             distance_method = "abs")
