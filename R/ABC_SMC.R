@@ -105,6 +105,10 @@ ABC_SMC <- function( # nolint indeed a complex function
             accept <- FALSE
           }
         }
+        # constrain for DAISIE that simulated tree has same clade-number as observed
+        if(length(obs_data[[1]][[1]]) != length(new_sim[[1]][[1]])) {
+          accept <- FALSE
+        }
         #calculate the summary statistics for the simulated tree
         if (accept) {
           df_stats <- calc_ss_diff (sim1 = obs_data[[1]],
@@ -162,7 +166,11 @@ ABC_SMC <- function( # nolint indeed a complex function
 
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7) #0.5
+      if("phy" %in% names(obs_data[[1]])){
+        epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7) #0.5
+      } else {
+        epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.6) #0.5
+      }
     }
     ABC <- c()
     for (k in seq_along(new_params)) {
