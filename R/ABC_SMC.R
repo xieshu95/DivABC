@@ -156,7 +156,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
       #convergence if the acceptance rate gets too low
       tried <- tried + 1
-      if (tried > (1 / stop_rate) & n_iter > 4) {
+      if (tried > (1 / stop_rate) & n_iter > 3) {
         if ((number_accepted / tried) < stop_rate) {
           stoprate_reached <- TRUE
           break
@@ -169,7 +169,7 @@ ABC_SMC <- function( # nolint indeed a complex function
       if("phy" %in% names(obs_data[[1]])){
         epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7) #0.5
       } else {
-        epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.6) #0.5
+        epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7) #0.5
       }
     }
     ABC <- c()
