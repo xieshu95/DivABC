@@ -1,11 +1,11 @@
 ## ABC results
-folder_path <- "G:/results/project 2/tip_info/round4/secsse_long_2/secsse_ABC_long"
+folder_path <- "G:/results/project 2/tip_info/round4/adap_secsse/secsse_ABC_long"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/secsse_ABC_long.csv")
 
 param_data2<-param_data[rep(seq_len(nrow(param_data)), each=500),] #1000
 
-for(n in c(0,9,10)){
+for(n in c(0)){
   lam1_abc <- c()
   lam2_abc <- c()
   mu1_abc <- c()
@@ -68,24 +68,31 @@ for(n in c(0,9,10)){
   whole_df_ABC <- data.frame(param_data2,n_iteration,
                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                              lam1_abc,lam2_abc,mu1_abc,mu2_abc,q12_abc,q21_abc)
-  save(whole_df_ABC,file = paste0("G:/results/project 2/tip_info/round4/secsse_long_2/whole_df_ABC_ss_set",n,".RData"))
+  save(whole_df_ABC,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse/whole_df_ABC_ss_set",n,".RData"))
 }
 
 
-load(paste0("G:/results/project 2/tip_info/round4/secsse_long_2/whole_df_ABC_ss_set",0,".RData"))
+load(paste0("G:/results/project 2/tip_info/round4/adap_secsse/whole_df_ABC_ss_set",0,".RData"))
 whole_df_ABC$dlam <- (whole_df_ABC$lam2-whole_df_ABC$lam1)/(whole_df_ABC$lam2+whole_df_ABC$lam1)
 whole_df_ABC$dlam_ABC <- (whole_df_ABC$lam2_abc-whole_df_ABC$lam1_abc)/(whole_df_ABC$lam2_abc+whole_df_ABC$lam1_abc)
 whole_df_ABC$dmu <- (whole_df_ABC$mu2-whole_df_ABC$mu1)/(whole_df_ABC$mu2+whole_df_ABC$mu1)
 whole_df_ABC$dmu_ABC <- (whole_df_ABC$mu2_abc-whole_df_ABC$mu1_abc)/(whole_df_ABC$mu2_abc+whole_df_ABC$mu1_abc)
 whole_df_ABC$dq <- (whole_df_ABC$q12-whole_df_ABC$q21)/(whole_df_ABC$q12+whole_df_ABC$q21)
 whole_df_ABC$dq_ABC <- (whole_df_ABC$q12_abc-whole_df_ABC$q21_abc)/(whole_df_ABC$q12_abc+whole_df_ABC$q21_abc)
-save(whole_df_ABC,file = paste0("G:/results/project 2/tip_info/round4/secsse_long_2/delta_whole_df_ABC_ss_set",0,".RData"))
+
+whole_df_ABC$net_div1 <- (whole_df_ABC$lam1-whole_df_ABC$mu1)
+whole_df_ABC$net_div2 <- (whole_df_ABC$lam2-whole_df_ABC$mu2)
+whole_df_ABC$net_div_ABC1 <- (whole_df_ABC$lam1_abc-whole_df_ABC$mu1_abc)
+whole_df_ABC$net_div_ABC2 <- (whole_df_ABC$lam2_abc-whole_df_ABC$mu2_abc)
+whole_df_ABC$dmu[1:20000] <-0
+
+save(whole_df_ABC,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse/delta_whole_df_ABC_ss_set",0,".RData"))
 
 
 #### MCMC results
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/secsse_ABC_long.csv")
 param_data3<-param_data[rep(seq_len(nrow(param_data)), each=1001),] #5001
-folder_path <- "G:/results/project 2/tip_info/round4/secsse_long_2/secsse_MCMC_long"
+folder_path <- "G:/results/project 2/tip_info/round4/adap_secsse/secsse_MCMC_long"
 files <- list.files(folder_path)
 lam1_mcmc <- c()
 lam2_mcmc <- c()
@@ -123,14 +130,55 @@ whole_df_MCMC <- data.frame(param_data3,
                             mu1_mcmc,mu2_mcmc,
                             q12_mcmc,q21_mcmc)
 #lac_abc,mu_abc,gam_abc,laa_abc,n_iter)
-save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/secsse_long_2/whole_df_MCMC.RData")
+save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/adap_secsse/whole_df_MCMC.RData")
+
+
+
+
+#####
+# plot MCMC results
+# load("G:/results/project 2/tip_info/round4/secsse_long_2/secsse_MCMC_long/secsse_MCMC_long_param_set_1_ss_1.RData")
+
+folder_path <- "G:/results/project 2/tip_info/round4/secsse_long/secsse_MCMC_long"
+files <- list.files(folder_path)
+for(i in 1:70){
+  # param_set = (param_num-1)*5 + i
+  file_to_load <- grep(paste0("secsse_MCMC_long_param_set_", i,"_ss_1.RData"), #"_rep",rep,
+                       files,
+                       value = TRUE,
+                       fixed = TRUE)
+
+  if (!identical(file_to_load, character())) {
+    load(file.path(folder_path, file_to_load))
+    tiff(paste0("G:/results/project 2/tip_info/round4/secsse_long_2/MCMC_trace_5001/set_",i,"_lam.tiff"),
+         units="px", width=2000, height=2000,res = 300,compression="lzw")
+    b_mcmc <- coda::as.mcmc(output[,1:2])
+    plot_mcmc <- plot(b_mcmc)
+    print(plot_mcmc)
+    while (!is.null(dev.list()))  dev.off()
+
+    tiff(paste0("G:/results/project 2/tip_info/round4/secsse_long_2/MCMC_trace_5001/set_",i,"_mu.tiff"),
+         units="px", width=2000, height=2000,res = 300,compression="lzw")
+    b_mcmc <- coda::as.mcmc(output[,3:4])
+    plot_mcmc <- plot(b_mcmc)
+    print(plot_mcmc)
+    while (!is.null(dev.list()))  dev.off()
+
+    tiff(paste0("G:/results/project 2/tip_info/round4/secsse_long_2/MCMC_trace_5001/set_",i,"_q.tiff"),
+         units="px", width=2000, height=2000,res = 300,compression="lzw")
+    b_mcmc <- coda::as.mcmc(output[,5:6])
+    plot_mcmc <- plot(b_mcmc)
+    print(plot_mcmc)
+    while (!is.null(dev.list()))  dev.off()
+  }
+}
 
 
 
 ## combine ABC, MCMC, MLE for each parameter set(use median value)
-load(paste0("G:/results/project 2/tip_info/round4/secsse_long_2/delta_whole_df_ABC_ss_set",0,".RData"))
-load("G:/results/project 2/tip_info/round4/secsse_long_2/whole_df_MCMC.RData")
-load("G:/results/project 2/tip_info/round4/secsse_long_2/MLE_secsse_ABC.RData")
+load(paste0("G:/results/project 2/tip_info/round4/adap_secsse/delta_whole_df_ABC_ss_set",0,".RData"))
+load("G:/results/project 2/tip_info/round4/adap_secsse/whole_df_MCMC.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse/MLE_secsse_ABC.RData")
 ## get number of iterations and mean values
 df <- whole_df_ABC
 n <- 500
@@ -153,12 +201,12 @@ whole_df_MLE_median_group <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each
 AMM_df <- cbind(whole_df_ABC_median,
                 whole_df_MCMC_median[,7:12],
                 MLE_all[,7:12])
-save(AMM_df,file = "G:/results/project 2/tip_info/round4/secsse_long_2/ABC_MCMC_MLE_per_set.RData")
+save(AMM_df,file = "G:/results/project 2/tip_info/round4/adap_secsse/ABC_MCMC_MLE_per_set.RData")
 AMM_group <- cbind(whole_df_ABC_median_group,
                    whole_df_MCMC_median_group[,7:12],
                    whole_df_MLE_median_group[,7:12])
-save(AMM_group,file = "G:/results/project 2/tip_info/round4/secsse_long_2/ABC_MCMC_MLE_per_group.RData")
+save(AMM_group,file = "G:/results/project 2/tip_info/round4/adap_secsse/ABC_MCMC_MLE_per_group.RData")
 
 
-load("G:/results/project 2/tip_info/round4/secsse_long_2/ABC_MCMC_MLE_per_group.RData")
-load("G:/results/project 2/tip_info/round4/secsse_long_2/ABC_MCMC_MLE_per_set.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse/ABC_MCMC_MLE_per_group.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse/ABC_MCMC_MLE_per_set.RData")
