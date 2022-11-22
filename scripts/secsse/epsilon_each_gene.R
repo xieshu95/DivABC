@@ -15,7 +15,7 @@ for(set in 1:70){
 
     ss_dist<-c()
     n_gene <- length(output$ss_diff_list)
-    if(length(output$ss_diff_list[[n_gene]]) < 500){
+    if(nrow(output$ss_diff_list[[n_gene]]) < 500){
       n_gene <- n_gene - 1
     }
     for(i in 1:n_gene){
@@ -141,4 +141,44 @@ for(set in 1:10){
   while (!is.null(dev.list()))  dev.off()
 
 }
+
+#####
+folder_path <- "G:/results/project 2/tip_info/round4/adap_secsse/secsse_ABC_long"
+files <- list.files(folder_path)
+param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/secsse_ABC_long.csv")
+epsilon_matix <- matrix(NA,70,8)
+colnames(epsilon_matix) <- c("MPD","SDPD","MNTD","SDNTD",
+                             "D","Total","Ratio","NLTT")
+for(i in 1:70){
+  # if(i%%5 == 0){
+  #   rep <- 5
+  # } else {
+  #   rep <- i%%5
+  # }
+  # param_set = (param_num-1)*5 + i
+  file_to_load <- grep(paste0("secsse_ABC_long_param_set_", i,"_ss_0.RData"),  #,"_rep",rep
+                       files,
+                       value = TRUE,
+                       fixed = TRUE)
+  # abc <- NULL; rm(abc) # nolint ; hack around global var
+  if (!identical(file_to_load, character())) {
+    load(file.path(folder_path, file_to_load))
+
+    if(output$n_iter <= 3){
+      epsilon_matix[i,] <- rep(NA,8)
+    } else if (nrow(output$ABC[[output$n_iter]]) == 500) {
+      epsilon_matix[i,] <- output$epsilon[output$n_iter,]
+    } else {
+      epsilon_matix[i,] <- output$epsilon[(output$n_iter-1),]
+    }
+  } else {
+    epsilon_matix[i,] <- rep(NA,8)
+  }
+}
+epsilon <- data.frame(param_data,epsilon_matix)
+save(epsilon,
+     file = paste0("G:/results/project 2/tip_info/round4/adap_secsse/epsilon_last_gene_ss_set_0.RData"))
+
+
+
 

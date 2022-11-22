@@ -132,8 +132,21 @@ whole_df_MCMC <- data.frame(param_data3,
 #lac_abc,mu_abc,gam_abc,laa_abc,n_iter)
 save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/adap_secsse/whole_df_MCMC.RData")
 
+load("G:/results/project 2/tip_info/round4/adap_secsse/whole_df_MCMC.RData")
+whole_df_MCMC$dlam <- (whole_df_MCMC$lam2-whole_df_MCMC$lam1)/(whole_df_MCMC$lam2+whole_df_MCMC$lam1)
+whole_df_MCMC$dlam_mcmc <- (whole_df_MCMC$lam2_mcmc-whole_df_MCMC$lam1_mcmc)/(whole_df_MCMC$lam2_mcmc+whole_df_MCMC$lam1_mcmc)
+whole_df_MCMC$dmu <- (whole_df_MCMC$mu2-whole_df_MCMC$mu1)/(whole_df_MCMC$mu2+whole_df_MCMC$mu1)
+whole_df_MCMC$dmu_mcmc <- (whole_df_MCMC$mu2_mcmc-whole_df_MCMC$mu1_mcmc)/(whole_df_MCMC$mu2_mcmc+whole_df_MCMC$mu1_mcmc)
+whole_df_MCMC$dq <- (whole_df_MCMC$q12-whole_df_MCMC$q21)/(whole_df_MCMC$q12+whole_df_MCMC$q21)
+whole_df_MCMC$dq_mcmc <- (whole_df_MCMC$q12_mcmc-whole_df_MCMC$q21_mcmc)/(whole_df_MCMC$q12_mcmc+whole_df_MCMC$q21_mcmc)
 
+whole_df_MCMC$net_div1 <- (whole_df_MCMC$lam1-whole_df_MCMC$mu1)
+whole_df_MCMC$net_div2 <- (whole_df_MCMC$lam2-whole_df_MCMC$mu2)
+whole_df_MCMC$net_div_mcmc1 <- (whole_df_MCMC$lam1_mcmc-whole_df_MCMC$mu1_mcmc)
+whole_df_MCMC$net_div_mcmc2 <- (whole_df_MCMC$lam2_mcmc-whole_df_MCMC$mu2_mcmc)
+whole_df_MCMC$dmu[1:200040] <-0
 
+save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/adap_secsse/delta_whole_df_MCMC.RData")
 
 #####
 # plot MCMC results

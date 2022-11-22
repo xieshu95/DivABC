@@ -1,3 +1,7 @@
+#####
+# observed ss
+load("G:/results/project 2/tip_info/round4/adap_daisie/obs_ss_long_with_pars.RData")
+
 # folder_path <- "G:/results/project 2/tip_info/round4/kernel3/DAISIE_ABC_short2"
 folder_path <- "G:/results/project 2/tip_info/round4/adap_daisie/DAISIE_ABC_short"
 files <- list.files(folder_path)
@@ -60,187 +64,105 @@ for(n in c(0)){
 
 }
 
-# cowplot
-library(ggplot2)
-# load("G:/results/project 2/tip_info/round4/MLE.RData")
-for(n in c(0)){
-  load(paste0("G:/results/project 2/tip_info/round4/adap_daisie/whole_df_ABC_ss_set",n,".RData"))
-  for(i in 1:81){
-    param_abc <- whole_df_ABC[((i*500-499)):(i*500),]
-
-    if(!is.na(param_abc[1,6])){
-      p_lac <-ggplot2::ggplot(data = param_abc) +
-        ggplot2::theme_bw() +
-        xlim(0,1)+
-        # ggplot2::geom_histogram(mapping = ggplot2::aes(x = lac_abc),
-        #                       fill = "#009E73",colour = "#009E73",
-        #                       alpha = 0.3, binwidth = 0.01) +
-        ggplot2::geom_density(ggplot2::aes(x = lac_abc),
-                              fill = "royalblue",colour = "blue3",
-                              alpha = 0.3) +
-        ggplot2::theme_classic() +
-        ggplot2::theme(title = ggplot2::element_text(size = 12),
-                       text = ggplot2::element_text(size = 12)) +
-        ggplot2::ylab("Density") +
-        ggplot2::xlab(expression(lambda^c))+
-        ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), linetype = "dashed", size = 0.5)
-        # ggplot2::geom_vline(data= MLE_all[i,], aes(xintercept = lac_MLE),
-        #                     linetype = "dashed", size = 0.5,color = "red")
-
-      p_mu <-ggplot2::ggplot(data = param_abc) +
-        ggplot2::theme_bw() +
-        xlim(0,0.5)+
-        # ggplot2::geom_histogram(mapping = ggplot2::aes(x = mu_abc),
-        #                       fill = "#009E73",colour = "#009E73",
-        #                       alpha = 0.3, binwidth = 0.01) +
-        ggplot2::geom_density(mapping = ggplot2::aes(x = mu_abc),
-                              fill = "royalblue",colour = "blue3",
-                              alpha = 0.3) +
-        ggplot2::theme_classic() +
-        ggplot2::theme(title = ggplot2::element_text(size = 12),
-                       text = ggplot2::element_text(size = 12)) +
-        ggplot2::ylab("Density") +
-        ggplot2::xlab(expression(mu))+
-        ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), linetype = "dashed", size = 0.5)
-
-      p_gam <-ggplot2::ggplot(data = param_abc) +
-        ggplot2::theme_bw() +
-        xlim(0,0.05)+
-        # ggplot2::geom_histogram(mapping = ggplot2::aes(x = gam_abc),
-        #                       fill = "#009E73",colour = "#009E73",
-        #                       alpha = 0.3, binwidth = 0.0005) +
-        ggplot2::geom_density(mapping = ggplot2::aes(x = gam_abc),
-                              fill = "royalblue",colour = "blue3",
-                              alpha = 0.3) +
-        ggplot2::theme_classic() +
-        ggplot2::theme(title = ggplot2::element_text(size = 12),
-                       text = ggplot2::element_text(size = 12)) +
-        ggplot2::ylab("Density") +
-        ggplot2::xlab(expression(gamma))+
-        ggplot2::geom_vline(data= param_abc, aes(xintercept = gam), linetype = "dashed", size = 0.5)
+load(paste0("G:/results/project 2/tip_info/round4/adap_daisie/whole_df_ABC_ss_set",0,".RData"))
+whole_df_ABC$net_div <- (whole_df_ABC$lac-whole_df_ABC$mu)
+whole_df_ABC$net_div_ABC <- (whole_df_ABC$lac_abc-whole_df_ABC$mu_abc)
 
 
-      p_laa <-ggplot2::ggplot(data = param_abc) +
-        ggplot2::theme_bw() +
-        xlim(0,1.0)+
-        # ggplot2::geom_histogram(mapping = ggplot2::aes(x = laa_abc),
-        #                       fill = "#009E73",colour = "#009E73",
-        #                       alpha = 0.3, binwidth = 0.01) +
-        ggplot2::geom_density(mapping = ggplot2::aes(x = laa_abc),
-                              fill = "royalblue",colour = "blue3",
-                              alpha = 0.3) +
-        ggplot2::theme_classic() +
-        ggplot2::theme(title = ggplot2::element_text(size = 12),
-                       text = ggplot2::element_text(size = 12)) +
-        ggplot2::ylab("Density") +
-        ggplot2::xlab(expression(lambda^a))+
-        ggplot2::geom_vline(data= param_abc, aes(xintercept = laa), linetype = "dashed", size = 0.5)
+save(whole_df_ABC,file = paste0("G:/results/project 2/tip_info/round4/adap_daisie/delta_whole_df_ABC_ss_set",0,".RData"))
 
-      mu_vs_lac <- ggplot2::ggplot(data = param_abc) +
-        ggplot2::theme_bw() +
-        xlim(0,1)+
-        ggplot2::geom_point(mapping = ggplot2::aes(x = lac_abc,y = mu_abc),
-                            colour = "royalblue",shape = 16,alpha = 0.2) +
-        ggplot2::theme_classic() +
-        ggplot2::theme(title = ggplot2::element_text(size = 12),
-                       text = ggplot2::element_text(size = 12)) +
-        ggplot2::ylab(expression(mu)) +
-        ggplot2::xlab(expression(lambda^c)) +
-        ggplot2::geom_point(mapping = ggplot2::aes(x = lac,y = mu),
-                            colour = "black",shape = 16,size = 2.5)
-      # ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), colour = "grey50") +
-      # ggplot2::geom_hline(data= param_abc, aes(yintercept = mu), colour = "grey50")
+load(paste0("G:/results/project 2/tip_info/round4/adap_daisie/delta_whole_df_ABC_ss_set",0,".RData"))
 
-      gam_vs_lac <- ggplot2::ggplot(data = param_abc) +
-        ggplot2::theme_bw() +
-        xlim(0,1)+
-        ggplot2::geom_point(mapping = ggplot2::aes(x = lac_abc,y = gam_abc),
-                            colour = "royalblue",shape = 16,alpha = 0.2) +
-        ggplot2::theme_classic() +
-        ggplot2::theme(title = ggplot2::element_text(size = 12),
-                       text = ggplot2::element_text(size = 12)) +
-        ggplot2::ylab(expression(gamma)) +
-        ggplot2::xlab(expression(lambda^c)) +
-        ggplot2::geom_point(mapping = ggplot2::aes(x = lac,y = gam),
-                            colour = "black",shape = 16,size = 2.5)
-      # ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), colour = "grey50") +
-      # ggplot2::geom_hline(data= param_abc, aes(yintercept = gam), colour = "grey50")
+#####
+#MCMC results
+folder_path <- "G:/results/project 2/tip_info/round4/adap_daisie/DAISIE_MCMC_short"
+files <- list.files(folder_path)
+param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
+param_data3<-param_data[rep(seq_len(nrow(param_data)), each=3001),] #5001
 
-      laa_vs_lac <- ggplot2::ggplot(data = param_abc) +
-        ggplot2::theme_bw() +
-        xlim(0,1)+
-        ggplot2::geom_point(mapping = ggplot2::aes(x = lac_abc,y = laa_abc),
-                            colour = "royalblue",shape = 16,alpha = 0.2) +
-        ggplot2::theme_classic() +
-        ggplot2::theme(title = ggplot2::element_text(size = 12),
-                       text = ggplot2::element_text(size = 12)) +
-        ggplot2::ylab(expression(lambda^a)) +
-        ggplot2::xlab(expression(lambda^c)) +
-        ggplot2::geom_point(mapping = ggplot2::aes(x = lac,y = laa),
-                            colour = "black",shape = 16,size = 2.5)
-      # ggplot2::geom_vline(data= param_abc, aes(xintercept = lac), colour = "grey50") +
-      # ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), colour = "grey50")
+lac_mcmc <- c()
+mu_mcmc <- c()
+gam_mcmc <- c()
+laa_mcmc <- c()
+for(i in 1:81){
+  # param_set = (param_num-1)*5 + i
+  file_to_load <- grep(paste0("DAISIE_MCMC_short_param_set_", i,"_ss_1.RData"), #"_rep",rep,
+                       files,
+                       value = TRUE,
+                       fixed = TRUE)
 
-      gam_vs_mu <- ggplot2::ggplot(data = param_abc) +
-        ggplot2::theme_bw() +
-        xlim(0,0.5)+
-        ggplot2::geom_point(mapping = ggplot2::aes(x = mu_abc,y = gam_abc),
-                            colour = "royalblue",shape = 16,alpha = 0.2) +
-        ggplot2::theme_classic() +
-        ggplot2::theme(title = ggplot2::element_text(size = 12),
-                       text = ggplot2::element_text(size = 12)) +
-        ggplot2::ylab(expression(gamma)) +
-        ggplot2::xlab(expression(mu)) +
-        ggplot2::geom_point(mapping = ggplot2::aes(x = mu,y = gam),
-                            colour = "black",shape = 16,size = 2.5)
-      # ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), colour = "grey50") +
-      # ggplot2::geom_hline(data= param_abc, aes(yintercept = gam), colour = "grey50")
-
-      laa_vs_mu <- ggplot2::ggplot(data = param_abc) +
-        ggplot2::theme_bw() +
-        xlim(0,0.5)+
-        ggplot2::geom_point(mapping = ggplot2::aes(x = mu_abc,y = laa_abc),
-                            colour = "royalblue",shape = 16,alpha = 0.2) +
-        ggplot2::theme_classic() +
-        ggplot2::theme(title = ggplot2::element_text(size = 12),
-                       text = ggplot2::element_text(size = 12)) +
-        ggplot2::ylab(expression(lambda^a)) +
-        ggplot2::xlab(expression(mu)) +
-        ggplot2::geom_point(mapping = ggplot2::aes(x = mu,y = laa),
-                            colour = "black",shape = 16,size = 2.5)
-      # ggplot2::geom_vline(data= param_abc, aes(xintercept = mu), colour = "grey50") +
-      # ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), colour = "grey50")
-
-      laa_vs_gam <- ggplot2::ggplot(data = param_abc) +
-        ggplot2::theme_bw() +
-        xlim(0,0.05)+
-        ggplot2::geom_point(mapping = ggplot2::aes(x = gam_abc,y = laa_abc),
-                            colour = "royalblue",shape = 16,alpha = 0.2) +
-        ggplot2::theme_classic() +
-        ggplot2::theme(title = ggplot2::element_text(size = 12),
-                       text = ggplot2::element_text(size = 12)) +
-        ggplot2::ylab(expression(lambda^a)) +
-        ggplot2::xlab(expression(gamma)) +
-        ggplot2::geom_point(mapping = ggplot2::aes(x = gam,y = laa),
-                            colour = "black",shape = 16,size = 2.5)
-      # ggplot2::geom_vline(data= param_abc, aes(xintercept = gam), colour = "grey50") +
-      # ggplot2::geom_hline(data= param_abc, aes(yintercept = laa), colour = "grey50")
-
-      p_emp <- ggplot() + theme_void()
-
-      tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie/cowplots/ss",n,"_param_",i,".tiff"),
-           units="px", width=3000, height=2000,res = 300,compression="lzw")
-      param_estimates <- cowplot::plot_grid(
-        p_lac,p_emp,p_emp,p_emp,
-        mu_vs_lac,p_mu,p_emp,p_emp,
-        gam_vs_lac,gam_vs_mu,p_gam,p_emp,
-        laa_vs_lac,laa_vs_mu,laa_vs_gam,p_laa,
-        align = "hv", nrow = 4, ncol = 4
-      )
-      print(param_estimates)
-      while (!is.null(dev.list()))  dev.off()
-    }
-
+  if (!identical(file_to_load, character())) {
+    load(file.path(folder_path, file_to_load))
+    lac_mcmc <- c(lac_mcmc, output[,1])
+    mu_mcmc <- c(mu_mcmc, output[,2])
+    gam_mcmc <- c(gam_mcmc, output[,3])
+    laa_mcmc <- c(laa_mcmc, output[,4])
+  } else {
+    lac_mcmc <- c(lac_mcmc, rep(NA,3001))
+    mu_mcmc <- c(mu_mcmc, rep(NA,3001))
+    gam_mcmc <- c(gam_mcmc, rep(NA,3001))
+    laa_mcmc <- c(laa_mcmc, rep(NA,3001))
   }
 }
+
+whole_df_MCMC <- data.frame(param_data3,
+                            lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc)
+# save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/adap_daisie/whole_df_MCMC.RData")
+
+
+whole_df_MCMC$net_div <- (whole_df_MCMC$lac-whole_df_MCMC$mu)
+whole_df_MCMC$net_div_mcmc <- (whole_df_MCMC$lac_mcmc - whole_df_MCMC$mu_mcmc)
+
+save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/adap_daisie/whole_df_MCMC.RData")
+load("G:/results/project 2/tip_info/round4/adap_daisie/whole_df_MCMC.RData")
+
+
+#####
+#calculate MLE for each parameter set and combine as a dataframe
+param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
+lac_MLE <- c()
+mu_MLE <- c()
+gam_MLE <- c()
+laa_MLE <- c()
+K <- c()
+for(i in 1:81) {
+  message("set",i)
+  set.seed(i)
+  obs_sim_pars <- param_space[i,]
+  obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
+                                           obs_sim_pars$mu,
+                                           obs_sim_pars$gam,
+                                           obs_sim_pars$laa),
+                            K = as.numeric(obs_sim_pars$K),
+                            replicates = 1)
+
+  MLE_DD_allpars <- DAISIE::DAISIE_ML(
+    datalist = obs_sim[[1]][[1]],
+    initparsopt = as.numeric(obs_sim_pars[c(1,2,5,3,4)]),
+    idparsopt = 1:5,
+    parsfix = NULL,
+    idparsfix = NULL,
+    ddmodel = 11,
+    cond = 1,
+    methode = "lsodes",
+    optimmethod = "subplex",
+    jitter = 1e-5
+  )
+  lac_MLE<- c(lac_MLE,MLE_DD_allpars$lambda_c)
+  mu_MLE <-c(mu_MLE,MLE_DD_allpars$mu)
+  gam_MLE <- c(gam_MLE,MLE_DD_allpars$gamma)
+  laa_MLE <-c(laa_MLE,MLE_DD_allpars$lambda_a)
+  K <- c(K,MLE_DD_allpars$K)
+}
+
+
+whole_df_MLE <- data.frame(param_space,
+                           lac_MLE,mu_MLE,gam_MLE,laa_MLE)
+
+whole_df_MLE$net_div <- (whole_df_MLE$lac-whole_df_MLE$mu)
+whole_df_MLE$net_div_MLE <- (whole_df_MLE$lac_MLE-whole_df_MLE$mu_MLE)
+save(whole_df_MLE,file = "G:/results/project 2/tip_info/round4/adap_daisie/whole_df_MLE.RData")
+
+load("G:/results/project 2/tip_info/round4/adap_daisie/whole_df_MLE.RData")
+
 
