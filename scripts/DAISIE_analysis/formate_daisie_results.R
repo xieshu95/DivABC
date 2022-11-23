@@ -68,6 +68,8 @@ load(paste0("G:/results/project 2/tip_info/round4/adap_daisie/whole_df_ABC_ss_se
 whole_df_ABC$net_div <- (whole_df_ABC$lac-whole_df_ABC$mu)
 whole_df_ABC$net_div_ABC <- (whole_df_ABC$lac_abc-whole_df_ABC$mu_abc)
 
+whole_df_ABC$ext_frac <- (whole_df_ABC$mu)/(whole_df_ABC$lac)
+whole_df_ABC$ext_frac_ABC <- (whole_df_ABC$mu_abc)/(whole_df_ABC$lac_abc)
 
 save(whole_df_ABC,file = paste0("G:/results/project 2/tip_info/round4/adap_daisie/delta_whole_df_ABC_ss_set",0,".RData"))
 
@@ -112,6 +114,9 @@ whole_df_MCMC <- data.frame(param_data3,
 
 whole_df_MCMC$net_div <- (whole_df_MCMC$lac-whole_df_MCMC$mu)
 whole_df_MCMC$net_div_mcmc <- (whole_df_MCMC$lac_mcmc - whole_df_MCMC$mu_mcmc)
+
+whole_df_MCMC$ext_frac <- (whole_df_MCMC$mu)/(whole_df_MCMC$lac)
+whole_df_MCMC$ext_frac_MCMC <- (whole_df_MCMC$mu_mcmc)/(whole_df_MCMC$lac_mcmc)
 
 save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/adap_daisie/whole_df_MCMC.RData")
 load("G:/results/project 2/tip_info/round4/adap_daisie/whole_df_MCMC.RData")
@@ -161,8 +166,14 @@ whole_df_MLE <- data.frame(param_space,
 
 whole_df_MLE$net_div <- (whole_df_MLE$lac-whole_df_MLE$mu)
 whole_df_MLE$net_div_MLE <- (whole_df_MLE$lac_MLE-whole_df_MLE$mu_MLE)
+
+whole_df_MLE$ext_frac <- (whole_df_MLE$mu)/(whole_df_MLE$lac)
+whole_df_MLE$ext_frac_MLE <- (whole_df_MLE$mu_MLE)/(whole_df_MLE$lac_MLE)
 save(whole_df_MLE,file = "G:/results/project 2/tip_info/round4/adap_daisie/whole_df_MLE.RData")
 
 load("G:/results/project 2/tip_info/round4/adap_daisie/whole_df_MLE.RData")
+
+#####
+# record mean/median/sd for ABC/MCMC/MLE
 
 

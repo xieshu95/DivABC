@@ -146,8 +146,19 @@ for(i in 1:70) {
 # MLE_all$net_div_MLE2 <- (MLE_all$lam2_MLE-MLE_all$mu2_MLE)
 #
 # MLE_all$dmu[1:40] <- 0
+
+MLE_all$ext_frac1 <- (MLE_all$mu1)/(MLE_all$lam1)
+MLE_all$ext_frac2 <- (MLE_all$mu2)/(MLE_all$lam2)
+MLE_all$ext_frac_MLE1 <- (MLE_all$mu1_MLE)/(MLE_all$lam1_MLE)
+MLE_all$ext_frac_MLE2 <- (MLE_all$mu2_MLE)/(MLE_all$lam2_MLE)
 # save(MLE_all,file = "G:/results/project 2/tip_info/round4/secsse_long_2/MLE_secsse_ABC.RData")
 
-load("G:/results/project 2/tip_info/round4/secsse_long_2/MLE_secsse_ABC.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse/MLE_secsse_ABC.RData")
 
+load("G:/results/project 2/tip_info/round4/adap_secsse/delta_MLE_secsse_ABC.RData")
+MLE_all$ext_frac1 <- (MLE_all$mu1)/(MLE_all$lam1)
+MLE_all$ext_frac2 <- (MLE_all$mu2)/(MLE_all$lam2)
+MLE_all$ext_frac_MLE1 <- (MLE_all$mu1_MLE)/(MLE_all$lam1_MLE)
+MLE_all$ext_frac_MLE2 <- (MLE_all$mu2_MLE)/(MLE_all$lam2_MLE)
+save(MLE_all,file = "G:/results/project 2/tip_info/round4/adap_secsse/delta_MLE_secsse_ABC.RData")
 

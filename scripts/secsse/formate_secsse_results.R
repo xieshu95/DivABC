@@ -86,6 +86,11 @@ whole_df_ABC$net_div_ABC1 <- (whole_df_ABC$lam1_abc-whole_df_ABC$mu1_abc)
 whole_df_ABC$net_div_ABC2 <- (whole_df_ABC$lam2_abc-whole_df_ABC$mu2_abc)
 whole_df_ABC$dmu[1:20000] <-0
 
+
+whole_df_ABC$ext_frac1 <- (whole_df_ABC$mu1)/(whole_df_ABC$lam1)
+whole_df_ABC$ext_frac2 <- (whole_df_ABC$mu2)/(whole_df_ABC$lam2)
+whole_df_ABC$ext_frac_ABC1 <- (whole_df_ABC$mu1_abc)/(whole_df_ABC$lam1_abc)
+whole_df_ABC$ext_frac_ABC2 <- (whole_df_ABC$mu2_abc)/(whole_df_ABC$lam2_abc)
 save(whole_df_ABC,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse/delta_whole_df_ABC_ss_set",0,".RData"))
 
 
@@ -142,9 +147,14 @@ whole_df_MCMC$dq_mcmc <- (whole_df_MCMC$q12_mcmc-whole_df_MCMC$q21_mcmc)/(whole_
 
 whole_df_MCMC$net_div1 <- (whole_df_MCMC$lam1-whole_df_MCMC$mu1)
 whole_df_MCMC$net_div2 <- (whole_df_MCMC$lam2-whole_df_MCMC$mu2)
-whole_df_MCMC$net_div_mcmc1 <- (whole_df_MCMC$lam1_mcmc-whole_df_MCMC$mu1_mcmc)
-whole_df_MCMC$net_div_mcmc2 <- (whole_df_MCMC$lam2_mcmc-whole_df_MCMC$mu2_mcmc)
+whole_df_MCMC$net_div_MCMC1 <- (whole_df_MCMC$lam1_mcmc-whole_df_MCMC$mu1_mcmc)
+whole_df_MCMC$net_div_MCMC2 <- (whole_df_MCMC$lam2_mcmc-whole_df_MCMC$mu2_mcmc)
 whole_df_MCMC$dmu[1:200040] <-0
+
+whole_df_MCMC$ext_frac1 <- (whole_df_MCMC$mu1)/(whole_df_MCMC$lam1)
+whole_df_MCMC$ext_frac2 <- (whole_df_MCMC$mu2)/(whole_df_MCMC$lam2)
+whole_df_MCMC$ext_frac_MCMC1 <- (whole_df_MCMC$mu1_mcmc)/(whole_df_MCMC$lam1_mcmc)
+whole_df_MCMC$ext_frac_MCMC2 <- (whole_df_MCMC$mu2_mcmc)/(whole_df_MCMC$lam2_mcmc)
 
 save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/adap_secsse/delta_whole_df_MCMC.RData")
 
@@ -189,37 +199,45 @@ for(i in 1:70){
 
 
 ## combine ABC, MCMC, MLE for each parameter set(use median value)
-load(paste0("G:/results/project 2/tip_info/round4/adap_secsse/delta_whole_df_ABC_ss_set",0,".RData"))
-load("G:/results/project 2/tip_info/round4/adap_secsse/whole_df_MCMC.RData")
-load("G:/results/project 2/tip_info/round4/adap_secsse/MLE_secsse_ABC.RData")
+load(paste0("G:/results/project 2/tip_info/round4/adap_secsse/delta_whole_df_ABC_ss_set0.RData"))
+load("G:/results/project 2/tip_info/round4/adap_secsse/delta_whole_df_MCMC.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse/delta_MLE_secsse_ABC.RData")
+
 ## get number of iterations and mean values
 df <- whole_df_ABC
 n <- 500
-whole_df_ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
-n <- 5000
-whole_df_ABC_median_group <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median,na.rm = TRUE)[-1]
+ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+# n <- 5000
+# whole_df_ABC_median_group <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median,na.rm = TRUE)[-1]
 
 df<-whole_df_MCMC
-n <- 1001
-whole_df_MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
-n <- 10010
-whole_df_MCMC_median_group <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median,na.rm = TRUE)[-1]
+n <- 5001
+MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+# n <- 10010
+# whole_df_MCMC_median_group <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median,na.rm = TRUE)[-1]
 
 df<- MLE_all
-n <- 10
-whole_df_MLE_median_group <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median,na.rm = TRUE)[-1]
+# n <- 10
+# whole_df_MLE_median_group <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median,na.rm = TRUE)[-1]
 
 
 ## combine ABC MCMC MLE as "AMM"
-AMM_df <- cbind(whole_df_ABC_median,
-                whole_df_MCMC_median[,7:12],
-                MLE_all[,7:12])
-save(AMM_df,file = "G:/results/project 2/tip_info/round4/adap_secsse/ABC_MCMC_MLE_per_set.RData")
-AMM_group <- cbind(whole_df_ABC_median_group,
-                   whole_df_MCMC_median_group[,7:12],
-                   whole_df_MLE_median_group[,7:12])
-save(AMM_group,file = "G:/results/project 2/tip_info/round4/adap_secsse/ABC_MCMC_MLE_per_group.RData")
+AMM_all_df <- cbind(ABC_median,
+                MCMC_median[,c(7:12,14,16,18,21,22,25,26)],
+                MLE_all[,c(7:12,14,16,18,21,22,25,26)])
+save(AMM_all_df,file = "G:/results/project 2/tip_info/round4/adap_secsse/AMM_per_set.RData")
+
+AMM_reorder <- AMM_all_df[,c(1,8,28,41, 2,9,29,42, 3,10,30,43,
+                             4,11,31,44, 5,12,32,45, 6,13,33,46,
+                             20:23,37,38,50,51, 24:27,39,40,52,53)]
+
+AMM_reorder<-round(AMM_reorder,5)
+save(AMM_reorder,file = "G:/results/project 2/tip_info/round4/adap_secsse/AMM_reorder.RData")
+# AMM_group <- cbind(whole_df_ABC_median_group,
+#                    whole_df_MCMC_median_group[,7:12],
+#                    whole_df_MLE_median_group[,7:12])
+# save(AMM_group,file = "G:/results/project 2/tip_info/round4/adap_secsse/ABC_MCMC_MLE_per_group.RData")
 
 
-load("G:/results/project 2/tip_info/round4/adap_secsse/ABC_MCMC_MLE_per_group.RData")
-load("G:/results/project 2/tip_info/round4/adap_secsse/ABC_MCMC_MLE_per_set.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse/AMM_per_set.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse/AMM_reorder.RData")
