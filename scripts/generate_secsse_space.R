@@ -54,3 +54,64 @@ write.csv2(
   row.names = FALSE
 )
 
+
+
+## 2. ETD_lam more reps
+par1 <- c(0.3,0.3,0,0,0.1,0.1)
+par2 <- c(0.2,0.4,0,0,0.1,0.1)
+par3 <- c(0.2,0.4,0,0,0.1,0.05)
+par4 <- c(0.2,0.4,0,0,0.05,0.1)
+par5 <- c(0.2,0.4,0.05,0.05,0.1,0.1)
+par6 <- c(0.2,0.4,0.05,0.01,0.1,0.1)
+par7 <- c(0.2,0.4,0.01,0.05,0.1,0.1)
+
+secsse_ABC <- rbind(par1,par2,par3,par4,par5,par6,par7)
+secsse_ABC <- secsse_ABC[rep(seq_len(nrow(secsse_ABC)), each = 10), ]
+colnames(secsse_ABC) <- c("lam1","lam2","mu1","mu2","q12","q21")
+
+
+write.csv2(
+  secsse_ABC,
+  "data/secsse_ABC_long.csv",
+  row.names = FALSE
+)
+
+
+secsse_MCMC = secsse_ABC
+write.csv2(
+  secsse_MCMC,
+  "data/secsse_MCMC_long.csv",
+  row.names = FALSE
+)
+
+
+## 3. ETD_lam more reps
+lam1 <- 0.2
+lam2 <- c(0.2,0.3,0.4)
+mu1 <- 0
+mu2 <- c(0,0.05,0.1)
+q12 <- 0.05
+q21 <- c(0.05,0.1,0.2)
+secsse_ABC <- expand.grid(
+  lam1 = lam1,
+  lam2 = lam2,
+  mu1 = mu1,
+  mu2 = mu2,
+  q12 = q12,
+  q21 = q21
+)
+
+write.csv2(
+  secsse_ABC,
+  "data/secsse_ABC.csv",
+  row.names = FALSE
+)
+
+
+secsse_MCMC = secsse_ABC
+write.csv2(
+  secsse_MCMC,
+  "data/secsse_MCMC.csv",
+  row.names = FALSE
+)
+
