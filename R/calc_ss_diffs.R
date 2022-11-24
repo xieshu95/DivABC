@@ -153,11 +153,13 @@ select_ss_DAISIE <- function(ss,ss_set){
 #' @export
 select_ss_secsse <- function (ss,ss_set){
   if(ss_set == 0){
-    select_ss <-as.numeric(ss)
-  } else if(ss_set == 9 ){
-    select_ss <-as.numeric(ss[-c(1,3)])
-  } else if(ss_set == 10 ){
-    select_ss <-as.numeric(ss[-c(2,4)])
+    select_ss <- as.numeric(ss)
+  # } else if(ss_set == 11 ){
+  #   select_ss <-as.numeric(ss[-c(1,3)])
+  # } else if(ss_set == 12 ){
+  #   select_ss <-as.numeric(ss[-c(2,4)])
+  } else if(ss_set > 10){
+    select_ss <- as.numeric(ss)
   } else {
     select_ss <-as.numeric(ss[-ss_set])
   }
