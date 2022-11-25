@@ -92,7 +92,8 @@ calc_log_pp_secsse <- function(params, datalist,idparsopt) {
     phy = datalist$phy,
     traits = datalist$examTraits,
     num_concealed_states = 2,
-    sampling_fraction = c(1,1)
+    sampling_fraction = c(1,1),
+    cond = "proper_cond"
   )
   log_prior  <- log(prior_dens_secsse(params, idparsopt)) # nolint
   return(log_lik + log_prior)

@@ -9,13 +9,23 @@ calc_error_secsse <- function(sim_1,
   # mpd_all <- abs(mpd_all_1 - mpd_all_2)
 
   # mpd_diff
-  mpd_diff_1 <- calc_mpd_trait(sim = sim_1,state_type = 0)
-  mpd_diff_2 <- calc_mpd_trait(sim = sim_2,state_type = 0)
-  mpd_diff <- abs(mpd_diff_1 - mpd_diff_2)
+  mpd_diff_sim1 <- calc_mpd_trait(sim = sim_1,state_type = 0)
+  mpd_diff_sim2 <- calc_mpd_trait(sim = sim_2,state_type = 0)
+  mpd_diff <- abs(mpd_diff_sim1 - mpd_diff_sim2)
 
-  sdpd_diff_1 <- calc_sdpd_trait(sim = sim_1,state_type = 0)
-  sdpd_diff_2 <- calc_sdpd_trait(sim = sim_2,state_type = 0)
-  sdpd_diff <- abs(sdpd_diff_1 - sdpd_diff_2)
+  # mpd_diff same with state1
+  mpd_s1_sim1 <- calc_mpd_trait(sim = sim_1,state_type = 1)
+  mpd_s1_sim2 <- calc_mpd_trait(sim = sim_2,state_type = 1)
+  mpd_s1 <- abs(mpd_s1_sim1 - mpd_s1_sim2)
+
+  # mpd_diff same with state2
+  mpd_s2_sim1 <- calc_mpd_trait(sim = sim_1,state_type = 2)
+  mpd_s2_sim2 <- calc_mpd_trait(sim = sim_2,state_type = 2)
+  mpd_s2 <- abs(mpd_s2_sim1 - mpd_s2_sim2)
+
+  # sdpd_diff_1 <- calc_sdpd_trait(sim = sim_1,state_type = 0)
+  # sdpd_diff_2 <- calc_sdpd_trait(sim = sim_2,state_type = 0)
+  # sdpd_diff <- abs(sdpd_diff_1 - sdpd_diff_2)
 
   # # mntd_all
   # mntd_all_1 <- calc_mntd_trait(sim = sim_1,state_type = 3)
@@ -23,13 +33,23 @@ calc_error_secsse <- function(sim_1,
   # mntd_all <- abs(mntd_all_1 - mntd_all_2)
 
   # mntd_diff
-  mntd_diff_1 <- calc_mntd_trait(sim = sim_1,state_type = 0)
-  mntd_diff_2 <- calc_mntd_trait(sim = sim_2,state_type = 0)
-  mntd_diff <- abs(mntd_diff_1 - mntd_diff_2)
+  mntd_diff_sim1 <- calc_mntd_trait(sim = sim_1,state_type = 0)
+  mntd_diff_sim2 <- calc_mntd_trait(sim = sim_2,state_type = 0)
+  mntd_diff <- abs(mntd_diff_sim1 - mntd_diff_sim2)
 
-  sdntd_diff_1 <- calc_sdntd_trait(sim = sim_1,state_type = 0)
-  sdntd_diff_2 <- calc_sdntd_trait(sim = sim_2,state_type = 0)
-  sdntd_diff <- abs(sdntd_diff_1 - sdntd_diff_2)
+  # mntd_diff state1
+  mntd_s1_sim1 <- calc_mntd_trait(sim = sim_1,state_type = 1)
+  mntd_s1_sim2 <- calc_mntd_trait(sim = sim_2,state_type = 1)
+  mntd_s1 <- abs(mntd_s1_sim1 - mntd_s1_sim2)
+
+  # mntd_diff state1
+  mntd_s2_sim1 <- calc_mntd_trait(sim = sim_1,state_type = 2)
+  mntd_s2_sim2 <- calc_mntd_trait(sim = sim_2,state_type = 2)
+  mntd_s2 <- abs(mntd_s2_sim1 - mntd_s2_sim2)
+
+  # sdntd_diff_1 <- calc_sdntd_trait(sim = sim_1,state_type = 0)
+  # sdntd_diff_2 <- calc_sdntd_trait(sim = sim_2,state_type = 0)
+  # sdntd_diff <- abs(sdntd_diff_1 - sdntd_diff_2)
 
   # K statistic
   # K1 <- adiv::K(sim_1$phy,
@@ -45,30 +65,42 @@ calc_error_secsse <- function(sim_1,
   D2 <- calc_D(sim_2)
   D <- abs (D1 - D2)
 
-  # total number
-  total_sim1 <- length(sim_1$examTraits)
-  total_sim2 <- length(sim_2$examTraits)
-  total_spec <- abs(total_sim1 - total_sim2)
-
-  # ratio 1
+  # state 1&2
   num_state1_sim1 <- length(which(sim_1$examTraits == 1))
-  ratio_state1_sim1 <- num_state1_sim1/total_sim1
-  num_state1_sim2 <- length(which(sim_2$examTraits == 1))
-  ratio_state1_sim2 <- num_state1_sim2/total_sim2
+  num_state2_sim1 <- length(which(sim_1$examTraits == 2))
 
-  spec_ratio <- abs(ratio_state1_sim1 - ratio_state1_sim2)
+  num_state1_sim2 <- length(which(sim_2$examTraits == 1))
+  num_state2_sim2 <- length(which(sim_2$examTraits == 2))
+
+  num_state1 <- abs(num_state1_sim1 - num_state1_sim2)
+  num_state2 <- abs(num_state2_sim1 - num_state2_sim2)
+  # # total number
+  # total_sim1 <- length(sim_1$examTraits)
+  # total_sim2 <- length(sim_2$examTraits)
+  # total_spec <- abs(total_sim1 - total_sim2)
+  #
+  # # ratio 1
+  # num_state1_sim1 <- length(which(sim_1$examTraits == 1))
+  # ratio_state1_sim1 <- num_state1_sim1/total_sim1
+  # num_state1_sim2 <- length(which(sim_2$examTraits == 1))
+  # ratio_state1_sim2 <- num_state1_sim2/total_sim2
+  # spec_ratio <- abs(ratio_state1_sim1 - ratio_state1_sim2)
 
   # nLTT
   nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
 
   return(
     c(mpd_diff,
-      sdpd_diff,
+      mpd_s1,
+      mpd_s2,
+      # sdpd_diff,
       mntd_diff,
-      sdntd_diff,
+      mntd_s1,
+      mntd_s2,
+      # sdntd_diff,
       D,
-      total_spec,
-      spec_ratio,
+      num_state1,
+      num_state2,
       nltt)
   )
 }
@@ -107,7 +139,10 @@ calc_mpd_trait <- function(sim,state_type = 0)
   } else {
     mpd <- mean(dis[lower.tri(dis) & trait == state_type])
   }
-  mpd
+  if(is.na(mpd)) {
+    mpd <- 0
+  }
+  return(mpd)
 }
 
 calc_mntd_trait <- function(sim,state_type = 0)
@@ -122,7 +157,10 @@ calc_mntd_trait <- function(sim,state_type = 0)
     dis <- dis[ , colSums(is.na(dis)) < nrow(dis)]
   }
   mntd <- mean(apply(dis,2,min,na.rm=TRUE))
-  mntd
+  if(is.na(mntd)) {
+    mntd <- 0
+  }
+  return(mntd)
 }
 
 # calculate standard deviation of pairwise distanse
@@ -213,7 +251,6 @@ calc_ss_secsse <- function(sim) {
   # state 1
   num_state1 <- length(which(sim$examTraits == 1))
   num_state2 <- length(which(sim$examTraits == 2))
-
   total_spec <- num_state1 + num_state2
   spec_ratio <- num_state1/total_spec
 
@@ -229,17 +266,32 @@ calc_ss_secsse <- function(sim) {
   sdntd_all <- calc_sdntd_trait(sim = sim,state_type = 3)
   sdntd_diff <- calc_sdntd_trait(sim = sim,state_type = 0)
 
+
+  ## mean pairwise distance with state1
+  mpd_1 <- calc_mpd_trait(sim = sim,state_type = 1)
+  mntd_1 <- calc_mntd_trait(sim = sim,state_type = 1)
+
+  ## mean pairwise distance with state1
+  mpd_2 <- calc_mpd_trait(sim = sim,state_type = 2)
+  mntd_2 <- calc_mntd_trait(sim = sim,state_type = 2)
+
   return(
     list(mpd_all = mpd_all,
          mpd_diff = mpd_diff,
+         mpd_1 = mpd_1,
+         mpd_2 = mpd_2,
          mntd_all = mntd_all,
          mntd_diff = mntd_diff,
+         mntd_1 = mntd_1,
+         mntd_2 = mntd_2,
          sdpd_all = sdpd_all,
          sdpd_diff = sdpd_diff,
          sdntd_all = sdntd_all,
          sdntd_diff = sdntd_diff,
          K = K,
          D = D,
+         state1 = num_state1,
+         state2 = num_state2,
          total_spec = total_spec,
          spec_ratio = spec_ratio,
          nltt = nltt)

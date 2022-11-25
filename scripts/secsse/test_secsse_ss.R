@@ -2,29 +2,29 @@
 # don't use given values but sample from prior
 
 # set.seed(1)
-# lam1 <- stats::rexp(500,2)
-# lam2 <- stats::rexp(500,2)
-# mu1 <- stats::rexp(500,20)
-# mu2 <- stats::rexp(500,20)
-# q12 <- stats::rexp(500,5)
-# q21 <- stats::rexp(500,5)
-#
+# lam1 <- stats::rexp(200,2)
+# lam2 <- stats::rexp(200,2)
+# mu1 <- stats::rexp(200,10)
+# mu2 <- stats::rexp(200,10)
+# q12 <- stats::rexp(200,5)
+# q21 <- stats::rexp(200,5)
+# #
 # test_ss_space <- data.frame(lam1,lam2,mu1,mu2,q12,q21)
-# save(test_ss_space,file = "G:/results/project 2/tip_info/round4/secsse/test_ss_space4_500.RData")
-# load("G:/results/project 2/tip_info/round4/secsse/test_ss_space4_500.RData")
-ss <- matrix(NA,nrow = 500,ncol = 13)
+# save(test_ss_space,file = "G:/results/project 2/tip_info/round4/adap_secsse2/test_ss_space.RData")
+# load("G:/results/project 2/tip_info/round4/adap_secsse2/test_ss_space.RData")
+ss <- matrix(NA,nrow = 200,ncol = 19)
 pars_accept <- c()
 t1 <- Sys.time()
 set <- 1
-set.seed(1)
-while(set < 501){
+# set.seed(1)
+while(set < 201){
   message("set",set)
   pars <- prior_gen_secsse(1:6,1:6)
   obs_sim <- get_secsse_sim(parameters = as.numeric(pars),
                             K = Inf,
                             replicates = 1)
   if (length(obs_sim[[1]]$examTraits) > 10 &&
-      length(obs_sim[[1]]$examTraits) < 999 &&
+      length(obs_sim[[1]]$examTraits) < 700 &&
       length(unique(obs_sim[[1]]$examTraits)) > 1) {
     ss[set,] <- calc_epsilon_init_secsse(sim = obs_sim)
     pars_accept <- rbind(pars_accept, pars)
@@ -35,30 +35,36 @@ t2 <- Sys.time()
 dt <- t2-t1
 dt
 
-colnames(ss) <- c("mpd","mpd_diff","mntd","mntd_diff",
+colnames(ss) <- c("mpd","mpd_diff","mpd1","mpd2",
+                  "mntd","mntd_diff","mntd1","mntd2",
                   "sdpd","sdpd_diff","sdntd","sdntd_diff",
-                  "K","D","total","ratio","nltt")
-save(ss,file = "G:/results/project 2/tip_info/round4/secsse_long_2/test_ss_df_prior_save.RData")
+                  "K","D","state1","state2","total","ratio","nltt")
+save(ss,file = "G:/results/project 2/tip_info/round4/adap_secsse2/test_ss_df_prior.RData")
 
 colnames(pars_accept) <- c("lam1","lam2","mu1","mu2","q12","q21")
-save(pars_accept,file = "G:/results/project 2/tip_info/round4/secsse_long_2/test_ss_pars_accept_save.RData")
+pars_ss <-data.frame(pars_accept,ss)
+save(pars_ss,file = "G:/results/project 2/tip_info/round4/adap_secsse2/test_ss_pars_ss.RData")
 
-load("G:/results/project 2/tip_info/round4/secsse_long_2/test_ss_df_prior.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse2/test_ss_pars_ss.RData")
 
-cormat <- round(cor(ss[1:200,]),2)
+load("G:/results/project 2/tip_info/round4/adap_secsse2/test_ss_df_prior.RData")
+# ss[is.nan(ss)] <- 0
+rcorrDat<- Hmisc::rcorr(as.matrix(ss))
+cormat <- round(rcorrDat$r,2)
 # heatmap(cormat)
 head(cormat)
 library(reshape2)
 melted_cormat <- melt(cormat)
 library(ggplot2)
 
-ss_name <- c("MPD","MPD_12","MNTD","MNTD_12",
+ss_name <- c("MPD","MPD-diff","MPD1","MPD2",
+             "MNTD","MNTD-diff", "MNTD1","MNTD2",
              "SDPD","SDPD_12","SDNTD","SDNTD_12",
-             "K","D","Total","Ratio","NLTT")
+             "K","D","State1","State2","Total","Ratio","NLTT")
 
 label_names <- "Summary statistic"
-tiff(paste0("G:/results/project 2/tip_info/round4/secsse_long_2/heatmap_ss_with_value_prior.tiff"),
-     units="px", width=3500, height=2500,res = 300,compression="lzw")
+tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse2/heatmap_ss_without_fix_na.tiff"),
+     units="px", width=5000, height=4000,res = 300,compression="lzw")
 heatmap <- ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
   geom_tile() +
   scale_fill_gradient2(low = "blue", high = "red",

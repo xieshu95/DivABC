@@ -14,12 +14,12 @@ prior_dens_secsse <- function(pars,idparsopt) {
     dens_lam2 <- 1
   }
   if(3 %in% idparsopt){
-    dens_mu1 <- stats::dexp(pars[3],20)
+    dens_mu1 <- stats::dexp(pars[3],10)
   } else {
     dens_mu1 <- 1
   }
   if(4 %in% idparsopt){
-    dens_mu2 <- stats::dexp(pars[4],20)
+    dens_mu2 <- stats::dexp(pars[4],10)
   } else {
     dens_mu2 <- 1
   }
@@ -53,12 +53,12 @@ prior_gen_secsse <- function(pars,idparsopt){
     lam2 <- pars[2]
   }
   if(3 %in% idparsopt){
-    mu1 <- stats::rexp(1,20)
+    mu1 <- stats::rexp(1,10)
   } else {
     mu1 <- pars[3]
   }
   if(4 %in% idparsopt){
-    mu2 <- stats::rexp(1,20)
+    mu2 <- stats::rexp(1,10)
   } else {
     mu2 <- pars[4]
   }
