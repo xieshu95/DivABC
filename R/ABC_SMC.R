@@ -21,7 +21,8 @@ ABC_SMC <- function( # nolint indeed a complex function
   K,
   idparsopt,
   fixpars,
-  ss_set = 1
+  ss_set = 1,
+  pairwise_method
 ) {
   #just to get the number of parameters to be estimated.
   parameters <- prior_generating_function(fixpars,idparsopt)
@@ -113,7 +114,8 @@ ABC_SMC <- function( # nolint indeed a complex function
         if (accept) {
           df_stats <- calc_ss_diff (sim1 = obs_data[[1]],
                                     sim2 = new_sim[[1]],
-                                    ss_set = ss_set)
+                                    ss_set = ss_set,
+                                    pairwise_method = pairwise_method)
 
           # #check if the summary statistics are sufficiently
           for (k in seq_along(df_stats)) {

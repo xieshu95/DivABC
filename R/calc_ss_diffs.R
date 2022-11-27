@@ -17,7 +17,7 @@
 #' @author Shu Xie
 #' @export
 
-calc_ss_diff <- function(sim1, sim2, ss_set){
+calc_ss_diff <- function(sim1, sim2, ss_set, pairwise_method){
 
   if("stt_two_states" %in% names(sim1[[1]][[1]])){  ##TraiSIE
     ss <- calc_error_trait(sim_1 = sim1,
@@ -40,7 +40,8 @@ calc_ss_diff <- function(sim1, sim2, ss_set){
     ss <- calc_error_pairwise(sim_1 = sim1,   ##calc_error
                             sim_2 = sim2,
                             replicates = 1,
-                            distance_method = "abs")
+                            distance_method = "abs",
+                            pairwise_method = pairwise_method)
     ss_diff <- select_ss_DAISIE(ss,ss_set)
   } else { ## secsse
     ss <- calc_error_secsse(sim_1 = sim1,
@@ -137,7 +138,9 @@ calc_epsilon_init_secsse <- function(sim){
 select_ss_DAISIE <- function(ss,ss_set){
   if(ss_set == 0){
     select_ss <- as.numeric(ss)
-  } else {
+  } else if(ss_set > 10){
+    select_ss <- as.numeric(ss)
+  }  else {
     select_ss <- as.numeric(ss[-ss_set])
   }
   return(select_ss)

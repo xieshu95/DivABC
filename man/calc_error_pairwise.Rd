@@ -4,7 +4,13 @@
 \alias{calc_error_pairwise}
 \title{Calculates error metrics between two simulations}
 \usage{
-calc_error_pairwise(sim_1, sim_2, replicates, distance_method)
+calc_error_pairwise(
+  sim_1,
+  sim_2,
+  replicates,
+  distance_method,
+  pairwise_method = 1
+)
 }
 \description{
 Calculates error metrics between two simulations
