@@ -15,7 +15,7 @@ run_ABC <- function(param_space_name,
                     sim_model = "DAISIE",
                     save_output = TRUE,
                     ss_set = 1,
-                    pairwise_method){
+                    pairwise_method = 1){
 
   # param_space <- readr::read_csv2("data/secsse_ABC.csv")
   param_space <- load_param_space(param_space_name = param_space_name)
@@ -44,19 +44,20 @@ run_ABC <- function(param_space_name,
     prior_generating_function <- prior_gen
     prior_density_function <- prior_dens
     fixpars = as.numeric(obs_sim_pars[1:4])
-
-    init_epsilon_all <- c(50,200,50,20,5,5)
-
     if(pairwise_method == 1) {
-      if(ss_set == 0){
-        init_epsilon <- init_epsilon_all
-      } else if(ss_set > 10){
-        init_epsilon <- init_epsilon_all
-      } else {
-        init_epsilon <- init_epsilon_all[-ss_set]
-      }
+      init_epsilon_all <- c(200,200,50,200,50,20,5)
+    } else if(pairwise_method == 2){
+      init_epsilon_all <- c(200,200,50,200,50,20,20,20,20)
+    } else {
+      num_clades <- length(obs_sim[[1]][[1]]) - 1
+      init_epsilon_all <- c(200,200,50,200,50,rep(50,num_clades))
     }
 
+    if(ss_set == 0 || ss_set > 10){
+      init_epsilon <- init_epsilon_all
+    } else {
+      init_epsilon <- init_epsilon_all[-ss_set]
+    }
   } else if (sim_model == "TraiSIE") {
     obs_sim <- get_TraiSIE_sim(parameters = as.numeric(c(obs_sim_pars$lac,
                                                          obs_sim_pars$mu,
@@ -105,9 +106,9 @@ run_ABC <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_generating_function,
     prior_density_function = prior_density_function,
-    number_of_particles = 400, #1000
+    number_of_particles = 400, #1000 400
     sigma = 0.1,
-    stop_rate = 0.0025,
+    stop_rate = 0.002,
     replicates = 1,  ## simulation replicates for each parameter set
     num_iterations = 10, #10
     K = as.numeric(obs_sim_pars$K),
