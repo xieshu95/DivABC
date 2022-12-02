@@ -1,7 +1,6 @@
 # calculate MLE with different initials
-setwd('/home/p286026/results/MLE')
 library(TraisieABC)
-param_space <- readr::read_csv2("/home/p286026/Traisie-ABC/data/DAISIE_ABC_short.csv")
+param_space <- readr::read_csv2("/home/p290559/TraisieABC/data/DAISIE_ABC_short.csv")
 # param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
 lac_MLE <- c()
 mu_MLE <- c()
@@ -36,6 +35,7 @@ for(i in 1:81) {
       initparsopt[n]<-exp(log(initparsopt[n]) +
                             stats::rnorm(1, 0, 1))
     }
+    message("initial pars:", initparsopt)
     MLE_DD_allpars <- DAISIE::DAISIE_ML(
       datalist = obs_sim[[1]][[1]],
       initparsopt = initparsopt,
@@ -68,4 +68,4 @@ for(i in 1:81) {
 MLE_all <- data.frame(lac_MLE, mu_MLE, gam_MLE, laa_MLE, K,
                       init_lac,init_mu,init_gam,init_laa,init_K)
 
-save(MLE_all, file = paste0("MLE_",seed_mle,".RData"))
+save(MLE_all, file = paste0("/home/p290559/results/MLE_",seed_mle,".RData"))
