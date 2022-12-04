@@ -26,14 +26,25 @@ run_MCMC_secsse <- function(param_space_name,
   obs_sim <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
                                        K = Inf,
                                        replicates = 1)
+  # obs_sim_pars_init <- obs_sim_pars + 0.0001
+  startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))
 
-  obs_sim_pars_init <- obs_sim_pars + 0.0001
+  initparsopt <- c(startingpoint$lambda0,startingpoint$lambda0,
+                   startingpoint$mu0,startingpoint$mu0,
+                   0.1,0.1)
+  seed_mcmc <-as.integer(Sys.time()) %% 1000000L * param_set
+  set.seed(seed_mcmc)
+  message("seed_mcmc: ", seed_mcmc)
+  for(n in 1:6){
+    initparsopt[n]<-exp(log(initparsopt[n]) +
+                          stats::rnorm(1, 0, 1))
+  }
   mcmc <- MCMC_secsse(datalist = obs_sim[[1]],
                       likelihood_function=calc_log_pp_secsse,
-                      parameters = as.numeric(c(obs_sim_pars_init)),
-                      iterations = 500000, ##100000
-                      burnin = 10000, #10000
-                      thinning = 100, #100
+                      parameters = as.numeric(initparsopt),
+                      iterations = 1000000, ##1000,000
+                      burnin = 100000, #100,000
+                      thinning = 1000, #1000
                       sigma = 0.02,
                       idparsopt = idparsopt)
 
