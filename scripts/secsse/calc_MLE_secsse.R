@@ -1,4 +1,4 @@
-param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/secsse_ABC_long.csv")
+param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/secsse_ABC.csv")
 lam1_MLE<- c()
 lam2_MLE <-c()
 mu1_MLE <- c()
@@ -82,14 +82,14 @@ for(i in 1:70) {
 param_data2<-param_space[rep(seq_len(nrow(param_space)), each=5),]
 MLE_all <- data.frame(lam1_MLE,lam2_MLE,
                       mu1_MLE,mu2_MLE,q12_MLE,q21_MLE)
-save(MLE_all,file = "G:/results/project 2/tip_info/round4/adap_secsse/MLE_secsse_ABC.RData")
+save(MLE_all,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/MLE_secsse_ABC.RData")
 
-load("G:/results/project 2/tip_info/round4/adap_secsse/MLE_secsse_ABC.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/MLE_secsse_ABC.RData")
 
 
 
 ## MLE for only one set of initial value
-for(i in 1:70) {
+for(i in 1:27) {
   message("set",i)
   set.seed(i)
   obs_sim_pars <- param_space[i,]
@@ -131,34 +131,33 @@ for(i in 1:70) {
   q12_MLE[i] <- MLE$MLpars[[3]][1,2]
   q21_MLE[i] <- MLE$MLpars[[3]][2,1]
 }
-# MLE_all <- data.frame(param_space,lam1_MLE,lam2_MLE,
-#                       mu1_MLE,mu2_MLE,q12_MLE,q21_MLE)
-# MLE_all$dlam <- (MLE_all$lam2-MLE_all$lam1)/(MLE_all$lam2+MLE_all$lam1)
-# MLE_all$dlam_MLE <- (MLE_all$lam2_MLE-MLE_all$lam1_MLE)/(MLE_all$lam2_MLE+MLE_all$lam1_MLE)
-# MLE_all$dmu <- (MLE_all$mu2-MLE_all$mu1)/(MLE_all$mu2+MLE_all$mu1)
-# MLE_all$dmu_MLE <- (MLE_all$mu2_MLE-MLE_all$mu1_MLE)/(MLE_all$mu2_MLE+MLE_all$mu1_MLE)
-# MLE_all$dq <- (MLE_all$q12-MLE_all$q21)/(MLE_all$q12+MLE_all$q21)
-# MLE_all$dq_MLE <- (MLE_all$q12_MLE-MLE_all$q21_MLE)/(MLE_all$q12_MLE+MLE_all$q21_MLE)
-#
-# MLE_all$net_div1 <- (MLE_all$lam1-MLE_all$mu1)
-# MLE_all$net_div2 <- (MLE_all$lam2-MLE_all$mu2)
-# MLE_all$net_div_MLE1 <- (MLE_all$lam1_MLE-MLE_all$mu1_MLE)
-# MLE_all$net_div_MLE2 <- (MLE_all$lam2_MLE-MLE_all$mu2_MLE)
-#
-# MLE_all$dmu[1:40] <- 0
+MLE_all <- data.frame(param_space,lam1_MLE,lam2_MLE,
+                      mu1_MLE,mu2_MLE,q12_MLE,q21_MLE)
+save(MLE_all,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/MLE_secsse_ABC.RData")
+MLE_all$dlam <- (MLE_all$lam2-MLE_all$lam1)/(MLE_all$lam2+MLE_all$lam1)
+MLE_all$dlam_MLE <- (MLE_all$lam2_MLE-MLE_all$lam1_MLE)/(MLE_all$lam2_MLE+MLE_all$lam1_MLE)
+MLE_all$dmu <- (MLE_all$mu2-MLE_all$mu1)/(MLE_all$mu2+MLE_all$mu1)
+MLE_all$dmu_MLE <- (MLE_all$mu2_MLE-MLE_all$mu1_MLE)/(MLE_all$mu2_MLE+MLE_all$mu1_MLE)
+MLE_all$dq <- (MLE_all$q12-MLE_all$q21)/(MLE_all$q12+MLE_all$q21)
+MLE_all$dq_MLE <- (MLE_all$q12_MLE-MLE_all$q21_MLE)/(MLE_all$q12_MLE+MLE_all$q21_MLE)
+
+MLE_all$net_div1 <- (MLE_all$lam1-MLE_all$mu1)
+MLE_all$net_div2 <- (MLE_all$lam2-MLE_all$mu2)
+MLE_all$net_div_MLE1 <- (MLE_all$lam1_MLE-MLE_all$mu1_MLE)
+MLE_all$net_div_MLE2 <- (MLE_all$lam2_MLE-MLE_all$mu2_MLE)
+
+MLE_all$dmu[which(is.na(MLE_all$dmu))] <- 0
 
 MLE_all$ext_frac1 <- (MLE_all$mu1)/(MLE_all$lam1)
 MLE_all$ext_frac2 <- (MLE_all$mu2)/(MLE_all$lam2)
 MLE_all$ext_frac_MLE1 <- (MLE_all$mu1_MLE)/(MLE_all$lam1_MLE)
 MLE_all$ext_frac_MLE2 <- (MLE_all$mu2_MLE)/(MLE_all$lam2_MLE)
-# save(MLE_all,file = "G:/results/project 2/tip_info/round4/secsse_long_2/MLE_secsse_ABC.RData")
+#
+# load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_MLE_secsse_ABC.RData")
+# MLE_all$ext_frac1 <- (MLE_all$mu1)/(MLE_all$lam1)
+# MLE_all$ext_frac2 <- (MLE_all$mu2)/(MLE_all$lam2)
+# MLE_all$ext_frac_MLE1 <- (MLE_all$mu1_MLE)/(MLE_all$lam1_MLE)
+# MLE_all$ext_frac_MLE2 <- (MLE_all$mu2_MLE)/(MLE_all$lam2_MLE)
+save(MLE_all,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_MLE_secsse_ABC.RData")
 
-load("G:/results/project 2/tip_info/round4/adap_secsse/MLE_secsse_ABC.RData")
-
-load("G:/results/project 2/tip_info/round4/adap_secsse/delta_MLE_secsse_ABC.RData")
-MLE_all$ext_frac1 <- (MLE_all$mu1)/(MLE_all$lam1)
-MLE_all$ext_frac2 <- (MLE_all$mu2)/(MLE_all$lam2)
-MLE_all$ext_frac_MLE1 <- (MLE_all$mu1_MLE)/(MLE_all$lam1_MLE)
-MLE_all$ext_frac_MLE2 <- (MLE_all$mu2_MLE)/(MLE_all$lam2_MLE)
-save(MLE_all,file = "G:/results/project 2/tip_info/round4/adap_secsse/delta_MLE_secsse_ABC.RData")
-
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_MLE_secsse_ABC.RData")

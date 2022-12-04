@@ -10,8 +10,8 @@
 # q21 <- stats::rexp(200,5)
 # #
 # test_ss_space <- data.frame(lam1,lam2,mu1,mu2,q12,q21)
-# save(test_ss_space,file = "G:/results/project 2/tip_info/round4/adap_secsse2/test_ss_space.RData")
-# load("G:/results/project 2/tip_info/round4/adap_secsse2/test_ss_space.RData")
+# save(test_ss_space,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/test_ss_space.RData")
+# load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/test_ss_space.RData")
 ss <- matrix(NA,nrow = 200,ncol = 19)
 pars_accept <- c()
 t1 <- Sys.time()
@@ -39,15 +39,15 @@ colnames(ss) <- c("mpd","mpd_diff","mpd1","mpd2",
                   "mntd","mntd_diff","mntd1","mntd2",
                   "sdpd","sdpd_diff","sdntd","sdntd_diff",
                   "K","D","state1","state2","total","ratio","nltt")
-save(ss,file = "G:/results/project 2/tip_info/round4/adap_secsse2/test_ss_df_prior.RData")
+save(ss,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/test_ss_df_prior.RData")
 
 colnames(pars_accept) <- c("lam1","lam2","mu1","mu2","q12","q21")
 pars_ss <-data.frame(pars_accept,ss)
-save(pars_ss,file = "G:/results/project 2/tip_info/round4/adap_secsse2/test_ss_pars_ss.RData")
+save(pars_ss,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/test_ss_pars_ss.RData")
 
-load("G:/results/project 2/tip_info/round4/adap_secsse2/test_ss_pars_ss.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/test_ss_pars_ss.RData")
 
-load("G:/results/project 2/tip_info/round4/adap_secsse2/test_ss_df_prior.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/test_ss_df_prior.RData")
 # ss[is.nan(ss)] <- 0
 rcorrDat<- Hmisc::rcorr(as.matrix(ss))
 cormat <- round(rcorrDat$r,2)
@@ -63,7 +63,7 @@ ss_name <- c("MPD","MPD-diff","MPD1","MPD2",
              "K","D","State1","State2","Total","Ratio","NLTT")
 
 label_names <- "Summary statistic"
-tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse2/heatmap_ss_without_fix_na.tiff"),
+tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/heatmap_ss_without_fix_na.tiff"),
      units="px", width=5000, height=4000,res = 300,compression="lzw")
 heatmap <- ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
   geom_tile() +
