@@ -177,3 +177,27 @@ load("G:/results/project 2/tip_info/round4/adap_daisie/whole_df_MLE.RData")
 # record mean/median/sd for ABC/MCMC/MLE
 
 
+
+#####
+# plot MCMC trace
+folder_path <- "G:/results/project 2/tip_info/round4/adap_daisie_pw2/DAISIE_MCMC_short"
+files <- list.files(folder_path)
+for(i in 1:81){
+  # param_set = (param_num-1)*5 + i
+  file_to_load <- grep(paste0("DAISIE_MCMC_short_param_set_", i,"_ss_1.RData"), #"_rep",rep,
+                       files,
+                       value = TRUE,
+                       fixed = TRUE)
+
+  if (!identical(file_to_load, character())) {
+    load(file.path(folder_path, file_to_load))
+    tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/MCMC_trace/set_",i,".tiff"),
+         units="px", width=2000, height=4000,res = 300,compression="lzw")
+    b_mcmc <- coda::as.mcmc(output[,1:4])
+    plot_mcmc <- plot(b_mcmc)
+    print(plot_mcmc)
+    while (!is.null(dev.list()))  dev.off()
+  }
+}
+
+
