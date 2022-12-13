@@ -1,4 +1,4 @@
-# calculate MLE with different initials
+# calculate MLE with different initials (10 replicates for each parameter set)
 library(TraisieABC)
 param_space <- readr::read_csv2("/home/p290559/TraisieABC/data/DAISIE_ABC_short.csv")
 # param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
