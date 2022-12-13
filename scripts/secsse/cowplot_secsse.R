@@ -4,7 +4,7 @@
 library(ggplot2)
 
 load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set0.RData"))
-load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC_1001.RData")
 load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_MLE_secsse_ABC.RData")
 
 
@@ -255,7 +255,7 @@ for(i in 1:70){
 library(ggplot2)
 
 load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set0.RData"))
-load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC_1001.RData")
 load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_MLE_secsse_ABC.RData")
 
 
@@ -463,8 +463,8 @@ for(i in 1:27){
 # AMM histogram
 library(ggplot2)
 
-load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set0.RData"))
-load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC.RData")
+load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set30.RData"))
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC_1001.RData")
 load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_MLE_secsse_ABC.RData")
 
 
@@ -506,19 +506,19 @@ color_values <-c("MCMC" = "#F7903D", "ABC" = "#4D85BD", "MLE" = "#59A95A")
 
 for(i in 1:27){
   param_abc <- whole_df_ABC[((i*500-499)):(i*500),]
-  param_mcmc <- whole_df_MCMC[((i*5001-499)):(i*5001),]
+  param_mcmc <- whole_df_MCMC[((i*1001-499)):(i*1001),]
   param_mle <- MLE_all[i,]
 
   # if(!is.na(param_abc[,7])){
   p_lam1 <-ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
-    xlim(0,0.5)+ #1
+    xlim(-0.032,0.8)+ #1
     ggplot2::geom_histogram(data = param_mcmc,
                             ggplot2::aes(x = lam1_mcmc,fill = "MCMC"),
-                            alpha = 0.7,binwidth = 0.015) + #0.03
+                            alpha = 0.7,binwidth = 0.032) + #0.03
     ggplot2::geom_histogram(ggplot2::aes(x = lam1_abc,
                                          fill = "ABC"),
-                            alpha = 0.7,binwidth = 0.015) +
+                            alpha = 0.7,binwidth = 0.032) +
     ggplot2::geom_vline(data= param_mle,
                         aes(xintercept = lam1_MLE),color = "#59A95A",
                         linetype = "solid", size = 1)+
@@ -537,13 +537,13 @@ for(i in 1:27){
 
   p_lam2 <-ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
-    xlim(0,0.5)+
+    xlim(-0.032,0.8)+
     ggplot2::geom_histogram(data = param_mcmc,
                             ggplot2::aes(x = lam2_mcmc,fill = "MCMC"),
-                            alpha = 0.7,binwidth = 0.015) +
+                            alpha = 0.7,binwidth = 0.032) +
     ggplot2::geom_histogram(ggplot2::aes(x = lam2_abc,
                                          fill = "ABC"),
-                            alpha = 0.7,binwidth = 0.015) +
+                            alpha = 0.7,binwidth = 0.032) +
     ggplot2::geom_vline(data= param_mle,
                         aes(xintercept = lam2_MLE),color = "#59A95A",
                         linetype = "solid", size = 1)+
@@ -562,13 +562,13 @@ for(i in 1:27){
 
   p_mu1 <-ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
-    xlim(0,0.15)+ #0.2
+    xlim(-0.008,0.2)+ #0.2
     ggplot2::geom_histogram(data = param_mcmc,
                             ggplot2::aes(x = mu1_mcmc,fill = "MCMC"),
-                            alpha = 0.7,binwidth = 0.0045) +
+                            alpha = 0.7,binwidth = 0.008) +
     ggplot2::geom_histogram(ggplot2::aes(x = mu1_abc,
                                          fill = "ABC"),
-                            alpha = 0.7,binwidth = 0.0045) +
+                            alpha = 0.7,binwidth = 0.008) +
     ggplot2::geom_vline(data= param_mle,
                         aes(xintercept = mu1_MLE),color = "#59A95A",
                         linetype = "solid", size = 1)+
@@ -585,13 +585,13 @@ for(i in 1:27){
 
   p_mu2 <-ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
-    xlim(0,0.15)+
+    xlim(-0.008,0.2)+
     ggplot2::geom_histogram(data = param_mcmc,
                             ggplot2::aes(x = mu2_mcmc,fill = "MCMC"),
-                            alpha = 0.7,binwidth = 0.0045) +
+                            alpha = 0.7,binwidth = 0.008) +
     ggplot2::geom_histogram(ggplot2::aes(x = mu2_abc,
                                          fill = "ABC"),
-                            alpha = 0.7,binwidth = 0.0045) +
+                            alpha = 0.7,binwidth = 0.008) +
     ggplot2::geom_vline(data= param_mle,
                         aes(xintercept = mu2_MLE),color = "#59A95A",
                         linetype = "solid", size = 1)+
@@ -608,13 +608,13 @@ for(i in 1:27){
 
   p_q12 <-ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
-    xlim(0,0.6)+ #1
+    xlim(-0.02,0.5)+ #1
     ggplot2::geom_histogram(data = param_mcmc,
                             ggplot2::aes(x = q12_mcmc,fill = "MCMC"),
-                            alpha = 0.7,binwidth = 0.018) +
+                            alpha = 0.7,binwidth = 0.02) +
     ggplot2::geom_histogram(ggplot2::aes(x = q12_abc,
                                          fill = "ABC"),
-                            alpha = 0.7,binwidth = 0.018) +
+                            alpha = 0.7,binwidth = 0.02) +
     ggplot2::geom_vline(data= param_mle,
                         aes(xintercept = q12_MLE),color = "#59A95A",
                         linetype = "solid", size = 1)+
@@ -632,13 +632,13 @@ for(i in 1:27){
 
   p_q21 <-ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
-    xlim(0,0.6)+
+    xlim(-0.02,0.5)+
     ggplot2::geom_histogram(data = param_mcmc,
                             ggplot2::aes(x = q21_mcmc,fill = "MCMC"),
-                            alpha = 0.7,binwidth = 0.018) +
+                            alpha = 0.7,binwidth = 0.02) +
     ggplot2::geom_histogram(ggplot2::aes(x = q21_abc,
                                          fill = "ABC"),
-                            alpha = 0.7,binwidth = 0.018) +
+                            alpha = 0.7,binwidth = 0.02) +
     ggplot2::geom_vline(data= param_mle,
                         aes(xintercept = q21_MLE),color = "#59A95A",
                         linetype = "solid", size = 1)+
@@ -656,7 +656,7 @@ for(i in 1:27){
 
   p_emp <- ggplot() + theme_void()
 
-  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/cowplot_AMM/AMM_hist_set_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/cowplot_AMM/ss_set30/AMM_hist_set_",i,".tiff"),
        units="px", width=3000, height=2000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,

@@ -98,7 +98,7 @@ save(whole_df_ABC,file =
 #### MCMC results
 
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/secsse_ABC.csv")
-param_data3<-param_data[rep(seq_len(nrow(param_data)), each=5001),] #5001
+param_data3<-param_data[rep(seq_len(nrow(param_data)), each=1001),] #5001
 folder_path <- "G:/results/project 2/tip_info/round4/adap_secsse_new_space/secsse_MCMC"
 files <- list.files(folder_path)
 lam1_mcmc <- c()
@@ -123,12 +123,12 @@ for(i in 1:27){
     q12_mcmc <- c(q12_mcmc, output[,5])
     q21_mcmc <- c(q21_mcmc, output[,6])
   } else {
-    lam1_mcmc <- c(lam1_mcmc, rep(NA,5001))
-    lam2_mcmc <- c(lam2_mcmc, rep(NA,5001))
-    mu1_mcmc <- c(mu1_mcmc, rep(NA,5001))
-    mu2_mcmc <- c(mu2_mcmc, rep(NA,5001))
-    q12_mcmc <- c(q12_mcmc, rep(NA,5001))
-    q21_mcmc <- c(q21_mcmc, rep(NA,5001))
+    lam1_mcmc <- c(lam1_mcmc, rep(NA,1001))
+    lam2_mcmc <- c(lam2_mcmc, rep(NA,1001))
+    mu1_mcmc <- c(mu1_mcmc, rep(NA,1001))
+    mu2_mcmc <- c(mu2_mcmc, rep(NA,1001))
+    q12_mcmc <- c(q12_mcmc, rep(NA,1001))
+    q21_mcmc <- c(q21_mcmc, rep(NA,1001))
   }
 }
 
@@ -137,9 +137,9 @@ whole_df_MCMC <- data.frame(param_data3,
                             mu1_mcmc,mu2_mcmc,
                             q12_mcmc,q21_mcmc)
 #lac_abc,mu_abc,gam_abc,laa_abc,n_iter)
-save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/whole_df_MCMC.RData")
+save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/whole_df_MCMC_1001.RData")
 
-load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/whole_df_MCMC.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/whole_df_MCMC_1001.RData")
 whole_df_MCMC$dlam <- (whole_df_MCMC$lam2-whole_df_MCMC$lam1)/(whole_df_MCMC$lam2+whole_df_MCMC$lam1)
 whole_df_MCMC$dlam_mcmc <- (whole_df_MCMC$lam2_mcmc-whole_df_MCMC$lam1_mcmc)/(whole_df_MCMC$lam2_mcmc+whole_df_MCMC$lam1_mcmc)
 whole_df_MCMC$dmu <- (whole_df_MCMC$mu2-whole_df_MCMC$mu1)/(whole_df_MCMC$mu2+whole_df_MCMC$mu1)
@@ -158,7 +158,7 @@ whole_df_MCMC$ext_frac2 <- (whole_df_MCMC$mu2)/(whole_df_MCMC$lam2)
 whole_df_MCMC$ext_frac_MCMC1 <- (whole_df_MCMC$mu1_mcmc)/(whole_df_MCMC$lam1_mcmc)
 whole_df_MCMC$ext_frac_MCMC2 <- (whole_df_MCMC$mu2_mcmc)/(whole_df_MCMC$lam2_mcmc)
 
-save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC.RData")
+save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC_1001.RData")
 
 #####
 # plot MCMC results
@@ -175,21 +175,21 @@ for(i in 1:27){
 
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-    tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/MCMC_trace_5001/set_",i,"_lam.tiff"),
+    tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/MCMC_trace_1001/set_",i,"_lam.tiff"),
          units="px", width=2000, height=2000,res = 300,compression="lzw")
     b_mcmc <- coda::as.mcmc(output[,1:2])
     plot_mcmc <- plot(b_mcmc)
     print(plot_mcmc)
     while (!is.null(dev.list()))  dev.off()
 
-    tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/MCMC_trace_5001/set_",i,"_mu.tiff"),
+    tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/MCMC_trace_1001/set_",i,"_mu.tiff"),
          units="px", width=2000, height=2000,res = 300,compression="lzw")
     b_mcmc <- coda::as.mcmc(output[,3:4])
     plot_mcmc <- plot(b_mcmc)
     print(plot_mcmc)
     while (!is.null(dev.list()))  dev.off()
 
-    tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/MCMC_trace_5001/set_",i,"_q.tiff"),
+    tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/MCMC_trace_1001/set_",i,"_q.tiff"),
          units="px", width=2000, height=2000,res = 300,compression="lzw")
     b_mcmc <- coda::as.mcmc(output[,5:6])
     plot_mcmc <- plot(b_mcmc)
@@ -202,7 +202,7 @@ for(i in 1:27){
 
 ## combine ABC, MCMC, MLE for each parameter set(use median value)
 load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set0.RData"))
-load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC_1001.RData")
 load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_MLE_secsse_ABC.RData")
 
 ## get number of iterations and mean values
@@ -244,3 +244,29 @@ save(AMM_reorder,file = "G:/results/project 2/tip_info/round4/adap_secsse/AMM_re
 
 load("G:/results/project 2/tip_info/round4/adap_secsse/AMM_per_set.RData")
 load("G:/results/project 2/tip_info/round4/adap_secsse/AMM_reorder.RData")
+
+
+#####
+# combine several reps(sign as ss_set) 27*500
+load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set0.RData"))
+whole_df_ABC_0 <- whole_df_ABC
+load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set20.RData"))
+whole_df_ABC_20 <- whole_df_ABC
+load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set30.RData"))
+whole_df_ABC_30 <- whole_df_ABC
+
+# try1 <- whole_df_ABC_0[c(1,2,3,501,502,503,1501,1502,1503),]
+# try2 <- whole_df_ABC_20[c(1,2,3,501,502,503,1501,1502,1503),]
+# try3 <- whole_df_ABC_30[c(1,2,3,501,502,503,1501,1502,1503),]
+
+set <- rep(1:27,each = 500)
+df1 <- data.frame(set,whole_df_ABC_0)
+df2 <- data.frame(set,whole_df_ABC_20)
+df3 <- data.frame(set,whole_df_ABC_30)
+df_merge <- rbind(df1,df2,df3)
+df_merge<-df_merge[order(df_merge$set),]
+save(df_merge,file =
+       paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/whole_ABC_merge.RData"))
+
+
+

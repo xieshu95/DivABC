@@ -2,11 +2,11 @@
 # compare net-diversification
 library(ggplot2)
 
-load(paste0("G:/results/project 2/tip_info/round4/adap_secsse/delta_whole_df_ABC_ss_set0.RData"))
-load("G:/results/project 2/tip_info/round4/adap_secsse/delta_whole_df_MCMC.RData")
-load("G:/results/project 2/tip_info/round4/adap_secsse/delta_MLE_secsse_ABC.RData")
+load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set0.RData"))
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC_1001.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_MLE_secsse_ABC.RData")
 
-# save(MLE_all,file = "G:/results/project 2/tip_info/round4/adap_secsse/delta_MLE_secsse_ABC.RData")
+# save(MLE_all,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_MLE_secsse_ABC.RData")
 
 
 ## get legend first
@@ -45,19 +45,19 @@ color_values <-c("MCMC" = "#F7903D", "ABC" = "#4D85BD", "MLE" = "#59A95A")
 
 #####
 # histogram
-for(i in 1:70){
+for(i in 1:27){
   param_abc <- whole_df_ABC[((i*500-499)):(i*500),]
-  param_mcmc <- whole_df_MCMC[((i*5001-499)):(i*5001),]
+  param_mcmc <- whole_df_MCMC[((i*1001-499)):(i*1001),]
   param_mle <- MLE_all[i,]
 
   p_net_div1 <-ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
-    xlim(0,0.8)+
+    xlim(-0.032,0.8)+
     ggplot2::geom_histogram(data = param_mcmc,
                             ggplot2::aes(x = net_div_MCMC1,fill = "MCMC"),
-                            alpha = 0.9,binwidth = 0.03) +
+                            alpha = 0.9,binwidth = 0.032) +
     ggplot2::geom_histogram(ggplot2::aes(x = net_div_ABC1,fill = "ABC"),
-                            alpha = 0.9,binwidth = 0.03) +
+                            alpha = 0.9,binwidth = 0.032) +
     ggplot2::geom_vline(data= param_mle,
                         aes(xintercept = net_div_MLE1),colour = "green4",
                         linetype = "solid", size = 1)+
@@ -76,12 +76,12 @@ for(i in 1:70){
 
   p_net_div2 <-ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
-    xlim(0,0.8)+
+    xlim(-0.032,0.8)+
     ggplot2::geom_histogram(data = param_mcmc,
                             ggplot2::aes(x = net_div_MCMC2,fill = "MCMC"),
-                            alpha = 0.9,binwidth = 0.03) +
+                            alpha = 0.9,binwidth = 0.032) +
     ggplot2::geom_histogram(ggplot2::aes(x = net_div_ABC2,fill = "ABC"),
-                            alpha = 0.9,binwidth = 0.03) +
+                            alpha = 0.9,binwidth = 0.032) +
     ggplot2::geom_vline(data= param_mle,
                         aes(xintercept = net_div_MLE2),colour = "green4",
                         linetype = "solid", size = 1)+
@@ -145,7 +145,7 @@ for(i in 1:70){
 
   p_emp <- ggplot() + theme_void()
 
-  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse/net_div/net_div_hist_set_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/net_div/net_div_hist_set_",i,".tiff"),
        units="px", width=2200, height=2000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_net_div1,p_net_div2,p_ext_frac1,p_ext_frac2,
@@ -360,7 +360,7 @@ for(i in 1:5){
 
   p_emp <- ggplot() + theme_void()
 
-  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse/cowplot_AMM/MLE_set_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/cowplot_AMM/MLE_set_",i,".tiff"),
        units="px", width=3000, height=2000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
