@@ -6,7 +6,7 @@ param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/secsse_ABC.csv")
 for(set in 1:27){
   message("set", set)
   true_rates <- param_data[set,]
-  file_to_load <- grep(paste0("secsse_ABC_param_set_", set,"_ss_0.RData"),  #,"_rep",rep
+  file_to_load <- grep(paste0("secsse_ABC_param_set_", set,"_ss_30.RData"),  #,"_rep",rep
                        files,
                        value = TRUE,
                        fixed = TRUE)

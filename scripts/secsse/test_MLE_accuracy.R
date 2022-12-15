@@ -245,81 +245,76 @@ for (set in 1:6){
     ggplot2::theme_bw() +
     ggplot2::ylim(0,1)+
     ggplot2::geom_point(ggplot2::aes(x = total, y = abs(dlam1)),
-                        colour = "blue3") +
+                        colour = "blue") +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 12),
                    text = ggplot2::element_text(size = 12)) +
     ggplot2::ylab(expression(paste("Error ",lambda[1]),)) +
     ggplot2::xlab("Tree size")+
-    ggplot2::geom_hline(data= MLE_all, aes(yintercept = 0), linetype = "dashed", size = 0.5) +
-    ggplot2::geom_hline(data= MLE_all, aes(yintercept = lam1), linetype = "dashed", size = 0.5)
+    ggplot2::geom_hline(data= MLE_all, aes(yintercept = 0), linetype = "dashed", size = 0.5)
 
 
   p_lam2 <-ggplot2::ggplot(data = MLE_all) +
     ggplot2::theme_bw() +
     ggplot2::ylim(0,1)+
     ggplot2::geom_point(ggplot2::aes(x = total, y = abs(dlam2)),
-                        colour = "blue3") +
+                        colour = "blue") +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 12),
                    text = ggplot2::element_text(size = 12)) +
     ggplot2::ylab(expression(paste("Error ",lambda[2]),)) +
     ggplot2::xlab("Tree size")+
-    ggplot2::geom_hline(data= MLE_all, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-    ggplot2::geom_hline(data= MLE_all, aes(yintercept = lam2), linetype = "dashed", size = 0.5)
+    ggplot2::geom_hline(data= MLE_all, aes(yintercept = 0), linetype = "dashed", size = 0.5)
 
   p_mu1 <-ggplot2::ggplot(data = MLE_all) +
     ggplot2::theme_bw() +
-    ggplot2::ylim(0,1.5)+
+    ggplot2::ylim(0,1)+
     ggplot2::geom_point(ggplot2::aes(x = total, y = abs(dmu1)),
-                        colour = "blue3") +
+                        colour = "blue") +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 12),
                    text = ggplot2::element_text(size = 12)) +
     ggplot2::ylab(expression(paste("Error ",mu[1]),)) +
     ggplot2::xlab("Tree size")+
-    ggplot2::geom_hline(data= MLE_all, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-    ggplot2::geom_hline(data= MLE_all, aes(yintercept = mu1), linetype = "dashed", size = 0.5)
+    ggplot2::geom_hline(data= MLE_all, aes(yintercept = 0), linetype = "dashed", size = 0.5)
 
 
   p_mu2 <-ggplot2::ggplot(data = MLE_all) +
     ggplot2::theme_bw() +
-    ggplot2::ylim(0,1.5)+
+    ggplot2::ylim(0,1.0)+
     ggplot2::geom_point(ggplot2::aes(x = total, y = abs(dmu2)),
-                        colour = "blue3") +
+                        colour = "blue") +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 12),
                    text = ggplot2::element_text(size = 12)) +
     ggplot2::ylab(expression(paste("Error ",mu[2]),)) +
     ggplot2::xlab("Tree size")+
-    ggplot2::geom_hline(data= MLE_all, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-    ggplot2::geom_hline(data= MLE_all, aes(yintercept = mu2), linetype = "dashed", size = 0.5)
+    ggplot2::geom_hline(data= MLE_all, aes(yintercept = 0), linetype = "dashed", size = 0.5)
 
   p_q12 <-ggplot2::ggplot(data = MLE_all) +
     ggplot2::theme_bw() +
-    ggplot2::ylim(0,1.5)+
+    ggplot2::ylim(0,1)+
     ggplot2::geom_point(ggplot2::aes(x = total, y = abs(dq12)),
-                        colour = "blue3") +
+                        colour = "blue") +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 12),
                    text = ggplot2::element_text(size = 12)) +
     ggplot2::ylab(expression(paste("Error ",q[12]),)) +
     ggplot2::xlab("Tree size")+
-    ggplot2::geom_hline(data= MLE_all, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-    ggplot2::geom_hline(data= MLE_all, aes(yintercept = q12), linetype = "dashed", size = 0.5)
+    ggplot2::geom_hline(data= MLE_all, aes(yintercept = 0), linetype = "dashed", size = 0.5)
 
   p_q21 <-ggplot2::ggplot(data = MLE_all) +
     ggplot2::theme_bw() +
-    ggplot2::ylim(0,1.5)+
+    ggplot2::ylim(0,1)+
     ggplot2::geom_point(ggplot2::aes(x = total, y = abs(dq21)),
-                        colour = "blue3") +
+                        colour = "blue") +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 12),
                    text = ggplot2::element_text(size = 12)) +
     ggplot2::ylab(expression(paste("Error ",q[21]),)) +
     ggplot2::xlab("Tree size")+
-    ggplot2::geom_hline(data= MLE_all, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-    ggplot2::geom_hline(data= MLE_all, aes(yintercept = q21), linetype = "solid", size = 0.5)
+    ggplot2::geom_hline(data= MLE_all, aes(yintercept = 0), linetype = "dashed", size = 0.5)
+
 
   tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/MLE_power_test/treesize_drate/set_",set,".tiff"),
        units="px", width=3000, height=2000,res = 300,compression="lzw")

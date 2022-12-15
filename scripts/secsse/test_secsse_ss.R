@@ -168,4 +168,3 @@ save(pars_ss,file = "G:/results/project 2/tip_info/round4/secsse_long_2/obs_ss_l
 
 load("G:/results/project 2/tip_info/round4/secsse_long_2/obs_ss_long_with_pars.RData")
 
-

@@ -168,7 +168,7 @@ whole_df_MLE <- data.frame(param_space,
 ## directly load MLE results from cluster
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
 param_data3<-param_data[rep(seq_len(nrow(param_data)), each=10),]
-load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/MLE/MLE_381528.RData")
+load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/MLE/MLE_826448.RData")
 set <- rep(1:81,each = 10)
 whole_df_MLE <- data.frame(set,param_data3,MLE_all)
 
@@ -177,14 +177,191 @@ whole_df_MLE$net_div_MLE <- (whole_df_MLE$lac_MLE-whole_df_MLE$mu_MLE)
 
 whole_df_MLE$ext_frac <- (whole_df_MLE$mu)/(whole_df_MLE$lac)
 whole_df_MLE$ext_frac_MLE <- (whole_df_MLE$mu_MLE)/(whole_df_MLE$lac_MLE)
-save(whole_df_MLE,file = "G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MLE1.RData")
-
-load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/whole_df_MLE.RData")
-
-#####
-# record mean/median/sd for ABC/MCMC/MLE
+save(whole_df_MLE,file = "G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MLE3.RData")
 
 
+## combine 3 MLE dataframes, each set has 10*3 replicates
+load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MLE1.RData")
+MLE1 <-whole_df_MLE
+load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MLE2.RData")
+MLE2 <-whole_df_MLE
+load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MLE3.RData")
+MLE3 <-whole_df_MLE
+
+MLE_comb <- rbind(MLE1,MLE2,MLE3)
+MLE_comb<-MLE_comb[order(MLE_comb$set),]
+save(MLE_comb,file = "G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_MLE_comb.RData")
+
+
+## plot MLE results
+library(ggplot2)
+load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_MLE_comb.RData"))
+for(i in 1:81){
+  param_MLE <- MLE_comb[((i*30-29)):(i*30),]
+  if(!is.na(param_MLE[1,7])){
+    p_lac <-ggplot2::ggplot(data = param_MLE) +
+      ggplot2::theme_bw() +
+      xlim(0,1)+
+      ggplot2::geom_density(ggplot2::aes(x = lac_MLE),
+                            fill = "royalblue",colour = "blue3",
+                            alpha = 0.3) +
+      ggplot2::theme_classic() +
+      ggplot2::theme(title = ggplot2::element_text(size = 12),
+                     text = ggplot2::element_text(size = 12)) +
+      ggplot2::ylab("Density") +
+      ggplot2::xlab(expression(lambda^c))+
+      ggplot2::geom_vline(data= param_MLE, aes(xintercept = lac), linetype = "dashed", size = 0.5)
+    # ggplot2::geom_vline(data= MLE_all[i,], aes(xintercept = lac_MLE),
+    #                     linetype = "dashed", size = 0.5,color = "red")
+
+    p_mu <-ggplot2::ggplot(data = param_MLE) +
+      ggplot2::theme_bw() +
+      xlim(0,0.5)+
+      # ggplot2::geom_histogram(mapping = ggplot2::aes(x = mu_MLE),
+      #                       fill = "#009E73",colour = "#009E73",
+      #                       alpha = 0.3, binwidth = 0.01) +
+      ggplot2::geom_density(mapping = ggplot2::aes(x = mu_MLE),
+                            fill = "royalblue",colour = "blue3",
+                            alpha = 0.3) +
+      ggplot2::theme_classic() +
+      ggplot2::theme(title = ggplot2::element_text(size = 12),
+                     text = ggplot2::element_text(size = 12)) +
+      ggplot2::ylab("Density") +
+      ggplot2::xlab(expression(mu))+
+      ggplot2::geom_vline(data= param_MLE, aes(xintercept = mu), linetype = "dashed", size = 0.5)
+
+    p_gam <-ggplot2::ggplot(data = param_MLE) +
+      ggplot2::theme_bw() +
+      xlim(0,0.05)+
+      # ggplot2::geom_histogram(mapping = ggplot2::aes(x = gam_MLE),
+      #                       fill = "#009E73",colour = "#009E73",
+      #                       alpha = 0.3, binwidth = 0.0005) +
+      ggplot2::geom_density(mapping = ggplot2::aes(x = gam_MLE),
+                            fill = "royalblue",colour = "blue3",
+                            alpha = 0.3) +
+      ggplot2::theme_classic() +
+      ggplot2::theme(title = ggplot2::element_text(size = 12),
+                     text = ggplot2::element_text(size = 12)) +
+      ggplot2::ylab("Density") +
+      ggplot2::xlab(expression(gamma))+
+      ggplot2::geom_vline(data= param_MLE, aes(xintercept = gam), linetype = "dashed", size = 0.5)
+
+
+    p_laa <-ggplot2::ggplot(data = param_MLE) +
+      ggplot2::theme_bw() +
+      xlim(0,1.0)+
+      # ggplot2::geom_histogram(mapping = ggplot2::aes(x = laa_MLE),
+      #                       fill = "#009E73",colour = "#009E73",
+      #                       alpha = 0.3, binwidth = 0.01) +
+      ggplot2::geom_density(mapping = ggplot2::aes(x = laa_MLE),
+                            fill = "royalblue",colour = "blue3",
+                            alpha = 0.3) +
+      ggplot2::theme_classic() +
+      ggplot2::theme(title = ggplot2::element_text(size = 12),
+                     text = ggplot2::element_text(size = 12)) +
+      ggplot2::ylab("Density") +
+      ggplot2::xlab(expression(lambda^a))+
+      ggplot2::geom_vline(data= param_MLE, aes(xintercept = laa), linetype = "dashed", size = 0.5)
+
+
+    p_emp <- ggplot() + theme_void()
+
+    tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/plot_MLE/combined_param_",i,".tiff"),
+         units="px", width=1500, height=1000,res = 300,compression="lzw")
+    param_estimates <- cowplot::plot_grid(
+      p_lac,p_mu,p_gam,p_laa,
+      align = "hv", nrow = 2, ncol = 2
+    )
+    print(param_estimates)
+    while (!is.null(dev.list()))  dev.off()
+  }
+}
+
+##
+for(n in c(1,2,3)){
+  load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MLE",n,".RData"))
+  for(i in 1:81){
+    param_MLE <- whole_df_MLE[((i*10-9)):(i*10),]
+
+    if(!is.na(param_MLE[1,7])){
+      p_lac <-ggplot2::ggplot(data = param_MLE) +
+        ggplot2::theme_bw() +
+        xlim(0,1)+
+        ggplot2::geom_density(ggplot2::aes(x = lac_MLE),
+                              fill = "royalblue",colour = "blue3",
+                              alpha = 0.3) +
+        ggplot2::theme_classic() +
+        ggplot2::theme(title = ggplot2::element_text(size = 12),
+                       text = ggplot2::element_text(size = 12)) +
+        ggplot2::ylab("Density") +
+        ggplot2::xlab(expression(lambda^c))+
+        ggplot2::geom_vline(data= param_MLE, aes(xintercept = lac), linetype = "dashed", size = 0.5)
+      # ggplot2::geom_vline(data= MLE_all[i,], aes(xintercept = lac_MLE),
+      #                     linetype = "dashed", size = 0.5,color = "red")
+
+      p_mu <-ggplot2::ggplot(data = param_MLE) +
+        ggplot2::theme_bw() +
+        xlim(0,0.5)+
+        # ggplot2::geom_histogram(mapping = ggplot2::aes(x = mu_MLE),
+        #                       fill = "#009E73",colour = "#009E73",
+        #                       alpha = 0.3, binwidth = 0.01) +
+        ggplot2::geom_density(mapping = ggplot2::aes(x = mu_MLE),
+                              fill = "royalblue",colour = "blue3",
+                              alpha = 0.3) +
+        ggplot2::theme_classic() +
+        ggplot2::theme(title = ggplot2::element_text(size = 12),
+                       text = ggplot2::element_text(size = 12)) +
+        ggplot2::ylab("Density") +
+        ggplot2::xlab(expression(mu))+
+        ggplot2::geom_vline(data= param_MLE, aes(xintercept = mu), linetype = "dashed", size = 0.5)
+
+      p_gam <-ggplot2::ggplot(data = param_MLE) +
+        ggplot2::theme_bw() +
+        xlim(0,0.05)+
+        # ggplot2::geom_histogram(mapping = ggplot2::aes(x = gam_MLE),
+        #                       fill = "#009E73",colour = "#009E73",
+        #                       alpha = 0.3, binwidth = 0.0005) +
+        ggplot2::geom_density(mapping = ggplot2::aes(x = gam_MLE),
+                              fill = "royalblue",colour = "blue3",
+                              alpha = 0.3) +
+        ggplot2::theme_classic() +
+        ggplot2::theme(title = ggplot2::element_text(size = 12),
+                       text = ggplot2::element_text(size = 12)) +
+        ggplot2::ylab("Density") +
+        ggplot2::xlab(expression(gamma))+
+        ggplot2::geom_vline(data= param_MLE, aes(xintercept = gam), linetype = "dashed", size = 0.5)
+
+
+      p_laa <-ggplot2::ggplot(data = param_MLE) +
+        ggplot2::theme_bw() +
+        xlim(0,1.0)+
+        # ggplot2::geom_histogram(mapping = ggplot2::aes(x = laa_MLE),
+        #                       fill = "#009E73",colour = "#009E73",
+        #                       alpha = 0.3, binwidth = 0.01) +
+        ggplot2::geom_density(mapping = ggplot2::aes(x = laa_MLE),
+                              fill = "royalblue",colour = "blue3",
+                              alpha = 0.3) +
+        ggplot2::theme_classic() +
+        ggplot2::theme(title = ggplot2::element_text(size = 12),
+                       text = ggplot2::element_text(size = 12)) +
+        ggplot2::ylab("Density") +
+        ggplot2::xlab(expression(lambda^a))+
+        ggplot2::geom_vline(data= param_MLE, aes(xintercept = laa), linetype = "dashed", size = 0.5)
+
+
+      p_emp <- ggplot() + theme_void()
+
+      tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/plot_MLE/ss",n,"_param_",i,".tiff"),
+           units="px", width=1500, height=1000,res = 300,compression="lzw")
+      param_estimates <- cowplot::plot_grid(
+        p_lac,p_mu,p_gam,p_laa,
+        align = "hv", nrow = 2, ncol = 2
+      )
+      print(param_estimates)
+      while (!is.null(dev.list()))  dev.off()
+    }
+  }
+}
 
 #####
 # plot MCMC trace

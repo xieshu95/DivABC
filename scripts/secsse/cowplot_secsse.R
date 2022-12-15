@@ -254,7 +254,7 @@ for(i in 1:70){
 ## 3. cowplot with ABC MCMC MLE
 library(ggplot2)
 
-load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set0.RData"))
+load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set30.RData"))
 load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC_1001.RData")
 load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_MLE_secsse_ABC.RData")
 
@@ -296,13 +296,13 @@ color_values <-c("MCMC" = "#F7903D", "ABC" = "#4D85BD", "MLE" = "#59A95A")
 
 for(i in 1:27){
   param_abc <- whole_df_ABC[((i*500-499)):(i*500),]
-  param_mcmc <- whole_df_MCMC[((i*5001-499)):(i*5001),]
+  param_mcmc <- whole_df_MCMC[((i*1001-499)):(i*1001),]
   param_mle <- MLE_all[i,]
 
   # if(!is.na(param_abc[,7])){
   p_lam1 <-ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
-    xlim(0,1)+
+    xlim(0,0.8)+
     ggplot2::geom_density(data = param_mcmc,
                           ggplot2::aes(x = lam1_mcmc,fill = "MCMC"),colour = "red4",
                           alpha = 0.9) +
@@ -327,7 +327,7 @@ for(i in 1:27){
 
   p_lam2 <-ggplot2::ggplot(data = param_abc) +
     ggplot2::theme_bw() +
-    xlim(0,1)+
+    xlim(0,0.8)+
     ggplot2::geom_density(data = param_mcmc,
                           ggplot2::aes(x = lam2_mcmc,fill = "MCMC"),colour = "red4",
                           alpha = 0.9) +
@@ -446,7 +446,7 @@ for(i in 1:27){
 
   p_emp <- ggplot() + theme_void()
 
-  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/cowplot_AMM/MLE_set_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/cowplot_AMM/density/pw3/AMM_set_",i,".tiff"),
        units="px", width=3000, height=2000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,

@@ -4,7 +4,7 @@ folder_path <- "G:/results/project 2/tip_info/round4/adap_secsse_new_space/secss
 files <- list.files(folder_path)
 for(set in 1:27){
   message("set", set)
-  file_to_load <- grep(paste0("secsse_ABC_param_set_", set,"_ss_0.RData"),  #,"_rep",rep
+  file_to_load <- grep(paste0("secsse_ABC_param_set_", set,"_ss_30.RData"),  #,"_rep",rep
                        files,
                        value = TRUE,
                        fixed = TRUE)
@@ -85,7 +85,7 @@ for(set in 1:27){
       ggplot2::theme_bw() +
       ggplot2::geom_boxplot()
     # print(g8)
-    tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/dss/ss_0_param_",set,".tiff"),
+    tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/dss/rep3_param_",set,".tiff"),
          units="px", width=5000, height=2000,res = 300,compression="lzw")
     dss <- cowplot::plot_grid(
       g1,g2,g3,g4,g5,g6,g7,g8,g9,g10,

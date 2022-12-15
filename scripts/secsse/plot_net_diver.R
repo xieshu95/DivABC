@@ -2,15 +2,16 @@
 # compare net-diversification
 library(ggplot2)
 
-load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set0.RData"))
-load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC_1001.RData")
+# load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set0.RData"))
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/whole_ABC_merge.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC_5001.RData")
 load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_MLE_secsse_ABC.RData")
 
 # save(MLE_all,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_MLE_secsse_ABC.RData")
 
 
 ## get legend first
-param_abc <- whole_df_ABC[1:10,]
+param_abc <- df_merge[1:10,]
 param_mcmc <- whole_df_MCMC[1:10,]
 param_mle <- MLE_all[1:10,]
 p_legend <-ggplot2::ggplot(data = param_abc) +
@@ -46,8 +47,8 @@ color_values <-c("MCMC" = "#F7903D", "ABC" = "#4D85BD", "MLE" = "#59A95A")
 #####
 # histogram
 for(i in 1:27){
-  param_abc <- whole_df_ABC[((i*500-499)):(i*500),]
-  param_mcmc <- whole_df_MCMC[((i*1001-499)):(i*1001),]
+  param_abc <- df_merge[((i*1500-1499)):(i*1500),]
+  param_mcmc <- whole_df_MCMC[((i*5001-1499)):(i*5001),]
   param_mle <- MLE_all[i,]
 
   p_net_div1 <-ggplot2::ggplot(data = param_abc) +

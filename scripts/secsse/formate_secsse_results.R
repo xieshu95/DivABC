@@ -1,3 +1,4 @@
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/obs_ss_with_pars.RData")
 ## ABC results
 folder_path <- "G:/results/project 2/tip_info/round4/adap_secsse_new_space/secsse_ABC"
 files <- list.files(folder_path)
@@ -199,53 +200,6 @@ for(i in 1:27){
 }
 
 
-
-## combine ABC, MCMC, MLE for each parameter set(use median value)
-load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set0.RData"))
-load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC_1001.RData")
-load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_MLE_secsse_ABC.RData")
-
-## get number of iterations and mean values
-df <- whole_df_ABC
-n <- 500
-ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
-# n <- 5000
-# whole_df_ABC_median_group <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median,na.rm = TRUE)[-1]
-
-df<-whole_df_MCMC
-n <- 5001
-MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
-# n <- 10010
-# whole_df_MCMC_median_group <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median,na.rm = TRUE)[-1]
-
-df<- MLE_all
-# n <- 10
-# whole_df_MLE_median_group <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median,na.rm = TRUE)[-1]
-
-
-######
-## combine ABC MCMC MLE as "AMM"
-AMM_all_df <- cbind(ABC_median,
-                MCMC_median[,c(7:12,14,16,18,21,22,25,26)],
-                MLE_all[,c(7:12,14,16,18,21,22,25,26)])
-save(AMM_all_df,file = "G:/results/project 2/tip_info/round4/adap_secsse/AMM_per_set.RData")
-
-AMM_reorder <- AMM_all_df[,c(1,8,28,41, 2,9,29,42, 3,10,30,43,
-                             4,11,31,44, 5,12,32,45, 6,13,33,46,
-                             20:23,37,38,50,51, 24:27,39,40,52,53)]
-
-AMM_reorder<-round(AMM_reorder,5)
-save(AMM_reorder,file = "G:/results/project 2/tip_info/round4/adap_secsse/AMM_reorder.RData")
-# AMM_group <- cbind(whole_df_ABC_median_group,
-#                    whole_df_MCMC_median_group[,7:12],
-#                    whole_df_MLE_median_group[,7:12])
-# save(AMM_group,file = "G:/results/project 2/tip_info/round4/adap_secsse/ABC_MCMC_MLE_per_group.RData")
-
-
-load("G:/results/project 2/tip_info/round4/adap_secsse/AMM_per_set.RData")
-load("G:/results/project 2/tip_info/round4/adap_secsse/AMM_reorder.RData")
-
-
 #####
 # combine several reps(sign as ss_set) 27*500
 load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set0.RData"))
@@ -269,4 +223,178 @@ save(df_merge,file =
        paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/whole_ABC_merge.RData"))
 
 
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/whole_ABC_merge.RData")
 
+
+## combine ABC, MCMC, MLE for each parameter set(use median value)
+load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/whole_ABC_merge.RData"))
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_MCMC_1001.RData")
+load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/combined_MLE.RData"))
+
+## get number of iterations and mean values
+df <- df_merge
+n <- 1500
+ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+# n <- 5000
+# whole_df_ABC_median_group <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median,na.rm = TRUE)[-1]
+
+df<-whole_df_MCMC
+n <- 1001
+MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+# n <- 10010
+# whole_df_MCMC_median_group <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median,na.rm = TRUE)[-1]
+
+df<- MLE_all
+n <- 100
+MLE_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median,na.rm = TRUE)[-1]
+
+
+######
+## combine ABC MCMC MLE as "AMM"
+AMM_all_df <- cbind(ABC_median[1:14],
+                    MCMC_median[,c(7:12)],
+                    MLE_median[,c(7:12)])
+save(AMM_all_df,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/AMM_per_set.RData")
+
+# AMM_reorder <- AMM_all_df[,c(1,8,28,41, 2,9,29,42, 3,10,30,43,
+#                              4,11,31,44, 5,12,32,45, 6,13,33,46,
+#                              20:23,37,38,50,51, 24:27,39,40,52,53)]
+#
+# AMM_reorder<-round(AMM_reorder,5)
+# save(AMM_reorder,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/AMM_reorder.RData")
+# AMM_group <- cbind(whole_df_ABC_median_group,
+#                    whole_df_MCMC_median_group[,7:12],
+#                    whole_df_MLE_median_group[,7:12])
+# save(AMM_group,file = "G:/results/project 2/tip_info/round4/adap_secsse/ABC_MCMC_MLE_per_group.RData")
+
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/AMM_per_set.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/obs_ss_with_pars.RData")
+# load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/AMM_reorder.RData")
+AMM_all_df$dlam1_abc <- AMM_all_df$lam1_abc - AMM_all_df$lam1
+AMM_all_df$dlam2_abc <- AMM_all_df$lam2_abc - AMM_all_df$lam2
+AMM_all_df$dmu1_abc <- AMM_all_df$mu1_abc - AMM_all_df$mu1
+AMM_all_df$dmu2_abc <- AMM_all_df$mu2_abc - AMM_all_df$mu2
+AMM_all_df$dq12_abc <- AMM_all_df$q12_abc - AMM_all_df$q12
+AMM_all_df$dq21_abc <- AMM_all_df$q21_abc - AMM_all_df$q21
+
+AMM_all_df$dlam1_mcmc <- AMM_all_df$lam1_mcmc - AMM_all_df$lam1
+AMM_all_df$dlam2_mcmc <- AMM_all_df$lam2_mcmc - AMM_all_df$lam2
+AMM_all_df$dmu1_mcmc <- AMM_all_df$mu1_mcmc - AMM_all_df$mu1
+AMM_all_df$dmu2_mcmc <- AMM_all_df$mu2_mcmc - AMM_all_df$mu2
+AMM_all_df$dq12_mcmc <- AMM_all_df$q12_mcmc - AMM_all_df$q12
+AMM_all_df$dq21_mcmc <- AMM_all_df$q21_mcmc - AMM_all_df$q21
+
+AMM_all_df$dlam1_MLE <- AMM_all_df$lam1_MLE - AMM_all_df$lam1
+AMM_all_df$dlam2_MLE <- AMM_all_df$lam2_MLE - AMM_all_df$lam2
+AMM_all_df$dmu1_MLE <- AMM_all_df$mu1_MLE - AMM_all_df$mu1
+AMM_all_df$dmu2_MLE <- AMM_all_df$mu2_MLE - AMM_all_df$mu2
+AMM_all_df$dq12_MLE <- AMM_all_df$q12_MLE - AMM_all_df$q12
+AMM_all_df$dq21_MLE <- AMM_all_df$q21_MLE - AMM_all_df$q21
+
+AMM_all_df$tree_size <- pars_ss$total
+AMM_all_df$tip_ratio1 <- pars_ss$state1/pars_ss$state2
+AMM_all_df$tip_ratio <- AMM_all_df$tip_ratio1
+AMM_all_df$tip_ratio[AMM_all_df$tip_ratio < 1]<- 1/AMM_all_df$tip_ratio[AMM_all_df$tip_ratio < 1]
+save(AMM_all_df,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/AMM_per_set_drate.RData")
+
+
+## plot observed treesize /tip ratio vs estimation error
+color_values <-c("ABC" = "red3","MCMC" = "blue", "MLE" = "green3")
+p_lam1 <-ggplot2::ggplot(data = AMM_all_df) +
+  ggplot2::theme_bw() +
+  ggplot2::ylim(0,0.4)+
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dlam1_mcmc),color = "MCMC")) +
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dlam1_MLE),color = "MLE")) +
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dlam1_abc),color = "ABC")) +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(lambda[1]))+
+  ggplot2::scale_color_manual(name = "Method",
+                             values = color_values,
+                             labels = c("ABC", "MCMC", "MLE"))
+
+p_lam2 <-ggplot2::ggplot(data = AMM_all_df) +
+  ggplot2::theme_bw() +
+  ggplot2::ylim(0,0.4)+
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dlam2_mcmc),color = "MCMC")) +
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dlam2_MLE),color = "MLE")) +
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dlam2_abc),color = "ABC")) +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(lambda[2]))+
+  ggplot2::scale_color_manual(name = "Method",
+                              values = color_values,
+                              labels = c("ABC", "MCMC", "MLE"))
+
+p_mu1 <-ggplot2::ggplot(data = AMM_all_df) +
+  ggplot2::theme_bw() +
+  ggplot2::ylim(0,0.4)+
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dmu1_mcmc),color = "MCMC")) +
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dmu1_MLE),color = "MLE")) +
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dmu1_abc),color = "ABC")) +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(mu[1]))+
+  ggplot2::scale_color_manual(name = "Method",
+                              values = color_values,
+                              labels = c("ABC", "MCMC", "MLE"))
+
+p_mu2 <-ggplot2::ggplot(data = AMM_all_df) +
+  ggplot2::theme_bw() +
+  ggplot2::ylim(0,0.4)+
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dmu2_mcmc),color = "MCMC")) +
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dmu2_MLE),color = "MLE")) +
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dmu2_abc),color = "ABC")) +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(mu[2]))+
+  ggplot2::scale_color_manual(name = "Method",
+                              values = color_values,
+                              labels = c("ABC", "MCMC", "MLE"))
+
+p_q12 <-ggplot2::ggplot(data = AMM_all_df) +
+  ggplot2::theme_bw() +
+  ggplot2::ylim(0,0.4)+
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dq12_mcmc),color = "MCMC")) +
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dq12_MLE),color = "MLE")) +
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dq12_abc),color = "ABC")) +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(q[12]))+
+  ggplot2::scale_color_manual(name = "Method",
+                              values = color_values,
+                              labels = c("ABC", "MCMC", "MLE"))
+
+p_q21 <-ggplot2::ggplot(data = AMM_all_df) +
+  ggplot2::theme_bw() +
+  ggplot2::ylim(0,0.4)+
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dq21_mcmc),color = "MCMC")) +
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dq21_MLE),color = "MLE")) +
+  ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(dq21_abc),color = "ABC")) +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(q[21]))+
+  ggplot2::scale_color_manual(name = "Method",
+                              values = color_values,
+                              labels = c("ABC", "MCMC", "MLE"))
+
+tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/obs_rate_error.tiff"),
+     units="px", width=3000, height=2000,res = 300,compression="lzw")
+param_estimates <- cowplot::plot_grid(
+  p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
+  align = "hv", nrow = 2, ncol = 3
+)
+print(param_estimates)
+while (!is.null(dev.list()))  dev.off()
