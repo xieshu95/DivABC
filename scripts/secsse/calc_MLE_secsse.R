@@ -1,4 +1,4 @@
-param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/secsse_ABC_long.csv")
+param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/secsse_ABC_test1.csv")
 lam1_MLE<- c()
 lam2_MLE <-c()
 mu1_MLE <- c()
@@ -23,7 +23,8 @@ create_ML_idpars <- function(traits,num_concealed_states) {
   return(idparslist)
 }
 
-for(i in 1:70) {
+
+for(i in 1:200) {
   message("set",i)
   set.seed(i)
   obs_sim_pars <- param_space[i,]
