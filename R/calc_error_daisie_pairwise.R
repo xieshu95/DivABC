@@ -65,6 +65,8 @@ calc_error_pairwise <- function(sim_1,
   num_nonend <-
     abs(num_nonend_sim_1 - num_nonend_sim_2)
 
+  clade_size <- calc_clade_size_error(sim_1,sim_2)
+  colon_time <- calc_colon_time_error(sim_1,sim_2)
 
   # pairwise
   if(pairwise_method == 1) {
@@ -93,8 +95,10 @@ calc_error_pairwise <- function(sim_1,
                num_nonend,
                pw_nltt,
                pw_clade_size,
-               pw_nltt_sd,
-               pw_clade_size_sd)
+               # pw_nltt_sd,
+               # pw_clade_size_sd)
+               clade_size = clade_size,
+               colon_time = colon_time)
   } else {
     pairwise <- pairwise_order_per_clade(sim_1,sim_2)
     error <- c(total_nltt,
@@ -148,7 +152,7 @@ reorder_ltt <- function(sim) {
 }
 
 pairwise_order <- function(sim1, sim2){
-  brts1 <- reorder_ltt(sim1)
+  brts1 <- reorder_ltt(sim1)  ## order based on the length of each clade
   brts2 <- reorder_ltt(sim2)
   clade_size_error <- c()
   nltt_error <- c()

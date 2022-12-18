@@ -158,7 +158,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
       #convergence if the acceptance rate gets too low
       tried <- tried + 1
-      if (tried > (1 / stop_rate) & n_iter > 3) {
+      if (tried > (1 / stop_rate) & n_iter > 4) {
         if ((number_accepted / tried) < stop_rate) {
           stoprate_reached <- TRUE
           break

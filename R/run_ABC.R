@@ -47,7 +47,7 @@ run_ABC <- function(param_space_name,
     if(pairwise_method == 1) {
       init_epsilon_all <- c(200,200,50,200,50,20,5)
     } else if(pairwise_method == 2){
-      init_epsilon_all <- c(200,200,50,200,50,20,20,20,20)
+      init_epsilon_all <- c(200,200,50,200,50,20,20,10,10)
     } else {
       num_clades <- length(obs_sim[[1]][[1]]) - 1
       init_epsilon_all <- c(200,200,50,200,50,rep(50,num_clades))
@@ -106,7 +106,7 @@ run_ABC <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_generating_function,
     prior_density_function = prior_density_function,
-    number_of_particles = 400, #1000 400
+    number_of_particles = 300, #1000
     sigma = 0.1,
     stop_rate = 0.002,
     replicates = 1,  ## simulation replicates for each parameter set
