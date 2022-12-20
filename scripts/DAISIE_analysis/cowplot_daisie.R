@@ -1,13 +1,13 @@
 #####
 #cowplot only ABC (density)
 library(ggplot2)
-load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_ABC_ss_set",0,".RData"))
-load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MCMC_1001.RData")
-load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/whole_df_MLE.RData")
-# load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MLE1.RData")
+load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/delta_whole_df_ABC_ss_set",0,".RData"))
+load("G:/results/project 2/tip_info/round4/adap_daisie_pw/delta_whole_df_MCMC_1001.RData")
+load("G:/results/project 2/tip_info/round4/adap_daisie_pw/whole_df_MLE.RData")
+# load("G:/results/project 2/tip_info/round4/adap_daisie_pw/delta_whole_df_MLE1.RData")
 
 for(n in c(0,20,200)){
-  load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_ABC_ss_set",n,".RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/delta_whole_df_ABC_ss_set",n,".RData"))
   for(i in 1:27){
     param_abc <- whole_df_ABC[((i*400-399)):(i*400),]
 
@@ -171,7 +171,7 @@ for(n in c(0,20,200)){
 
       p_emp <- ggplot() + theme_void()
 
-      tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/cowplots/ss",n,"_param_",i,".tiff"),
+      tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/cowplots/ss",n,"_param_",i,".tiff"),
            units="px", width=3000, height=2000,res = 300,compression="lzw")
       param_estimates <- cowplot::plot_grid(
         p_lac,p_emp,p_emp,p_emp,
@@ -192,7 +192,7 @@ for(n in c(0,20,200)){
 library(ggplot2)
 # load("G:/results/project 2/tip_info/round4/MLE.RData")
 for(n in c(0)){
-  load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_ABC_ss_set",n,".RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/delta_whole_df_ABC_ss_set",n,".RData"))
   for(i in 1:81){
     param_abc <- whole_df_ABC[((i*500-499)):(i*500),]
 
@@ -344,7 +344,7 @@ for(n in c(0)){
 
       p_emp <- ggplot() + theme_void()
 
-      tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/cowplots_hist/ss",n,"_param_",i,".tiff"),
+      tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/cowplots_hist/ss",n,"_param_",i,".tiff"),
            units="px", width=3000, height=2000,res = 300,compression="lzw")
       param_estimates <- cowplot::plot_grid(
         p_lac,p_emp,p_emp,p_emp,
@@ -362,11 +362,11 @@ for(n in c(0)){
 #####
 # AMM + net_diversification
 library(ggplot2)
-load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_ABC_ss_set",200,".RData"))
+load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/whole_ABC_merge.RData"))
 load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MCMC_1001.RData")
 load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/whole_df_MLE.RData")
 ## get legend first
-param_abc <- whole_df_ABC[1:10,]
+param_abc <- df_merge[1:10,]
 param_mcmc <- whole_df_MCMC[1:10,]
 param_mle <- whole_df_MLE[1:10,]
 
@@ -400,7 +400,7 @@ color_values <-c("MCMC" = "#F7903D", "ABC" = "#4D85BD", "MLE" = "#59A95A")
 
 
 for(i in 1:27){
-  param_abc <- whole_df_ABC[((i*400-399)):(i*400),]
+  param_abc <- df_merge[((i*400-399)):(i*400),]
   param_mcmc <- whole_df_MCMC[((i*1001-399)):(i*1001),]
   param_mle <- whole_df_MLE[i,]
 
@@ -410,10 +410,10 @@ for(i in 1:27){
     xlim(-0.04,1)+
     ggplot2::geom_histogram(data = param_mcmc,
                             ggplot2::aes(x = lac_mcmc,fill = "MCMC"),
-                            alpha = 0.7,binwidth = 0.05) +
+                            alpha = 0.7,binwidth = 0.025) +
     ggplot2::geom_histogram(ggplot2::aes(x = lac_abc,
                                          fill = "ABC"),
-                            alpha = 0.7,binwidth = 0.05) +
+                            alpha = 0.7,binwidth = 0.025) +
     ggplot2::geom_vline(data= param_mle,
                         aes(xintercept = lac_MLE),color = "#59A95A",
                         linetype = "solid", size = 1)+
@@ -437,10 +437,10 @@ for(i in 1:27){
     xlim(-0.02,0.5)+
     ggplot2::geom_histogram(data = param_mcmc,
                             ggplot2::aes(x = mu_mcmc,fill = "MCMC"),
-                            alpha = 0.7,binwidth = 0.025) +
+                            alpha = 0.7,binwidth = 0.0125) +
     ggplot2::geom_histogram(ggplot2::aes(x = mu_abc,
                                          fill = "ABC"),
-                            alpha = 0.7,binwidth = 0.025) +
+                            alpha = 0.7,binwidth = 0.0125) +
     ggplot2::geom_vline(data= param_mle,
                         aes(xintercept = mu_MLE),color = "#59A95A",
                         linetype = "solid", size = 1)+
@@ -460,10 +460,10 @@ for(i in 1:27){
     xlim(-0.0025,0.05)+
     ggplot2::geom_histogram(data = param_mcmc,
                             ggplot2::aes(x = gam_mcmc,fill = "MCMC"),
-                            alpha = 0.7,binwidth = 0.0025) +
+                            alpha = 0.7,binwidth = 0.00125) +
     ggplot2::geom_histogram(ggplot2::aes(x = gam_abc,
                                          fill = "ABC"),
-                            alpha = 0.7,binwidth = 0.0025) +
+                            alpha = 0.7,binwidth = 0.00125) +
     ggplot2::geom_vline(data= param_mle,
                         aes(xintercept = gam_MLE),color = "#59A95A",
                         linetype = "solid", size = 1)+
@@ -483,10 +483,10 @@ for(i in 1:27){
     xlim(-0.05,1.0)+
     ggplot2::geom_histogram(data = param_mcmc,
                             ggplot2::aes(x = laa_mcmc,fill = "MCMC"),
-                            alpha = 0.7,binwidth = 0.05) +
+                            alpha = 0.7,binwidth = 0.025) +
     ggplot2::geom_histogram(ggplot2::aes(x = laa_abc,
                                          fill = "ABC"),
-                            alpha = 0.7,binwidth = 0.05) +
+                            alpha = 0.7,binwidth = 0.025) +
     ggplot2::geom_vline(data= param_mle,
                         aes(xintercept = laa_MLE),color = "#59A95A",
                         linetype = "solid", size = 1)+
@@ -506,9 +506,9 @@ for(i in 1:27){
     xlim(-0.05,1.0)+
     ggplot2::geom_histogram(data = param_mcmc,
                             ggplot2::aes(x = net_div_mcmc,fill = "MCMC"),
-                            alpha = 0.7,binwidth = 0.05) +
+                            alpha = 0.7,binwidth = 0.025) +
     ggplot2::geom_histogram(ggplot2::aes(x = net_div_ABC,fill = "ABC"),
-                            alpha = 0.7,binwidth = 0.05) +
+                            alpha = 0.7,binwidth = 0.025) +
     ggplot2::geom_vline(data= param_mle,
                         aes(xintercept = net_div_MLE),colour = "green4",
                         linetype = "solid", size = 1)+
@@ -548,7 +548,7 @@ for(i in 1:27){
 
   p_emp <- ggplot() + theme_void()
 
-  tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/cowplot_AMM/pairwise_2_2/AMM_hist_set_",i,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/cowplot_AMM/AMM_hist_set_",i,".tiff"),
        units="px", width=3000, height=2000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lac,p_mu,p_net_div,p_gam,p_laa,p_ext_frac,

@@ -2,14 +2,14 @@
 load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/obs_ss_long_with_pars.RData")
 
 # folder_path <- "G:/results/project 2/tip_info/round4/kernel3/DAISIE_ABC_short2"
-folder_path <- "G:/results/project 2/tip_info/round4/adap_daisie_pw2/DAISIE_ABC_short"
+folder_path <- "G:/results/project 2/tip_info/round4/adap_daisie_pw/DAISIE_ABC_short"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
 
 param_data <- param_data[1:27,]
-param_data2<-param_data[rep(seq_len(nrow(param_data)), each=400),]
+param_data2<-param_data[rep(seq_len(nrow(param_data)), each=200),]
 
-for(n in c(0,20,200)){
+for(n in c(0,20,21)){
   lac_abc <- c()
   mu_abc <- c()
   gam_abc <- c()
@@ -34,11 +34,11 @@ for(n in c(0,20,200)){
       num_iter <- output$n_iter
       n_iteration[i] <- num_iter
       if(output$n_iter <= 2){
-        lac_abc <- c(lac_abc, rep(NA,400))
-        mu_abc <- c(mu_abc, rep(NA,400))
-        gam_abc <- c(gam_abc, rep(NA,400))
-        laa_abc <- c(laa_abc, rep(NA,400))
-      } else if (nrow(output$ABC[[output$n_iter]]) == 400) {
+        lac_abc <- c(lac_abc, rep(NA,200))
+        mu_abc <- c(mu_abc, rep(NA,200))
+        gam_abc <- c(gam_abc, rep(NA,200))
+        laa_abc <- c(laa_abc, rep(NA,200))
+      } else if (nrow(output$ABC[[output$n_iter]]) == 200) {
         lac_abc <- c(lac_abc, output$ABC[[num_iter]][,1])
         mu_abc <- c(mu_abc, output$ABC[[num_iter]][,2])
         gam_abc <- c(gam_abc, output$ABC[[num_iter]][,3])
@@ -50,30 +50,30 @@ for(n in c(0,20,200)){
         laa_abc <- c(laa_abc, output$ABC[[num_iter-1]][,4])
       }
     } else {
-      lac_abc <- c(lac_abc, rep(NA,400))
-      mu_abc <- c(mu_abc, rep(NA,400))
-      gam_abc <- c(gam_abc, rep(NA,400))
-      laa_abc <- c(laa_abc, rep(NA,400))
+      lac_abc <- c(lac_abc, rep(NA,200))
+      mu_abc <- c(mu_abc, rep(NA,200))
+      gam_abc <- c(gam_abc, rep(NA,200))
+      laa_abc <- c(laa_abc, rep(NA,200))
     }
   }
   whole_df_ABC <- data.frame(param_data2,
                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                              lac_abc,mu_abc,gam_abc,laa_abc)
   save(whole_df_ABC,
-       file = paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/whole_df_ABC_ss_set",n,".RData"))
+       file = paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/whole_df_ABC_ss_set",n,".RData"))
 
 }
 
-load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/whole_df_ABC_ss_set",200,".RData"))
+load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/whole_df_ABC_ss_set",21,".RData"))
 whole_df_ABC$net_div <- (whole_df_ABC$lac-whole_df_ABC$mu)
 whole_df_ABC$net_div_ABC <- (whole_df_ABC$lac_abc-whole_df_ABC$mu_abc)
 
 whole_df_ABC$ext_frac <- (whole_df_ABC$mu)/(whole_df_ABC$lac)
 whole_df_ABC$ext_frac_ABC <- (whole_df_ABC$mu_abc)/(whole_df_ABC$lac_abc)
 
-save(whole_df_ABC,file = paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_ABC_ss_set",200,".RData"))
+save(whole_df_ABC,file = paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/delta_whole_df_ABC_ss_set",21,".RData"))
 
-load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_ABC_ss_set",200,".RData"))
+load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/delta_whole_df_ABC_ss_set",0,".RData"))
 
 #####
 #MCMC results
@@ -385,4 +385,21 @@ for(i in 1:27){
   }
 }
 
+#####
+# combine several reps(sign as ss_set) 27*500
+load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/delta_whole_df_ABC_ss_set20.RData"))
+whole_df_ABC_20 <- whole_df_ABC
+load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/delta_whole_df_ABC_ss_set21.RData"))
+whole_df_ABC_21 <- whole_df_ABC
+
+set <- rep(1:27,each = 200)
+df1 <- data.frame(set,whole_df_ABC_20)
+df2 <- data.frame(set,whole_df_ABC_21)
+df_merge <- rbind(df1,df2)
+df_merge<-df_merge[order(df_merge$set),]
+save(df_merge,file =
+       paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/whole_ABC_merge.RData"))
+
+
+load("G:/results/project 2/tip_info/round4/adap_daisie_pw/whole_ABC_merge.RData")
 
