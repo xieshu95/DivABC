@@ -23,6 +23,7 @@ create_ML_idpars <- function(traits,num_concealed_states) {
   return(idparslist)
 }
 
+
 ## MLE, 5 different initial for each obs-data
 for(i in 1:70) {
   message("set",i)

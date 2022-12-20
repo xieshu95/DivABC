@@ -115,3 +115,78 @@ write.csv2(
   row.names = FALSE
 )
 
+
+## 4. secsse test
+lam1 <- 0.2
+lam2 <- 0.4
+mu1 <- 0.05
+mu2 <- c(0.05,0.1)
+q12 <- 0.05
+q21 <- c(0.05,0.1)
+secsse_ABC <- expand.grid(
+  lam1 = lam1,
+  lam2 = lam2,
+  mu1 = mu1,
+  mu2 = mu2,
+  q12 = q12,
+  q21 = q21
+)
+secsse_ABC_test1 <- secsse_ABC[rep(1,200), ]
+rownames(secsse_ABC_test1) <- 1:nrow(secsse_ABC_test1)
+write.csv2(
+  secsse_ABC_test1,
+  "data/secsse_ABC_test1.csv",
+  row.names = FALSE
+)
+secsse_MCMC_test1 = secsse_ABC_test1
+write.csv2(
+  secsse_MCMC_test1,
+  "data/secsse_MCMC_test1.csv",
+  row.names = FALSE
+)
+
+
+secsse_ABC_test2 <- secsse_ABC[rep(2,200), ]
+rownames(secsse_ABC_test2) <- 1:nrow(secsse_ABC_test2)
+write.csv2(
+  secsse_ABC_test2,
+  "data/secsse_ABC_test2.csv",
+  row.names = FALSE
+)
+secsse_MCMC_test2 = secsse_ABC_test2
+write.csv2(
+  secsse_MCMC_test2,
+  "data/secsse_MCMC_test2.csv",
+  row.names = FALSE
+)
+
+
+secsse_ABC_test3 <- secsse_ABC[rep(3,200), ]
+rownames(secsse_ABC_test3) <- 1:nrow(secsse_ABC_test3)
+write.csv2(
+  secsse_ABC_test3,
+  "data/secsse_ABC_test3.csv",
+  row.names = FALSE
+)
+secsse_MCMC_test3 = secsse_ABC_test3
+write.csv2(
+  secsse_MCMC_test3,
+  "data/secsse_MCMC_test3.csv",
+  row.names = FALSE
+)
+
+
+secsse_ABC_test4 <- secsse_ABC[rep(4,200), ]
+rownames(secsse_ABC_test4) <- 1:nrow(secsse_ABC_test4)
+write.csv2(
+  secsse_ABC_test4,
+  "data/secsse_ABC_test4.csv",
+  row.names = FALSE
+)
+secsse_MCMC_test4 = secsse_ABC_test4
+write.csv2(
+  secsse_MCMC_test4,
+  "data/secsse_MCMC_test4.csv",
+  row.names = FALSE
+)
+

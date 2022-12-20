@@ -225,76 +225,76 @@ calc_D <- function (sim) {
 
 calc_ss_secsse <- function(sim) {
 
-  # mpd_all
-  mpd_all <- calc_mpd_trait(sim = sim,state_type = 3)
-
-  # mpd_diff
-  mpd_diff <- calc_mpd_trait(sim = sim,state_type = 0)
-
-  # mntd_all
-  mntd_all <- calc_mntd_trait(sim = sim,state_type = 3)
-
-  # mntd_diff
-  mntd_diff <- calc_mntd_trait(sim = sim,state_type = 0)
-
-  # K statistic
-  K <- adiv::K(sim$phy,
-               trait = sim$examTraits,
-               nrep = 1000, alter = c("two-sided"))
-  K <- K$obs
-
-
-  # D statistic
-  D <- calc_D(sim)
+  # # mpd_all
+  # mpd_all <- calc_mpd_trait(sim = sim,state_type = 3)
+  #
+  # # mpd_diff
+  # mpd_diff <- calc_mpd_trait(sim = sim,state_type = 0)
+  #
+  # # mntd_all
+  # mntd_all <- calc_mntd_trait(sim = sim,state_type = 3)
+  #
+  # # mntd_diff
+  # mntd_diff <- calc_mntd_trait(sim = sim,state_type = 0)
+  #
+  # # K statistic
+  # K <- adiv::K(sim$phy,
+  #              trait = sim$examTraits,
+  #              nrep = 1000, alter = c("two-sided"))
+  # K <- K$obs
+  #
+  #
+  # # D statistic
+  # D <- calc_D(sim)
 
 
   # state 1
   num_state1 <- length(which(sim$examTraits == 1))
   num_state2 <- length(which(sim$examTraits == 2))
   total_spec <- num_state1 + num_state2
-  spec_ratio <- num_state1/total_spec
+  tip_ratio <- max(num_state1,num_state2)/min(num_state1,num_state2)
 
 
-  # nLTT
-  nltt <- treestats::nLTT_base(sim$phy)
+  # # nLTT
+  # nltt <- treestats::nLTT_base(sim$phy)
 
-  ## standard deviation of pairwise distance
-  sdpd_all <- calc_sdpd_trait(sim = sim,state_type = 3)
-  sdpd_diff <- calc_sdpd_trait(sim = sim,state_type = 0)
-
-  ## standard deviation of nearest taxon distance
-  sdntd_all <- calc_sdntd_trait(sim = sim,state_type = 3)
-  sdntd_diff <- calc_sdntd_trait(sim = sim,state_type = 0)
-
-
-  ## mean pairwise distance with state1
-  mpd_1 <- calc_mpd_trait(sim = sim,state_type = 1)
-  mntd_1 <- calc_mntd_trait(sim = sim,state_type = 1)
-
-  ## mean pairwise distance with state1
-  mpd_2 <- calc_mpd_trait(sim = sim,state_type = 2)
-  mntd_2 <- calc_mntd_trait(sim = sim,state_type = 2)
+  # ## standard deviation of pairwise distance
+  # sdpd_all <- calc_sdpd_trait(sim = sim,state_type = 3)
+  # sdpd_diff <- calc_sdpd_trait(sim = sim,state_type = 0)
+  #
+  # ## standard deviation of nearest taxon distance
+  # sdntd_all <- calc_sdntd_trait(sim = sim,state_type = 3)
+  # sdntd_diff <- calc_sdntd_trait(sim = sim,state_type = 0)
+  #
+  #
+  # ## mean pairwise distance with state1
+  # mpd_1 <- calc_mpd_trait(sim = sim,state_type = 1)
+  # mntd_1 <- calc_mntd_trait(sim = sim,state_type = 1)
+  #
+  # ## mean pairwise distance with state1
+  # mpd_2 <- calc_mpd_trait(sim = sim,state_type = 2)
+  # mntd_2 <- calc_mntd_trait(sim = sim,state_type = 2)
 
   return(
-    list(mpd_all = mpd_all,
-         mpd_diff = mpd_diff,
-         mpd_1 = mpd_1,
-         mpd_2 = mpd_2,
-         mntd_all = mntd_all,
-         mntd_diff = mntd_diff,
-         mntd_1 = mntd_1,
-         mntd_2 = mntd_2,
-         sdpd_all = sdpd_all,
-         sdpd_diff = sdpd_diff,
-         sdntd_all = sdntd_all,
-         sdntd_diff = sdntd_diff,
-         K = K,
-         D = D,
-         state1 = num_state1,
+    list(state1 = num_state1,
          state2 = num_state2,
          total_spec = total_spec,
-         spec_ratio = spec_ratio,
-         nltt = nltt)
+         tip_ratio = tip_ratio)
+         # mpd_all = mpd_all,
+         # mpd_diff = mpd_diff,
+         # mpd_1 = mpd_1,
+         # mpd_2 = mpd_2,
+         # mntd_all = mntd_all,
+         # mntd_diff = mntd_diff,
+         # mntd_1 = mntd_1,
+         # mntd_2 = mntd_2,
+         # sdpd_all = sdpd_all,
+         # sdpd_diff = sdpd_diff,
+         # sdntd_all = sdntd_all,
+         # sdntd_diff = sdntd_diff,
+         # K = K,
+         # D = D,
+         # nltt = nltt)
   )
 }
 

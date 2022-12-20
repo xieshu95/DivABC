@@ -86,7 +86,7 @@ run_ABC <- function(param_space_name,
     prior_density_function <- prior_dens_secsse
     fixpars = as.numeric(obs_sim_pars[1:6])
     # init_epsilon <- calc_epsilon_init_secsse(sim = obs_sim)
-    init_epsilon_all <- c(20,20,20,20,20,20,2,200,200,1)
+    init_epsilon_all <- c(20,20,20,20,20,20,2,150,150,1)
     if(ss_set == 0){
       init_epsilon <- init_epsilon_all
     } else if(ss_set > 10){
