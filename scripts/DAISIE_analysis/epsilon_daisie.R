@@ -2,11 +2,12 @@
 ## plot the d(ss) for each generation
 library(ggplot2)
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
-folder_path <- "G:/results/project 2/tip_info/round4/adap_daisie/DAISIE_ABC_short"
+
+folder_path <- "G:/results/project 2/tip_info/round4/adap_daisie_pw/DAISIE_ABC_short"
 files <- list.files(folder_path)
-for(set in 1:81){
+for(set in 1:27){
   message("set", set)
-  file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", set,"_ss_0.RData"),  #,"_rep",rep
+  file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", set,"_ss_20.RData"),  #,"_rep",rep
                        files,
                        value = TRUE,
                        fixed = TRUE)
@@ -17,19 +18,19 @@ for(set in 1:81){
 
     ss_dist<-c()
     n_gene <- length(output$ss_diff_list)
-    if(nrow(output$ss_diff_list[[n_gene]]) < 500){
+    if(nrow(output$ss_diff_list[[n_gene]]) < 200){
       n_gene <- n_gene - 1
     }
     for(i in 1:n_gene){
       ss_dist <- rbind(ss_dist,output$ss_diff_list[[i]])
     }
 
-
-    colnames(ss_dist) <- c("Nltt","Cltt","Anagenesis","Cladogenesis",
-                           "Nonendemic","SCSD","CTSD")
+    colnames(ss_dist) <- c("Nltt","Cltt","Anagenesis","Cladogenesis","Nonendemic",
+                           # "SCSD","CTSD")
+                           "pw_nltt","pw_cs","pw_nltt_sd","pw_cs_sd")
     rownames(ss_dist) <- 1:nrow(ss_dist)
     ss_dist <- as.data.frame(ss_dist)
-    ss_dist$generation <- as.factor(rep(1:n_gene, each = 500))
+    ss_dist$generation <- as.factor(rep(1:n_gene, each = 200))
 
     g1 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = Nltt)) +
       ggplot2::theme_bw() +
@@ -56,22 +57,40 @@ for(set in 1:81){
       ggplot2::geom_boxplot()
     # print(g5)
 
-    g6 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = SCSD)) +
+    # g6 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = SCSD)) +
+    #   ggplot2::theme_bw() +
+    #   ggplot2::geom_boxplot()
+    # # print(g6)
+    #
+    # g7 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = CTSD)) +
+    #   ggplot2::theme_bw() +
+    #   ggplot2::geom_boxplot()
+    # # print(g7)
+
+    g6 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = pw_nltt)) +
       ggplot2::theme_bw() +
       ggplot2::geom_boxplot()
     # print(g6)
 
-    g7 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = CTSD)) +
+    g7 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = pw_cs)) +
       ggplot2::theme_bw() +
       ggplot2::geom_boxplot()
     # print(g7)
 
+    g8 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = pw_nltt_sd)) +
+      ggplot2::theme_bw() +
+      ggplot2::geom_boxplot()
+    # print(g6)
 
-    tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie/dss/ss_0_param_",set,".tiff"),
-         units="px", width=4000, height=2000,res = 300,compression="lzw")
+    g9 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = pw_cs_sd)) +
+      ggplot2::theme_bw() +
+      ggplot2::geom_boxplot()
+
+    tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/dss/ss_20_param_",set,".tiff"),
+         units="px", width=3000, height=3000,res = 300,compression="lzw")
     dss <- cowplot::plot_grid(
-      g1,g2,g3,g4,g5,g6,g7,
-      align = "hv", nrow = 2, ncol = 4
+      g1,g2,g3,g4,g5,g6,g7,g8,g9,
+      align = "hv", nrow = 3, ncol = 3
     )
     print(dss)
     while (!is.null(dev.list()))  dev.off()
