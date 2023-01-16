@@ -164,6 +164,7 @@ ABC_SMC <- function( # nolint indeed a complex function
     if (stoprate_reached == FALSE) {
       epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7) #0.5
     }
+
     ABC <- c()
     for (k in seq_along(new_params)) {
       add <- c()
@@ -174,6 +175,19 @@ ABC_SMC <- function( # nolint indeed a complex function
     }
     ABC_list[[i]] <- ABC
 
+    if(n_iter >= 2) {
+      save_output(
+        output = list(sim_list = sim_list,
+                      ABC = ABC_list,
+                      n_iter = n_iter,
+                      epsilon = epsilon,
+                      obs_sim = obs_data,
+                      ss_diff_list = ss_diff_list),
+        param_space_name = param_space_name,
+        param_set = param_set,
+        ss_set = ss_set
+      )
+    }
     if (stoprate_reached) {
       break
     }
