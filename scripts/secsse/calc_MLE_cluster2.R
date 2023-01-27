@@ -31,7 +31,7 @@ create_ML_idpars <- function(traits,num_concealed_states) {
 }
 
 ## MLE, 20 different initial for each obs-data
-for(i in 1:200) {
+for(i in 1:100) {
   message("set",i)
   set.seed(i)
   obs_sim_pars <- param_space[i,]
