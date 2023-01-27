@@ -91,15 +91,15 @@ get_secsse_sim_create_obs <- function(parameters, K, replicates){
     for (j in seq_len(replicates)) {
       save <- 0
       while(save < 1){
-        sim[[j]] <- secsse_sim(timeSimul = 20,
+        sim[[j]] <- secsse_sim(timeSimul = 18,
                                      states = states,
                                      lambdas = lambdas,
                                      mus = idparlist$mus,
                                      qs = q,
                                      speciesTraits = speciesTraits,
-                                     maxSpec = 700)  ## maximum 600 species
-        if(length(sim[[j]]$examTraits) > 10 && ## at least 50 species
-           length(sim[[j]]$examTraits) < 700 &&
+                                     maxSpec = 400)  ## maximum 600 species
+        if(length(sim[[j]]$examTraits) > 20 && ## at least 50 species
+           length(sim[[j]]$examTraits) < 400 &&
            length(unique(sim[[j]]$examTraits)) == 2){
           save = 1
         }
@@ -139,13 +139,13 @@ get_secsse_sim <- function(parameters, K, replicates){
   suppressWarnings(
     suppressMessages(
       for (j in seq_len(replicates)) {
-        sim[[j]] <- secsse_sim(timeSimul = 20,
+        sim[[j]] <- secsse_sim(timeSimul = 18,
                                        states = states,
                                        lambdas = lambdas,
                                        mus = idparlist$mus,
                                        qs = q,
                                        speciesTraits = speciesTraits,
-                                       maxSpec = 700)
+                                       maxSpec = 400)
       }
     )
   )

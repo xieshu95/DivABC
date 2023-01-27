@@ -55,7 +55,7 @@ ABC_SMC <- function( # nolint indeed a complex function
     print_frequency <- 20
     tried <- 0
     number_accepted <- 0
-    sigma_temp <- sigma * exp(-0.1 * (i - 1))
+    sigma_temp <- sigma * exp(-0.2 * (i - 1))
 
     #replace all vectors
     if (i > 1) {
@@ -99,8 +99,8 @@ ABC_SMC <- function( # nolint indeed a complex function
 
         accept <- TRUE
         if ("phy" %in% names(new_sim[[1]])) {
-          if (length(new_sim[[1]]$examTraits) < 10 ||
-              length(new_sim[[1]]$examTraits) >= 700 ||
+          if (length(new_sim[[1]]$examTraits) < 20 ||
+              length(new_sim[[1]]$examTraits) >= 400 ||
               length(unique(new_sim[[1]]$examTraits)) < 2) {
             accept <- FALSE
           }
@@ -162,7 +162,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7) #0.5
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.65) #0.5
     }
 
     ABC <- c()
@@ -175,7 +175,10 @@ ABC_SMC <- function( # nolint indeed a complex function
     }
     ABC_list[[i]] <- ABC
 
-    if(n_iter >= 2) {
+    if (stoprate_reached) {
+      break
+    }
+    if(n_iter >= 3) {
       save_output(
         output = list(sim_list = sim_list,
                       ABC = ABC_list,
@@ -187,9 +190,6 @@ ABC_SMC <- function( # nolint indeed a complex function
         param_set = param_set,
         ss_set = ss_set
       )
-    }
-    if (stoprate_reached) {
-      break
     }
   }
   message("tried times: ", tried)
