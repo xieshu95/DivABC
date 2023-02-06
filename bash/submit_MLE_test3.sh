@@ -2,10 +2,10 @@
 #SBATCH --time=3-00:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --job-name=test
-#SBATCH --output=logs/MLE_test-%j.log
+#SBATCH --job-name=MLE
+#SBATCH --output=logs/MLE-%j.log
 #SBATCH --mem=1GB
 #SBATCH --partition=regular
 
 module load R
-Rscript TraisieABC/scripts/secsse/test_secsse_MLE3.R
+Rscript TraisieABC/scripts/secsse/calc_MLE_cluster3.R

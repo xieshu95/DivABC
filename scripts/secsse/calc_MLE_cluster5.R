@@ -1,5 +1,5 @@
 library(TraisieABC)
-param_space <- readr::read_csv2("/home/p290559/TraisieABC/data/secsse_ABC_test1.csv")
+param_space <- readr::read_csv2("/home/p290559/TraisieABC/data/secsse_ABC_test5.csv")
 lam1_MLE<- c()
 lam2_MLE <-c()
 mu1_MLE <- c()
@@ -99,4 +99,4 @@ for(i in 1:100) {
 }
 MLE_all <- data.frame(lam1_MLE,lam2_MLE,mu1_MLE,mu2_MLE,q12_MLE,q21_MLE,
                       init_lam1,init_lam2,init_mu1,init_mu2,init_q12,init_q21)
-save(MLE_all, file = paste0("/home/p290559/results/test1_MLE_secsse",seed_mle,".RData"))
+save(MLE_all, file = paste0("/home/p290559/results/test5_MLE_secsse",seed_mle,".RData"))
