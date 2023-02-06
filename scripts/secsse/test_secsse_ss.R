@@ -1,3 +1,47 @@
+## test ss for secsse_ABC_test space
+for(test in c(1,2,3,4,5)) {
+  param_space <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
+  ss <- c()
+  for(i in 1:100){
+    set.seed(i)
+    message("set: ", i)
+    obs_sim_pars <- param_space[i,]
+    obs_sim <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
+                                         K = Inf,
+                                         replicates = 1) ## replicates = 30
+    init_epsilon <- calc_epsilon_init_secsse(sim = obs_sim)
+    ss<-rbind(ss,init_epsilon)
+  }
+
+  # colnames(ss) <- c("mpd","mpd_diff","mntd","mntd_diff",
+  #                   "sdpd","sdpd_diff","sdntd","sdntd_diff",
+  #                   "K","D","state1","state2","nltt")
+
+  colnames(ss) <- c("state1","state2","tree_size","tip_ratio")
+  rownames(ss) <- 1:100
+
+
+  pars_ss<-data.frame(param_space,ss)
+  save(pars_ss,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/obs_ss_test",test,".RData"))
+
+}
+
+#####
+load("G:/results/project 2/tip_info/round4/adap_secsse_test3/obs_ss_test5.RData")
+
+# plot(hist(pars_ss[,9]))
+# plot(density(pars_ss[,9]))
+
+tree_size <- pars_ss$tree_size
+# tree_size[tree_size >= 200]
+length(tree_size[tree_size >= 200])
+length(tree_size[tree_size >= 300])
+length(tree_size[tree_size <= 50])
+
+
+
+
+
 ## heatmap for random combinations
 # don't use given values but sample from prior
 
