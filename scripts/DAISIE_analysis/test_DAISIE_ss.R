@@ -7,14 +7,11 @@ set.seed(1)
 while(set < 501){
   message("set",set)
   obs_sim_pars <- prior_gen_secsse(1:6,1:6)
-  obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
-                                           obs_sim_pars$mu,
-                                           obs_sim_pars$gam,
-                                           obs_sim_pars$laa),
-                            K = as.numeric(obs_sim_pars$K),
+  obs_sim <- get_secsse_sim(parameters = as.numeric(pars),
+                            K = Inf,
                             replicates = 1)
   if (length(obs_sim[[1]]$examTraits) > 10 &&
-      length(obs_sim[[1]]$examTraits) < 999 &&
+      length(obs_sim[[1]]$examTraits) < 600 &&
       length(unique(obs_sim[[1]]$examTraits)) > 1) {
     ss[set,] <- calc_epsilon_init_secsse(sim = obs_sim)
     pars_accept <- rbind(pars_accept, pars)
@@ -28,12 +25,12 @@ dt
 colnames(ss) <- c("mpd","mpd_diff","mntd","mntd_diff",
                   "sdpd","sdpd_diff","sdntd","sdntd_diff",
                   "K","D","total","ratio","nltt")
-save(ss,file = "G:/results/project 2/tip_info/round4/secsse_long_2/test_ss_df_prior_save.RData")
+save(ss,file = "G:/results/project 2/tip_info/round4/adap_secsse_test3/test_ss_df_prior_save.RData")
 
 colnames(pars_accept) <- c("lam1","lam2","mu1","mu2","q12","q21")
-save(pars_accept,file = "G:/results/project 2/tip_info/round4/secsse_long_2/test_ss_pars_accept_save.RData")
+save(pars_accept,file = "G:/results/project 2/tip_info/round4/adap_secsse_test3/test_ss_pars_accept_save.RData")
 
-load("G:/results/project 2/tip_info/round4/secsse_long_2/test_ss_df_prior.RData")
+load("G:/results/project 2/tip_info/round4/adap_secsse_test3/test_ss_df_prior.RData")
 
 cormat <- round(cor(ss[1:200,]),2)
 # heatmap(cormat)
@@ -47,7 +44,7 @@ ss_name <- c("MPD","MPD_12","MNTD","MNTD_12",
              "K","D","Total","Ratio","NLTT")
 
 label_names <- "Summary statistic"
-tiff(paste0("G:/results/project 2/tip_info/round4/secsse_long_2/heatmap_ss_with_value_prior.tiff"),
+tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/heatmap_ss_with_value_prior.tiff"),
      units="px", width=3500, height=2500,res = 300,compression="lzw")
 heatmap <- ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
   geom_tile() +
@@ -71,6 +68,9 @@ heatmap <- ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
   ggplot2::theme(plot.title = ggplot2::element_text(size = 15, hjust = 0.5))
 print(heatmap)
 while (!is.null(dev.list()))  dev.off()
+
+
+
 
 ### calculate ss for DAISIE space
 param_space <- readr::read_csv2("data/DAISIE_ABC_short.csv")

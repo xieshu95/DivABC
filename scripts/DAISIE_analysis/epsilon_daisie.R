@@ -3,10 +3,114 @@
 library(ggplot2)
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
 
-folder_path <- "G:/results/project 2/tip_info/round4/adap_daisie_pw/DAISIE_ABC_short"
+folder_path <- "G:/results/project 2/tip_info/round4/DAISIE_new_test/DAISIE_ABC_short"
+files <- list.files(folder_path)
+for(n in c(20,21,22)){
+  for(set in 1:27){
+    message("set", set)
+    file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
+                         files,
+                         value = TRUE,
+                         fixed = TRUE)
+
+    # abc <- NULL; rm(abc) # nolint ; hack around global var
+    if (!identical(file_to_load, character())) {
+      load(file.path(folder_path, file_to_load))
+
+      ss_dist<-c()
+      n_gene <- length(output$ss_diff_list)
+      if(nrow(output$ss_diff_list[[n_gene]]) < 300){
+        n_gene <- n_gene - 1
+      }
+      for(i in 1:n_gene){
+        ss_dist <- rbind(ss_dist,output$ss_diff_list[[i]])
+      }
+
+      colnames(ss_dist) <- c("Nltt","Cltt","Anagenesis","Cladogenesis","Nonendemic",
+                             # "SCSD","CTSD")
+                             "pw_nltt","pw_cs","pw_nltt_sd","pw_cs_sd")
+      rownames(ss_dist) <- 1:nrow(ss_dist)
+      ss_dist <- as.data.frame(ss_dist)
+      ss_dist$generation <- as.factor(rep(1:n_gene, each = 300))
+
+      g1 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = Nltt)) +
+        ggplot2::theme_bw() +
+        ggplot2::geom_boxplot()
+      # print(g1)
+
+      g2 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = Cltt)) +
+        ggplot2::theme_bw() +
+        ggplot2::geom_boxplot()
+      # print(g2)
+
+      g3 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = Anagenesis)) +
+        ggplot2::theme_bw() +
+        ggplot2::geom_boxplot()
+      # print(g3)
+
+      g4 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = Cladogenesis)) +
+        ggplot2::theme_bw() +
+        ggplot2::geom_boxplot()
+      # print(g4)
+
+      g5 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = Nonendemic)) +
+        ggplot2::theme_bw() +
+        ggplot2::geom_boxplot()
+      # print(g5)
+
+      # g6 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = SCSD)) +
+      #   ggplot2::theme_bw() +
+      #   ggplot2::geom_boxplot()
+      # # print(g6)
+      #
+      # g7 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = CTSD)) +
+      #   ggplot2::theme_bw() +
+      #   ggplot2::geom_boxplot()
+      # # print(g7)
+
+      g6 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = pw_nltt)) +
+        ggplot2::theme_bw() +
+        ggplot2::geom_boxplot()
+      # print(g6)
+
+      g7 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = pw_cs)) +
+        ggplot2::theme_bw() +
+        ggplot2::geom_boxplot()
+      # print(g7)
+
+      g8 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = pw_nltt_sd)) +
+        ggplot2::theme_bw() +
+        ggplot2::geom_boxplot()
+      # print(g6)
+
+      g9 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = pw_cs_sd)) +
+        ggplot2::theme_bw() +
+        ggplot2::geom_boxplot()
+
+      tiff(paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/dss/ss_",n,"_param_",set,".tiff"),
+           units="px", width=3000, height=3000,res = 300,compression="lzw")
+      dss <- cowplot::plot_grid(
+        g1,g2,g3,g4,g5,g6,g7,g8,g9,
+        align = "hv", nrow = 3, ncol = 3
+      )
+      print(dss)
+      while (!is.null(dev.list()))  dev.off()
+    }
+  }
+}
+
+
+
+## plot the d(ss) for each generation
+library(ggplot2)
+param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
+folder_path <- "G:/results/project 2/tip_info/round4/DAISIE_new_test/DAISIE_ABC_short"
 files <- list.files(folder_path)
 for(set in 1:27){
   message("set", set)
+  ss_dist1<-c()
+  ss_dist2<-c()
+  ss_dist3<-c()
   file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", set,"_ss_20.RData"),  #,"_rep",rep
                        files,
                        value = TRUE,
@@ -15,78 +119,110 @@ for(set in 1:27){
   # abc <- NULL; rm(abc) # nolint ; hack around global var
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-
-    ss_dist<-c()
     n_gene <- length(output$ss_diff_list)
-    if(nrow(output$ss_diff_list[[n_gene]]) < 200){
+    if(nrow(output$ss_diff_list[[n_gene]]) < 300){
       n_gene <- n_gene - 1
     }
     for(i in 1:n_gene){
-      ss_dist <- rbind(ss_dist,output$ss_diff_list[[i]])
+      ss_dist1 <- rbind(ss_dist1,output$ss_diff_list[[i]])
     }
-
-    colnames(ss_dist) <- c("Nltt","Cltt","Anagenesis","Cladogenesis","Nonendemic",
-                           # "SCSD","CTSD")
+    colnames(ss_dist1) <- c("Nltt","Cltt","Anagenesis","Cladogenesis","Nonendemic",
                            "pw_nltt","pw_cs","pw_nltt_sd","pw_cs_sd")
-    rownames(ss_dist) <- 1:nrow(ss_dist)
-    ss_dist <- as.data.frame(ss_dist)
-    ss_dist$generation <- as.factor(rep(1:n_gene, each = 200))
+    rownames(ss_dist1) <- 1:nrow(ss_dist1)
+    ss_dist1 <- as.data.frame(ss_dist1)
+    ss_dist1$generation <- as.factor(rep(1:n_gene, each = 300))
+  } else {
+    ss_dist1 <- NA
+  }
 
+  file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", set,"_ss_20.RData"),  #,"_rep",rep
+                       files,
+                       value = TRUE,
+                       fixed = TRUE)
+
+  # abc <- NULL; rm(abc) # nolint ; hack around global var
+  if (!identical(file_to_load, character())) {
+    load(file.path(folder_path, file_to_load))
+    n_gene <- length(output$ss_diff_list)
+    if(nrow(output$ss_diff_list[[n_gene]]) < 300){
+      n_gene <- n_gene - 1
+    }
+    for(i in 1:n_gene){
+      ss_dist2 <- rbind(ss_dist2,output$ss_diff_list[[i]])
+    }
+    colnames(ss_dist2) <- c("Nltt","Cltt","Anagenesis","Cladogenesis","Nonendemic",
+                            "pw_nltt","pw_cs","pw_nltt_sd","pw_cs_sd")
+    rownames(ss_dist2) <- 1:nrow(ss_dist2)
+    ss_dist2 <- as.data.frame(ss_dist2)
+    ss_dist2$generation <- as.factor(rep(1:n_gene, each = 300))
+  } else {
+    ss_dist2 <- NA
+  }
+
+  file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", set,"_ss_20.RData"),  #,"_rep",rep
+                       files,
+                       value = TRUE,
+                       fixed = TRUE)
+
+  # abc <- NULL; rm(abc) # nolint ; hack around global var
+  if (!identical(file_to_load, character())) {
+    load(file.path(folder_path, file_to_load))
+    n_gene <- length(output$ss_diff_list)
+    if(nrow(output$ss_diff_list[[n_gene]]) < 300){
+      n_gene <- n_gene - 1
+    }
+    for(i in 1:n_gene){
+      ss_dist3 <- rbind(ss_dist3,output$ss_diff_list[[i]])
+    }
+    colnames(ss_dist3) <- c("Nltt","Cltt","Anagenesis","Cladogenesis","Nonendemic",
+                            "pw_nltt","pw_cs","pw_nltt_sd","pw_cs_sd")
+    rownames(ss_dist3) <- 1:nrow(ss_dist3)
+    ss_dist3 <- as.data.frame(ss_dist3)
+    ss_dist3$generation <- as.factor(rep(1:n_gene, each = 300))
+  } else {
+    ss_dist3 <- NA
+  }
+
+  ss_dist <- rbind(ss_dist1,ss_dist2,ss_dist3)
+  ss_dist <- na.omit(ss_dist)
+  if(length(ss_dist) > 0){
     g1 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = Nltt)) +
       ggplot2::theme_bw() +
       ggplot2::geom_boxplot()
-    # print(g1)
 
     g2 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = Cltt)) +
       ggplot2::theme_bw() +
       ggplot2::geom_boxplot()
-    # print(g2)
 
     g3 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = Anagenesis)) +
       ggplot2::theme_bw() +
       ggplot2::geom_boxplot()
-    # print(g3)
-
     g4 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = Cladogenesis)) +
       ggplot2::theme_bw() +
       ggplot2::geom_boxplot()
-    # print(g4)
 
     g5 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = Nonendemic)) +
       ggplot2::theme_bw() +
       ggplot2::geom_boxplot()
-    # print(g5)
 
-    # g6 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = SCSD)) +
-    #   ggplot2::theme_bw() +
-    #   ggplot2::geom_boxplot()
-    # # print(g6)
-    #
-    # g7 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = CTSD)) +
-    #   ggplot2::theme_bw() +
-    #   ggplot2::geom_boxplot()
-    # # print(g7)
 
     g6 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = pw_nltt)) +
       ggplot2::theme_bw() +
       ggplot2::geom_boxplot()
-    # print(g6)
 
     g7 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = pw_cs)) +
       ggplot2::theme_bw() +
       ggplot2::geom_boxplot()
-    # print(g7)
 
     g8 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = pw_nltt_sd)) +
       ggplot2::theme_bw() +
       ggplot2::geom_boxplot()
-    # print(g6)
 
     g9 <- ggplot2::ggplot(ss_dist, aes(x = generation,y = pw_cs_sd)) +
       ggplot2::theme_bw() +
       ggplot2::geom_boxplot()
 
-    tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/dss/ss_20_param_",set,".tiff"),
+    tiff(paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/dss/comb_param_",set,".tiff"),
          units="px", width=3000, height=3000,res = 300,compression="lzw")
     dss <- cowplot::plot_grid(
       g1,g2,g3,g4,g5,g6,g7,g8,g9,
@@ -98,14 +234,16 @@ for(set in 1:27){
 }
 
 
-#####
+
+
+##### for old version
 ## plot the d(ss) for each generation
 library(ggplot2)
 folder_path <- "G:/results/project 2/tip_info/round4/adap_daisie/DAISIE_ABC_short"
 files <- list.files(folder_path)
 epsilon_matix <- matrix(NA,81,7)
 colnames(epsilon_matix) <- c("Nltt","Cltt","Anagenesis","Cladogenesis",
-                       "Nonendemic","SCSD","CTSD")
+                             "Nonendemic","SCSD","CTSD")
 for(i in 1:81){
   # if(i%%5 == 0){
   #   rep <- 5

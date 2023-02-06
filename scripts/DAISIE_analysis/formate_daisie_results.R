@@ -1,15 +1,15 @@
 #####
-load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/obs_ss_long_with_pars.RData")
+load("G:/results/project 2/tip_info/round4/DAISIE_new_test/obs_ss_long_with_pars.RData")
 
 # folder_path <- "G:/results/project 2/tip_info/round4/kernel3/DAISIE_ABC_short2"
-folder_path <- "G:/results/project 2/tip_info/round4/adap_daisie_pw/DAISIE_ABC_short"
+folder_path <- "G:/results/project 2/tip_info/round4/DAISIE_new_test/DAISIE_ABC_short"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
 
 param_data <- param_data[1:27,]
-param_data2<-param_data[rep(seq_len(nrow(param_data)), each=200),]
+param_data2<-param_data[rep(seq_len(nrow(param_data)), each=300),]
 
-for(n in c(0,20,21)){
+for(n in c(20,21,22)){
   lac_abc <- c()
   mu_abc <- c()
   gam_abc <- c()
@@ -34,11 +34,11 @@ for(n in c(0,20,21)){
       num_iter <- output$n_iter
       n_iteration[i] <- num_iter
       if(output$n_iter <= 2){
-        lac_abc <- c(lac_abc, rep(NA,200))
-        mu_abc <- c(mu_abc, rep(NA,200))
-        gam_abc <- c(gam_abc, rep(NA,200))
-        laa_abc <- c(laa_abc, rep(NA,200))
-      } else if (nrow(output$ABC[[output$n_iter]]) == 200) {
+        lac_abc <- c(lac_abc, rep(NA,300))
+        mu_abc <- c(mu_abc, rep(NA,300))
+        gam_abc <- c(gam_abc, rep(NA,300))
+        laa_abc <- c(laa_abc, rep(NA,300))
+      } else if (nrow(output$ABC[[output$n_iter]]) == 300) {
         lac_abc <- c(lac_abc, output$ABC[[num_iter]][,1])
         mu_abc <- c(mu_abc, output$ABC[[num_iter]][,2])
         gam_abc <- c(gam_abc, output$ABC[[num_iter]][,3])
@@ -50,34 +50,38 @@ for(n in c(0,20,21)){
         laa_abc <- c(laa_abc, output$ABC[[num_iter-1]][,4])
       }
     } else {
-      lac_abc <- c(lac_abc, rep(NA,200))
-      mu_abc <- c(mu_abc, rep(NA,200))
-      gam_abc <- c(gam_abc, rep(NA,200))
-      laa_abc <- c(laa_abc, rep(NA,200))
+      lac_abc <- c(lac_abc, rep(NA,300))
+      mu_abc <- c(mu_abc, rep(NA,300))
+      gam_abc <- c(gam_abc, rep(NA,300))
+      laa_abc <- c(laa_abc, rep(NA,300))
     }
   }
   whole_df_ABC <- data.frame(param_data2,
                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                              lac_abc,mu_abc,gam_abc,laa_abc)
   save(whole_df_ABC,
-       file = paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/whole_df_ABC_ss_set",n,".RData"))
+       file = paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/whole_df_ABC_ss_set",n,".RData"))
 
 }
 
-load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/whole_df_ABC_ss_set",21,".RData"))
-whole_df_ABC$net_div <- (whole_df_ABC$lac-whole_df_ABC$mu)
-whole_df_ABC$net_div_ABC <- (whole_df_ABC$lac_abc-whole_df_ABC$mu_abc)
 
-whole_df_ABC$ext_frac <- (whole_df_ABC$mu)/(whole_df_ABC$lac)
-whole_df_ABC$ext_frac_ABC <- (whole_df_ABC$mu_abc)/(whole_df_ABC$lac_abc)
+for(n in c(20,21,22)){
+  load(paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/whole_df_ABC_ss_set",n,".RData"))
+  whole_df_ABC$net_div <- (whole_df_ABC$lac-whole_df_ABC$mu)
+  whole_df_ABC$net_div_ABC <- (whole_df_ABC$lac_abc-whole_df_ABC$mu_abc)
 
-save(whole_df_ABC,file = paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/delta_whole_df_ABC_ss_set",21,".RData"))
+  whole_df_ABC$ext_frac <- (whole_df_ABC$mu)/(whole_df_ABC$lac)
+  whole_df_ABC$ext_frac_ABC <- (whole_df_ABC$mu_abc)/(whole_df_ABC$lac_abc)
 
-load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/delta_whole_df_ABC_ss_set",0,".RData"))
+  save(whole_df_ABC,file = paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_df_ABC_ss_set",n,".RData"))
+
+}
+
+load(paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_df_ABC_ss_set",n,".RData"))
 
 #####
 #MCMC results
-folder_path <- "G:/results/project 2/tip_info/round4/adap_daisie_pw2/DAISIE_MCMC_1001"
+folder_path <- "G:/results/project 2/tip_info/round4/DAISIE_new_test/DAISIE_MCMC_1001"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
 param_data <- param_data[1:27,]
@@ -110,7 +114,7 @@ for(i in 1:27){
 
 whole_df_MCMC <- data.frame(param_data3,
                             lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc)
-save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/adap_daisie_pw2/whole_df_MCMC_1001.RData")
+save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/DAISIE_new_test/whole_df_MCMC_1001.RData")
 
 
 whole_df_MCMC$net_div <- (whole_df_MCMC$lac-whole_df_MCMC$mu)
@@ -119,8 +123,8 @@ whole_df_MCMC$net_div_mcmc <- (whole_df_MCMC$lac_mcmc - whole_df_MCMC$mu_mcmc)
 whole_df_MCMC$ext_frac <- (whole_df_MCMC$mu)/(whole_df_MCMC$lac)
 whole_df_MCMC$ext_frac_MCMC <- (whole_df_MCMC$mu_mcmc)/(whole_df_MCMC$lac_mcmc)
 
-save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MCMC_1001.RData")
-load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MCMC_1001.RData")
+save(whole_df_MCMC,file = "G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_df_MCMC_1001.RData")
+load("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_df_MCMC_1001.RData")
 
 
 #####
@@ -168,7 +172,7 @@ whole_df_MLE <- data.frame(param_space,
 ## directly load MLE results from cluster
 param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
 param_data3<-param_data[rep(seq_len(nrow(param_data)), each=10),]
-load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/MLE/MLE_826448.RData")
+load("G:/results/project 2/tip_info/round4/DAISIE_new_test/MLE/MLE_826448.RData")
 set <- rep(1:81,each = 10)
 whole_df_MLE <- data.frame(set,param_data3,MLE_all)
 
@@ -177,25 +181,25 @@ whole_df_MLE$net_div_MLE <- (whole_df_MLE$lac_MLE-whole_df_MLE$mu_MLE)
 
 whole_df_MLE$ext_frac <- (whole_df_MLE$mu)/(whole_df_MLE$lac)
 whole_df_MLE$ext_frac_MLE <- (whole_df_MLE$mu_MLE)/(whole_df_MLE$lac_MLE)
-save(whole_df_MLE,file = "G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MLE3.RData")
+save(whole_df_MLE,file = "G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_df_MLE3.RData")
 
 
 ## combine 3 MLE dataframes, each set has 10*3 replicates
-load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MLE1.RData")
+load("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_df_MLE1.RData")
 MLE1 <-whole_df_MLE
-load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MLE2.RData")
+load("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_df_MLE2.RData")
 MLE2 <-whole_df_MLE
-load("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MLE3.RData")
+load("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_df_MLE3.RData")
 MLE3 <-whole_df_MLE
 
 MLE_comb <- rbind(MLE1,MLE2,MLE3)
 MLE_comb<-MLE_comb[order(MLE_comb$set),]
-save(MLE_comb,file = "G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_MLE_comb.RData")
+save(MLE_comb,file = "G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_MLE_comb.RData")
 
 
 ## plot MLE results
 library(ggplot2)
-load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_MLE_comb.RData"))
+load(paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_MLE_comb.RData"))
 for(i in 1:81){
   param_MLE <- MLE_comb[((i*30-29)):(i*30),]
   if(!is.na(param_MLE[1,7])){
@@ -266,7 +270,7 @@ for(i in 1:81){
 
     p_emp <- ggplot() + theme_void()
 
-    tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/plot_MLE/combined_param_",i,".tiff"),
+    tiff(paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/plot_MLE/combined_param_",i,".tiff"),
          units="px", width=1500, height=1000,res = 300,compression="lzw")
     param_estimates <- cowplot::plot_grid(
       p_lac,p_mu,p_gam,p_laa,
@@ -279,7 +283,7 @@ for(i in 1:81){
 
 ##
 for(n in c(1,2,3)){
-  load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/delta_whole_df_MLE",n,".RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_df_MLE",n,".RData"))
   for(i in 1:81){
     param_MLE <- whole_df_MLE[((i*10-9)):(i*10),]
 
@@ -351,7 +355,7 @@ for(n in c(1,2,3)){
 
       p_emp <- ggplot() + theme_void()
 
-      tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/plot_MLE/ss",n,"_param_",i,".tiff"),
+      tiff(paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/plot_MLE/ss",n,"_param_",i,".tiff"),
            units="px", width=1500, height=1000,res = 300,compression="lzw")
       param_estimates <- cowplot::plot_grid(
         p_lac,p_mu,p_gam,p_laa,
@@ -365,7 +369,7 @@ for(n in c(1,2,3)){
 
 #####
 # plot MCMC trace
-folder_path <- "G:/results/project 2/tip_info/round4/adap_daisie_pw2/DAISIE_MCMC_1001"
+folder_path <- "G:/results/project 2/tip_info/round4/DAISIE_new_test/DAISIE_MCMC_1001"
 files <- list.files(folder_path)
 for(i in 1:27){
   # param_set = (param_num-1)*5 + i
@@ -376,7 +380,7 @@ for(i in 1:27){
 
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-    tiff(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw2/MCMC_trace_1001/set_",i,".tiff"),
+    tiff(paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/MCMC_trace_1001/set_",i,".tiff"),
          units="px", width=2000, height=4000,res = 300,compression="lzw")
     b_mcmc <- coda::as.mcmc(output[,1:4])
     plot_mcmc <- plot(b_mcmc)
@@ -387,19 +391,23 @@ for(i in 1:27){
 
 #####
 # combine several reps(sign as ss_set) 27*500
-load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/delta_whole_df_ABC_ss_set20.RData"))
+load(paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_df_ABC_ss_set20.RData"))
 whole_df_ABC_20 <- whole_df_ABC
-load(paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/delta_whole_df_ABC_ss_set21.RData"))
+load(paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_df_ABC_ss_set21.RData"))
 whole_df_ABC_21 <- whole_df_ABC
+load(paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_df_ABC_ss_set22.RData"))
+whole_df_ABC_22 <- whole_df_ABC
 
-set <- rep(1:27,each = 200)
+set <- rep(1:27,each = 300)
 df1 <- data.frame(set,whole_df_ABC_20)
 df2 <- data.frame(set,whole_df_ABC_21)
-df_merge <- rbind(df1,df2)
+df3 <- data.frame(set,whole_df_ABC_22)
+df_merge <- rbind(df1,df2,df3)
 df_merge<-df_merge[order(df_merge$set),]
 save(df_merge,file =
-       paste0("G:/results/project 2/tip_info/round4/adap_daisie_pw/whole_ABC_merge.RData"))
+       paste0("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_ABC_merge.RData"))
 
 
-load("G:/results/project 2/tip_info/round4/adap_daisie_pw/whole_ABC_merge.RData")
-
+load("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_ABC_merge.RData")
+load("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_whole_df_MCMC_1001.RData")
+load("G:/results/project 2/tip_info/round4/DAISIE_new_test/delta_MLE_comb.RData")
