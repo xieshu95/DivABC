@@ -297,7 +297,7 @@ for (i in 1:5){
   n <- 10
   MLE_median <- aggregate(MLE_df, list(rep(1:(nrow(MLE_df) %/% n + 1), each = n, len = nrow(MLE_df))), median,na.rm = TRUE)[-1]
   whole_df_MLE <- data.frame(MLE_median,pars_ss[,7:10])
-  save(whole_df_MLE,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/whole_df_MLE",i,".RData"))
+  # save(whole_df_MLE,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/whole_df_MLE",i,".RData"))
   # plot MLE results of each rate with true values
   # plot MLE results of each rate with true values
   p_lam1 <-ggplot2::ggplot(data = MLE_df) +

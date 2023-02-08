@@ -1,11 +1,11 @@
 ## analyse secsse_test
 #####
 # 1. formate ABC results
-for(test in c(1,2,4)){
+for(test in 1:5){
   # formate results
   load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/obs_ss_test",test,".RData"))
   ## ABC results
-  folder_path <- paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/secsse_ABC_test",test)
+  folder_path <- paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/secsse_ABC_test",test)
   files <- list.files(folder_path)
   param_data <- readr::read_csv2(paste0("G:/R/Traisie-ABC/data/secsse_ABC_test",test,".csv"))
 
@@ -18,7 +18,7 @@ for(test in c(1,2,4)){
   q21_abc <- c()
   n_iter <- c()
   n_iteration <- c()
-  for(i in 1:200){
+  for(i in 1:100){
     file_to_load <- grep(paste0("secsse_ABC_test",test,"_param_set_",i,"_ss_0.RData"),  #,"_rep",rep
                          files,
                          value = TRUE,
@@ -66,7 +66,7 @@ for(test in c(1,2,4)){
   whole_df_ABC <- data.frame(param_data2,n_iteration,
                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                              lam1_abc,lam2_abc,mu1_abc,mu2_abc,q12_abc,q21_abc)
-  save(whole_df_ABC,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/whole_df_ABC_test",test,".RData"))
+  save(whole_df_ABC,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/gene3_whole_df_ABC_test",test,".RData"))
 
   # whole_df_ABC$dlam <- (whole_df_ABC$lam2-whole_df_ABC$lam1)/(whole_df_ABC$lam2+whole_df_ABC$lam1)
   # whole_df_ABC$dlam_ABC <- (whole_df_ABC$lam2_abc-whole_df_ABC$lam1_abc)/(whole_df_ABC$lam2_abc+whole_df_ABC$lam1_abc)
@@ -86,17 +86,17 @@ for(test in c(1,2,4)){
   whole_df_ABC$ext_frac_ABC1 <- (whole_df_ABC$mu1_abc)/(whole_df_ABC$lam1_abc)
   whole_df_ABC$ext_frac_ABC2 <- (whole_df_ABC$mu2_abc)/(whole_df_ABC$lam2_abc)
   save(whole_df_ABC,file =
-         paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/delta_whole_df_ABC_test",test,".RData"))
+         paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/delta_whole_df_ABC_test",test,".RData"))
 
 }
 
 ######
 # 2. formate MCMC results (only plot the etimation points with ABC results)
 
-for(test in c(1,2,4)){
+for(test in 1:5){
   param_data <- readr::read_csv2(paste0("G:/R/Traisie-ABC/data/secsse_ABC_test",test,".csv"))
-  param_data3<-param_data[rep(seq_len(nrow(param_data)), each=1001),] #5001
-  folder_path <- paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/secsse_ABC_test",test)
+  param_data3<-param_data[rep(seq_len(nrow(param_data)), each=2001),] #5001
+  folder_path <- paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/secsse_ABC_test",test)
   files <- list.files(folder_path)
   lam1_mcmc <- c()
   lam2_mcmc <- c()
@@ -104,7 +104,7 @@ for(test in c(1,2,4)){
   mu2_mcmc <- c()
   q12_mcmc <- c()
   q21_mcmc <- c()
-  for(i in 1:200){
+  for(i in 1:100){
     file_to_load <- grep(paste0("secsse_ABC_test",test,"_param_set_",i,"_ss_0.RData"),  #,"_rep",rep
                          files,
                          value = TRUE,
@@ -127,20 +127,20 @@ for(test in c(1,2,4)){
         q12_mcmc <- c(q12_mcmc, output[,5])
         q21_mcmc <- c(q21_mcmc, output[,6])
       } else {
-        lam1_mcmc <- c(lam1_mcmc, rep(NA,1001))
-        lam2_mcmc <- c(lam2_mcmc, rep(NA,1001))
-        mu1_mcmc <- c(mu1_mcmc, rep(NA,1001))
-        mu2_mcmc <- c(mu2_mcmc, rep(NA,1001))
-        q12_mcmc <- c(q12_mcmc, rep(NA,1001))
-        q21_mcmc <- c(q21_mcmc, rep(NA,1001))
+        lam1_mcmc <- c(lam1_mcmc, rep(NA,2001))
+        lam2_mcmc <- c(lam2_mcmc, rep(NA,2001))
+        mu1_mcmc <- c(mu1_mcmc, rep(NA,2001))
+        mu2_mcmc <- c(mu2_mcmc, rep(NA,2001))
+        q12_mcmc <- c(q12_mcmc, rep(NA,2001))
+        q21_mcmc <- c(q21_mcmc, rep(NA,2001))
       }
     } else {
-      lam1_mcmc <- c(lam1_mcmc, rep(NA,1001))
-      lam2_mcmc <- c(lam2_mcmc, rep(NA,1001))
-      mu1_mcmc <- c(mu1_mcmc, rep(NA,1001))
-      mu2_mcmc <- c(mu2_mcmc, rep(NA,1001))
-      q12_mcmc <- c(q12_mcmc, rep(NA,1001))
-      q21_mcmc <- c(q21_mcmc, rep(NA,1001))
+      lam1_mcmc <- c(lam1_mcmc, rep(NA,2001))
+      lam2_mcmc <- c(lam2_mcmc, rep(NA,2001))
+      mu1_mcmc <- c(mu1_mcmc, rep(NA,2001))
+      mu2_mcmc <- c(mu2_mcmc, rep(NA,2001))
+      q12_mcmc <- c(q12_mcmc, rep(NA,2001))
+      q21_mcmc <- c(q21_mcmc, rep(NA,2001))
     }
   }
 
@@ -149,7 +149,7 @@ for(test in c(1,2,4)){
                               mu1_mcmc,mu2_mcmc,
                               q12_mcmc,q21_mcmc)
 
-  save(whole_df_MCMC,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/whole_df_MCMC_test",test,"_fit_ABC.RData"))
+  save(whole_df_MCMC,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/whole_df_MCMC_test",test,"_fit_ABC.RData"))
 
   # whole_df_MCMC$dlam <- (whole_df_MCMC$lam2-whole_df_MCMC$lam1)/(whole_df_MCMC$lam2+whole_df_MCMC$lam1)
   # whole_df_MCMC$dlam_mcmc <- (whole_df_MCMC$lam2_mcmc-whole_df_MCMC$lam1_mcmc)/(whole_df_MCMC$lam2_mcmc+whole_df_MCMC$lam1_mcmc)
@@ -168,7 +168,7 @@ for(test in c(1,2,4)){
   whole_df_MCMC$ext_frac_MCMC1 <- (whole_df_MCMC$mu1_mcmc)/(whole_df_MCMC$lam1_mcmc)
   whole_df_MCMC$ext_frac_MCMC2 <- (whole_df_MCMC$mu2_mcmc)/(whole_df_MCMC$lam2_mcmc)
 
-  save(whole_df_MCMC,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
+  save(whole_df_MCMC,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
 }
 
 ######
@@ -176,12 +176,12 @@ for(test in c(1,2,4)){
 
 # 3. formate MLE results
 
-for(test in c(1,2,4)){
+for(test in 1:5){
   load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/whole_df_MLE",test,".RData"))
   whole_df_MLE_fit_ABC <- whole_df_MLE
-  folder_path <- paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/secsse_ABC_test",test)
+  folder_path <- paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/secsse_ABC_test",test)
   files <- list.files(folder_path)
-  for(i in 1:200){
+  for(i in 1:100){
     # param_set = (param_num-1)*5 + i
     file_to_load <- grep(paste0("secsse_ABC_test",test,"_param_set_", i,"_ss_0.RData"), #"_rep",rep,
                          files,
@@ -202,15 +202,15 @@ for(test in c(1,2,4)){
       whole_df_MLE_fit_ABC$ext_frac_MLE2 <- (whole_df_MLE_fit_ABC$mu2_MLE)/(whole_df_MLE_fit_ABC$lam2_MLE)
     }
   }
-  save(whole_df_MLE_fit_ABC,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/whole_df_MLE_test",test,"_fit_ABC.RData"))
+  save(whole_df_MLE_fit_ABC,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/whole_df_MLE_test",test,"_fit_ABC.RData"))
 }
 
 ######
 ## combine ABC, MCMC, MLE for each parameter set(use median value)
-for(test in c(1,2,4)){
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/whole_df_MLE_test",test,"_fit_ABC.RData"))
+for(test in 1:5){
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/whole_df_MLE_test",test,"_fit_ABC.RData"))
 
   ## get number of iterations and mean values
   df <- whole_df_ABC
@@ -218,7 +218,7 @@ for(test in c(1,2,4)){
   ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   df<-whole_df_MCMC
-  n <- 1001
+  n <- 2001
   MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   MLE_median <- whole_df_MLE_fit_ABC
@@ -228,9 +228,9 @@ for(test in c(1,2,4)){
   AMM_all_df <- cbind(ABC_median[1:21],
                       MCMC_median[,c(7:12,15,16,19,20)],
                       MLE_median[,c(8:13,32,33,36,37)])
-  save(AMM_all_df,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/AMM_per_set_test",test,".RData"))
+  save(AMM_all_df,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/AMM_per_set_test",test,".RData"))
 
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/AMM_per_set_test",test,".RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/AMM_per_set_test",test,".RData"))
   load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/obs_ss_test",test,".RData"))
   AMM_all_df$dlam1_abc <- AMM_all_df$lam1_abc - AMM_all_df$lam1
   AMM_all_df$dlam2_abc <- AMM_all_df$lam2_abc - AMM_all_df$lam2
@@ -257,13 +257,13 @@ for(test in c(1,2,4)){
   AMM_all_df$tip_ratio1 <- pars_ss$state1/pars_ss$state2
   AMM_all_df$tip_ratio <- AMM_all_df$tip_ratio1
   AMM_all_df$tip_ratio[AMM_all_df$tip_ratio < 1]<- 1/AMM_all_df$tip_ratio[AMM_all_df$tip_ratio < 1]
-  save(AMM_all_df,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
+  save(AMM_all_df,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
 }
 
 #####
 ## 4. plot observed treesize /tip ratio vs estimation error
-for(test in c(1,2,4)){
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
+for(test in 1:5){
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
   color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
   p_lam1 <-ggplot2::ggplot(data = AMM_all_df) +
     ggplot2::theme_bw() +
@@ -355,7 +355,7 @@ for(test in c(1,2,4)){
                                 values = color_values,
                                 labels = c("ABC", "MCMC", "MLE"))
 
-  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/rate_error_test",test,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/rate_error_test",test,".tiff"),
        units="px", width=3000, height=2000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
@@ -366,8 +366,8 @@ for(test in c(1,2,4)){
 }
 
 #####
-for(test in c(1,2,4)){
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
+for(test in 1:5){
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
   color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
   p_lam1 <-ggplot2::ggplot(data = AMM_all_df) +
     ggplot2::theme_bw() +
@@ -465,7 +465,7 @@ for(test in c(1,2,4)){
                                 values = color_values,
                                 labels = c("ABC", "MCMC", "MLE"))
 
-  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/exact_rate_test",test,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/exact_rate_test",test,".tiff"),
        units="px", width=3000, height=2000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
@@ -476,8 +476,8 @@ for(test in c(1,2,4)){
 }
 
 ## plot tree size VS net diversification rates
-for(test in c(1,2,4)){
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test2_rep1/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
+for(test in 1:5){
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
   color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
   p_div1 <-ggplot2::ggplot(data = AMM_all_df) +
     ggplot2::theme_bw() +
@@ -512,7 +512,7 @@ for(test in c(1,2,4)){
                                 labels = c("ABC", "MCMC", "MLE"))+
     ggplot2::geom_hline(yintercept = AMM_all_df$net_div2[1], linetype = "dashed", size = 0.5)
 
-  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test2_rep1/net_div_set_",test,".tiff"),
+  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/net_div_set_",test,".tiff"),
        units="px", width=2200, height=1000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_div1,p_div2,
@@ -527,10 +527,10 @@ for(test in c(1,2,4)){
 # 5. plot AMM distribution
 # AMM histogram
 library(ggplot2)
-for(test in c(1,2,4)){
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/whole_df_MLE",test,".RData"))
+for(test in 1:5){
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/whole_df_MLE",test,".RData"))
 
 
   ## get legend first
@@ -568,9 +568,9 @@ for(test in c(1,2,4)){
   color_values <-c("MCMC" = "#F7903D", "ABC" = "#4D85BD", "MLE" = "#59A95A")
 
 
-  for(i in 1:200){
+  for(i in 1:100){
     param_abc <- whole_df_ABC[((i*300-299)):(i*300),]
-    param_mcmc <- whole_df_MCMC[((i*1001-299)):(i*1001),]
+    param_mcmc <- whole_df_MCMC[((i*2001-299)):(i*2001),]
     param_mle <- whole_df_MLE[i,]
 
     if(!is.na(param_abc[,7])){
@@ -579,10 +579,10 @@ for(test in c(1,2,4)){
         xlim(-0.032,1.0)+ #1
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = lam1_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 40) + #0.03
+                                alpha = 0.7,bins = 50) + #0.03
         ggplot2::geom_histogram(ggplot2::aes(x = lam1_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 40) +
+                                alpha = 0.7,bins = 50) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = lam1_MLE),color = "#59A95A",
                             linetype = "solid", size = 1)+
@@ -604,10 +604,10 @@ for(test in c(1,2,4)){
         xlim(-0.032,1.0)+
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = lam2_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 40) +
+                                alpha = 0.7,bins = 50) +
         ggplot2::geom_histogram(ggplot2::aes(x = lam2_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 40) +
+                                alpha = 0.7,bins = 50) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = lam2_MLE),color = "#59A95A",
                             linetype = "solid", size = 1)+
@@ -630,10 +630,10 @@ for(test in c(1,2,4)){
         xlim(-0.008,0.3)+ #0.2
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = mu1_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 40) +
+                                alpha = 0.7,bins = 50) +
         ggplot2::geom_histogram(ggplot2::aes(x = mu1_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 40) +
+                                alpha = 0.7,bins = 50) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = mu1_MLE),color = "#59A95A",
                             linetype = "solid", size = 1)+
@@ -654,10 +654,10 @@ for(test in c(1,2,4)){
         # ylim(0,200)+
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = mu2_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 40) +
+                                alpha = 0.7,bins = 50) +
         ggplot2::geom_histogram(ggplot2::aes(x = mu2_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 40) +
+                                alpha = 0.7,bins = 50) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = mu2_MLE),color = "#59A95A",
                             linetype = "solid", size = 1)+
@@ -677,10 +677,10 @@ for(test in c(1,2,4)){
         xlim(-0.02,0.5)+ #1
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = q12_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 40) +
+                                alpha = 0.7,bins = 50) +
         ggplot2::geom_histogram(ggplot2::aes(x = q12_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 40) +
+                                alpha = 0.7,bins = 50) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = q12_MLE),color = "#59A95A",
                             linetype = "solid", size = 1)+
@@ -701,10 +701,10 @@ for(test in c(1,2,4)){
         xlim(-0.02,0.5)+
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = q21_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 40) +
+                                alpha = 0.7,bins = 50) +
         ggplot2::geom_histogram(ggplot2::aes(x = q21_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 40) +
+                                alpha = 0.7,bins = 50) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = q21_MLE),color = "#59A95A",
                             linetype = "solid", size = 1)+
@@ -722,7 +722,7 @@ for(test in c(1,2,4)){
 
       p_emp <- ggplot() + theme_void()
 
-      tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/cowplot_AMM/test",test,"/AMM_rep_",i,".tiff"),
+      tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/cowplot_AMM/test",test,"/AMM_rep_",i,".tiff"),
            units="px", width=3000, height=2000,res = 300,compression="lzw")
       param_estimates <- cowplot::plot_grid(
         p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
@@ -739,11 +739,11 @@ for(test in c(1,2,4)){
 #####
 # 6. compare net-diversification
 library(ggplot2)
-for(test in c(1,2,4)){
+for(test in 1:5){
   # load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set0.RData"))
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/whole_df_MLE_test",test,"_fit_ABC.RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/whole_df_MLE_test",test,"_fit_ABC.RData"))
 
 
   ## get legend first
@@ -782,9 +782,9 @@ for(test in c(1,2,4)){
 
   #####
   # histogram
-  for(i in 1:200){
+  for(i in 1:100){
     param_abc <- whole_df_ABC[((i*300-299)):(i*300),]
-    param_mcmc <- whole_df_MCMC[((i*1001-299)):(i*1001),]
+    param_mcmc <- whole_df_MCMC[((i*2001-299)):(i*2001),]
     param_mle <- whole_df_MLE_fit_ABC[i,]
     if(!is.na(param_abc[,7])){
       p_net_div1 <-ggplot2::ggplot(data = param_abc) +
@@ -792,9 +792,9 @@ for(test in c(1,2,4)){
         xlim(-0.032,1.0)+
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = net_div_MCMC1,fill = "MCMC"),
-                                alpha = 0.9,bins = 40) +
+                                alpha = 0.9,bins = 50) +
         ggplot2::geom_histogram(ggplot2::aes(x = net_div_ABC1,fill = "ABC"),
-                                alpha = 0.9,bins = 40) +
+                                alpha = 0.9,bins = 50) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = net_div_MLE1),colour = "green4",
                             linetype = "solid", size = 1)+
@@ -816,9 +816,9 @@ for(test in c(1,2,4)){
         xlim(-0.032,1.0)+
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = net_div_MCMC2,fill = "MCMC"),
-                                alpha = 0.9,bins = 40) +
+                                alpha = 0.9,bins = 50) +
         ggplot2::geom_histogram(ggplot2::aes(x = net_div_ABC2,fill = "ABC"),
-                                alpha = 0.9,bins = 40) +
+                                alpha = 0.9,bins = 50) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = net_div_MLE2),colour = "green4",
                             linetype = "solid", size = 1)+
@@ -882,7 +882,7 @@ for(test in c(1,2,4)){
 
       p_emp <- ggplot() + theme_void()
 
-      tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/net_div/test",test,"/net_div_hist_set_",i,".tiff"),
+      tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/net_div/test",test,"/net_div_hist_set_",i,".tiff"),
            units="px", width=2200, height=1000,res = 300,compression="lzw")
       param_estimates <- cowplot::plot_grid(
         p_net_div1,p_net_div2,
@@ -900,10 +900,10 @@ for(test in c(1,2,4)){
 #####
 # 7. plot the epsilon through generation
 library(ggplot2)
-for(test in c(1,2,4)){
-  folder_path <- paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/secsse_ABC_test",test)
+for(test in 1:5){
+  folder_path <- paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/secsse_ABC_test",test)
   files <- list.files(folder_path)
-  for(set in 1:200){
+  for(set in 1:100){
     message("set", set)
     file_to_load <- grep(paste0("secsse_ABC_test",test,"_param_set_", set,"_ss_0.RData"),
                          files,
@@ -986,7 +986,7 @@ for(test in c(1,2,4)){
         ggplot2::theme_bw() +
         ggplot2::geom_boxplot()
       # print(g8)
-      tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/dss/test",test,"/param_set",set,".tiff"),
+      tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/dss/test",test,"/param_set",set,".tiff"),
            units="px", width=5000, height=2000,res = 300,compression="lzw")
       dss <- cowplot::plot_grid(
         g1,g2,g3,g4,g5,g6,g7,g8,g9,g10,
@@ -1003,11 +1003,11 @@ for(test in c(1,2,4)){
 # 8. plot rate estimations through generation
 
 library(ggplot2)
-for(test in c(1,2,4)){
-  folder_path <- paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/secsse_ABC_test",test)
+for(test in 1:5){
+  folder_path <- paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/secsse_ABC_test",test)
   files <- list.files(folder_path)
   param_data <- readr::read_csv2(paste0("G:/R/Traisie-ABC/data/secsse_ABC_test",test,".csv"))
-  for(set in 1:200){
+  for(set in 1:100){
     message("set", set)
     true_rates <- param_data[set,]
     file_to_load <- grep(paste0("secsse_ABC_test",test,"_param_set_", set,"_ss_0.RData"),
@@ -1066,7 +1066,7 @@ for(test in c(1,2,4)){
         ggplot2::geom_hline(data= true_rates, aes(yintercept = q21), linetype = "dashed", size = 0.5)
 
 
-      tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep1/rate_each_gene/test",test,"/param_",set,".tiff"),
+      tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/ABC_rep2/rate_each_gene/test",test,"/param_",set,".tiff"),
            units="px", width=3000, height=2000,res = 300,compression="lzw")
       dss <- cowplot::plot_grid(
         g1,g3,g5,g2,g4,g6,
@@ -1081,9 +1081,9 @@ for(test in c(1,2,4)){
 
 
 ##
-for(test in c(1)){
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test2_rep1/obs_ss_test",test,".RData"))
-  write.csv(pars_ss,paste0("G:/results/project 2/tip_info/round4/adap_secsse_test2_rep1/obs_ss_test",test,".csv"))
+for(test in 1:5){
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/obs_ss_test",test,".RData"))
+  write.csv(pars_ss,paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3/obs_ss_test",test,".csv"))
 }
 
 
