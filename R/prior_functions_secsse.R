@@ -25,12 +25,12 @@ prior_dens_secsse <- function(pars,idparsopt) {
     dens_mu2 <- 1
   }
   if(5 %in% idparsopt){
-    dens_q12 <- stats::dunif(pars[3],0,0.5)
+    dens_q12 <- stats::dunif(pars[5],0,0.5)
   } else {
     dens_q12 <- 1
   }
   if(6 %in% idparsopt){
-    dens_q21 <- stats::dunif(pars[4],0,0.5)
+    dens_q21 <- stats::dunif(pars[6],0,0.5)
   } else {
     dens_q21 <- 1
   }
