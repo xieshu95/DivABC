@@ -196,7 +196,7 @@ par1 <- c(0.3,0.3,0.05,0.05,0.1,0.1)  ## all symmetric
 par2 <- c(0.2,0.4,0.05,0.05,0.1,0.1)  ## asymmetric in lam
 par3 <- c(0.2,0.4,0.01,0.01,0.1,0.1)  ## asymmetric in lam, low mu
 par4 <- c(0.2,0.4,0.01,0.05,0.1,0.1)  ## asymmetric in lam and mu
-par5 <- c(0.2,0.4,0.01,0.01,0.2,0.1)  ## asymmetric in lam and q
+par5 <- c(0.2,0.4,0.01,0.01,0.1,0.2)  ## asymmetric in lam and q
 # par2 <- c(0.3,0.3,0.01,0.05,0.1,0.1)  ## asymmetric in mu
 # par2 <- c(0.3,0.3,0.05,0.05,0.2,0.1)  ## asymmetric in mu
 
