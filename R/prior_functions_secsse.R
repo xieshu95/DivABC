@@ -15,22 +15,22 @@ prior_dens_secsse <- function(pars,idparsopt) {
     dens_lam2 <- 1
   }
   if(3 %in% idparsopt){
-    dens_mu1 <- stats::dunif(pars[3],0,0.5)
+    dens_mu1 <- stats::dunif(pars[3],0,0.25)
   } else {
     dens_mu1 <- 1
   }
   if(4 %in% idparsopt){
-    dens_mu2 <- stats::dunif(pars[4],0,0.5)
+    dens_mu2 <- stats::dunif(pars[4],0,0.25)
   } else {
     dens_mu2 <- 1
   }
   if(5 %in% idparsopt){
-    dens_q12 <- stats::dunif(pars[5],0,0.5)
+    dens_q12 <- stats::dunif(pars[5],0,0.25)
   } else {
     dens_q12 <- 1
   }
   if(6 %in% idparsopt){
-    dens_q21 <- stats::dunif(pars[6],0,0.5)
+    dens_q21 <- stats::dunif(pars[6],0,0.25)
   } else {
     dens_q21 <- 1
   }
@@ -54,22 +54,22 @@ prior_gen_secsse <- function(pars,idparsopt){
     lam2 <- pars[2]
   }
   if(3 %in% idparsopt){
-    mu1 <- stats::runif(1,0,0.5)
+    mu1 <- stats::runif(1,0,0.25)
   } else {
     mu1 <- pars[3]
   }
   if(4 %in% idparsopt){
-    mu2 <- stats::runif(1,0,0.5)
+    mu2 <- stats::runif(1,0,0.25)
   } else {
     mu2 <- pars[4]
   }
   if(5 %in% idparsopt){
-    q12 <- stats::runif(1,0,0.5)
+    q12 <- stats::runif(1,0,0.25)
   } else {
     q12 <- pars[5]
   }
   if(6 %in% idparsopt){
-    q21 <- stats::runif(1,0,0.5)
+    q21 <- stats::runif(1,0,0.25)
   } else {
     q21 <- pars[6]
   }
