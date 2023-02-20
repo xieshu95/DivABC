@@ -1,13 +1,13 @@
 # i = 1
-# load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/obs_ss_test",i,".RData"))
+# load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/obs_ss_test",i,".RData"))
 
 ## secsse test MLE
 library(ggplot2)
-for (i in c(1,3,5)){
+for (i in c(1,5)){
   param_data <- readr::read_csv2(paste0("G:/R/Traisie-ABC/data/secsse_ABC_test",i,".csv"))
   param_data2<-param_data[rep(seq_len(nrow(param_data)), each=10),]
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/obs_ss_test",i,".RData"))
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/MLE/test",i,"_MLE_secsse.RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/obs_ss_test",i,".RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/MLE/test",i,"_MLE_secsse.RData"))
   set <- rep(1:100,each = 10)
   MLE_df <- data.frame(set,param_data2,MLE_all)
   MLE_df$dlam1 <- MLE_df$lam1_MLE - MLE_df$lam1
@@ -19,7 +19,7 @@ for (i in c(1,3,5)){
   n <- 10
   MLE_median <- aggregate(MLE_df, list(rep(1:(nrow(MLE_df) %/% n + 1), each = n, len = nrow(MLE_df))), median,na.rm = TRUE)[-1]
   whole_df_MLE <- data.frame(MLE_median,pars_ss[,7:10])
-  save(whole_df_MLE,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/whole_df_MLE",i,".RData"))
+  save(whole_df_MLE,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/whole_df_MLE",i,".RData"))
   # plot MLE results of each rate with true values
   p_lam1 <-ggplot2::ggplot(data = whole_df_MLE) +
     ggplot2::theme_bw() +
@@ -96,8 +96,8 @@ for (i in c(1,3,5)){
     ggplot2::geom_hline(data= whole_df_MLE, aes(yintercept = 0), linetype = "dashed", size = 0.5)
 
 
-  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/MLE_power_test/tree_size_set_",i,".tiff"),
-       units="px", width=3000, height=2000,res = 300,compression="lzw")
+  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/MLE_power_test/tree_size_set_",i,".tiff"),
+       units="px", width=2000, height=1500,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
     align = "hv", nrow = 2, ncol = 3
@@ -110,11 +110,11 @@ for (i in c(1,3,5)){
 
 ## plot tree size VS exact rate estimations
 library(ggplot2)
-for (i in c(1,3,5)){
+for (i in c(1,5)){
   param_data <- readr::read_csv2(paste0("G:/R/Traisie-ABC/data/secsse_ABC_test",i,".csv"))
   param_data2<-param_data[rep(seq_len(nrow(param_data)), each=10),]
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/obs_ss_test",i,".RData"))
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/MLE/test",i,"_MLE_secsse.RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/obs_ss_test",i,".RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/MLE/test",i,"_MLE_secsse.RData"))
   set <- rep(1:100,each = 10)
   MLE_df <- data.frame(set,param_data2,MLE_all)
   MLE_df$dlam1 <- MLE_df$lam1_MLE - MLE_df$lam1
@@ -126,7 +126,7 @@ for (i in c(1,3,5)){
   n <- 10
   MLE_median <- aggregate(MLE_df, list(rep(1:(nrow(MLE_df) %/% n + 1), each = n, len = nrow(MLE_df))), median,na.rm = TRUE)[-1]
   whole_df_MLE <- data.frame(MLE_median,pars_ss[,7:10])
-  save(whole_df_MLE,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/whole_df_MLE",i,".RData"))
+  save(whole_df_MLE,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/whole_df_MLE",i,".RData"))
   # plot MLE results of each rate with true values
   p_lam1 <-ggplot2::ggplot(data = whole_df_MLE) +
     ggplot2::theme_bw() +
@@ -203,8 +203,8 @@ for (i in c(1,3,5)){
     ggplot2::geom_hline(yintercept = whole_df_MLE$q21[1], linetype = "dashed", size = 0.5)
 
 
-  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/MLE_power_test/tree_size_exact_est_set_",i,".tiff"),
-       units="px", width=3000, height=2000,res = 300,compression="lzw")
+  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/MLE_power_test/tree_size_exact_est_set_",i,".tiff"),
+       units="px", width=2000, height=1500,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
     align = "hv", nrow = 2, ncol = 3
@@ -218,11 +218,11 @@ for (i in c(1,3,5)){
 
 ## plot tree size VS net diversification rate
 library(ggplot2)
-for (i in c(1,3,5)){
+for (i in c(1,5)){
   param_data <- readr::read_csv2(paste0("G:/R/Traisie-ABC/data/secsse_ABC_test",i,".csv"))
   param_data2<-param_data[rep(seq_len(nrow(param_data)), each=10),]
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/obs_ss_test",i,".RData"))
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/MLE/test",i,"_MLE_secsse.RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/obs_ss_test",i,".RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/MLE/test",i,"_MLE_secsse.RData"))
   set <- rep(1:100,each = 10)
   MLE_df <- data.frame(set,param_data2,MLE_all)
   MLE_df$dlam1 <- MLE_df$lam1_MLE - MLE_df$lam1
@@ -238,7 +238,7 @@ for (i in c(1,3,5)){
   n <- 10
   MLE_median <- aggregate(MLE_df, list(rep(1:(nrow(MLE_df) %/% n + 1), each = n, len = nrow(MLE_df))), median,na.rm = TRUE)[-1]
   whole_df_MLE <- data.frame(MLE_median,pars_ss[,7:10])
-  # save(whole_df_MLE,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/whole_df_MLE",i,".RData"))
+  # save(whole_df_MLE,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/whole_df_MLE",i,".RData"))
 
   p_div1 <-ggplot2::ggplot(data = whole_df_MLE) +
     ggplot2::theme_bw() +
@@ -265,8 +265,8 @@ for (i in c(1,3,5)){
     ggplot2::xlab("Tree size")+
     ggplot2::geom_hline(yintercept = whole_df_MLE$net_div2[1], linetype = "dashed", size = 0.5)
 
-  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/MLE_power_test/tree_size_net_div_set_",i,".tiff"),
-       units="px", width=2200, height=1000,res = 300,compression="lzw")
+  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/MLE_power_test/tree_size_net_div_set_",i,".tiff"),
+       units="px", width=2000, height=1000,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_div1,p_div2,
     align = "hv", nrow = 1, ncol = 2
@@ -281,11 +281,11 @@ for (i in c(1,3,5)){
 #####
 ### plot exact rate estiations
 library(ggplot2)
-for (i in c(1,3,5)){
+for (i in c(1,5)){
   param_data <- readr::read_csv2(paste0("G:/R/Traisie-ABC/data/secsse_ABC_test",i,".csv"))
   param_data2<-param_data[rep(seq_len(nrow(param_data)), each=10),]
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/obs_ss_test",i,".RData"))
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/MLE/test",i,"_MLE_secsse.RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/obs_ss_test",i,".RData"))
+  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/MLE/test",i,"_MLE_secsse.RData"))
   set <- rep(1:100,each = 10)
   MLE_df <- data.frame(set,param_data2,MLE_all)
   MLE_df$dlam1 <- MLE_df$lam1_MLE - MLE_df$lam1
@@ -297,7 +297,7 @@ for (i in c(1,3,5)){
   n <- 10
   MLE_median <- aggregate(MLE_df, list(rep(1:(nrow(MLE_df) %/% n + 1), each = n, len = nrow(MLE_df))), median,na.rm = TRUE)[-1]
   whole_df_MLE <- data.frame(MLE_median,pars_ss[,7:10])
-  # save(whole_df_MLE,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/whole_df_MLE",i,".RData"))
+  # save(whole_df_MLE,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/whole_df_MLE",i,".RData"))
   # plot MLE results of each rate with true values
   # plot MLE results of each rate with true values
   p_lam1 <-ggplot2::ggplot(data = MLE_df) +
@@ -399,8 +399,8 @@ for (i in c(1,3,5)){
     ggplot2::xlab(expression(q[21]))+
     ggplot2::geom_vline(data= MLE_df, aes(xintercept = q21), linetype = "dashed", size = 0.5)
 
-  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new/MLE_power_test/MLE_est_set_",i,".tiff"),
-       units="px", width=3000, height=2000,res = 300,compression="lzw")
+  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/MLE_power_test/MLE_est_set_",i,".tiff"),
+       units="px", width=2000, height=1500,res = 300,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
     align = "hv", nrow = 2, ncol = 3
