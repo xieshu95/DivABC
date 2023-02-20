@@ -37,15 +37,15 @@ run_MCMC_secsse <- function(param_space_name,
   message("seed_mcmc: ", seed_mcmc)
   for(n in 1:6){
     initparsopt[n]<-exp(log(initparsopt[n]) +
-                          stats::rnorm(1, 0, 1))
+                          stats::rnorm(1, 0, 0.02))
   }
   mcmc <- MCMC_secsse(datalist = obs_sim[[1]],
                       likelihood_function=calc_log_pp_secsse,
                       parameters = as.numeric(initparsopt),
-                      iterations = 1000000, ##1000,000
+                      iterations = 500000, ##1000,000
                       burnin = 100000, #100,000
-                      thinning = 500, #1000
-                      sigma = 0.01,
+                      thinning = 250, #1000
+                      sigma = 0.02,
                       idparsopt = idparsopt)
 
   if (save_output == TRUE) {
