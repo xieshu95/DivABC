@@ -14,7 +14,7 @@
 
 # Start script
 ml R
-Rscript -e "remotes::install_github('xieshu95/TraisieABC@daisie')"
+Rscript -e "remotes::install_github('xieshu95/TraisieABC@secsse')"
 
 param_space_name=${1}
 idparsopt_lac=${2}
@@ -29,12 +29,11 @@ idparsopt_trans=${10}
 idparsopt_trans2=${11}
 sim_model=${12}
 ss_set=${13}
-pairwise_method=${14}
 
 for_length=`wc -l TraisieABC/data/${param_space_name}.csv | cut -f1 -d' '`
 for_length=$(( ${for_length} - 1 ))
 
-for (( param_set = 1; param_set <= 27; param_set++ ))
+for (( param_set = 1; param_set <= $for_length; param_set++ ))
 do
 sbatch TraisieABC/bash/submit_run_ABC_param_set.sh ${param_space_name} \
                                                    ${param_set} \
@@ -49,6 +48,5 @@ sbatch TraisieABC/bash/submit_run_ABC_param_set.sh ${param_space_name} \
                                                    ${idparsopt_trans} \
                                                    ${idparsopt_trans2} \
                                                    ${sim_model} \
-                                                   ${ss_set} \
-                                                   ${pairwise_method}
+                                                   ${ss_set}
 done
