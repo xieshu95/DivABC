@@ -30,23 +30,31 @@ run_MCMC_DAISIE <- function(param_space_name,
                             K = as.numeric(obs_sim_pars$K),
                             replicates = 1)
 
-  obs_sim_pars <- mcmc_init(idparsopt, obs_sim_pars)
-  mcmc <- MCMC_DAISIE(obs_sim[[1]][[1]], calc_loglik,
-                      parameters = as.numeric(c(obs_sim_pars$lac,
-                                                obs_sim_pars$mu,
-                                                obs_sim_pars$gam,
-                                                obs_sim_pars$laa)),
-                      iterations = 5000, ##20000
-                      burnin = 1,
-                      thinning = 1,
-                      sigma = 0.2,
+  # obs_sim_pars_init <- obs_sim_pars + 0.0001
+  initparsopt <- as.numeric(obs_sim_pars[c(1,2,3,4)]) + 0.00001
+  seed_mle <-as.integer(Sys.time()) %% 1000000L * sample(1:10,1)
+  set.seed(seed_mle)
+  message("seed_mle: ", seed_mle)
+  for(n in 1:4){
+    initparsopt[n]<-exp(log(initparsopt[n]) +
+                          stats::rnorm(1, 0, 1))
+  }
+  message("initial pars:", initparsopt)
+  mcmc <- MCMC_DAISIE(datalist = obs_sim[[1]][[1]],
+                      likelihood_function=calc_log_pp,
+                      parameters = as.numeric(initparsopt),
+                      iterations = 1000000, ##1000000
+                      burnin = 100000,   # 100000
+                      thinning = 1000,
+                      sigma = 0.02,
                       idparsopt = idparsopt)
 
   if (save_output == TRUE) {
     save_output(
       output = mcmc,
       param_space_name = param_space_name,
-      param_set = param_set
+      param_set = param_set,
+      ss_set = 1
     )
   } else {
     return(mcmc)

@@ -7,7 +7,7 @@
 prior_gen(pars, idparsopt)
 }
 \value{
-a numeric represents the log likelihood
+a vector of parameters
 }
 \description{
 prior function to generate parameters

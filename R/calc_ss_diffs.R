@@ -17,72 +17,43 @@
 #' @author Shu Xie
 #' @export
 
+calc_ss_diff <- function(sim1, sim2, ss_set, pairwise_method){
 
-# calc_ss_diff <- function(sim1, sim2, replicates){
-#   spec_nltt_error <- c()
-#   endemic_nltt_error <- c()
-#   nonendemic_nltt_error <- c()
-#   num_spec_error <- c()
-#   num_col_error <- c()
-#   for(i in 1:replicates){
-#     s <- DAISIErobustness:::calc_error(sim_1 = sim1[[1]],
-#                                        sim_2 = sim2[[i]],
-#                                        replicates = 1,
-#                                        distance_method = "abs")
-#     spec_nltt_error <- append(spec_nltt_error,
-#                               s$spec_nltt_error)
-#     endemic_nltt_error <- append(endemic_nltt_error,
-#                                  s$endemic_nltt_error)
-#     nonendemic_nltt_error <- append(nonendemic_nltt_error,
-#                                     s$nonendemic_nltt_error)
-#     num_spec_error <- append(num_spec_error,
-#                              s$num_spec_error)
-#     num_col_error <- append(num_col_error,
-#                             s$num_col_error)
-#   }
-#   clade_size_error <- calc_clade_size_error(sim_1 = sim1,
-#                                             sim_2 = sim2)
-#   list_s <- list(spec_nltt_error = spec_nltt_error,
-#                  endemic_nltt_error = endemic_nltt_error,
-#                  nonendemic_nltt_error = nonendemic_nltt_error,
-#                  num_spec_error = num_spec_error,
-#                  num_col_error = num_col_error,
-#                  clade_size_error = clade_size_error)
-#   return(list_s)
-# }
-
-calc_ss_diff <- function(sim1, sim2){
-
-  clade_size_error <- calc_clade_size_error(sim_1 = sim1,
-                                            sim_2 = sim2)
-  colon_time_error <- calc_colon_time_error(sim_1 = sim1,
-                                            sim_2 = sim2)
   if("stt_two_states" %in% names(sim1[[1]][[1]])){  ##TraiSIE
-    s <- calc_error_trait(sim_1 = sim1,
-                          sim_2 = sim2,
-                          replicates = 1,
-                          distance_method = "abs")
-    ss_diff <-as.numeric(c(s$spec_nltt_error,
-                           s$ana_endemic_nltt_error,
-                           s$clado_endemic_nltt_error,
-                           s$nonendemic_nltt_error,
-                           s$tip_ratio_error,
-                           s$num_col_error))
-  } else { ## DAISIE
-    s <- calc_error(sim_1 = sim1,   ##calc_error
-                    sim_2 = sim2,
-                    replicates = 1,
-                    distance_method = "abs")
-    ss_diff <-as.numeric(c(s$spec_nltt_error,
-                           s$ana_endemic_nltt_error,
-                           s$clado_endemic_nltt_error,
-                           s$nonendemic_nltt_error,
-                           s$num_col_error,
-                           clade_size_error,
-                           colon_time_error))
+
+    ss <- calc_error_trait(sim_1 = sim1,
+                           sim_2 = sim2,
+                           replicates = 1,
+                           distance_method = "abs")
+    ss_diff <-as.numeric(c(ss$ana_endemic_nltt_error,
+                           ss$clado_endemic_nltt_error,
+                           ss$nonendemic_nltt_error,
+                           ss$clade_nltt_error,
+                           ss$num_ana_error_state1,
+                           ss$num_ana_error_state2,
+                           ss$num_clado_error_state1,
+                           ss$num_clado_error_state2,
+                           ss$num_nonend_error_state1,
+                           ss$num_nonend_error_state2,
+                           ss$num_trans12_error,
+                           ss$num_trans21_error))
+  } else if ("stt_all" %in% names(sim1[[1]][[1]])) { ## DAISIE
+    ss <- calc_error_pairwise(sim_1 = sim1,   ##calc_error
+                            sim_2 = sim2,
+                            replicates = 1,
+                            distance_method = "abs",
+                            pairwise_method = pairwise_method)
+    ss_diff <- select_ss_DAISIE(ss,ss_set)
+  } else { ## secsse
+    ss <- calc_error_secsse(sim_1 = sim1,
+                            sim_2 = sim2,
+                            distance_method = "abs")
+    ss_diff <- select_ss_secsse(ss,ss_set)
   }
   return(ss_diff)
 }
+
+
 
 # all ss for DAISIE
 # spec_nltt_error = spec_nltt_error,
@@ -123,16 +94,78 @@ calc_ss_diff <- function(sim1, sim2){
 #' @author Shu Xie
 #' @return
 #' @export
+# calc_epsilon_init <- function(sim,ss_set){
+#   ss_diff_pairs <- c()
+#   replicates <- length(sim)
+#   for (i in 1:(replicates-1)){
+#     for (j in (i + 1):replicates){
+#       ss_diff <- calc_ss_diff(sim1 = sim[[i]],
+#                               sim2 = sim[[j]],
+#                               ss_set = ss_set)
+#       ss_diff_pairs <- data.frame(rbind(ss_diff_pairs,ss_diff))
+#     }
+#   }
+#   ss_diff_pairs_median <- apply(ss_diff_pairs,2,mean)
+#   epsilon_init <- 8*ss_diff_pairs_median ##9 for DAISIE
+#   return(epsilon_init)
+# }
 calc_epsilon_init <- function(sim){
-  ss_diff_pairs <- c()
-  replicates <- length(sim)
-  for (i in 1:(replicates-1)){
-    for (j in (i + 1):replicates){
-      ss_diff <- calc_ss_diff(sim1 = sim[[i]], sim2 =sim[[j]])
-      ss_diff_pairs <- data.frame(rbind(ss_diff_pairs,ss_diff))
-    }
+  ss <- calc_ss_no_ext(sim[[1]],1)
+  eps_init <- as.numeric(unlist(ss)) * 1
+  return(eps_init)
+}
+
+
+#' calculate the initial epsilon
+#'
+#' @author Shu Xie
+#' @return
+#' @export
+calc_epsilon_init_secsse <- function(sim){
+  ss <- calc_ss_secsse(sim[[1]])
+  eps_init <- as.numeric(unlist(ss)) * 1
+  return(eps_init)
+}
+
+
+#' Select the combination of summary statitsics
+#'
+#' @param ss A vector contains all the calculated summary statistics
+#' @param ss_set A numeric to choose which combination of summary statistics
+#'
+#' @author Shu Xie
+#' @export
+
+select_ss_DAISIE <- function(ss,ss_set){
+  if(ss_set == 0){
+    select_ss <- as.numeric(ss)
+  } else if(ss_set > 10){
+    select_ss <- as.numeric(ss)
+  }  else {
+    select_ss <- as.numeric(ss[-ss_set])
   }
-  ss_diff_pairs_median <- apply(ss_diff_pairs,2,median)
-  epsilon_init <- 5*ss_diff_pairs_median
-  return(epsilon_init)
+  return(select_ss)
+}
+
+
+#' Select the combination of summary statitsics
+#'
+#' @param ss A vector contains all the calculated summary statistics
+#' @param ss_set A numeric to choose which combination of summary statistics
+#'
+#' @author Shu Xie
+#' @export
+select_ss_secsse <- function (ss,ss_set){
+  if(ss_set == 0){
+    select_ss <- as.numeric(ss)
+  # } else if(ss_set == 11 ){
+  #   select_ss <-as.numeric(ss[-c(1,3)])
+  # } else if(ss_set == 12 ){
+  #   select_ss <-as.numeric(ss[-c(2,4)])
+  } else if(ss_set > 10){
+    select_ss <- as.numeric(ss)
+  } else {
+    select_ss <-as.numeric(ss[-ss_set])
+  }
+  return(select_ss)
 }

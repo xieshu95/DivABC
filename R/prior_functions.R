@@ -1,25 +1,25 @@
 #' prior density function
 #'
-#' @return a numeric represents the log likelihood
+#' @return Density of the given parameter set
 #' @export
 prior_dens <- function(pars,idparsopt) {
   if(1 %in% idparsopt){
-    dens_lac <- stats::dunif(pars[1],0,2)
+    dens_lac <- stats::dexp(pars[1],1.5)
   } else {
     dens_lac <- 1
   }
   if(2 %in% idparsopt){
-    dens_mu <- stats::dunif(pars[2],0,2)
+    dens_mu <- stats::dexp(pars[2],5)
   } else {
     dens_mu <- 1
   }
   if(3 %in% idparsopt){
-    dens_gam <- stats::dunif(pars[3],0,0.05)
+    dens_gam <- stats::dexp(pars[3],80)
   } else {
     dens_gam <- 1
   }
   if(4 %in% idparsopt){
-    dens_laa <- stats::dunif(pars[4],0,2)
+    dens_laa <- stats::dexp(pars[4],3)
   } else {
     dens_laa <- 1
   }
@@ -29,28 +29,37 @@ prior_dens <- function(pars,idparsopt) {
 
 #'prior function to generate parameters
 #'
-#' @return a numeric represents the log likelihood
+#' @return a vector of parameters
 #' @export
 prior_gen <- function(pars,idparsopt){
   if(1 %in% idparsopt){
-    lac <- stats::runif(1,0,2)
+    lac <- 10
+    while (lac > 2) {
+      lac <- stats::rexp(1,1.5)
+    }
   } else {
     lac <- pars[1]
   }
   if(2 %in% idparsopt){
-    mu <- stats::runif(1,0,2)
+    mu <- stats::rexp(1,5)
   } else {
     mu <- pars[2]
   }
   if(3 %in% idparsopt){
-    gam <- stats::runif(1,0,0.05)
+    gam <- 1
+    while (gam > 0.03 || gam < 0.001) {
+      gam <- stats::rexp(1,80)
+    }
   } else {
     gam <- pars[3]
   }
   if(4 %in% idparsopt){
-    laa <- stats::runif(1,0,2)
+    laa <- stats::rexp(1,3)
   } else {
     laa <- pars[4]
   }
   return(as.numeric(c(lac,mu,gam,laa)))
 }
+
+# plot(density(rexp(1000,3)))
+# median(stats::rexp(10000,5))

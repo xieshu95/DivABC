@@ -20,15 +20,15 @@ Suggests:
     knitr,
     rmarkdown
 Imports: 
-    DAISIE (>= 4.0.2),
+    DAISIE (>= 4.1.1),
     DAISIErobustness,
     nLTT,
     readr,
     testit
 Remotes:
-    Neves-P/DAISIErobustness,
+    Neves-P/DAISIErobustness@trait_test,
     thijsjanzen/nltt
 URL: https://github.com/xieshu95/Traisie-ABC
 BugReports: https://github.com/xieshu95/Traisie-ABC/issues
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 VignetteBuilder: knitr

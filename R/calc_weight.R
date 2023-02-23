@@ -18,14 +18,8 @@ calc_weight <- function(weights, particles,
   for (i in seq_along(particles)) {
     vals[i] <- weights[i]
     for (j in idparsopt) {
-      sigma_temp <- 0
-      if(j == 3|| j == 7) {
-        sigma_temp <- sigma / 10
-      } else {
-        sigma_temp <- sigma
-      }
-      diff <- current[j] - particles[[i]][j]
-      vals[i] <- vals[i] * stats::dnorm(diff, mean = 0, sd = sigma_temp)
+      diff <- log(current[j]) - log(particles[[i]][j])
+      vals[i] <- vals[i] * stats::dnorm(diff, mean = 0, sd = sigma)
     }
   }
   # current_opt <- current[idparsopt]

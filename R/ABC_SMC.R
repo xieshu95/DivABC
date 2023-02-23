@@ -20,32 +20,17 @@ ABC_SMC <- function( # nolint indeed a complex function
   num_iterations,
   K,
   idparsopt,
-  fixpars
+  fixpars,
+  ss_set = 1,
+  pairwise_method
 ) {
   #just to get the number of parameters to be estimated.
   parameters <- prior_generating_function(fixpars,idparsopt)
 
-  # # compute the observed statistics (no need)
-  # obs_statistics <- c()
-  # for (i in seq_along(statistics)) {
-  #   obs_statistics[i] <- statistics[[i]](datalist)
-  # }
-  #
-
   #generate a matrix with epsilon values
   #we assume that the SMC algorithm converges within 50 iterations
-  epsilon <- matrix(nrow = 50, ncol = length(init_epsilon_values))
-  for (j in seq_along(init_epsilon_values)) {
-    if (init_epsilon_values[j] < 0) {
-      stop("abc_smc_nltt: ",
-           "epsilon values have to be positive,",
-           "but were instead: ", init_epsilon_values[j])
-    }
-
-    for (i in seq_len(50)) {
-      epsilon[i, j] <- init_epsilon_values[j] * exp(-0.5 * (i - 1))
-    }
-  }
+  epsilon <- matrix(nrow = 20, ncol = length(init_epsilon_values))
+  epsilon[1,] <- init_epsilon_values
 
   #store weights
   new_weights <- c()
@@ -55,13 +40,13 @@ ABC_SMC <- function( # nolint indeed a complex function
   indices <- 1:number_of_particles
   n_iter <- 0
   ABC_list <- list()
-  # ss_reject <- c()
-  # ss_accept <- c()
-
+  sim_list <- list()
+  ss_diff_list <- list()
 
   #convergence is expected within 50 iterations
   #usually convergence occurs within 20 iterations
   for (i in 1:num_iterations) {
+    ss_diff <- c()
     n_iter <- n_iter + 1
     cat("\nGenerating Particles for iteration\t", i, "\n")
     cat("0--------25--------50--------75--------100\n")
@@ -71,6 +56,7 @@ ABC_SMC <- function( # nolint indeed a complex function
     print_frequency <- 20
     tried <- 0
     number_accepted <- 0
+    sigma_temp <- sigma * exp(-0.2 * (i - 1))
 
     #replace all vectors
     if (i > 1) {
@@ -98,22 +84,10 @@ ABC_SMC <- function( # nolint indeed a complex function
           parameters[p_index] <- previous_params[[index]][p_index]
         }
 
-        #only perturb one parameter, to avoid extremely
-        #low acceptance rates due to simultaneous perturbation
-        if(length(idparsopt) == 1){
-          to_change <- as.numeric(idparsopt)
-        } else {
-          to_change <- sample(idparsopt, 1)
+        for(to_change in idparsopt){
+          parameters[to_change] <- exp(log(parameters[to_change]) +
+                                         stats::rnorm(1, 0, sigma_temp))
         }
-
-        sigma_temp <- 0
-        if(to_change == 3 || to_change == 7){
-          sigma_temp <- sigma/10
-        } else {
-          sigma_temp <- sigma
-        }
-        # perturb the parameter a little bit
-        parameters[to_change] <- parameters[to_change] + stats::rnorm(1, 0, sigma_temp)
       }
 
       #reject if outside the prior
@@ -122,53 +96,52 @@ ABC_SMC <- function( # nolint indeed a complex function
         new_sim <- sim_function(parameters = parameters,
                                 K = K,
                                 replicates = replicates)
+
+
         accept <- TRUE
-
-        #calculate the summary statistics for the simulated tree
-        df_stats <- calc_ss_diff (sim1 = obs_data[[1]],
-                                  sim2 = new_sim[[1]])
-
-        # #check if the summary statistics are sufficiently
-        # #close to the observed summary statistics
-
-        # median_df <- base::lapply(df_stats,median)
-
-        for (k in seq_along(df_stats)) {
-          if (as.numeric(df_stats[k]) > epsilon[i, k]) {
+        if ("phy" %in% names(new_sim[[1]])) {
+          if (length(new_sim[[1]]$examTraits) < 20 ||
+              length(new_sim[[1]]$examTraits) >= 400 ||
+              length(unique(new_sim[[1]]$examTraits)) < 2) {
             accept <- FALSE
-            #the first step always accepts
-            if (i == 1) accept <- TRUE
-            break
+          }
+        }
+        # constrain for DAISIE that simulated tree has same clade-number as observed
+        if(length(obs_data[[1]][[1]]) != length(new_sim[[1]][[1]])) {
+          accept <- FALSE
+        }
+        #calculate the summary statistics for the simulated tree
+        if (accept) {
+          df_stats <- calc_ss_diff (sim1 = obs_data[[1]],
+                                    sim2 = new_sim[[1]],
+                                    ss_set = ss_set,
+                                    pairwise_method = pairwise_method)
+
+          # #check if the summary statistics are sufficiently
+          for (k in seq_along(df_stats)) {
+            if (as.numeric(df_stats[k]) > epsilon[i, k]) {
+              accept <- FALSE
+              #the first step always accepts
+              # if (i == 1) accept <- TRUE
+              # break
+            }
           }
         }
 
-        # ss_logic_particle <- c()
-        # for (k in seq_along(df_stats)) {
-        #   if (as.numeric(df_stats[k]) > epsilon[i, k]) {
-        #     ss_logic_particle[k] <- FALSE
-        #   } else {
-        #     ss_logic_particle[k] <- TRUE
-        #   }
-        # }
-        #
-        #
-        # if(sum(ss_logic_particle == TRUE) < 4 && i > 1) {
-        #   accept <- FALSE
-        # }
-        #
-        #
-        # ss_logic <- rbind(ss_logic,ss_logic_particle)
 
         if (accept) {
           number_accepted <- number_accepted + 1
           new_params[[number_accepted]] <- parameters
+          sim_list[[number_accepted]] <- new_sim[[1]]
           accepted_weight <- 1
+          ss_diff <- rbind(ss_diff,df_stats)
+
           #calculate the weight
           if (i > 1) {
             accepted_weight <- calc_weight(previous_weights,
                                            previous_params,
                                            parameters,
-                                           sigma,
+                                           sigma_temp,
                                            prior_density_function,
                                            idparsopt)
           }
@@ -185,15 +158,24 @@ ABC_SMC <- function( # nolint indeed a complex function
 
       #convergence if the acceptance rate gets too low
       tried <- tried + 1
-      if (tried > (1 / stop_rate) & n_iter > 2) {
+      if (tried > (1 / stop_rate) & n_iter > 4) {
+
         if ((number_accepted / tried) < stop_rate) {
           stoprate_reached <- TRUE
           break
         }
       }
     }
-    # ss_reject <- rbind(ss_reject,apply(ss_logic,2,function(x) sum(x == FALSE)))
-    # ss_accept <- rbind(ss_accept,apply(ss_logic,2,function(x) sum(x == TRUE)))
+
+    ss_diff_list[[i]] <- ss_diff
+    if (stoprate_reached == FALSE) {
+      if("phy" %in% names(obs_data[[1]])){
+        epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.65) #0.5
+      } else {
+        epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7) #0.5
+      }
+    }
+
     ABC <- c()
     for (k in seq_along(new_params)) {
       add <- c()
@@ -207,22 +189,27 @@ ABC_SMC <- function( # nolint indeed a complex function
     if (stoprate_reached) {
       break
     }
-
-
+    if(n_iter >= 3) {
+      save_output(
+        output = list(sim_list = sim_list,
+                      ABC = ABC_list,
+                      n_iter = n_iter,
+                      epsilon = epsilon,
+                      obs_sim = obs_data,
+                      ss_diff_list = ss_diff_list),
+        param_space_name = param_space_name,
+        param_set = param_set,
+        ss_set = ss_set
+      )
+    }
   }
   message("tried times: ", tried)
 
-  # ABC <- c()
-  # for (k in seq_along(previous_params)) {
-  #   add <- c()
-  #   for (m in seq_along(parameters)) {
-  #     add <- c(add, previous_params[[k]][m])
-  #   }
-  #   ABC <- rbind(ABC, add)
-  # }
-  output <- list(ABC = ABC_list,
-                 n_iter = n_iter)
-  # ss_reject = ss_reject,
-  # ss_accept = ss_accept)
+  output <- list(sim_list = sim_list,
+                 ABC = ABC_list,
+                 n_iter = n_iter,
+                 epsilon = epsilon,
+                 obs_sim = obs_data,
+                 ss_diff_list = ss_diff_list)
   return(output)
 }

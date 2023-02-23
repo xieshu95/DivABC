@@ -44,12 +44,12 @@ prior_dens_trait <- function(pars,idparsopt) {
     dens_laa2 <- 1
   }
   if(9 %in% idparsopt){
-    dens_trans <- stats::dunif(pars[9],0,2)
+    dens_trans <- stats::dunif(pars[9],0,1)
   } else {
     dens_trans <- 1
   }
   if(10 %in% idparsopt){
-    dens_trans2 <- stats::dunif(pars[10],0,2)
+    dens_trans2 <- stats::dunif(pars[10],0,1)
   } else {
     dens_trans2 <- 1
   }
@@ -106,12 +106,12 @@ prior_gen_trait <- function(pars,idparsopt){
     laa2 <- pars[8]
   }
   if(9 %in% idparsopt){
-    trans <- stats::runif(1,0,2)
+    trans <- stats::runif(1,0,1)
   } else {
     trans <- pars[9]
   }
   if(10 %in% idparsopt){
-    trans2 <- stats::runif(1,0,2)
+    trans2 <- stats::runif(1,0,1)
   } else {
     trans2 <- pars[10]
   }

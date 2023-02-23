@@ -13,12 +13,15 @@ run_ABC <- function(param_space_name,
                     param_set,
                     idparsopt,
                     sim_model = "DAISIE",
-                    save_output = TRUE){
+                    save_output = TRUE,
+                    ss_set = 1,
+                    pairwise_method = 1){
 
+  # param_space <- readr::read_csv2("data/secsse_ABC.csv")
   param_space <- load_param_space(param_space_name = param_space_name)
   # param_space <- read.csv2(file = 'data/DAISIE_ABC.csv')
   seed <- param_set ##as.integer(Sys.time()) %% 1000000L * param_set
-  set.seed(seed)
+  set.seed(param_set)
 
   message("Param space name: ", param_space_name)
   message("Running param set: ", param_set)
@@ -36,11 +39,25 @@ run_ABC <- function(param_space_name,
                                              obs_sim_pars$gam,
                                              obs_sim_pars$laa),
                               K = as.numeric(obs_sim_pars$K),
-                              replicates = 30)  ## replicates = 30
+                              replicates = 1)  ## replicates = 30
     sim_function <- get_DAISIE_sim
     prior_generating_function <- prior_gen
     prior_density_function <- prior_dens
-    fixpars = as.numeric(obs_sim_pars[2:5])
+    fixpars = as.numeric(obs_sim_pars[1:4])
+    if(pairwise_method == 1) {
+      init_epsilon_all <- c(200,200,50,200,50,20,5)
+    } else if(pairwise_method == 2){
+      init_epsilon_all <- c(200,200,50,200,50,20,20,10,10)
+    } else {
+      num_clades <- length(obs_sim[[1]][[1]]) - 1
+      init_epsilon_all <- c(200,200,50,200,50,rep(50,num_clades))
+    }
+
+    if(ss_set == 0 || ss_set > 10){
+      init_epsilon <- init_epsilon_all
+    } else {
+      init_epsilon <- init_epsilon_all[-ss_set]
+    }
   } else if (sim_model == "TraiSIE") {
     obs_sim <- get_TraiSIE_sim(parameters = as.numeric(c(obs_sim_pars$lac,
                                                          obs_sim_pars$mu,
@@ -53,34 +70,59 @@ run_ABC <- function(param_space_name,
                                                          obs_sim_pars$trans,
                                                          obs_sim_pars$trans2)),
                                K = as.numeric(obs_sim_pars$K),
-                               replicates = 30) ## replicates = 30
+                               replicates = 1) ## replicates = 30
     sim_function <- get_TraiSIE_sim
     prior_generating_function <- prior_gen_trait
     prior_density_function <- prior_dens_trait
     fixpars = as.numeric(obs_sim_pars[c(2:5,7:12)])
+    init_epsilon <- calc_epsilon_init(sim = obs_sim, ss_set = ss_set)
+  } else if (sim_model == "secsse") {
+    obs_sim <- get_secsse_sim_create_obs(
+      parameters = as.numeric(obs_sim_pars),
+      K = Inf,
+      replicates = 1) ## replicates = 30
+    sim_function <- get_secsse_sim
+    prior_generating_function <- prior_gen_secsse
+    prior_density_function <- prior_dens_secsse
+    fixpars = as.numeric(obs_sim_pars[1:6])
+    # init_epsilon <- calc_epsilon_init_secsse(sim = obs_sim)
+    init_epsilon_all <- c(20,20,20,20,20,20,2,150,150,1)
+    if(ss_set == 0){
+      init_epsilon <- init_epsilon_all
+    } else if(ss_set > 10){
+      init_epsilon <- init_epsilon_all
+    } else {
+      init_epsilon <- init_epsilon_all[-ss_set]
+    }
+    obs_sim_pars$K <- Inf
   }
-  init_epsilon <- calc_epsilon_init(obs_sim)
 
+  seed_abc <-as.integer(Sys.time()) %% 1000000L * param_set
+  set.seed(seed_abc)
+  message("seed-abc: ", seed_abc)
   abc <- ABC_SMC (
     obs_data = obs_sim,
     sim_function = sim_function,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_generating_function,
     prior_density_function = prior_density_function,
-    number_of_particles = 1000, #2000
+    number_of_particles = 300, #1000
     sigma = 0.1,
-    stop_rate = 0.0002,
+    stop_rate = 0.002,
     replicates = 1,  ## simulation replicates for each parameter set
-    num_iterations = 10,
+    num_iterations = 10, #10
     K = as.numeric(obs_sim_pars$K),
     idparsopt = as.numeric(idparsopt),
-    fixpars = fixpars
+    fixpars = fixpars,
+    ss_set = ss_set,
+    pairwise_method = pairwise_method
   )
   if (save_output == TRUE) {
     save_output(
       output = abc,
       param_space_name = param_space_name,
-      param_set = param_set
+      param_set = param_set,
+      ss_set = ss_set
     )
   } else {
     return(abc)

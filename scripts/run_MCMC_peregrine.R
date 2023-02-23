@@ -7,7 +7,7 @@ idparsopt_mu <- args[4]
 idparsopt_gam <- args[5]
 idparsopt_laa <- args[6]
 idparsopt_logical <- c(idparsopt_lac,idparsopt_mu,idparsopt_gam,idparsopt_laa)
-idparsopt <- which(idparsopt_logical == TRUE)
+idparsopt <- which(idparsopt_logical == 1)
 save_output <- TRUE
 metadata <- paste0("This is parameter set ", param_set)
 
