@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --time=3-00:00:00
+#SBATCH --time=4-00:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=MLE
@@ -8,4 +8,4 @@
 #SBATCH --partition=regular
 
 module load R
-Rscript TraisieABC/scripts/secsse/calc_MLE_cluster5.R
+Rscript TraisieABC/scripts/secsse/calc_MLE_cluster.R
