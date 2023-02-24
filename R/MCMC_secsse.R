@@ -46,10 +46,12 @@ MCMC_secsse <- function(datalist,
     hr            <- 0
     new_pp        <- likelihood_function(parameters, datalist,idparsopt)
 
+    # calculate the ratio for logarithm of prior
+    prior_ratio <- sum(log(parameters)) - sum(log(parameters_old))
     #accept or reject
     if (is.finite(new_pp) &&
         is.finite(hr) &&
-        new_pp - pp + hr > log(stats::runif(1, 0, 1))) {
+        new_pp - pp + prior_ratio + hr > log(stats::runif(1, 0, 1))) {
       pp <- new_pp
     } else {
       parameters <- parameters_old
