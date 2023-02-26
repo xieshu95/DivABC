@@ -3,14 +3,15 @@
 #' @author Shu Xie
 #' @return
 #' @export
-MCMC_DAISIE <- function(datalist,
-                        likelihood_function,
-                        parameters,
-                        iterations,
-                        burnin = round(iterations / 3),
-                        thinning = 1,
-                        sigma = 1,
-                        idparsopt)
+MCMC <- function(datalist,
+                 log_lik_function,
+                 log_prior_function,
+                 parameters,
+                 iterations,
+                 burnin = round(iterations / 3),
+                 thinning = 1,
+                 sigma = 1,
+                 idparsopt)
 {
   # create a list for the samples & reserve memory for the chain
   chain <- array(dim = c(floor(iterations / thinning) + 1,
@@ -25,7 +26,8 @@ MCMC_DAISIE <- function(datalist,
     }
   }
   # pre-compute current posterior probability
-  pp <- likelihood_function(parameters, datalist, idparsopt)
+  log_lik <- log_lik_function(parameters, datalist, idparsopt)
+  log_prior <- log_prior_function(parameters)
 
   cat("\nGenerating Chain\n")
   cat("0--------25--------50--------75--------100\n")
@@ -42,18 +44,20 @@ MCMC_DAISIE <- function(datalist,
       }
       parameters[m] <- exp(stats::rnorm(1, log(parameters[m]), sigma))
     }
-      # calculate the Hastings ratio
-      hr            <- 0
-      new_pp        <- likelihood_function(parameters, datalist,idparsopt)
+    # calculate the Hastings ratio
+    hr            <- 0
+    new_log_lik <- log_lik_function(parameters, datalist, idparsopt)
+    new_log_prior <- log_prior_function(parameters)
 
-      #accept or reject
-      if (is.finite(new_pp) &&
-          is.finite(hr) &&
-          new_pp - pp + hr > log(stats::runif(1, 0, 1))) {
-        pp <- new_pp
-      } else {
-        parameters <- parameters_old
-      }
+    #accept or reject
+    if (is.finite(new_pp) &&
+        is.finite(hr) &&
+        new_log_lik - log_lik + new_log_prior - log_prior + hr > log(stats::runif(1, 0, 1))) {
+      log_lik <- new_log_lik
+      log_prior <- new_log_prior
+    } else {
+      parameters <- parameters_old
+    }
 
     # sample the parameter
     if (i >= burnin) {
@@ -69,22 +73,5 @@ MCMC_DAISIE <- function(datalist,
   cat("\nFinished MCMC.\n")
   #return a mcmc object, used by coda to plot
   return(coda::as.mcmc(chain))
-}
-
-
-#' Calculates the posterior probability
-#'
-#' @return a numeric represents the posterior probability
-#' @export
-
-calc_log_pp <- function(params, datalist,idparsopt) {
-  log_lik <- DAISIE::DAISIE_loglik_all(
-    pars1 = as.numeric(c(params[1],params[2],Inf,params[3],params[4])),
-    pars2 = c(100, 0, 0, 0),
-    datalist = datalist,
-    methode = "lsodes"
-  )
-  log_prior  <- log(prior_dens(params, idparsopt)) # nolint
-  return(log_lik + log_prior)
 }
 
