@@ -3,14 +3,15 @@
 #' @author Shu Xie
 #' @return
 #' @export
-MCMC_secsse <- function(datalist,
-                        likelihood_function,
-                        parameters,
-                        iterations,
-                        burnin = round(iterations / 3),
-                        thinning = 1,
-                        sigma = 1,
-                        idparsopt)
+MCMC <- function(datalist,
+                 log_lik_function,
+                 log_prior_function,
+                 parameters,
+                 iterations,
+                 burnin = round(iterations / 3),
+                 thinning = 1,
+                 sigma = 1,
+                 idparsopt)
 {
   # create a list for the samples & reserve memory for the chain
   chain <- array(dim = c(floor(iterations / thinning) + 1,
@@ -25,7 +26,8 @@ MCMC_secsse <- function(datalist,
     }
   }
   # pre-compute current posterior probability
-  pp <- likelihood_function(parameters, datalist, idparsopt)
+  log_lik <- log_lik_function(parameters, datalist, idparsopt)
+  log_prior <- log_prior_function(parameters)
 
   cat("\nGenerating Chain\n")
   cat("0--------25--------50--------75--------100\n")
@@ -44,13 +46,15 @@ MCMC_secsse <- function(datalist,
     }
     # calculate the Hastings ratio
     hr            <- 0
-    new_pp        <- likelihood_function(parameters, datalist,idparsopt)
+    new_log_lik <- log_lik_function(parameters, datalist, idparsopt)
+    new_log_prior <- log_prior_function(parameters)
 
     #accept or reject
     if (is.finite(new_pp) &&
         is.finite(hr) &&
-        new_pp - pp + hr > log(stats::runif(1, 0, 1))) {
-      pp <- new_pp
+        new_log_lik - log_lik + new_log_prior - log_prior + hr > log(stats::runif(1, 0, 1))) {
+      log_lik <- new_log_lik
+      log_prior <- new_log_prior
     } else {
       parameters <- parameters_old
     }
@@ -71,30 +75,3 @@ MCMC_secsse <- function(datalist,
   return(coda::as.mcmc(chain))
 }
 
-
-#' Calculates the posterior probability
-#'
-#' @return a numeric represents the posterior probability
-#' @export
-
-calc_log_pp_secsse <- function(params, datalist,idparsopt) {
-  pars <- secsse::id_paramPos(traits = datalist$examTraits,num_concealed_states = 2)
-  pars[[1]][] <- c(params[1],params[2],params[1],params[2])
-  pars[[2]][] <- c(params[3],params[4],params[3],params[4])
-  masterBlock <- matrix(c(params[5],params[6]),
-                        ncol=2,nrow=2,byrow=TRUE)
-  diag(masterBlock) <- NA
-  q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)
-  q[1,3]<- q[2,4] <- q[3,1] <- q[4,2] <- 0
-  pars[[3]][] <- q
-  log_lik <- secsse::secsse_loglik(
-    parameter = pars,
-    phy = datalist$phy,
-    traits = datalist$examTraits,
-    num_concealed_states = 2,
-    sampling_fraction = c(1,1),
-    cond = "proper_cond"
-  )
-  log_prior  <- log(prior_dens_secsse(params, idparsopt)) # nolint
-  return(log_lik + log_prior)
-}
