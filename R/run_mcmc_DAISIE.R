@@ -40,14 +40,15 @@ run_MCMC_DAISIE <- function(param_space_name,
                           stats::rnorm(1, 0, 1))
   }
   message("initial pars:", initparsopt)
-  mcmc <- MCMC_DAISIE(datalist = obs_sim[[1]][[1]],
-                      likelihood_function=calc_log_pp,
-                      parameters = as.numeric(initparsopt),
-                      iterations = 1000000, ##1000000
-                      burnin = 100000,   # 100000
-                      thinning = 1000,
-                      sigma = 0.02,
-                      idparsopt = idparsopt)
+  mcmc <- MCMC(datalist = obs_sim[[1]][[1]],
+               log_lik_function = calc_log_lik_DAISIE,
+               log_prior_function = calc_log_prior_DAISIE,
+               parameters = as.numeric(initparsopt),
+               iterations = 1000000, ##1000000
+               burnin = 100000,   # 100000
+               thinning = 1000,
+               sigma = 0.02,
+               idparsopt = idparsopt)
 
   if (save_output == TRUE) {
     save_output(
