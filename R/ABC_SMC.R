@@ -168,7 +168,6 @@ ABC_SMC <- function( # nolint indeed a complex function
         epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7) #0.5
       }
     }
-
     ABC <- c()
     for (k in seq_along(new_params)) {
       add <- c()
