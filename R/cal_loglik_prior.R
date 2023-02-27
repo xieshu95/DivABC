@@ -5,8 +5,8 @@
 
 calc_log_lik_DAISIE <- function(params, datalist,idparsopt) {
   log_lik <- DAISIE::DAISIE_loglik_all(
-    pars1 = as.numeric(c(params[1],params[2],Inf,params[3],params[4])),
-    pars2 = c(100, 0, 0, 0),
+    pars1 = as.numeric(c(params[1],params[2],20,params[3],params[4])),
+    pars2 = c(100, 11, 1, 0),
     datalist = datalist,
     methode = "lsodes"
   )
