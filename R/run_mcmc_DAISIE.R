@@ -34,7 +34,7 @@ run_MCMC_DAISIE <- function(param_space_name,
   initparsopt <- as.numeric(obs_sim_pars[c(1,2,3,4)]) + 0.00001
   seed_mcmc <-as.integer(Sys.time()) %% 1000000L * sample(1:10,1)
   set.seed(seed_mcmc)
-  message("seed_mle: ", seed_mle)
+  message("seed_mcmc: ", seed_mcmc)
   for(n in 1:4){
     initparsopt[n]<-exp(log(initparsopt[n]) +
                           stats::rnorm(1, 0, 0.01))
@@ -44,9 +44,9 @@ run_MCMC_DAISIE <- function(param_space_name,
                log_lik_function = calc_log_lik_DAISIE,
                log_prior_function = calc_log_prior_DAISIE,
                parameters = as.numeric(initparsopt),
-               iterations = 500000, ##1000000
-               burnin = 10000,   # 100000
-               thinning = 500,
+               iterations = 50, ##1000000
+               burnin = 10,   # 100000
+               thinning = 5,
                sigma = 0.02,
                idparsopt = idparsopt)
 
