@@ -2,27 +2,10 @@
 % Please edit documentation in R/calc_error_daisie_pairwise.R
 \name{pairwise_cross}
 \alias{pairwise_cross}
-\title{Get the number of exist colonist through time from
-the branching times from each exist clade.}
+\title{Get the pairwise distance across all the clades}
 \usage{
 pairwise_cross(sim1, sim2)
-
-pairwise_cross(sim1, sim2)
-}
-\arguments{
-\item{sim1}{A datalist of observed data with multiple replicate.}
-
-\item{sim2}{A datalist of observed data with multiple replicate.}
 }
 \description{
-Get the number of exist colonist through time from
-the branching times from each exist clade.
-
-Get the number of exist colonist through time from
-the branching times from each exist clade.
-}
-\author{
-Shu Xie
-
-Shu Xie
+Get the pairwise distance across all the clades
 }

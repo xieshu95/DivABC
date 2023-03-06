@@ -10,8 +10,7 @@ run_ABC(
   idparsopt,
   sim_model = "DAISIE",
   save_output = TRUE,
-  ss_set = 1,
-  pairwise_method
+  ss_set = 1
 )
 }
 \arguments{
@@ -25,9 +24,6 @@ be \code{"DAISIE_ABC"}, \code{"DAISIE_MCMC"},\code{"TraiSIE_ABC"}}
 \item{sim_model}{\code{"DAISIE"}, \code{"TraiSIE"}}
 
 \item{save_output}{A boolean to determine whether to save or return output.}
-}
-\value{
-
 }
 \description{
 Run ABC
