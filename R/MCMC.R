@@ -50,7 +50,8 @@ MCMC <- function(datalist,
     new_log_prior <- log_prior_function(parameters)
 
     #accept or reject
-    if (is.finite(new_pp) &&
+    if (is.finite(new_log_lik) &&
+        is.finite(new_log_prior) &&
         is.finite(hr) &&
         new_log_lik - log_lik + new_log_prior - log_prior + hr > log(stats::runif(1, 0, 1))) {
       log_lik <- new_log_lik
@@ -74,4 +75,3 @@ MCMC <- function(datalist,
   #return a mcmc object, used by coda to plot
   return(coda::as.mcmc(chain))
 }
-
