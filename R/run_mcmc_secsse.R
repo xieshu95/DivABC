@@ -39,7 +39,7 @@ run_MCMC_secsse <- function(param_space_name,
     initparsopt[n]<-exp(log(initparsopt[n]) +
                           stats::rnorm(1, 0, 0.02))
   }
-  mcmc <- MCMC_secsse(datalist = obs_sim[[1]],
+  mcmc <- MCMC(datalist = obs_sim[[1]],
                       log_lik_function = calc_log_lik_secsse,
                       log_prior_function = calc_log_prior_secsse,
                       parameters = as.numeric(initparsopt),
