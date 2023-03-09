@@ -13,6 +13,7 @@ init_mu1<-c()
 init_mu2<-c()
 init_q12<-c()
 init_q21<-c()
+max_ll<- c()
 
 create_ML_idpars <- function(traits,num_concealed_states) {
   idparslist <- secsse::id_paramPos(traits, num_concealed_states)
@@ -94,9 +95,10 @@ for(i in 1:100) {
       mu2_MLE <- c(mu2_MLE,MLE$MLpars[[2]][2])
       q12_MLE <- c(q12_MLE,MLE$MLpars[[3]][1,2])
       q21_MLE <- c(q21_MLE,MLE$MLpars[[3]][2,1])
+      max_ll<- c(max_ll,MLE$ML)
     }
   }
 }
-MLE_all <- data.frame(lam1_MLE,lam2_MLE,mu1_MLE,mu2_MLE,q12_MLE,q21_MLE,
+MLE_all <- data.frame(lam1_MLE,lam2_MLE,mu1_MLE,mu2_MLE,q12_MLE,q21_MLE,max_ll,
                       init_lam1,init_lam2,init_mu1,init_mu2,init_q12,init_q21)
 save(MLE_all, file = paste0("/home/p286026/results/test5_MLE_secsse",seed_mle,".RData"))
