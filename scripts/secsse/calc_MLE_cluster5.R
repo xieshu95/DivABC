@@ -1,5 +1,5 @@
 library(TraisieABC)
-param_space <- readr::read_csv2("/home/p290559/TraisieABC/data/secsse_ABC_test5.csv")
+param_space <- readr::read_csv2("/home/p286026/TraisieABC/data/secsse_ABC_test5.csv")
 lam1_MLE<- c()
 lam2_MLE <-c()
 mu1_MLE <- c()
@@ -41,7 +41,7 @@ for(i in 1:100) {
   startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))
 
   rep <- 1
-  while(rep < 11) {
+  while(rep < 2) {
     message("rep",rep)
     # initparsopt <- obs_sim_pars
     initparsopt <- c(startingpoint$lambda0,startingpoint$lambda0,
@@ -52,7 +52,7 @@ for(i in 1:100) {
     message("seed_mle: ", seed_mle)
     for(n in 1:6){
       initparsopt[n]<-exp(log(initparsopt[n]) +
-                            stats::rnorm(1, 0, 1))
+                            stats::rnorm(1, 0, 0.02))
     }
     idparsopt = c(1,2,3,4,5,6)
     message("initial pars:", initparsopt)
@@ -99,4 +99,4 @@ for(i in 1:100) {
 }
 MLE_all <- data.frame(lam1_MLE,lam2_MLE,mu1_MLE,mu2_MLE,q12_MLE,q21_MLE,
                       init_lam1,init_lam2,init_mu1,init_mu2,init_q12,init_q21)
-save(MLE_all, file = paste0("/home/p290559/results/test5_MLE_secsse",seed_mle,".RData"))
+save(MLE_all, file = paste0("/home/p286026/results/test5_MLE_secsse",seed_mle,".RData"))
