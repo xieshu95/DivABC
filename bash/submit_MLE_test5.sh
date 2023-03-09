@@ -2,7 +2,7 @@
 #SBATCH --time=1-00:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --job-name=MLE
+#SBATCH --job-name=MLE5
 #SBATCH --output=logs/MLE-%j.log
 #SBATCH --mem=1GB
 #SBATCH --partition=gelifes
