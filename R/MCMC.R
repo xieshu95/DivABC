@@ -38,12 +38,9 @@ MCMC <- function(datalist,
   for (i in seq_len(burnin + iterations)) {
     #propose new values
     parameters_old <- parameters
-    for (m in idparsopt) {
-      if (parameters[m] == 0) {
-        stop("Cannot propose new value for a parameter with value 0.0.")
-      }
-      parameters[m] <- exp(stats::rnorm(1, log(parameters[m]), sigma))
-    }
+    parameters[idparsopt] <- exp(stats::rnorm(length(idparsopt),
+                                              log(parameters[idparsopt]),
+                                              sigma))
     # calculate the Hastings ratio
     hr            <- 0
     new_log_lik <- log_lik_function(parameters, datalist, idparsopt)
