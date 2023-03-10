@@ -1,6 +1,5 @@
 library(TraisieABC)
 param_space <- readr::read_csv2("/home/p286026/TraisieABC/data/secsse_ABC_test1.csv")
-param_space <- readr::read_csv2("data/secsse_ABC_test1.csv")
 lam1_MLE<- c()
 lam2_MLE <-c()
 mu1_MLE <- c()
@@ -14,7 +13,6 @@ init_mu1<-c()
 init_mu2<-c()
 init_q12<-c()
 init_q21<-c()
-
 max_ll<- c()
 
 create_ML_idpars <- function(traits,num_concealed_states) {
