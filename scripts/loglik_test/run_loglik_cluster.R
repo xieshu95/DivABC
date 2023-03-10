@@ -1,5 +1,5 @@
 library(TraisieABC)
-# treck the likelihood trace with different mu
+# check the likelihood trace with different mu
 calc_loglik_secsse <- function(params, datalist) {
   pars <- secsse::id_paramPos(traits = datalist$examTraits,num_concealed_states = 2)
   pars[[1]][] <- c(params[1],params[2],params[1],params[2])
@@ -23,7 +23,6 @@ calc_loglik_secsse <- function(params, datalist) {
 
 ## run
 param_space <- readr::read_csv2("/home/p286026/TraisieABC/data/secsse_ABC_test1.csv")
-param_space <- readr::read_csv2("data/secsse_ABC_test1.csv")
 load(paste0("/home/p286026/TraisieABC/scripts/loglik_test/obs_ss_test1.RData"))
 load(paste0("/home/p286026/TraisieABC/scripts/loglik_test/whole_df_MLE1.RData"))
 

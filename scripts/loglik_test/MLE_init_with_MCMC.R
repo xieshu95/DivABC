@@ -45,7 +45,8 @@ for(i in 1:100) {
   idparsopt <- 1:6
 
   if(!is.na(initparsopt[1])){
-    MLE <- secsse::secsse_ml(
+    skip <- FALSE
+    tryCatch(MLE <- secsse::secsse_ml(
       phy = obs_sim[[1]]$phy,
       traits = obs_sim[[1]]$examTraits,
       num_concealed_states = 2,
@@ -62,21 +63,40 @@ for(i in 1:100) {
       optimmethod = 'subplex',
       num_cycles = 1,
       verbose = FALSE
-    )
-    init_lam1<-c(init_lam1,initparsopt[1])
-    init_lam2<-c(init_lam2,initparsopt[2])
-    init_mu1<-c(init_mu1,initparsopt[3])
-    init_mu2<-c(init_mu2,initparsopt[4])
-    init_q12<-c(init_q12,initparsopt[5])
-    init_q21<-c(init_q21,initparsopt[6])
+    ), error=function(e) {
+      print("Optimization has not converged. Try again with different initial values.")
+      skip <<- TRUE
+    })
+    if(skip == FALSE){
+      init_lam1<-c(init_lam1,initparsopt[1])
+      init_lam2<-c(init_lam2,initparsopt[2])
+      init_mu1<-c(init_mu1,initparsopt[3])
+      init_mu2<-c(init_mu2,initparsopt[4])
+      init_q12<-c(init_q12,initparsopt[5])
+      init_q21<-c(init_q21,initparsopt[6])
 
-    lam1_MLE <- c(lam1_MLE,MLE$MLpars[[1]][1])
-    lam2_MLE <- c(lam2_MLE,MLE$MLpars[[1]][2])
-    mu1_MLE <- c(mu1_MLE,MLE$MLpars[[2]][1])
-    mu2_MLE <- c(mu2_MLE,MLE$MLpars[[2]][2])
-    q12_MLE <- c(q12_MLE,MLE$MLpars[[3]][1,2])
-    q21_MLE <- c(q21_MLE,MLE$MLpars[[3]][2,1])
-    max_ll<- c(max_ll,MLE$ML)
+      lam1_MLE <- c(lam1_MLE,MLE$MLpars[[1]][1])
+      lam2_MLE <- c(lam2_MLE,MLE$MLpars[[1]][2])
+      mu1_MLE <- c(mu1_MLE,MLE$MLpars[[2]][1])
+      mu2_MLE <- c(mu2_MLE,MLE$MLpars[[2]][2])
+      q12_MLE <- c(q12_MLE,MLE$MLpars[[3]][1,2])
+      q21_MLE <- c(q21_MLE,MLE$MLpars[[3]][2,1])
+      max_ll<- c(max_ll,MLE$ML)
+    } else {
+      init_lam1<-c(init_lam1,NA)
+      init_lam2<-c(init_lam2,NA)
+      init_mu1<-c(init_mu1,NA)
+      init_mu2<-c(init_mu2,NA)
+      init_q12<-c(init_q12,NA)
+      init_q21<-c(init_q21,NA)
+      lam1_MLE <- c(lam1_MLE,NA)
+      lam2_MLE <- c(lam2_MLE,NA)
+      mu1_MLE <- c(mu1_MLE,NA)
+      mu2_MLE <- c(mu2_MLE,NA)
+      q12_MLE <- c(q12_MLE,NA)
+      q21_MLE <- c(q21_MLE,NA)
+      max_ll<- c(max_ll,NA)
+    }
   } else{
     init_lam1<-c(init_lam1,NA)
     init_lam2<-c(init_lam2,NA)
