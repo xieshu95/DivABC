@@ -107,7 +107,7 @@ calc_ss_diff <- function(sim1, sim2, ss_set){
 #   epsilon_init <- 8*ss_diff_pairs_median ##9 for DAISIE
 #   return(epsilon_init)
 # }
-calc_epsilon_init <- function(sim,ss_set){
+calc_epsilon_init <- function(sim){
   ss <- calc_ss_no_ext(sim[[1]],1)
   eps_init <- as.numeric(unlist(ss)) * 1
   return(eps_init)
@@ -137,7 +137,9 @@ calc_epsilon_init_secsse <- function(sim){
 select_ss_DAISIE <- function(ss,ss_set){
   if(ss_set == 0){
     select_ss <- as.numeric(ss)
-  } else {
+  } else if(ss_set > 10){
+    select_ss <- as.numeric(ss)
+  }  else {
     select_ss <- as.numeric(ss[-ss_set])
   }
   return(select_ss)

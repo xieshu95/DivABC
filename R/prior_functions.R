@@ -4,22 +4,22 @@
 #' @export
 prior_dens <- function(pars,idparsopt) {
   if(1 %in% idparsopt){
-    dens_lac <- stats::dexp(pars[1],2.5)
+    dens_lac <- stats::dunif(pars[1],0,1)
   } else {
     dens_lac <- 1
   }
   if(2 %in% idparsopt){
-    dens_mu <- stats::dexp(pars[2],5)
+    dens_mu <- stats::dunif(pars[2],0,0.5)
   } else {
     dens_mu <- 1
   }
   if(3 %in% idparsopt){
-    dens_gam <- stats::dexp(pars[3],25)
+    dens_gam <- stats::dunif(pars[3],0,0.05)
   } else {
     dens_gam <- 1
   }
   if(4 %in% idparsopt){
-    dens_laa <- stats::dexp(pars[4],3)
+    dens_laa <- stats::dunif(pars[4],0,0.5)
   } else {
     dens_laa <- 1
   }
@@ -33,22 +33,22 @@ prior_dens <- function(pars,idparsopt) {
 #' @export
 prior_gen <- function(pars,idparsopt){
   if(1 %in% idparsopt){
-    lac <- stats::rexp(1,2.5)
+    lac <- stats::runif(1,0,1)
   } else {
     lac <- pars[1]
   }
   if(2 %in% idparsopt){
-    mu <- stats::rexp(1,5)
+    mu <- stats::runif(1,0,0.5)
   } else {
     mu <- pars[2]
   }
   if(3 %in% idparsopt){
-    gam <- stats::rexp(1,25)
+    gam <- stats::runif(1,0,0.05)
   } else {
     gam <- pars[3]
   }
   if(4 %in% idparsopt){
-    laa <- stats::rexp(1,3)
+    laa <- stats::runif(1,0,0.5)
   } else {
     laa <- pars[4]
   }

@@ -45,7 +45,7 @@ run_ABC <- function(param_space_name,
     fixpars = as.numeric(obs_sim_pars[1:4])
 
     init_epsilon_all <- c(300,300,50,200,50,10,10)
-    if(ss_set == 0){
+    if(ss_set == 0 || ss_set > 10){
       init_epsilon <- init_epsilon_all
     } else {
       init_epsilon <- init_epsilon_all[-ss_set]
@@ -98,9 +98,9 @@ run_ABC <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_generating_function,
     prior_density_function = prior_density_function,
-    number_of_particles = 250, #1000
+    number_of_particles = 500, #1000
     sigma = 0.1,
-    stop_rate = 0.01,
+    stop_rate = 0.02,
     replicates = 1,  ## simulation replicates for each parameter set
     num_iterations = 10, #10
     K = as.numeric(obs_sim_pars$K),

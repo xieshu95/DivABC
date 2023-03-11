@@ -32,12 +32,12 @@ run_MCMC_DAISIE <- function(param_space_name,
 
   # obs_sim_pars_init <- obs_sim_pars + 0.0001
   initparsopt <- as.numeric(obs_sim_pars[c(1,2,3,4)]) + 0.00001
-  seed_mle <-as.integer(Sys.time()) %% 1000000L * sample(1:10,1)
-  set.seed(seed_mle)
-  message("seed_mle: ", seed_mle)
+  seed_mcmc <-as.integer(Sys.time()) %% 1000000L * sample(1:10,1)
+  set.seed(seed_mcmc)
+  message("seed_mcmc: ", seed_mcmc)
   for(n in 1:4){
     initparsopt[n]<-exp(log(initparsopt[n]) +
-                          stats::rnorm(1, 0, 1))
+                          stats::rnorm(1, 0, 0.01))
   }
   message("initial pars:", initparsopt)
   mcmc <- MCMC(datalist = obs_sim[[1]][[1]],
