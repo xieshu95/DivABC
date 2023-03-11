@@ -55,7 +55,7 @@ ABC_SMC <- function( # nolint indeed a complex function
     print_frequency <- 20
     tried <- 0
     number_accepted <- 0
-    sigma_temp <- sigma * exp(-0.15 * (i - 1))
+    sigma_temp <- sigma * exp(-0.2 * (i - 1))
 
     #replace all vectors
     if (i > 1) {
