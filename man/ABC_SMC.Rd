@@ -18,8 +18,7 @@ ABC_SMC(
   K,
   idparsopt,
   fixpars,
-  ss_set = 1,
-  pairwise_method
+  ss_set = 1
 )
 }
 \value{

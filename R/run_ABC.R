@@ -14,8 +14,7 @@ run_ABC <- function(param_space_name,
                     idparsopt,
                     sim_model = "DAISIE",
                     save_output = TRUE,
-                    ss_set = 1,
-                    pairwise_method = 1){
+                    ss_set = 1){
 
   # param_space <- readr::read_csv2("data/secsse_ABC.csv")
   param_space <- load_param_space(param_space_name = param_space_name)
@@ -44,15 +43,8 @@ run_ABC <- function(param_space_name,
     prior_generating_function <- prior_gen
     prior_density_function <- prior_dens
     fixpars = as.numeric(obs_sim_pars[1:4])
-    if(pairwise_method == 1) {
-      init_epsilon_all <- c(200,200,50,200,50,20,5)
-    } else if(pairwise_method == 2){
-      init_epsilon_all <- c(200,200,50,200,50,20,20,10,10)
-    } else {
-      num_clades <- length(obs_sim[[1]][[1]]) - 1
-      init_epsilon_all <- c(200,200,50,200,50,rep(50,num_clades))
-    }
 
+    init_epsilon_all <- c(300,300,50,200,50,10,10)
     if(ss_set == 0 || ss_set > 10){
       init_epsilon <- init_epsilon_all
     } else {
@@ -106,16 +98,15 @@ run_ABC <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_generating_function,
     prior_density_function = prior_density_function,
-    number_of_particles = 300, #1000
+    number_of_particles = 500, #1000
     sigma = 0.1,
-    stop_rate = 0.002,
+    stop_rate = 0.02,
     replicates = 1,  ## simulation replicates for each parameter set
     num_iterations = 10, #10
     K = as.numeric(obs_sim_pars$K),
     idparsopt = as.numeric(idparsopt),
     fixpars = fixpars,
-    ss_set = ss_set,
-    pairwise_method = pairwise_method
+    ss_set = ss_set
   )
   if (save_output == TRUE) {
     save_output(

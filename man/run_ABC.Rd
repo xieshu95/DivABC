@@ -10,8 +10,7 @@ run_ABC(
   idparsopt,
   sim_model = "DAISIE",
   save_output = TRUE,
-  ss_set = 1,
-  pairwise_method
+  ss_set = 1
 )
 }
 \arguments{

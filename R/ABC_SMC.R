@@ -21,8 +21,7 @@ ABC_SMC <- function( # nolint indeed a complex function
   K,
   idparsopt,
   fixpars,
-  ss_set = 1,
-  pairwise_method
+  ss_set = 1
 ) {
   #just to get the number of parameters to be estimated.
   parameters <- prior_generating_function(fixpars,idparsopt)
@@ -106,16 +105,11 @@ ABC_SMC <- function( # nolint indeed a complex function
             accept <- FALSE
           }
         }
-        # constrain for DAISIE that simulated tree has same clade-number as observed
-        if(length(obs_data[[1]][[1]]) != length(new_sim[[1]][[1]])) {
-          accept <- FALSE
-        }
         #calculate the summary statistics for the simulated tree
         if (accept) {
           df_stats <- calc_ss_diff (sim1 = obs_data[[1]],
                                     sim2 = new_sim[[1]],
-                                    ss_set = ss_set,
-                                    pairwise_method = pairwise_method)
+                                    ss_set = ss_set)
 
           # #check if the summary statistics are sufficiently
           for (k in seq_along(df_stats)) {
@@ -172,10 +166,9 @@ ABC_SMC <- function( # nolint indeed a complex function
       if("phy" %in% names(obs_data[[1]])){
         epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.65) #0.5
       } else {
-        epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7) #0.5
+        epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.55) #0.5
       }
     }
-
     ABC <- c()
     for (k in seq_along(new_params)) {
       add <- c()

@@ -5,7 +5,7 @@
 \title{Calculate summary statistic differences between simulated data and a specific
 replicate of (simulated) observed data.}
 \usage{
-calc_ss_diff(sim1, sim2, ss_set, pairwise_method)
+calc_ss_diff(sim1, sim2, ss_set)
 }
 \arguments{
 \item{sim1}{A datalist of observed data with more than one replicate.}
