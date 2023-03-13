@@ -6,7 +6,7 @@ create_ML_idpars <- function(traits,num_concealed_states) {
   idparslist <- secsse::id_paramPos(traits, num_concealed_states)
   idparslist[[1]][] <- c(1,2,1,2)
   idparslist[[2]][] <- c(3,4,3,4)
-  masterBlock <- matrix(c(5,6),
+  masterBlock <- matrix(c(6,5),
                         ncol=2,nrow=2,byrow=TRUE)
   diag(masterBlock) <- NA
   q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)

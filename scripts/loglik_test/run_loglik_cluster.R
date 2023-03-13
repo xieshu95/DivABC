@@ -4,7 +4,7 @@ calc_loglik_secsse <- function(params, datalist) {
   pars <- secsse::id_paramPos(traits = datalist$examTraits,num_concealed_states = 2)
   pars[[1]][] <- c(params[1],params[2],params[1],params[2])
   pars[[2]][] <- c(params[3],params[4],params[3],params[4])
-  masterBlock <- matrix(c(params[5],params[6]),
+  masterBlock <- matrix(c(params[6],params[5]),
                         ncol=2,nrow=2,byrow=TRUE)
   diag(masterBlock) <- NA
   q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)
