@@ -75,7 +75,7 @@ get_secsse_sim_create_obs <- function(parameters, K, replicates){
                                        num_concealed_states = 2)
   idparlist$lambdas[1,] <- rep(c(parameters[1], parameters[2]),2)
   idparlist$mus[1:4]<- rep(c(parameters[3], parameters[4]),2)
-  masterBlock <- matrix(c(parameters[5], parameters[6]),
+  masterBlock <- matrix(c(parameters[6], parameters[5]),
                         ncol=2,nrow=2,byrow=TRUE)
   diag(masterBlock) <- NA
   q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)
@@ -124,7 +124,7 @@ get_secsse_sim <- function(parameters, K, replicates){
                                        num_concealed_states = 2)
   idparlist$lambdas[1,] <- rep(c(parameters[1], parameters[2]),2)
   idparlist$mus[1:4]<- rep(c(parameters[3], parameters[4]),2)
-  masterBlock <- matrix(c(parameters[5], parameters[6]),
+  masterBlock <- matrix(c(parameters[6], parameters[5]),
                         ncol=2,nrow=2,byrow=TRUE)
   diag(masterBlock) <- NA
   q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)
