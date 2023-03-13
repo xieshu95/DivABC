@@ -6,9 +6,6 @@
 \usage{
 run_MCMC_DAISIE(param_space_name, param_set, idparsopt, save_output = TRUE)
 }
-\value{
-
-}
 \description{
 Run mcmc
 }

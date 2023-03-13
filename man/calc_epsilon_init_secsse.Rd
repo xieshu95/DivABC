@@ -6,9 +6,6 @@
 \usage{
 calc_epsilon_init_secsse(sim)
 }
-\value{
-
-}
 \description{
 calculate the initial epsilon
 }

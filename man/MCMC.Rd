@@ -16,9 +16,6 @@ MCMC(
   idparsopt
 )
 }
-\value{
-
-}
 \description{
 mcmc
 }

@@ -25,9 +25,6 @@ be \code{"DAISIE_ABC"}, \code{"DAISIE_MCMC"},\code{"TraiSIE_ABC"}}
 
 \item{save_output}{A boolean to determine whether to save or return output.}
 }
-\value{
-
-}
 \description{
 Run ABC
 }

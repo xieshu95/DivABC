@@ -6,9 +6,6 @@
 \usage{
 mcmc_init(idparsopt, obs_sim_pars)
 }
-\value{
-
-}
 \description{
 Run mcmc
 }

@@ -21,12 +21,6 @@ ABC_SMC(
   ss_set = 1
 )
 }
-\value{
-
-}
 \description{
 Using ABC approach on DAISIE to estimate CES rates.
-}
-\author{
-
 }
