@@ -45,9 +45,9 @@ run_MCMC_secsse <- function(param_space_name,
                       log_lik_function = calc_log_lik_secsse,
                       log_prior_function = calc_log_prior_secsse,
                       parameters = as.numeric(initparsopt),
-                      iterations = 500000, ##1000,000
-                      burnin = 100000, #100,000
-                      thinning = 250, #1000
+                      iterations = 100000, ##1000,000
+                      burnin = 1, #100,000
+                      thinning = 1, #1000
                       sigma = 0.02,
                       idparsopt = idparsopt)
 
