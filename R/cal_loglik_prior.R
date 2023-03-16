@@ -69,6 +69,6 @@ calc_log_lik_secsse <- function(params, datalist,idparsopt) {
 #' @return a numeric represents the log prior density
 #' @export
 calc_log_prior_secsse <- function(params) {
-  log_prior <- sum(params)
+  log_prior <- sum(log(params))
   return(log_prior)
 }
