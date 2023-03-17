@@ -27,21 +27,21 @@ run_MCMC_secsse <- function(param_space_name,
                                        K = Inf,
                                        replicates = 1)
   # obs_sim_pars_init <- obs_sim_pars + 0.0001
-  test <- readr::parse_number(param_space_name)
-  load(paste0("/home/p286026/TraisieABC/scripts/loglik_test/whole_df_MLE",test,".RData"))
-  # startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))
-  #
-  # initparsopt <- c(startingpoint$lambda0,startingpoint$lambda0,
-  #                  startingpoint$mu0,startingpoint$mu0,
-  #                  0.1,0.1)
-  # seed_mcmc <-as.integer(Sys.time()) %% 1000000L * param_set
-  # set.seed(seed_mcmc)
-  # message("seed_mcmc: ", seed_mcmc)
-  # for(n in 1:6){
-  #   initparsopt[n]<-exp(log(initparsopt[n]) +
-  #                         stats::rnorm(1, 0, 0.02))
-  # }
-  initparsopt <- as.numeric(whole_df_MLE[param_set,7:12])
+  # test <- readr::parse_number(param_space_name)
+  # load(paste0("/home/p286026/TraisieABC/scripts/loglik_test/whole_df_MLE",test,".RData"))
+  startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))
+
+  initparsopt <- c(startingpoint$lambda0,startingpoint$lambda0,
+                   startingpoint$mu0,startingpoint$mu0,
+                   0.1,0.1)
+  seed_mcmc <-as.integer(Sys.time()) %% 1000000L * param_set
+  set.seed(seed_mcmc)
+  message("seed_mcmc: ", seed_mcmc)
+  for(n in 1:6){
+    initparsopt[n]<-exp(log(initparsopt[n]) +
+                          stats::rnorm(1, 0, 0.01))
+  }
+  # initparsopt <- as.numeric(whole_df_MLE[param_set,7:12])
   mcmc <- MCMC(datalist = obs_sim[[1]],
                       log_lik_function = calc_log_lik_secsse,
                       log_prior_function = calc_log_prior_secsse,

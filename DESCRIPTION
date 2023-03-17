@@ -26,9 +26,10 @@ Imports:
     readr,
     testit
 Remotes:
-    Neves-P/DAISIErobustness@trait_test,
+    Neves-P/DAISIErobustness,
     thijsjanzen/nltt,
-    thijsjanzen/treestats
+    thijsjanzen/treestats，
+    rsetienne/secsse@simulation
 URL: https://github.com/xieshu95/Traisie-ABC
 BugReports: https://github.com/xieshu95/Traisie-ABC/issues
 RoxygenNote: 7.2.3
