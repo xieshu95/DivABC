@@ -27,8 +27,8 @@ run_MCMC_secsse <- function(param_space_name,
                                        K = Inf,
                                        replicates = 1)
   # obs_sim_pars_init <- obs_sim_pars + 0.0001
-  load(paste0("/home/p286026/TraisieABC/scripts/loglik_test/whole_df_MLE1.RData"))
-  # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/MLE_MCMC_test/secsse_MCMC_test1_param_set_5_ss_1.RData"))
+  test <- readr::parse_number(param_space_name)
+  load(paste0("/home/p286026/TraisieABC/scripts/loglik_test/whole_df_MLE",test,".RData"))
   # startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))
   #
   # initparsopt <- c(startingpoint$lambda0,startingpoint$lambda0,

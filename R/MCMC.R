@@ -46,7 +46,7 @@ MCMC <- function(datalist,
     new_log_lik <- log_lik_function(parameters, datalist, idparsopt)
     new_log_prior <- log_prior_function(parameters)
 
-    message("pars", c(round(parameters,5),new_log_lik))
+    # message("pars", c(round(parameters,5),new_log_lik))
     #accept or reject
     if (is.finite(new_log_lik) &&
         is.finite(new_log_prior) &&
