@@ -28,7 +28,7 @@ Imports:
 Remotes:
     Neves-P/DAISIErobustness,
     thijsjanzen/nltt,
-    thijsjanzen/treestats，
+    thijsjanzen/treestats,
     rsetienne/secsse@simulation
 URL: https://github.com/xieshu95/Traisie-ABC
 BugReports: https://github.com/xieshu95/Traisie-ABC/issues
