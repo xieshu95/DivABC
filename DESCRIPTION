@@ -28,6 +28,7 @@ Imports:
 Remotes:
     Neves-P/DAISIErobustness@trait_test,
     thijsjanzen/nltt
+    thijsjanzen/treestats
 URL: https://github.com/xieshu95/Traisie-ABC
 BugReports: https://github.com/xieshu95/Traisie-ABC/issues
 RoxygenNote: 7.2.3
