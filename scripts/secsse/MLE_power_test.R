@@ -1,5 +1,13 @@
 # i = 1
 # load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/obs_ss_test",i,".RData"))
+for(test in 1:6){
+  param_data <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
+  load(paste0("scripts/loglik_test/obs_ss_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_fix_MCMC/MLE/test",test,"_MLE_secsse.RData"))
+  whole_df_MLE <- data.frame(param_data,MLE_all,pars_ss[,7:10])
+  save(whole_df_MLE,file = paste0("scripts/loglik_test/whole_df_MLE",test,".RData"))
+}
+
 
 ## secsse test MLE
 library(ggplot2)
