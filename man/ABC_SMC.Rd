@@ -7,6 +7,7 @@
 ABC_SMC(
   obs_data,
   sim_function,
+  calc_ss_function,
   init_epsilon_values,
   prior_generating_function,
   prior_density_function,
