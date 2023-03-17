@@ -10,6 +10,7 @@
 ABC_SMC <- function( # nolint indeed a complex function
   obs_data,
   sim_function,
+  calc_ss_function,
   init_epsilon_values,
   prior_generating_function,
   prior_density_function,
@@ -107,7 +108,7 @@ ABC_SMC <- function( # nolint indeed a complex function
         }
         #calculate the summary statistics for the simulated tree
         if (accept) {
-          df_stats <- calc_ss_diff (sim1 = obs_data[[1]],
+          df_stats <- calc_ss_function (sim1 = obs_data[[1]],
                                     sim2 = new_sim[[1]],
                                     ss_set = ss_set)
 

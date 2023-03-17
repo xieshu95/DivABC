@@ -40,6 +40,7 @@ run_ABC <- function(param_space_name,
                               K = as.numeric(obs_sim_pars$K),
                               replicates = 1)  ## replicates = 30
     sim_function <- get_DAISIE_sim
+    calc_ss_function <- calc_ss_diff_daisie
     prior_generating_function <- prior_gen
     prior_density_function <- prior_dens
     fixpars = as.numeric(obs_sim_pars[1:4])
@@ -64,6 +65,7 @@ run_ABC <- function(param_space_name,
                                K = as.numeric(obs_sim_pars$K),
                                replicates = 1) ## replicates = 30
     sim_function <- get_TraiSIE_sim
+    calc_ss_fucntion <- calc_ss_diff_traisie
     prior_generating_function <- prior_gen_trait
     prior_density_function <- prior_dens_trait
     fixpars = as.numeric(obs_sim_pars[c(2:5,7:12)])
@@ -74,6 +76,7 @@ run_ABC <- function(param_space_name,
       K = Inf,
       replicates = 1) ## replicates = 30
     sim_function <- get_secsse_sim
+    calc_ss_fucntion <- calc_ss_diff_secsse
     prior_generating_function <- prior_gen_secsse
     prior_density_function <- prior_dens_secsse
     fixpars = as.numeric(obs_sim_pars[1:6])
