@@ -56,7 +56,7 @@ ABC_SMC <- function( # nolint indeed a complex function
     print_frequency <- 20
     tried <- 0
     number_accepted <- 0
-    sigma_temp <- sigma * exp(-0.2 * (i - 1))
+    sigma_temp <- sigma * exp(-0.15 * (i - 1))
 
     #replace all vectors
     if (i > 1) {
@@ -160,7 +160,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.65) #0.5
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.68) #0.5
       # if("phy" %in% names(obs_data[[1]])){
       #   epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.65) #0.5
       # } else {
