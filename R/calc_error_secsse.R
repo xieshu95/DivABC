@@ -1,64 +1,27 @@
 #' Calculates error metrics between two simulations
 calc_error_secsse <- function(sim_1,
                               sim_2,
-                              distance_method) {
+                              distance_method = "abs") {
 
-  # # mpd_all
-  # mpd_all_1 <- calc_mpd_trait(sim = sim_1,state_type = 3)
-  # mpd_all_2 <- calc_mpd_trait(sim = sim_2,state_type = 3)
-  # mpd_all <- abs(mpd_all_1 - mpd_all_2)
+  # mpd_all
+  mpd_1 <- treestats::mean_pair_dist(sim_1$phy)
+  mpd_2 <- treestats::mean_pair_dist(sim_2$phy)
+  mpd <- abs(mpd_1 - mpd_2)
 
-  # mpd_diff
-  mpd_diff_sim1 <- calc_mpd_trait(sim = sim_1,state_type = 0)
-  mpd_diff_sim2 <- calc_mpd_trait(sim = sim_2,state_type = 0)
-  mpd_diff <- abs(mpd_diff_sim1 - mpd_diff_sim2)
 
-  # mpd_diff same with state1
-  mpd_s1_sim1 <- calc_mpd_trait(sim = sim_1,state_type = 1)
-  mpd_s1_sim2 <- calc_mpd_trait(sim = sim_2,state_type = 1)
-  mpd_s1 <- abs(mpd_s1_sim1 - mpd_s1_sim2)
+  vpd_1 <- treestats::var_pair_dist(sim_1$phy)
+  vpd_2 <- treestats::var_pair_dist(sim_2$phy)
+  vpd <- abs(vpd_1 - vpd_2)
 
-  # mpd_diff same with state2
-  mpd_s2_sim1 <- calc_mpd_trait(sim = sim_1,state_type = 2)
-  mpd_s2_sim2 <- calc_mpd_trait(sim = sim_2,state_type = 2)
-  mpd_s2 <- abs(mpd_s2_sim1 - mpd_s2_sim2)
-
-  # sdpd_diff_1 <- calc_sdpd_trait(sim = sim_1,state_type = 0)
-  # sdpd_diff_2 <- calc_sdpd_trait(sim = sim_2,state_type = 0)
-  # sdpd_diff <- abs(sdpd_diff_1 - sdpd_diff_2)
-
-  # # mntd_all
-  # mntd_all_1 <- calc_mntd_trait(sim = sim_1,state_type = 3)
-  # mntd_all_2 <- calc_mntd_trait(sim = sim_2,state_type = 3)
-  # mntd_all <- abs(mntd_all_1 - mntd_all_2)
+  # mntd_all
+  mntd_1 <- treestats::mntd(phy = sim_1$phy)
+  mntd_2 <- treestats::mntd(phy = sim_2$phy)
+  mntd <- abs(mntd_1 - mntd_2)
 
   # mntd_diff
   mntd_diff_sim1 <- calc_mntd_trait(sim = sim_1,state_type = 0)
   mntd_diff_sim2 <- calc_mntd_trait(sim = sim_2,state_type = 0)
   mntd_diff <- abs(mntd_diff_sim1 - mntd_diff_sim2)
-
-  # mntd_diff state1
-  mntd_s1_sim1 <- calc_mntd_trait(sim = sim_1,state_type = 1)
-  mntd_s1_sim2 <- calc_mntd_trait(sim = sim_2,state_type = 1)
-  mntd_s1 <- abs(mntd_s1_sim1 - mntd_s1_sim2)
-
-  # mntd_diff state1
-  mntd_s2_sim1 <- calc_mntd_trait(sim = sim_1,state_type = 2)
-  mntd_s2_sim2 <- calc_mntd_trait(sim = sim_2,state_type = 2)
-  mntd_s2 <- abs(mntd_s2_sim1 - mntd_s2_sim2)
-
-  # sdntd_diff_1 <- calc_sdntd_trait(sim = sim_1,state_type = 0)
-  # sdntd_diff_2 <- calc_sdntd_trait(sim = sim_2,state_type = 0)
-  # sdntd_diff <- abs(sdntd_diff_1 - sdntd_diff_2)
-
-  # K statistic
-  # K1 <- adiv::K(sim_1$phy,
-  #               trait = sim_1$examTraits,
-  #               nrep = 1000, alter = c("two-sided"))
-  # K2 <- adiv::K(sim_2$phy,
-  #               trait = sim_2$examTraits,
-  #               nrep = 1000, alter = c("two-sided"))
-  # K <- abs(K1$obs - K2$obs)
 
   # D statistic
   D1 <- calc_D(sim_1)
@@ -74,34 +37,25 @@ calc_error_secsse <- function(sim_1,
 
   num_state1 <- abs(num_state1_sim1 - num_state1_sim2)
   num_state2 <- abs(num_state2_sim1 - num_state2_sim2)
-  # # total number
-  # total_sim1 <- length(sim_1$examTraits)
-  # total_sim2 <- length(sim_2$examTraits)
-  # total_spec <- abs(total_sim1 - total_sim2)
-  #
-  # # ratio 1
-  # num_state1_sim1 <- length(which(sim_1$examTraits == 1))
-  # ratio_state1_sim1 <- num_state1_sim1/total_sim1
-  # num_state1_sim2 <- length(which(sim_2$examTraits == 1))
-  # ratio_state1_sim2 <- num_state1_sim2/total_sim2
-  # spec_ratio <- abs(ratio_state1_sim1 - ratio_state1_sim2)
 
   # nLTT
   nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
 
+  spect_1 <- treestats::laplacian_spectrum(sim_1$phy)
+  spect_2 <- treestats::laplacian_spectrum(sim_2$phy)
+  spect <- abs(log(spect_1$principal_eigenvalue) -
+                 log(spect_2$principal_eigenvalue) )
+
   return(
-    c(mpd_diff,
-      mpd_s1,
-      mpd_s2,
-      # sdpd_diff,
+    c(mpd,
+      vpd,
+      mntd,
       mntd_diff,
-      mntd_s1,
-      mntd_s2,
-      # sdntd_diff,
       D,
       num_state1,
       num_state2,
-      nltt)
+      nltt,
+      spect)
   )
 }
 
