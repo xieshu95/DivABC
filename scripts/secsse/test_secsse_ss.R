@@ -17,7 +17,7 @@ for(test in c(1,2,3,4,5)) {
   #                   "sdpd","sdpd_diff","sdntd","sdntd_diff",
   #                   "K","D","state1","state2","nltt")
 
-  colnames(ss) <- c("state1","state2","tree_size","tip_ratio")
+  # colnames(ss) <- c("state1","state2","tree_size","tip_ratio")
   rownames(ss) <- 1:100
 
 
@@ -45,13 +45,13 @@ length(tree_size[tree_size <= 50])
 ## heatmap for random combinations
 # don't use given values but sample from prior
 
-# set.seed(1)
-# lam1 <- stats::rexp(200,2)
-# lam2 <- stats::rexp(200,2)
-# mu1 <- stats::rexp(200,10)
-# mu2 <- stats::rexp(200,10)
-# q12 <- stats::rexp(200,5)
-# q21 <- stats::rexp(200,5)
+set.seed(1)
+lam1 <- stats::rexp(200,2)
+lam2 <- stats::rexp(200,2)
+mu1 <- stats::rexp(200,10)
+mu2 <- stats::rexp(200,10)
+q12 <- stats::rexp(200,5)
+q21 <- stats::rexp(200,5)
 # #
 # test_ss_space <- data.frame(lam1,lam2,mu1,mu2,q12,q21)
 # save(test_ss_space,file = "G:/results/project 2/tip_info/round4/adap_secsse_new_space/test_ss_space.RData")
@@ -139,9 +139,10 @@ while (!is.null(dev.list()))  dev.off()
 
 
 ## use metan package to plot heatmap
-load("G:/results/project 2/tip_info/round4/adap_secsse_new_space/test_ss_df_prior.RData")
+
+load("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test2_comb/obs_ss_test1.RData")
 # install.packages("metan")
-ss <- data.frame(ss)
+ss <- data.frame(pars_ss[7:10])
 library(metan)
 # All numeric variables
 x <- corr_coef(ss)
