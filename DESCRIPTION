@@ -24,7 +24,8 @@ Imports:
     DAISIErobustness,
     nLTT,
     readr,
-    testit
+    testit,
+    RPANDA
 Remotes:
     Neves-P/DAISIErobustness,
     thijsjanzen/nltt,
