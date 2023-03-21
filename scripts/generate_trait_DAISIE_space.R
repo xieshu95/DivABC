@@ -406,3 +406,61 @@ write.csv2(
   "data/TraiSIE_ABC_lac.csv",
   row.names = FALSE
 )
+
+
+
+## new space traisie test
+rep <- 1:100
+## reference rates: 0.5,0.1,0.02,0.2
+## a. lac mean = 0.5
+par1 <- c(0.3,0.3,0,0,0.01,0.01,0.1,0.1,0,0,20)  ## all symmetric
+par2 <- c(0.3,0.3,0.1,0.1,0.01,0.01,0.1,0.1,0,0,20)  ## all symmetric
+par3 <- c(0.3,0.3,0.1,0.1,0.01,0.01,0.1,0.1,0.1,0.1,20)  ## all symmetric
+par4 <- c(0.2,0.4,0,0,0.01,0.01,0.1,0.1,0.1,0.1,20)  ## asymmetric in lam
+par5 <- c(0.2,0.4,0.1,0.1,0.01,0.01,0.1,0.1,0.1,0.1,20)  ## asymmetric in lam, low mu
+
+
+traisie_ABC <- data.frame(rbind(par1,par2,par3,par4,par5))
+colnames(traisie_ABC) <- c("lac","lac2","mu","mu2",
+                          "gam","gam2","laa","laa2",
+                          "trans","trans2","K")
+
+traisie_ABC_test1 <- traisie_ABC[rep(1,100), ]
+rownames(traisie_ABC_test1) <- 1:nrow(traisie_ABC_test1)
+write.csv2(
+  traisie_ABC_test1,
+  "data/traisie_ABC_test1.csv",
+  row.names = FALSE
+)
+
+traisie_ABC_test2 <- traisie_ABC[rep(2,100), ]
+rownames(traisie_ABC_test2) <- 1:nrow(traisie_ABC_test2)
+write.csv2(
+  traisie_ABC_test2,
+  "data/traisie_ABC_test2.csv",
+  row.names = FALSE
+)
+
+traisie_ABC_test3 <- traisie_ABC[rep(3,100), ]
+rownames(traisie_ABC_test3) <- 1:nrow(traisie_ABC_test3)
+write.csv2(
+  traisie_ABC_test3,
+  "data/traisie_ABC_test3.csv",
+  row.names = FALSE
+)
+
+traisie_ABC_test4 <- traisie_ABC[rep(4,100), ]
+rownames(traisie_ABC_test4) <- 1:nrow(traisie_ABC_test4)
+write.csv2(
+  traisie_ABC_test4,
+  "data/traisie_ABC_test4.csv",
+  row.names = FALSE
+)
+
+traisie_ABC_test5 <- traisie_ABC[rep(5,100), ]
+rownames(traisie_ABC_test5) <- 1:nrow(traisie_ABC_test5)
+write.csv2(
+  traisie_ABC_test5,
+  "data/traisie_ABC_test5.csv",
+  row.names = FALSE
+)

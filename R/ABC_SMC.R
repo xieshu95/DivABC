@@ -96,13 +96,13 @@ ABC_SMC <- function( # nolint indeed a complex function
 
 
         accept <- TRUE
-        if ("phy" %in% names(new_sim[[1]])) {
-          if (length(new_sim[[1]]$examTraits) < 20 ||
-              length(new_sim[[1]]$examTraits) >= 400 ||
-              length(unique(new_sim[[1]]$examTraits)) < 2) {
-            accept <- FALSE
-          }
-        }
+        # if ("phy" %in% names(new_sim[[1]])) {
+        #   if (length(new_sim[[1]]$examTraits) < 20 ||
+        #       length(new_sim[[1]]$examTraits) >= 400 ||
+        #       length(unique(new_sim[[1]]$examTraits)) < 2) {
+        #     accept <- FALSE
+        #   }
+        # }
         #calculate the summary statistics for the simulated tree
         if (accept) {
           df_stats <- calc_ss_function (sim1 = obs_data[[1]],
