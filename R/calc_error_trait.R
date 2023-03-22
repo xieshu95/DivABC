@@ -25,172 +25,109 @@ calc_error_trait <- function(sim_1,
                              replicates,
                              distance_method) {
 
+  # Spec error
+  ltt_1 <- full_ltt(sim_1)
+  ltt_2 <- full_ltt(sim_2)
 
-  sim_1_event_times <-
-    sim_1[[1]][[1]]$stt_all[, "Time"]
-  sim_2_event_times <-
-    sim_2[[1]][[1]]$stt_all[, "Time"]
-
-  # 1. Anagenesis Endemic nltt
-  sim_1_ana_endemic_spec <-
-    sim_1[[1]][[1]]$stt_all[, "nA"]
-  sim_2_ana_endemic_spec <-
-    sim_2[[1]][[1]]$stt_all[, "nA"]
-  ana_endemic_nltt_error <- nLTT::nltt_diff_exact_extinct(
-    event_times = sim_1_event_times,
-    species_number = sim_1_ana_endemic_spec,
-    event_times2 = sim_2_event_times,
-    species_number2 = sim_2_ana_endemic_spec,
+  # total number species nltt error
+  total_nltt <- nLTT::nltt_diff_exact_extinct(
+    event_times = ltt_1$brt,
+    species_number = ltt_1$n_spec,
+    event_times2 = ltt_2$brt,
+    species_number2 = ltt_2$n_spec,
     distance_method = distance_method,
     time_unit = "ago",
     normalize = FALSE
   )
 
-  # 2. Cladogenesis Endemic nltt
-  sim_1_clado_endemic_spec <-
-    sim_1[[1]][[1]]$stt_all[, "nC"]
-  sim_2_clado_endemic_spec <-
-    sim_2[[1]][[1]]$stt_all[, "nC"]
-  clado_endemic_nltt_error <- nLTT::nltt_diff_exact_extinct(
-    event_times = sim_1_event_times,
-    species_number = sim_1_clado_endemic_spec,
-    event_times2 = sim_2_event_times,
-    species_number2 = sim_2_clado_endemic_spec,
+
+  # Clades number nltt error
+  clade_ltt_1 <- clade_ltt(sim_1)
+  clade_ltt_2 <- clade_ltt(sim_2)
+
+  clade_nltt <- nLTT::nltt_diff_exact_extinct(
+    event_times = clade_ltt_1$colon_time,
+    species_number = clade_ltt_1$n_clade,
+    event_times2 = clade_ltt_2$colon_time,
+    species_number2 = clade_ltt_2$n_clade,
     distance_method = distance_method,
     time_unit = "ago",
     normalize = FALSE
   )
 
-  # 3. Nonendemic nltt
-  sim_1_nonendemic_spec <-
-    sim_1[[1]][[1]]$stt_all[, "nI"]
-  sim_2_nonendemic_spec <-
-    sim_2[[1]][[1]]$stt_all[, "nI"]
-  nonendemic_nltt_error <- nLTT::nltt_diff_exact_extinct(
-    event_times = sim_1_event_times,
-    species_number = sim_1_nonendemic_spec,
-    event_times2 = sim_2_event_times,
-    species_number2 = sim_2_nonendemic_spec,
-    distance_method = distance_method,
-    time_unit = "ago",
-    normalize = FALSE
-  )
 
-  # 4. Clades number nltt
-  sim_1_clade <-
-    sim_1[[1]][[1]]$stt_all[, "present"]
-  sim_2_clade <-
-    sim_2[[1]][[1]]$stt_all[, "present"]
-  clade_nltt_error <- nLTT::nltt_diff_exact_extinct(
-    event_times = sim_1_event_times,
-    species_number = sim_1_clade,
-    event_times2 = sim_2_event_times,
-    species_number2 = sim_2_clade,
-    distance_method = distance_method,
-    time_unit = "ago",
-    normalize = FALSE
-  )
-
-  ### 5. number of singleton speciation
+  ### 5. number of singleton speciation difference between states
   stt_last_row_sim_1 <-
     length(sim_1[[1]][[1]]$stt_two_states[, "present"])
-  num_ana_sim_1_state1 <-
+  num_singleton_sim_1_state1 <-
     as.numeric(
         sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nA"])
-  num_ana_sim_1_state2 <-
+  num_singleton_sim_1_state2 <-
     as.numeric(
         sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nA2"])
+  num_singleton_ratio_sim1 <- num_singleton_sim_1_state1/num_singleton_sim_1_state2
 
   stt_last_row_sim_2 <-
     length(sim_2[[1]][[1]]$stt_two_states[, "present"])
-  num_ana_sim_2_state1 <-
+  num_singleton_sim_2_state1 <-
     as.numeric(
         sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nA"])
-  num_ana_sim_2_state2 <-
+  num_singleton_sim_2_state2 <-
     as.numeric(
         sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nA2"])
-  num_ana_error_state1 <-
-    abs(num_ana_sim_1_state1 - num_ana_sim_2_state1)
-  num_ana_error_state2 <-
-    abs(num_ana_sim_1_state2 - num_ana_sim_2_state2)
+  num_singleton_ratio_sim2 <- num_singleton_sim_2_state1/num_singleton_sim_2_state2
+
+  num_singleton_ratio_error <-
+    abs(num_singleton_ratio_sim1 - num_singleton_ratio_sim2)
+
 
   ### 6. number of multiple lineage speciation(cladogenesis)
-  num_clado_sim_1_state1 <-
+  num_multi_sim_1_state1 <-
     as.numeric(
       sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nC"])
-  num_clado_sim_1_state2 <-
+  num_multi_sim_1_state2 <-
     as.numeric(
       sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nC2"])
+  num_multi_ratio_sim1 <- num_multi_sim_1_state1/num_multi_sim_1_state2
 
-  num_clado_sim_2_state1 <-
+  num_multi_sim_2_state1 <-
     as.numeric(
       sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nC"])
-  num_clado_sim_2_state2 <-
+  num_multi_sim_2_state2 <-
     as.numeric(
       sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nC2"])
-  num_clado_error_state1 <-
-    abs(num_clado_sim_1_state1 - num_clado_sim_2_state1)
-  num_clado_error_state2 <-
-    abs(num_clado_sim_1_state2 - num_clado_sim_2_state2)
+  num_multi_ratio_sim2 <- num_multi_sim_2_state1/num_multi_sim_2_state2
+
+  num_multi_ratio_error <-
+    abs(num_multi_ratio_sim1 - num_multi_ratio_sim2)
 
   # 7. number of Nonendemic
-  nonendemic_sim_1_state1 <-
+  nonend_sim_1_state1 <-
     as.numeric(
       sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nI"])
-  nonendemic_sim_1_state2 <-
+  nonend_sim_1_state2 <-
     as.numeric(
       sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nI2"])
+  nonend_ratio_sim1 <- nonend_sim_1_state1/nonend_sim_1_state2
 
-  nonendemic_sim_2_state1 <-
+  nonend_sim_2_state1 <-
     as.numeric(
       sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nI"])
-  nonendemic_sim_2_state2 <-
+  nonend_sim_2_state2 <-
     as.numeric(
       sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nI2"])
-  num_nonend_error_state1 <-
-    abs(nonendemic_sim_1_state1 - nonendemic_sim_2_state1)
-  num_nonend_error_state2 <-
-    abs(nonendemic_sim_1_state2 - nonendemic_sim_2_state2)
+  nonend_ratio_sim2 <- nonend_sim_2_state1/nonend_sim_2_state2
 
-  # #8. colonist number
-  # num_col_sim_1 <-
-  #   as.numeric(sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "present"])
-  # num_col_sim_2 <-
-  #   as.numeric(sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "present"])
-  # num_col_error <-
-  #   abs(num_col_sim_1 - num_col_sim_2)
+  nonend_ratio_error <-
+    abs(nonend_ratio_sim1 - nonend_ratio_sim2)
 
-
-  #9. transition times
-  stt1 <- sim_1[[1]][[1]]$stt_two_states
-  ds1_sim1 <- diff(stt1[,2] + stt1[,3] + stt1[,4])
-  ds2_sim1 <- diff(stt1[,5] + stt1[,6] + stt1[,7])
-  ds1<- data.frame(ds1_sim1,ds2_sim1)
-  num_trans12_sim1 = sum(ds1$ds1_sim1 == -1 & ds1$ds2_sim1 == 1)
-  num_trans21_sim1 = sum(ds1$ds1_sim1 == 1 & ds1$ds2_sim1 == -1)
-
-  stt2 <- sim_2[[1]][[1]]$stt_two_states
-  ds1_sim2 <- diff(stt2[,2] + stt2[,3] + stt2[,4])
-  ds2_sim2 <- diff(stt2[,5] + stt2[,6] + stt2[,7])
-  ds2<- data.frame(ds1_sim2,ds2_sim2)
-  num_trans12_sim2 = sum(ds2$ds1_sim2 == -1 & ds2$ds2_sim2 == 1)
-  num_trans21_sim2 = sum(ds2$ds1_sim2 == 1 & ds2$ds2_sim2 == -1)
-
-  num_trans12_error = abs(num_trans12_sim1 - num_trans12_sim2)
-  num_trans21_error = abs(num_trans21_sim1 - num_trans21_sim2)
 
   return(
-    list(ana_endemic_nltt_error = ana_endemic_nltt_error,
-         clado_endemic_nltt_error = clado_endemic_nltt_error,
-         nonendemic_nltt_error = nonendemic_nltt_error,
-         clade_nltt_error = clade_nltt_error,
-         num_ana_error_state1 = num_ana_error_state1,
-         num_ana_error_state2 = num_ana_error_state2,
-         num_clado_error_state1 = num_clado_error_state1,
-         num_clado_error_state2 = num_clado_error_state2,
-         num_nonend_error_state1 = num_nonend_error_state1,
-         num_nonend_error_state2 = num_nonend_error_state2,
-         num_trans12_error = num_trans12_error,
-         num_trans21_error = num_trans21_error)
+    list(total_nltt = total_nltt,
+         clade_nltt = clade_nltt,
+         num_singleton_ratio_error = num_singleton_ratio_error,
+         num_multi_ratio_error = num_multi_ratio_error,
+         nonend_ratio_error = nonend_ratio_error
+         )
   )
 }
