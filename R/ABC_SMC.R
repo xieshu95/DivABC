@@ -10,6 +10,7 @@
 ABC_SMC <- function( # nolint indeed a complex function
   obs_data,
   sim_function,
+  calc_ss_function,
   init_epsilon_values,
   prior_generating_function,
   prior_density_function,
@@ -55,7 +56,7 @@ ABC_SMC <- function( # nolint indeed a complex function
     print_frequency <- 20
     tried <- 0
     number_accepted <- 0
-    sigma_temp <- sigma * exp(-0.2 * (i - 1))
+    sigma_temp <- sigma * exp(-0.1 * (i - 1))
 
     #replace all vectors
     if (i > 1) {
@@ -82,11 +83,8 @@ ABC_SMC <- function( # nolint indeed a complex function
         for (p_index in seq_along(parameters)) {
           parameters[p_index] <- previous_params[[index]][p_index]
         }
-
-        for(to_change in idparsopt){
-          parameters[to_change] <- exp(log(parameters[to_change]) +
+          parameters[idparsopt] <- exp(log(parameters[idparsopt]) +
                                          stats::rnorm(1, 0, sigma_temp))
-        }
       }
 
       #reject if outside the prior
@@ -107,7 +105,7 @@ ABC_SMC <- function( # nolint indeed a complex function
         }
         #calculate the summary statistics for the simulated tree
         if (accept) {
-          df_stats <- calc_ss_diff (sim1 = obs_data[[1]],
+          df_stats <- calc_ss_function (sim1 = obs_data[[1]],
                                     sim2 = new_sim[[1]],
                                     ss_set = ss_set)
 
@@ -163,11 +161,12 @@ ABC_SMC <- function( # nolint indeed a complex function
 
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      if("phy" %in% names(obs_data[[1]])){
-        epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.65) #0.5
-      } else {
-        epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.55) #0.5
-      }
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.75) #0.5
+      # if("phy" %in% names(obs_data[[1]])){
+      #   epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.65) #0.5
+      # } else {
+      #   epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.55) #0.5
+      # }
     }
     ABC <- c()
     for (k in seq_along(new_params)) {

@@ -15,7 +15,7 @@ MCMC <- function(datalist,
 {
   # create a list for the samples & reserve memory for the chain
   chain <- array(dim = c(floor(iterations / thinning) + 1,
-                         length(parameters)))
+                         length(parameters) + 2))
 
   for (j in seq_along(parameters)) {
     if (parameters[j] < 0) {
@@ -46,6 +46,7 @@ MCMC <- function(datalist,
     new_log_lik <- log_lik_function(parameters, datalist, idparsopt)
     new_log_prior <- log_prior_function(parameters)
 
+    # message("pars", c(round(parameters,5),new_log_lik))
     #accept or reject
     if (is.finite(new_log_lik) &&
         is.finite(new_log_prior) &&
@@ -64,7 +65,8 @@ MCMC <- function(datalist,
         utils::flush.console()
       }
       if ((i - burnin) %% thinning == 0) {
-        chain[(i - burnin) / thinning + 1, ] <- parameters
+        chain[(i - burnin) / thinning + 1, ] <- c(parameters,log_lik,log_prior)
+        # chain[(i - burnin) / thinning + 1, ] <- parameters
       }
     }
   }

@@ -4,7 +4,7 @@
 \alias{calc_error_secsse}
 \title{Calculates error metrics between two simulations}
 \usage{
-calc_error_secsse(sim_1, sim_2, distance_method)
+calc_error_secsse(sim_1, sim_2, distance_method = "abs")
 }
 \description{
 Calculates error metrics between two simulations

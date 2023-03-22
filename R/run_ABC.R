@@ -40,6 +40,7 @@ run_ABC <- function(param_space_name,
                               K = as.numeric(obs_sim_pars$K),
                               replicates = 1)  ## replicates = 30
     sim_function <- get_DAISIE_sim
+    calc_ss_function <- calc_ss_diff_daisie
     prior_generating_function <- prior_gen
     prior_density_function <- prior_dens
     fixpars = as.numeric(obs_sim_pars[1:4])
@@ -64,6 +65,7 @@ run_ABC <- function(param_space_name,
                                K = as.numeric(obs_sim_pars$K),
                                replicates = 1) ## replicates = 30
     sim_function <- get_TraiSIE_sim
+    calc_ss_function <- calc_ss_diff_traisie
     prior_generating_function <- prior_gen_trait
     prior_density_function <- prior_dens_trait
     fixpars = as.numeric(obs_sim_pars[c(2:5,7:12)])
@@ -74,11 +76,12 @@ run_ABC <- function(param_space_name,
       K = Inf,
       replicates = 1) ## replicates = 30
     sim_function <- get_secsse_sim
+    calc_ss_function <- calc_ss_diff_secsse
     prior_generating_function <- prior_gen_secsse
     prior_density_function <- prior_dens_secsse
     fixpars = as.numeric(obs_sim_pars[1:6])
     # init_epsilon <- calc_epsilon_init_secsse(sim = obs_sim)
-    init_epsilon_all <- c(20,20,20,20,20,20,2,150,150,1)
+    init_epsilon_all <- c(20,50,20,20,2,100,100,1,10)
     if(ss_set == 0){
       init_epsilon <- init_epsilon_all
     } else if(ss_set > 10){
@@ -95,12 +98,13 @@ run_ABC <- function(param_space_name,
   abc <- ABC_SMC (
     obs_data = obs_sim,
     sim_function = sim_function,
+    calc_ss_function = calc_ss_function,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_generating_function,
     prior_density_function = prior_density_function,
-    number_of_particles = 500, #1000
-    sigma = 0.1,
-    stop_rate = 0.02,
+    number_of_particles = 300, #1000
+    sigma = 0.05,
+    stop_rate = 0.1,
     replicates = 1,  ## simulation replicates for each parameter set
     num_iterations = 10, #10
     K = as.numeric(obs_sim_pars$K),

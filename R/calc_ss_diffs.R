@@ -17,41 +17,44 @@
 #' @author Shu Xie
 #' @export
 
-calc_ss_diff <- function(sim1, sim2, ss_set){
-
-  if("stt_two_states" %in% names(sim1[[1]][[1]])){  ##TraiSIE
-
-    ss <- calc_error_trait(sim_1 = sim1,
-                           sim_2 = sim2,
-                           replicates = 1,
-                           distance_method = "abs")
-    ss_diff <-as.numeric(c(ss$ana_endemic_nltt_error,
-                           ss$clado_endemic_nltt_error,
-                           ss$nonendemic_nltt_error,
-                           ss$clade_nltt_error,
-                           ss$num_ana_error_state1,
-                           ss$num_ana_error_state2,
-                           ss$num_clado_error_state1,
-                           ss$num_clado_error_state2,
-                           ss$num_nonend_error_state1,
-                           ss$num_nonend_error_state2,
-                           ss$num_trans12_error,
-                           ss$num_trans21_error))
-  } else if ("stt_all" %in% names(sim1[[1]][[1]])) { ## DAISIE
-    ss <- calc_error_no_ext(sim_1 = sim1,   ##calc_error
-                            sim_2 = sim2,
-                            replicates = 1,
-                            distance_method = "abs")
-    ss_diff <- select_ss_DAISIE(ss,ss_set)
-  } else { ## secsse
-    ss <- calc_error_secsse(sim_1 = sim1,
-                            sim_2 = sim2,
-                            distance_method = "abs")
-    ss_diff <- select_ss_secsse(ss,ss_set)
-  }
+calc_ss_diff_traisie <- function(sim1, sim2, ss_set){
+  ss <- calc_error_trait(sim_1 = sim1,
+                         sim_2 = sim2,
+                         replicates = 1,
+                         distance_method = "abs")
+  ss_diff <-as.numeric(c(ss$ana_endemic_nltt_error,
+                         ss$clado_endemic_nltt_error,
+                         ss$nonendemic_nltt_error,
+                         ss$clade_nltt_error,
+                         ss$num_ana_error_state1,
+                         ss$num_ana_error_state2,
+                         ss$num_clado_error_state1,
+                         ss$num_clado_error_state2,
+                         ss$num_nonend_error_state1,
+                         ss$num_nonend_error_state2,
+                         ss$num_trans12_error,
+                         ss$num_trans21_error))
   return(ss_diff)
 }
 
+calc_ss_diff_daisie <- function(sim1, sim2, ss_set){
+  ss <- calc_error_no_ext(sim_1 = sim1,   ##calc_error
+                          sim_2 = sim2,
+                          replicates = 1,
+                          distance_method = "abs")
+  ss_diff <- select_ss_DAISIE(ss,ss_set)
+
+  return(ss_diff)
+}
+
+
+calc_ss_diff_secsse <- function(sim1, sim2, ss_set){
+  ss <- calc_error_secsse(sim_1 = sim1,
+                          sim_2 = sim2,
+                          distance_method = "abs")
+  ss_diff <- select_ss_secsse(ss,ss_set)
+  return(ss_diff)
+}
 
 
 # all ss for DAISIE
@@ -157,10 +160,6 @@ select_ss_DAISIE <- function(ss,ss_set){
 select_ss_secsse <- function (ss,ss_set){
   if(ss_set == 0){
     select_ss <- as.numeric(ss)
-  # } else if(ss_set == 11 ){
-  #   select_ss <-as.numeric(ss[-c(1,3)])
-  # } else if(ss_set == 12 ){
-  #   select_ss <-as.numeric(ss[-c(2,4)])
   } else if(ss_set > 10){
     select_ss <- as.numeric(ss)
   } else {
