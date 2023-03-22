@@ -103,6 +103,11 @@ ABC_SMC <- function( # nolint indeed a complex function
         #     accept <- FALSE
         #   }
         # }
+        # constrain for DAISIE that simulated tree has same clade-number as observed
+        if(length(obs_data[[1]][[1]]) != length(new_sim[[1]][[1]])) {
+          accept <- FALSE
+        }
+
         #calculate the summary statistics for the simulated tree
         if (accept) {
           df_stats <- calc_ss_function (sim1 = obs_data[[1]],
