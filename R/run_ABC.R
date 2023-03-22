@@ -68,7 +68,7 @@ run_ABC <- function(param_space_name,
     calc_ss_function <- calc_ss_diff_traisie
     prior_generating_function <- prior_gen_trait
     prior_density_function <- prior_dens_trait
-    fixpars = as.numeric(obs_sim_pars[c(2:5,7:12)])
+    fixpars = as.numeric(obs_sim_pars[c(1:10)])
     init_epsilon <- calc_epsilon_init(sim = obs_sim, ss_set = ss_set)
   } else if (sim_model == "secsse") {
     obs_sim <- get_secsse_sim_create_obs(

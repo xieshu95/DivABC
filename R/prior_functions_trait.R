@@ -4,12 +4,12 @@
 #' @export
 prior_dens_trait <- function(pars,idparsopt) {
   if(1 %in% idparsopt){
-    dens_lac <- stats::dunif(pars[1],0,2)
+    dens_lac <- stats::dunif(pars[1],0,1)
   } else {
     dens_lac <- 1
   }
   if(2 %in% idparsopt){
-    dens_mu <- stats::dunif(pars[2],0,2)
+    dens_mu <- stats::dunif(pars[2],0,1)
   } else {
     dens_mu <- 1
   }
@@ -19,17 +19,17 @@ prior_dens_trait <- function(pars,idparsopt) {
     dens_gam <- 1
   }
   if(4 %in% idparsopt){
-    dens_laa <- stats::dunif(pars[4],0,2)
+    dens_laa <- stats::dunif(pars[4],0,1)
   } else {
     dens_laa <- 1
   }
   if(5 %in% idparsopt){
-    dens_lac2 <- stats::dunif(pars[5],0,2)
+    dens_lac2 <- stats::dunif(pars[5],0,1)
   } else {
     dens_lac2 <- 1
   }
   if(6 %in% idparsopt){
-    dens_mu2 <- stats::dunif(pars[6],0,2)
+    dens_mu2 <- stats::dunif(pars[6],0,1)
   } else {
     dens_mu2 <- 1
   }
@@ -39,7 +39,7 @@ prior_dens_trait <- function(pars,idparsopt) {
     dens_gam2 <- 1
   }
   if(8 %in% idparsopt){
-    dens_laa2 <- stats::dunif(pars[8],0,2)
+    dens_laa2 <- stats::dunif(pars[8],0,1)
   } else {
     dens_laa2 <- 1
   }
@@ -66,12 +66,12 @@ prior_dens_trait <- function(pars,idparsopt) {
 #' @export
 prior_gen_trait <- function(pars,idparsopt){
   if(1 %in% idparsopt){
-    lac <- stats::runif(1,0,2)
+    lac <- stats::runif(1,0,1)
   } else {
     lac <- pars[1]
   }
   if(2 %in% idparsopt){
-    mu <- stats::runif(1,0,2)
+    mu <- stats::runif(1,0,1)
   } else {
     mu <- pars[2]
   }
@@ -81,17 +81,17 @@ prior_gen_trait <- function(pars,idparsopt){
     gam <- pars[3]
   }
   if(4 %in% idparsopt){
-    laa <- stats::runif(1,0,2)
+    laa <- stats::runif(1,0,1)
   } else {
     laa <- pars[4]
   }
   if(5 %in% idparsopt){
-    lac2 <- stats::runif(1,0,2)
+    lac2 <- stats::runif(1,0,1)
   } else {
     lac2 <- pars[5]
   }
   if(6 %in% idparsopt){
-    mu2 <- stats::runif(1,0,2)
+    mu2 <- stats::runif(1,0,1)
   } else {
     mu2 <- pars[6]
   }
@@ -101,7 +101,7 @@ prior_gen_trait <- function(pars,idparsopt){
     gam2 <- pars[7]
   }
   if(8 %in% idparsopt){
-    laa2 <- stats::runif(1,0,2)
+    laa2 <- stats::runif(1,0,1)
   } else {
     laa2 <- pars[8]
   }
