@@ -14,7 +14,7 @@ prior_dens_trait <- function(pars,idparsopt) {
     dens_mu <- 1
   }
   if(3 %in% idparsopt){
-    dens_gam <- stats::dunif(pars[3],0,0.05)
+    dens_gam <- stats::dunif(pars[3],0,0.02)
   } else {
     dens_gam <- 1
   }
@@ -34,7 +34,7 @@ prior_dens_trait <- function(pars,idparsopt) {
     dens_mu2 <- 1
   }
   if(7 %in% idparsopt){
-    dens_gam2 <- stats::dunif(pars[7],0,0.05)
+    dens_gam2 <- stats::dunif(pars[7],0,0.02)
   } else {
     dens_gam2 <- 1
   }
@@ -76,7 +76,7 @@ prior_gen_trait <- function(pars,idparsopt){
     mu <- pars[2]
   }
   if(3 %in% idparsopt){
-    gam <- stats::runif(1,0,0.05)
+    gam <- stats::runif(1,0,0.02)
   } else {
     gam <- pars[3]
   }
@@ -96,7 +96,7 @@ prior_gen_trait <- function(pars,idparsopt){
     mu2 <- pars[6]
   }
   if(7 %in% idparsopt){
-    gam2 <- stats::runif(1,0,0.05)
+    gam2 <- stats::runif(1,0,0.02)
   } else {
     gam2 <- pars[7]
   }

@@ -65,7 +65,12 @@ calc_error_trait <- function(sim_1,
   num_singleton_sim_1_state2 <-
     as.numeric(
         sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nA2"])
-  num_singleton_ratio_sim1 <- num_singleton_sim_1_state1/num_singleton_sim_1_state2
+  if(num_singleton_sim_1_state1 != 0 && num_singleton_sim_1_state2 != 0) {
+    num_singleton_ratio_sim1 <- num_singleton_sim_1_state1/num_singleton_sim_1_state2
+  } else {
+    num_singleton_ratio_sim1 <- 0
+  }
+
 
   stt_last_row_sim_2 <-
     length(sim_2[[1]][[1]]$stt_two_states[, "present"])
@@ -75,31 +80,15 @@ calc_error_trait <- function(sim_1,
   num_singleton_sim_2_state2 <-
     as.numeric(
         sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nA2"])
-  num_singleton_ratio_sim2 <- num_singleton_sim_2_state1/num_singleton_sim_2_state2
+  if(num_singleton_sim_2_state1 != 0 && num_singleton_sim_2_state2 != 0) {
+    num_singleton_ratio_sim2 <- num_singleton_sim_2_state1/num_singleton_sim_2_state2
+  } else {
+    num_singleton_ratio_sim2 <- 0
+  }
 
   num_singleton_ratio_error <-
     abs(num_singleton_ratio_sim1 - num_singleton_ratio_sim2)
 
-
-  ### 6. number of multiple lineage speciation(cladogenesis)
-  num_multi_sim_1_state1 <-
-    as.numeric(
-      sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nC"])
-  num_multi_sim_1_state2 <-
-    as.numeric(
-      sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nC2"])
-  num_multi_ratio_sim1 <- num_multi_sim_1_state1/num_multi_sim_1_state2
-
-  num_multi_sim_2_state1 <-
-    as.numeric(
-      sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nC"])
-  num_multi_sim_2_state2 <-
-    as.numeric(
-      sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nC2"])
-  num_multi_ratio_sim2 <- num_multi_sim_2_state1/num_multi_sim_2_state2
-
-  num_multi_ratio_error <-
-    abs(num_multi_ratio_sim1 - num_multi_ratio_sim2)
 
   # 7. number of Nonendemic
   nonend_sim_1_state1 <-
@@ -108,7 +97,12 @@ calc_error_trait <- function(sim_1,
   nonend_sim_1_state2 <-
     as.numeric(
       sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nI2"])
-  nonend_ratio_sim1 <- nonend_sim_1_state1/nonend_sim_1_state2
+  if(nonend_sim_1_state1 != 0 &&  nonend_sim_1_state2 != 0) {
+    nonend_ratio_sim1 <- nonend_sim_1_state1/nonend_sim_1_state2
+  } else {
+    nonend_ratio_sim1 <- 0
+  }
+
 
   nonend_sim_2_state1 <-
     as.numeric(
@@ -116,18 +110,35 @@ calc_error_trait <- function(sim_1,
   nonend_sim_2_state2 <-
     as.numeric(
       sim_2[[1]][[1]]$stt_two_states[stt_last_row_sim_2, "nI2"])
-  nonend_ratio_sim2 <- nonend_sim_2_state1/nonend_sim_2_state2
+  if(nonend_sim_2_state1 != 0 &&  nonend_sim_2_state2 != 0) {
+    nonend_ratio_sim2 <- nonend_sim_2_state1/nonend_sim_2_state2
+  } else {
+    nonend_ratio_sim2 <- 0
+  }
 
   nonend_ratio_error <-
     abs(nonend_ratio_sim1 - nonend_ratio_sim2)
 
+  # JSD of colonization times
+  state1_vec_sim1 <- unlist(lapply(sim_1[[1]][-1],"[[", "num_state1"))
+  state2_vec_sim1 <- unlist(lapply(sim_1[[1]][-1],"[[", "num_state2"))
+
+  state1_vec_sim2 <- unlist(lapply(sim_2[[1]][-1],"[[", "num_state1"))
+  state2_vec_sim2 <- unlist(lapply(sim_2[[1]][-1],"[[", "num_state2"))
+
+  JSD_state1 <- suppressMessages(
+    philentropy::JSD(rbind(sort(state1_vec_sim1),sort(state1_vec_sim2))))
+
+  JSD_state2 <- suppressMessages(
+    philentropy::JSD(rbind(sort(state2_vec_sim1),sort(state2_vec_sim2))))
 
   return(
     list(total_nltt = total_nltt,
          clade_nltt = clade_nltt,
          num_singleton_ratio_error = num_singleton_ratio_error,
-         num_multi_ratio_error = num_multi_ratio_error,
-         nonend_ratio_error = nonend_ratio_error
+         nonend_ratio_error = nonend_ratio_error,
+         JSD_state1 = JSD_state1,
+         JSD_state2 = JSD_state2
          )
   )
 }
