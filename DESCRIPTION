@@ -21,13 +21,12 @@ Suggests:
     rmarkdown
 Imports: 
     DAISIE (>= 4.1.1),
-    DAISIErobustness,
     nLTT,
     readr,
     testit,
     RPANDA
 Remotes:
-    Neves-P/DAISIErobustness,
+    rsetienne/DAISIE@trait_dep,
     thijsjanzen/nltt,
     thijsjanzen/treestats,
     rsetienne/secsse@simulation
