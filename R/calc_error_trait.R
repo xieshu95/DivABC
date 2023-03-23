@@ -25,11 +25,11 @@ calc_error_trait <- function(sim_1,
                              replicates,
                              distance_method) {
 
-  # Spec error
+
   ltt_1 <- full_ltt(sim_1)
   ltt_2 <- full_ltt(sim_2)
 
-  # total number species nltt error
+  # 1. total number species nltt error
   total_nltt <- nLTT::nltt_diff_exact_extinct(
     event_times = ltt_1$brt,
     species_number = ltt_1$n_spec,
@@ -41,7 +41,7 @@ calc_error_trait <- function(sim_1,
   )
 
 
-  # Clades number nltt error
+  # 2. Clades number nltt error
   clade_ltt_1 <- clade_ltt(sim_1)
   clade_ltt_2 <- clade_ltt(sim_2)
 
@@ -56,7 +56,7 @@ calc_error_trait <- function(sim_1,
   )
 
 
-  ### 5. number of singleton speciation difference between states
+  ### 3. number of singleton speciation difference between states
   stt_last_row_sim_1 <-
     length(sim_1[[1]][[1]]$stt_two_states[, "present"])
   num_singleton_sim_1_state1 <-
@@ -90,7 +90,7 @@ calc_error_trait <- function(sim_1,
     abs(num_singleton_ratio_sim1 - num_singleton_ratio_sim2)
 
 
-  # 7. number of Nonendemic
+  # 4. number of Nonendemic
   nonend_sim_1_state1 <-
     as.numeric(
       sim_1[[1]][[1]]$stt_two_states[stt_last_row_sim_1, "nI"])
@@ -119,7 +119,7 @@ calc_error_trait <- function(sim_1,
   nonend_ratio_error <-
     abs(nonend_ratio_sim1 - nonend_ratio_sim2)
 
-  # JSD of colonization times
+  # 5. JSD of colonization times
   state1_vec_sim1 <- unlist(lapply(sim_1[[1]][-1],"[[", "num_state1"))
   state2_vec_sim1 <- unlist(lapply(sim_1[[1]][-1],"[[", "num_state2"))
 
@@ -132,13 +132,23 @@ calc_error_trait <- function(sim_1,
   JSD_state2 <- suppressMessages(
     philentropy::JSD(rbind(sort(state2_vec_sim1),sort(state2_vec_sim2))))
 
+
+  # largest clade
+  cla_length_sim1 <- lapply(sim_1[[1]][-1],"[[", "branching_times")
+  largest_clade_sim1 <- max(sapply(cla_length_sim1,length))
+
+  cla_length_sim2 <- lapply(sim_2[[1]][-1],"[[", "branching_times")
+  largest_clade_sim2 <- max(sapply(cla_length_sim2,length))
+  largest_clade_error <- abs(largest_clade_sim1 - largest_clade_sim2)
+
   return(
-    list(total_nltt = total_nltt,
-         clade_nltt = clade_nltt,
-         num_singleton_ratio_error = num_singleton_ratio_error,
-         nonend_ratio_error = nonend_ratio_error,
-         JSD_state1 = JSD_state1,
-         JSD_state2 = JSD_state2
+    c(total_nltt,
+      clade_nltt,
+      num_singleton_ratio_error,
+      nonend_ratio_error,
+      JSD_state1,
+      JSD_state2,
+      largest_clade_error
          )
   )
 }
