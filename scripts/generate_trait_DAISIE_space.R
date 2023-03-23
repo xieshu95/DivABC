@@ -413,11 +413,11 @@ write.csv2(
 rep <- 1:100
 ## reference rates: 0.5,0.1,0.02,0.2
 ## a. lac mean = 0.5
-par1 <- c(0.4,0,0.01,0.1, 0.4,0,0.01,0.1, 0,0,20)  ## all symmetric no mu no q
-par2 <- c(0.4,0.1,0.01,0.1, 0.4,0.1,0.01,0.1, 0,0,20)  ## all symmetric with mu
-par3 <- c(0.4,0.1,0.01,0.1, 0.4,0.1,0.01,0.1, 0.1,0.1,20)  ## all symmetric
-par4 <- c(0.3,0,0.01,0.1, 0.5,0,0.01,0.1, 0.1,0.1,20)  ## asymmetric in lac
-par5 <- c(0.3,0.1,0.01,0.1, 0.5,0.1,0.01,0.1, 0.1,0.1,20)  ## asymmetric in lam, low mu
+par1 <- c(0.5,0,0.0075,0.1, 0.5,0,0.0075,0.1, 0.1,0.1,20)  ## all symmetric no mu no q
+par2 <- c(0.5,0.1,0.0075,0.1, 0.5,0.1,0.0075,0.1, 0.1,0.1,20)  ## all symmetric with mu
+par3 <- c(0.4,0,0.0075,0.1, 0.6,0,0.0075,0.1, 0.1,0.1,20)  ## asymmetric in lac
+par4 <- c(0.3,0,0.0075,0.1, 0.7,0,0.0075,0.1, 0.1,0.1,20)  ## asymmetric in lac
+par5 <- c(0.4,0.1,0.0075,0.1, 0.6,0.1,0.0075,0.1, 0.1,0.1,20)  ## asymmetric in lam, low mu
 
 
 traisie_ABC <- data.frame(rbind(par1,par2,par3,par4,par5))
