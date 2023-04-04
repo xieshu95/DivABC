@@ -68,8 +68,14 @@ run_ABC <- function(param_space_name,
     calc_ss_function <- calc_ss_diff_traisie
     prior_generating_function <- prior_gen_trait
     prior_density_function <- prior_dens_trait
-    fixpars = as.numeric(obs_sim_pars[c(2:5,7:12)])
-    init_epsilon <- calc_epsilon_init(sim = obs_sim, ss_set = ss_set)
+    fixpars = as.numeric(obs_sim_pars[c(1:10)])
+
+    init_epsilon_all <- c(100,20,5,5,10,10,10)
+    if(ss_set == 0 || ss_set > 10){
+      init_epsilon <- init_epsilon_all
+    } else {
+      init_epsilon <- init_epsilon_all[-ss_set]
+    }
   } else if (sim_model == "secsse") {
     obs_sim <- get_secsse_sim_create_obs(
       parameters = as.numeric(obs_sim_pars),
@@ -102,9 +108,9 @@ run_ABC <- function(param_space_name,
     init_epsilon_values = init_epsilon,
     prior_generating_function = prior_generating_function,
     prior_density_function = prior_density_function,
-    number_of_particles = 300, #1000
+    number_of_particles = 200, #1000
     sigma = 0.05,
-    stop_rate = 0.1,
+    stop_rate = 0.005,
     replicates = 1,  ## simulation replicates for each parameter set
     num_iterations = 10, #10
     K = as.numeric(obs_sim_pars$K),

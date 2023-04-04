@@ -145,3 +145,15 @@ save(pars_ss,file = "G:/results/project 2/tip_info/round4/DAISIE2/obs_ss_long_wi
 
 load("G:/results/project 2/tip_info/round4/DAISIE2/obs_ss_long_with_pars.RData")
 
+
+
+## new heatmap code
+library(heatmaply)
+library(htmlwidgets)
+
+colnames(ss) <- c("LTT","CTT","Singleton-end","Mul-end",
+                  "Non-end","Num-clade","SDCS","SDCT","Num-spec")
+p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
+                                      ylab = "Summary statistics", k_col = 2, k_row = 2)
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/heatmap_ss.html"))
+

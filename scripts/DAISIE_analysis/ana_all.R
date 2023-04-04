@@ -2,9 +2,9 @@
 #####
 library(ggplot2)
 # formate results
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/obs_ss_long_with_pars.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/obs_ss_long_with_pars.RData"))
 ## ABC results
-folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/DAISIE_ABC_short1")
+folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/DAISIE_ABC_short1")
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("data/DAISIE_ABC_short.csv")
 param_data2<-param_data[rep(seq_len(nrow(param_data)), each=500),] #500
@@ -55,7 +55,7 @@ for(n in c(0,1,2,6,7,20)){
                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                              lac_abc,mu_abc,gam_abc,laa_abc)
   save(whole_df_ABC,
-       file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/whole_df_ABC_ss_set",n,".RData"))
+       file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/whole_df_ABC_ss_set",n,".RData"))
 
   whole_df_ABC$net_div <- (whole_df_ABC$lac-whole_df_ABC$mu)
   whole_df_ABC$net_div_ABC <- (whole_df_ABC$lac_abc-whole_df_ABC$mu_abc)
@@ -63,13 +63,13 @@ for(n in c(0,1,2,6,7,20)){
   whole_df_ABC$ext_frac <- (whole_df_ABC$mu)/(whole_df_ABC$lac)
   whole_df_ABC$ext_frac_ABC <- (whole_df_ABC$mu_abc)/(whole_df_ABC$lac_abc)
   save(whole_df_ABC,file =
-         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/delta_whole_df_ABC_ss_set",n,".RData"))
+         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/delta_whole_df_ABC_ss_set",n,".RData"))
 
 }
 
 ######
 # 2. formate MCMC results (only plot the etimation points with ABC results)
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/DAISIE_MCMC_short"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/DAISIE_MCMC_short"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("data/DAISIE_ABC_short.csv")
 param_data <- param_data[1:81,]
@@ -105,7 +105,7 @@ for(i in 1:81){
 whole_df_MCMC <- data.frame(param_data3,
                             lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc)
 
-save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/whole_df_MCMC.RData"))
+save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/whole_df_MCMC.RData"))
 
 whole_df_MCMC$net_div <- (whole_df_MCMC$lac-whole_df_MCMC$mu)
 whole_df_MCMC$net_div_mcmc <- (whole_df_MCMC$lac_mcmc - whole_df_MCMC$mu_mcmc)
@@ -114,15 +114,15 @@ whole_df_MCMC$ext_frac <- (whole_df_MCMC$mu)/(whole_df_MCMC$lac)
 whole_df_MCMC$ext_frac_MCMC <- (whole_df_MCMC$mu_mcmc)/(whole_df_MCMC$lac_mcmc)
 
 save(whole_df_MCMC,
-     file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/delta_whole_df_MCMC.RData"))
+     file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/delta_whole_df_MCMC.RData"))
 
 ######
 # MLE
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/whole_df_MLE.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/whole_df_MLE.RData"))
 
 #####
 # plot MCMC trace
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/DAISIE_MCMC_short"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/DAISIE_MCMC_short"
 files <- list.files(folder_path)
 for(i in 1:81){
   # param_set = (param_num-1)*5 + i
@@ -133,7 +133,7 @@ for(i in 1:81){
 
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/MCMC_trace_short/set_",i,".tiff"),
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/MCMC_trace_short/set_",i,".tiff"),
          units="px", width=2000, height=4000,res = 400,compression="lzw")
     b_mcmc <- coda::as.mcmc(output[,1:4])
     plot_mcmc <- plot(b_mcmc)
@@ -146,10 +146,10 @@ for(i in 1:81){
 ######
 ## combine ABC, MCMC, MLE for each parameter set(use median value)
 for(ss in c(0,1,2,6,7,20)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/delta_whole_df_ABC_ss_set",ss,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/delta_whole_df_MCMC.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/whole_df_MLE.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/obs_ss_long_with_pars.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/delta_whole_df_ABC_ss_set",ss,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/delta_whole_df_MCMC.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/whole_df_MLE.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/obs_ss_long_with_pars.RData"))
   ## get number of iterations and mean values
   df <- whole_df_ABC
   n <- 500
@@ -167,14 +167,35 @@ for(ss in c(0,1,2,6,7,20)){
                       MCMC_median[,c(6,7,8,9,11,13)],
                       MLE_median[,c(6,7,8,9,11,13)],
                       pars_ss[,c(8,9,10,11,14)])
-  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/AMM_per_set_ss",ss,".RData"))
+  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/AMM_per_set_ss",ss,".RData"))
+
+  AMM_all_df$dlac_abc <- AMM_all_df$lac_abc - AMM_all_df$lac
+  AMM_all_df$dmu_abc <- AMM_all_df$mu_abc - AMM_all_df$mu
+  AMM_all_df$dgam_abc <- AMM_all_df$gam_abc - AMM_all_df$gam
+  AMM_all_df$dlaa_abc <- AMM_all_df$laa_abc - AMM_all_df$laa
+
+  AMM_all_df$dlac_mcmc <- AMM_all_df$lac_mcmc - AMM_all_df$lac
+  AMM_all_df$dmu_mcmc <- AMM_all_df$mu_mcmc - AMM_all_df$mu
+  AMM_all_df$dgam_mcmc <- AMM_all_df$gam_mcmc - AMM_all_df$gam
+  AMM_all_df$dlaa_mcmc <- AMM_all_df$laa_mcmc - AMM_all_df$laa
+
+
+  AMM_all_df$dlac_MLE <- AMM_all_df$lac_MLE - AMM_all_df$lac
+  AMM_all_df$dmu_MLE <- AMM_all_df$mu_MLE - AMM_all_df$mu
+  AMM_all_df$dgam_MLE <- AMM_all_df$gam_MLE - AMM_all_df$gam
+  AMM_all_df$dlaa_MLE <- AMM_all_df$laa_MLE - AMM_all_df$laa
+
+  AMM_all_df$dnet_div_abc <- AMM_all_df$net_div_ABC - AMM_all_df$net_div
+  AMM_all_df$dnet_div_mcmc <- AMM_all_df$net_div_mcmc - AMM_all_df$net_div
+  AMM_all_df$dnet_div_MLE <- AMM_all_df$net_div_MLE - AMM_all_df$net_div
+  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/AMM_per_set_drate_ss",ss,".RData"))
 }
 
 #####
 library(ggplot2)
 ## 6. plot observed treesize /tip ratio vs estimation error
 for(ss in c(0,1,2,6,7,20)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/AMM_per_set_ss",ss,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/AMM_per_set_ss",ss,".RData"))
   color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
   p_lac <-ggplot2::ggplot(data = AMM_all_df) +
     ggplot2::theme_bw() +
@@ -255,8 +276,114 @@ for(ss in c(0,1,2,6,7,20)){
                                 labels = c("ABC", "MCMC", "MLE"))+
     ggplot2::geom_hline(yintercept = AMM_all_df$net_div, linetype = "dashed", size = 0.5)
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/exact_rate_ss",ss,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/exact_rate_ss",ss,".tiff"),
        units="px", width=2500, height=2000,res = 400,compression="lzw")
+  params <- cowplot::plot_grid(
+    p_lac+ggplot2::theme(legend.position = "none"),
+    p_mu+ggplot2::theme(legend.position = "none"),
+    p_gam+ggplot2::theme(legend.position = "none"),
+    p_laa+ggplot2::theme(legend.position = "none"),
+    p_div+ggplot2::theme(legend.position = "none"),
+    align = "hv", nrow = 2, ncol = 3
+  )
+  legend <- cowplot::get_legend(
+    p_lac + theme(legend.box.margin = margin(0, 0, 0, 6))
+  )
+  param_estimates <- cowplot::plot_grid(params,legend,
+                                        rel_widths = c(3,0.4)
+  )
+  print(param_estimates)
+  while (!is.null(dev.list()))  dev.off()
+}
+
+
+## plot drate
+library(ggplot2)
+## 6. plot observed treesize /tip ratio vs estimation error
+for(ss in c(0,1,2,6,7,20)){  #0,1,2,6,7,20
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/AMM_per_set_drate_ss",ss,".RData"))
+  color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
+  p_lac <-ggplot2::ggplot(data = AMM_all_df) +
+    ggplot2::theme_bw() +
+    ggplot2::ylim(-1.0,1.0)+
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (dlac_MLE),color = "MLE")) +
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (dlac_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (dlac_abc),color = "ABC"),shape = 18) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 12),
+                   text = ggplot2::element_text(size = 12)) +
+    ggplot2::xlab("Tree size") +
+    ggplot2::ylab(expression(Delta~lambda[c]))+
+    ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5) +
+    ggplot2::scale_color_manual(name = "Method",
+                                values = color_values,
+                                labels = c("ABC", "MCMC", "MLE"))
+
+  p_mu <-ggplot2::ggplot(data = AMM_all_df) +
+    ggplot2::theme_bw() +
+    ggplot2::ylim(-0.5,0.5)+
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (dmu_MLE),color = "MLE")) +
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (dmu_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (dmu_abc),color = "ABC"),shape = 18) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 12),
+                   text = ggplot2::element_text(size = 12)) +
+    ggplot2::xlab("Tree size") +
+    ggplot2::ylab(expression(Delta~mu))+
+    ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5) +
+    ggplot2::scale_color_manual(name = "Method",
+                                values = color_values,
+                                labels = c("ABC", "MCMC", "MLE"))
+
+  p_gam <-ggplot2::ggplot(data = AMM_all_df) +
+    ggplot2::theme_bw() +
+    ggplot2::ylim(-0.05,0.05)+
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (dgam_MLE),color = "MLE")) +
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (dgam_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (dgam_abc),color = "ABC"),shape = 18) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 12),
+                   text = ggplot2::element_text(size = 12)) +
+    ggplot2::xlab("Tree size") +
+    ggplot2::ylab(expression(Delta~gamma))+
+    ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5) +
+    ggplot2::scale_color_manual(name = "Method",
+                                values = color_values,
+                                labels = c("ABC", "MCMC", "MLE"))
+
+  p_laa <-ggplot2::ggplot(data = AMM_all_df) +
+    ggplot2::theme_bw() +
+    ggplot2::ylim(-0.5,0.5)+
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (laa_MLE),color = "MLE")) +
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (laa_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (laa_abc),color = "ABC"),shape = 18) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 12),
+                   text = ggplot2::element_text(size = 12)) +
+    ggplot2::xlab("Tree size") +
+    ggplot2::ylab(expression(Delta~lambda[a]))+
+    ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5) +
+    ggplot2::scale_color_manual(name = "Method",
+                                values = color_values,
+                                labels = c("ABC", "MCMC", "MLE"))
+  p_div <-ggplot2::ggplot(data = AMM_all_df) +
+    ggplot2::theme_bw() +
+    ggplot2::ylim(-1,1)+
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (dnet_div_MLE),color = "MLE")) +
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (dnet_div_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
+    ggplot2::geom_point(ggplot2::aes(x = total,y = (dnet_div_abc),color = "ABC"),shape = 18) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(title = ggplot2::element_text(size = 12),
+                   text = ggplot2::element_text(size = 12)) +
+    ggplot2::ylab(expression(Delta~"Net Diversification")) +
+    ggplot2::xlab("Tree size")+
+    ggplot2::scale_color_manual(name = "Method",
+                                values = color_values,
+                                labels = c("ABC", "MCMC", "MLE"))+
+    ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
+
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/drate_ss",ss,".tiff"),
+       units="px", width=3000, height=2500,res = 400,compression="lzw")
   params <- cowplot::plot_grid(
     p_lac+ggplot2::theme(legend.position = "none"),
     p_mu+ggplot2::theme(legend.position = "none"),
@@ -280,9 +407,9 @@ for(ss in c(0,1,2,6,7,20)){
 # AMM + net_diversification
 library(ggplot2)
 for(ss in c(0)){ #c(0,1,2,6,7,20)
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/delta_whole_df_ABC_ss_set",ss,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/delta_whole_df_MCMC.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/whole_df_MLE.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/delta_whole_df_ABC_ss_set",ss,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/delta_whole_df_MCMC.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/whole_df_MLE.RData"))
   ## get legend first
   param_abc <- whole_df_ABC[1:10,]
   param_mcmc <- whole_df_MCMC[1:10,]
@@ -467,7 +594,7 @@ for(ss in c(0)){ #c(0,1,2,6,7,20)
 
     p_emp <- ggplot() + theme_void()
 
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/cowplot_AMM/ss_",ss,"AMM_hist_set_",i,".tiff"),
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/cowplot_AMM/ss_",ss,"AMM_hist_set_",i,".tiff"),
          units="px", width=3500, height=2500,res = 400,compression="lzw")
     param_estimates <- cowplot::plot_grid(
       p_lac,p_mu,p_net_div,p_gam,p_laa,p_emp,
@@ -488,7 +615,7 @@ library(ggplot2)
 library(ggplot2)
 param_data <- readr::read_csv2("data/DAISIE_ABC_short.csv")
 
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/DAISIE_ABC_short1"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/DAISIE_ABC_short1"
 files <- list.files(folder_path)
 for(n in c(0,1,2,56,7,20)){
   for(set in 1:81){
@@ -553,7 +680,7 @@ for(n in c(0,1,2,56,7,20)){
         ggplot2::geom_boxplot()
       # print(g7)
 
-      tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/dss/ss_",n,"_param_",set,".tiff"),
+      tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/dss/ss_",n,"_param_",set,".tiff"),
            units="px", width=3000, height=3000,res = 400,compression="lzw")
       dss <- cowplot::plot_grid(
         g1,g2,g3,g4,g5,g6,g7,g8,g9,
@@ -569,7 +696,7 @@ for(n in c(0,1,2,56,7,20)){
 #####
 # 9. plot rate estimations through generation
 library(ggplot2)
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/DAISIE_ABC_short1"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/DAISIE_ABC_short1"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("data/DAISIE_ABC_short.csv")
 for(n in c(0,1,2,6,7,20)){
@@ -621,7 +748,7 @@ for(n in c(0,1,2,6,7,20)){
         ggplot2::geom_boxplot()+
         ggplot2::geom_hline(data= true_rates, aes(yintercept = laa), linetype = "dashed", size = 0.5)
 
-      tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/rate_each_gene/ss_",n,"_param_",set,".tiff"),
+      tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/rate_each_gene/ss_",n,"_param_",set,".tiff"),
            units="px", width=2000, height=2000,res = 400,compression="lzw")
       dss <- cowplot::plot_grid(
         g1,g2,g3,g4,
@@ -636,9 +763,9 @@ for(n in c(0,1,2,6,7,20)){
 #####
 #cowplot only ABC (histgram)
 library(ggplot2)
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/whole_df_MLE.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/whole_df_MLE.RData"))
 for(n in c(0)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/delta_whole_df_ABC_ss_set",n,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/delta_whole_df_ABC_ss_set",n,".RData"))
   for(i in 1:81){
     param_abc <- whole_df_ABC[((i*500-499)):(i*500),]
 
@@ -796,7 +923,7 @@ for(n in c(0)){
 
       p_emp <- ggplot() + theme_void()
 
-      tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_daisie_unif1/cowplots_hist/ss",n,"_param_",i,".tiff"),
+      tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/cowplots_hist/ss",n,"_param_",i,".tiff"),
            units="px", width=3000, height=2000,res = 400,compression="lzw")
       param_estimates <- cowplot::plot_grid(
         p_lac,p_emp,p_emp,p_emp,
@@ -810,3 +937,302 @@ for(n in c(0)){
     }
   }
 }
+
+
+## plot use all the particles rather than median values
+library(ggplot2)
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/obs_ss_long_with_pars.RData"))
+
+ss = 0
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/delta_whole_df_ABC_ss_set",ss,".RData"))
+whole_df_ABC$ss = 0
+whole_df_ABC_0 = whole_df_ABC
+
+ss = 1
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/delta_whole_df_ABC_ss_set",ss,".RData"))
+whole_df_ABC$ss = 1
+whole_df_ABC_1 = whole_df_ABC
+
+ss = 2
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/delta_whole_df_ABC_ss_set",ss,".RData"))
+whole_df_ABC$ss = 2
+whole_df_ABC_2 = whole_df_ABC
+
+ss = 6
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/delta_whole_df_ABC_ss_set",ss,".RData"))
+whole_df_ABC$ss = 6
+whole_df_ABC_6 = whole_df_ABC
+
+ss = 7
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/delta_whole_df_ABC_ss_set",ss,".RData"))
+whole_df_ABC$ss = 7
+whole_df_ABC_7 = whole_df_ABC
+
+ss = 20
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/delta_whole_df_ABC_ss_set",ss,".RData"))
+whole_df_ABC$ss = 20
+whole_df_ABC_20 = whole_df_ABC
+
+whole_df_ABC <- rbind(whole_df_ABC_0,whole_df_ABC_1,
+                          whole_df_ABC_2,whole_df_ABC_6,
+                          whole_df_ABC_7,whole_df_ABC_20)
+
+whole_df_ABC$dlac_abc <- whole_df_ABC$lac_abc - whole_df_ABC$lac
+whole_df_ABC$dmu_abc <- whole_df_ABC$mu_abc - whole_df_ABC$mu
+whole_df_ABC$dgam_abc <- whole_df_ABC$gam_abc - whole_df_ABC$gam
+whole_df_ABC$dlaa_abc <- whole_df_ABC$laa_abc - whole_df_ABC$laa
+whole_df_ABC$dnet_div_abc <- whole_df_ABC$net_div_ABC - whole_df_ABC$net_div
+whole_df_ABC$total <- rep(rep(pars_ss$total, each = 500), 6)
+
+color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
+iqr = function(z, lower = 0.1, upper = 0.9) {
+  data.frame(
+    y = median(z),
+    ymin = quantile(z, lower),
+    ymax = quantile(z, upper)
+  )
+}
+
+## 1. only plot delta-rate for all the particles based on ss
+p_lac <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dlac_abc)) + ##,color = as.factor(gam)
+  ggplot2::stat_summary(fun.data = iqr) +
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::ylim(-0.6,0.6)+
+  ggplot2::stat_smooth(method = "lm", se = T,alpha = 1,color = "red3")+
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(Delta~lambda[c]))+
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
+  facet_wrap(~ ss)
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/drate_all_particles_lac.tiff"),
+     units="px", width=5000, height=3000,res = 300,compression="lzw")
+print(p_lac)
+while (!is.null(dev.list()))  dev.off()
+
+p_mu <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dmu_abc)) +
+  ggplot2::stat_summary(fun.data = iqr) +
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::ylim(-0.6,0.6)+
+  ggplot2::stat_smooth(method = "lm", se = T,alpha = 1,color = "red3")+
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(Delta~mu))+
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
+  facet_wrap(~ ss)
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/drate_all_particles_mu.tiff"),
+     units="px", width=5000, height=3000,res = 300,compression="lzw")
+print(p_mu)
+while (!is.null(dev.list()))  dev.off()
+
+p_gam <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dgam_abc)) +
+  ggplot2::stat_summary(fun.data = iqr) +
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::ylim(-0.03,0.03)+
+  ggplot2::stat_smooth(method = "lm", se = T,alpha = 1,color = "red3")+
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(Delta~gamma))+
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
+  facet_wrap(~ ss)
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/drate_all_particles_gam.tiff"),
+     units="px", width=5000, height=3000,res = 300,compression="lzw")
+print(p_gam)
+while (!is.null(dev.list()))  dev.off()
+
+p_laa <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dlaa_abc)) +
+  ggplot2::stat_summary(fun.data = iqr) +
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::ylim(-0.6,0.6)+
+  ggplot2::stat_smooth(method = "lm", se = T,alpha = 1,color = "red3")+
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(Delta~lambda[a]))+
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
+  facet_wrap(~ ss)
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/drate_all_particles_laa.tiff"),
+     units="px", width=5000, height=3000,res = 300,compression="lzw")
+print(p_laa)
+while (!is.null(dev.list()))  dev.off()
+
+p_net_div <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div_abc)) +
+  ggplot2::stat_summary(fun.data = iqr) +
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::ylim(-0.6,0.6)+
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(Delta~Net~diversification))+
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
+  facet_wrap(~ ss)
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/drate_all_particles_net_div.tiff"),
+     units="px", width=5000, height=3000,res = 300,compression="lzw")
+print(p_net_div)
+while (!is.null(dev.list()))  dev.off()
+
+
+## linear fitting
+ggplot(whole_df_ABC, aes(x = total, y = dlac_abc, color = as.factor(ss)) ) +
+  ggplot2::ylim(-0.05,0.05)+
+  geom_smooth(method = "lm", alpha = .15, aes(fill = as.factor(ss)))
+
+## 2.plot delta-rate for all the particles based on ss and generating values
+p_lac <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dlac_abc,color = as.factor(lac))) +
+  ggplot2::stat_summary(fun.data = iqr) +
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::ylim(-0.6,0.6)+
+  ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
+  ggplot2::scale_colour_manual(values = c("#FADC8D", "#F68221","red4"))+
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(Delta~lambda[c]))+
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
+  facet_wrap(~ ss)
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/drate_all_particles_fit_lac.tiff"),
+     units="px", width=5000, height=3000,res = 300,compression="lzw")
+print(p_lac)
+while (!is.null(dev.list()))  dev.off()
+
+p_mu <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dmu_abc,color = as.factor(mu))) +
+  ggplot2::stat_summary(fun.data = iqr) +
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::ylim(-0.6,0.6)+
+  ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
+  ggplot2::scale_colour_manual(values = c("#FADC8D", "#F68221","red4"))+
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(Delta~mu))+
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
+  facet_wrap(~ ss)
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/drate_all_particles_fit_mu.tiff"),
+     units="px", width=5000, height=3000,res = 300,compression="lzw")
+print(p_mu)
+while (!is.null(dev.list()))  dev.off()
+
+p_gam <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dgam_abc,color = as.factor(gam))) +
+  ggplot2::stat_summary(fun.data = iqr) +
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::ylim(-0.03,0.03)+
+  ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
+  ggplot2::scale_colour_manual(values = c("#FADC8D", "#F68221","red4"))+
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(Delta~gamma))+
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
+  facet_wrap(~ ss)
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/drate_all_particles_fit_gam.tiff"),
+     units="px", width=5000, height=3000,res = 300,compression="lzw")
+print(p_gam)
+while (!is.null(dev.list()))  dev.off()
+
+p_laa <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dlaa_abc,color = as.factor(laa))) +
+  ggplot2::stat_summary(fun.data = iqr) +
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::ylim(-0.6,0.6)+
+  ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
+  ggplot2::scale_colour_manual(values = c("#FADC8D", "#F68221","red4"))+
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(Delta~lambda[a]))+
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
+  facet_wrap(~ ss)
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/drate_all_particles_fit_laa.tiff"),
+     units="px", width=5000, height=3000,res = 300,compression="lzw")
+print(p_laa)
+while (!is.null(dev.list()))  dev.off()
+
+## net_div related to lac,mu,gam,laa
+p_net_div <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div_abc,color = as.factor(lac))) +
+  ggplot2::stat_summary(fun.data = iqr) +
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::ylim(-0.6,0.6)+
+  ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
+  ggplot2::scale_colour_manual(values = c("#FADC8D", "#F68221","red4"))+
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(Delta~Net~diversification))+
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
+  facet_wrap(~ ss)
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/drate_net_div_lac.tiff"),
+     units="px", width=5000, height=3000,res = 300,compression="lzw")
+print(p_net_div)
+while (!is.null(dev.list()))  dev.off()
+
+p_net_div <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div_abc,color = as.factor(mu))) +
+  ggplot2::stat_summary(fun.data = iqr) +
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::ylim(-0.6,0.6)+
+  ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
+  ggplot2::scale_colour_manual(values = c("#FADC8D", "#F68221","red4"))+
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(Delta~Net~diversification))+
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
+  facet_wrap(~ ss)
+
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/drate_net_div_mu.tiff"),
+     units="px", width=5000, height=3000,res = 300,compression="lzw")
+print(p_net_div)
+
+while (!is.null(dev.list()))  dev.off()
+p_net_div <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div_abc,color = as.factor(gam))) +
+  ggplot2::stat_summary(fun.data = iqr) +
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::ylim(-0.6,0.6)+
+  ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
+  ggplot2::scale_colour_manual(values = c("#FADC8D", "#F68221","red4"))+
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(Delta~Net~diversification))+
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
+  facet_wrap(~ ss)
+
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/drate_net_div_gam.tiff"),
+     units="px", width=5000, height=3000,res = 300,compression="lzw")
+print(p_net_div)
+while (!is.null(dev.list()))  dev.off()
+
+p_net_div <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div_abc,color = as.factor(laa))) +
+  ggplot2::stat_summary(fun.data = iqr) +
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::ylim(-0.6,0.6)+
+  ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
+  ggplot2::scale_colour_manual(values = c("#FADC8D", "#F68221","red4"))+
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::xlab("Tree size") +
+  ggplot2::ylab(expression(Delta~Net~diversification))+
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
+  facet_wrap(~ ss)
+
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/drate_net_div_laa.tiff"),
+     units="px", width=5000, height=3000,res = 300,compression="lzw")
+print(p_net_div)
+while (!is.null(dev.list()))  dev.off()
+
+
+
+
