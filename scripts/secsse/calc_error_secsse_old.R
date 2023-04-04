@@ -3,34 +3,25 @@ calc_error_secsse <- function(sim_1,
                               sim_2,
                               distance_method = "abs") {
 
-  # drop tips and only keep tips with a single state(1/2)
-  phy1_s1<-ape::drop.tip(sim_1$phy,  ## phy1 with only state1 tips
-                         tip = sim_1$phy$tip.label[which(sim_1$examTraits == 2)])
-  phy1_s2<-ape::drop.tip(sim_1$phy,
-                         tip = sim_1$phy$tip.label[which(sim_1$examTraits == 1)])
+  # mpd_all
+  mpd_1 <- treestats::mean_pair_dist(sim_1$phy)
+  mpd_2 <- treestats::mean_pair_dist(sim_2$phy)
+  mpd <- abs(mpd_1 - mpd_2)
 
-  phy2_s1<-ape::drop.tip(sim_2$phy,
-                            tip = sim_2$phy$tip.label[which(sim_2$examTraits == 2)])
-  phy2_s2<-ape::drop.tip(sim_2$phy,
-                            tip = sim_2$phy$tip.label[which(sim_2$examTraits == 1)])
 
-  ## mpd s1
-  mpd1_s1 <- treestats::mean_pair_dist(phy1_s1) ## sim1 state1 mpd
-  mpd2_s1 <- treestats::mean_pair_dist(phy2_s1) ## sim2 state1 mpd
-  mpd_s1 <- abs(mpd1_s1 - mpd2_s1)
+  vpd_1 <- treestats::var_pair_dist(sim_1$phy)
+  vpd_2 <- treestats::var_pair_dist(sim_2$phy)
+  vpd <- abs(vpd_1 - vpd_2)
 
-  mpd1_s2 <- treestats::mean_pair_dist(phy1_s2)
-  mpd2_s2 <- treestats::mean_pair_dist(phy2_s2)
-  mpd_s2 <- abs(mpd1_s2 - mpd2_s2)
+  # mntd_all
+  mntd_1 <- treestats::mntd(phy = sim_1$phy)
+  mntd_2 <- treestats::mntd(phy = sim_2$phy)
+  mntd <- abs(mntd_1 - mntd_2)
 
   # mntd_diff
-  mntd1_s1 <- treestats::mntd(phy1_s1)
-  mntd2_s1 <- treestats::mntd(phy2_s1)
-  mntd_s1 <- abs(mntd1_s1 - mntd2_s1)
-
-  mntd1_s2 <- treestats::mntd(phy1_s2)
-  mntd2_s2 <- treestats::mntd(phy2_s2)
-  mntd_s2 <- abs(mntd1_s2 - mntd2_s2)
+  mntd_diff_sim1 <- calc_mntd_trait(sim = sim_1,state_type = 0)
+  mntd_diff_sim2 <- calc_mntd_trait(sim = sim_2,state_type = 0)
+  mntd_diff <- abs(mntd_diff_sim1 - mntd_diff_sim2)
 
   # D statistic
   D1 <- calc_D(sim_1)
@@ -49,25 +40,22 @@ calc_error_secsse <- function(sim_1,
 
   # nLTT
   nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
-  nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
-  nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
 
-  # spect_1 <- treestats::laplacian_spectrum(sim_1$phy)
-  # spect_2 <- treestats::laplacian_spectrum(sim_2$phy)
-  # spect <- abs(log(spect_1$principal_eigenvalue) -
-  #                log(spect_2$principal_eigenvalue) )
+  spect_1 <- treestats::laplacian_spectrum(sim_1$phy)
+  spect_2 <- treestats::laplacian_spectrum(sim_2$phy)
+  spect <- abs(log(spect_1$principal_eigenvalue) -
+                 log(spect_2$principal_eigenvalue) )
 
   return(
-    c(mpd1_s1,
-      mpd1_s2,
-      mntd_s1,
-      mntd_s2,
+    c(mpd,
+      vpd,
+      mntd,
+      mntd_diff,
       D,
       num_state1,
       num_state2,
       nltt,
-      nltt_s1,
-      nltt_s2)
+      spect)
   )
 }
 
@@ -246,21 +234,21 @@ calc_ss_secsse <- function(sim) {
          state2 = num_state2,
          total_spec = total_spec,
          tip_ratio = tip_ratio)
-         # mpd_all = mpd_all,
-         # mpd_diff = mpd_diff,
-         # mpd_1 = mpd_1,
-         # mpd_2 = mpd_2,
-         # mntd_all = mntd_all,
-         # mntd_diff = mntd_diff,
-         # mntd_1 = mntd_1,
-         # mntd_2 = mntd_2,
-         # sdpd_all = sdpd_all,
-         # sdpd_diff = sdpd_diff,
-         # sdntd_all = sdntd_all,
-         # sdntd_diff = sdntd_diff,
-         # K = K,
-         # D = D,
-         # nltt = nltt)
+    # mpd_all = mpd_all,
+    # mpd_diff = mpd_diff,
+    # mpd_1 = mpd_1,
+    # mpd_2 = mpd_2,
+    # mntd_all = mntd_all,
+    # mntd_diff = mntd_diff,
+    # mntd_1 = mntd_1,
+    # mntd_2 = mntd_2,
+    # sdpd_all = sdpd_all,
+    # sdpd_diff = sdpd_diff,
+    # sdntd_all = sdntd_all,
+    # sdntd_diff = sdntd_diff,
+    # K = K,
+    # D = D,
+    # nltt = nltt)
   )
 }
 
