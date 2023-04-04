@@ -155,7 +155,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
       #convergence if the acceptance rate gets too low
       tried <- tried + 1
-      if (tried > (1 / stop_rate) & n_iter > 3) {
+      if (tried > (1 / stop_rate) & n_iter > 4) {
         if ((number_accepted / tried) < stop_rate) {
           stoprate_reached <- TRUE
           break
@@ -185,7 +185,7 @@ ABC_SMC <- function( # nolint indeed a complex function
     if (stoprate_reached) {
       break
     }
-    if(n_iter >= 2) {
+    if(n_iter >= 3) {
       save_output(
         output = list(sim_list = sim_list,
                       ABC = ABC_list,
