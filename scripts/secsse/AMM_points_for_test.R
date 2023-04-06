@@ -1,13 +1,14 @@
 ## analyse secsse_test
 #####
 # 1. formate ABC results
-for(test in 1:5){
+## check new secsse ABC result
+for(test in c(1,3,5,6)){
   # formate results
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/obs_ss_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/obs_ss_test",test,".RData"))
   ## ABC results
-  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/secsse_ABC_test",test)
+  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/secsse_ABC_test",test)
   files <- list.files(folder_path)
-  param_data <- readr::read_csv2(paste0("G:/R/Traisie-ABC/data/secsse_ABC_test",test,".csv"))
+  param_data <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
 
   param_data2<-param_data[rep(seq_len(nrow(param_data)), each=300),] #500
   lam1_abc <- c()
@@ -28,7 +29,7 @@ for(test in 1:5){
     if (!identical(file_to_load, character())) {
       load(file.path(folder_path, file_to_load))
       num_iter <- output$n_iter
-      if(output$n_iter <= 2){
+      if(output$n_iter <= 4){
         lam1_abc <- c(lam1_abc, rep(NA,300))
         lam2_abc <- c(lam2_abc, rep(NA,300))
         mu1_abc <- c(mu1_abc, rep(NA,300))
@@ -66,7 +67,7 @@ for(test in 1:5){
   whole_df_ABC <- data.frame(param_data2,n_iteration,
                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                              lam1_abc,lam2_abc,mu1_abc,mu2_abc,q12_abc,q21_abc)
-  save(whole_df_ABC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/gene3_whole_df_ABC_test",test,".RData"))
+  save(whole_df_ABC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/whole_df_ABC_test",test,".RData"))
 
   # whole_df_ABC$dlam <- (whole_df_ABC$lam2-whole_df_ABC$lam1)/(whole_df_ABC$lam2+whole_df_ABC$lam1)
   # whole_df_ABC$dlam_ABC <- (whole_df_ABC$lam2_abc-whole_df_ABC$lam1_abc)/(whole_df_ABC$lam2_abc+whole_df_ABC$lam1_abc)
@@ -86,13 +87,12 @@ for(test in 1:5){
   whole_df_ABC$ext_frac_ABC1 <- (whole_df_ABC$mu1_abc)/(whole_df_ABC$lam1_abc)
   whole_df_ABC$ext_frac_ABC2 <- (whole_df_ABC$mu2_abc)/(whole_df_ABC$lam2_abc)
   save(whole_df_ABC,file =
-         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/delta_whole_df_ABC_test",test,".RData"))
+         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/delta_whole_df_ABC_test",test,".RData"))
 
 }
 
 ######
-# 2. formate MCMC results (only plot the etimation points with ABC results)
-
+# 2. formate MCMC results (only plot the estimation points with ABC results)
 for(test in 1:5){
   param_data <- readr::read_csv2(paste0("G:/R/Traisie-ABC/data/secsse_ABC_test",test,".csv"))
   param_data3<-param_data[rep(seq_len(nrow(param_data)), each=2001),] #5001
@@ -207,10 +207,64 @@ for(test in 1:5){
 
 ######
 ## combine ABC, MCMC, MLE for each parameter set(use median value)
-for(test in 1:5){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/whole_df_MLE_test",test,"_fit_ABC.RData"))
+# for(test in 1:5){
+#   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/delta_whole_df_ABC_test",test,".RData"))
+#   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
+#   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/whole_df_MLE_test",test,"_fit_ABC.RData"))
+#
+#   ## get number of iterations and mean values
+#   df <- whole_df_ABC
+#   n <- 300
+#   ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+#
+#   df<-whole_df_MCMC
+#   n <- 2001
+#   MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+#
+#   MLE_median <- whole_df_MLE_fit_ABC
+#
+#
+#   ## combine ABC MCMC MLE as "AMM"
+#   AMM_all_df <- cbind(ABC_median[1:21],
+#                       MCMC_median[,c(7:12,15,16,19,20)],
+#                       MLE_median[,c(8:13,32,33,36,37)])
+#   save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/AMM_per_set_test",test,".RData"))
+#
+#   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/AMM_per_set_test",test,".RData"))
+#   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/obs_ss_test",test,".RData"))
+#   AMM_all_df$dlam1_abc <- AMM_all_df$lam1_abc - AMM_all_df$lam1
+#   AMM_all_df$dlam2_abc <- AMM_all_df$lam2_abc - AMM_all_df$lam2
+#   AMM_all_df$dmu1_abc <- AMM_all_df$mu1_abc - AMM_all_df$mu1
+#   AMM_all_df$dmu2_abc <- AMM_all_df$mu2_abc - AMM_all_df$mu2
+#   AMM_all_df$dq12_abc <- AMM_all_df$q12_abc - AMM_all_df$q12
+#   AMM_all_df$dq21_abc <- AMM_all_df$q21_abc - AMM_all_df$q21
+#
+#   AMM_all_df$dlam1_mcmc <- AMM_all_df$lam1_mcmc - AMM_all_df$lam1
+#   AMM_all_df$dlam2_mcmc <- AMM_all_df$lam2_mcmc - AMM_all_df$lam2
+#   AMM_all_df$dmu1_mcmc <- AMM_all_df$mu1_mcmc - AMM_all_df$mu1
+#   AMM_all_df$dmu2_mcmc <- AMM_all_df$mu2_mcmc - AMM_all_df$mu2
+#   AMM_all_df$dq12_mcmc <- AMM_all_df$q12_mcmc - AMM_all_df$q12
+#   AMM_all_df$dq21_mcmc <- AMM_all_df$q21_mcmc - AMM_all_df$q21
+#
+#   AMM_all_df$dlam1_MLE <- AMM_all_df$lam1_MLE - AMM_all_df$lam1
+#   AMM_all_df$dlam2_MLE <- AMM_all_df$lam2_MLE - AMM_all_df$lam2
+#   AMM_all_df$dmu1_MLE <- AMM_all_df$mu1_MLE - AMM_all_df$mu1
+#   AMM_all_df$dmu2_MLE <- AMM_all_df$mu2_MLE - AMM_all_df$mu2
+#   AMM_all_df$dq12_MLE <- AMM_all_df$q12_MLE - AMM_all_df$q12
+#   AMM_all_df$dq21_MLE <- AMM_all_df$q21_MLE - AMM_all_df$q21
+#
+#   AMM_all_df$tree_size <- pars_ss$tree_size
+#   AMM_all_df$tip_ratio1 <- pars_ss$state1/pars_ss$state2
+#   AMM_all_df$tip_ratio <- AMM_all_df$tip_ratio1
+#   AMM_all_df$tip_ratio[AMM_all_df$tip_ratio < 1]<- 1/AMM_all_df$tip_ratio[AMM_all_df$tip_ratio < 1]
+#   save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
+# }
+
+for(test in c(1,5,6)){
+  # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new3/ABC_rep1/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/delta_whole_df_MCMC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/whole_df_MLE",test,".RData"))
 
   ## get number of iterations and mean values
   df <- whole_df_ABC
@@ -221,17 +275,16 @@ for(test in 1:5){
   n <- 2001
   MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
-  MLE_median <- whole_df_MLE_fit_ABC
+  MLE_median <- whole_df_MLE
 
 
   ## combine ABC MCMC MLE as "AMM"
   AMM_all_df <- cbind(ABC_median[1:21],
                       MCMC_median[,c(7:12,15,16,19,20)],
-                      MLE_median[,c(8:13,32,33,36,37)])
-  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/AMM_per_set_test",test,".RData"))
+                      MLE_median[,c(7:12,20:23)])
+  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/AMM_per_set_test",test,".RData"))
 
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/AMM_per_set_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/obs_ss_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/AMM_per_set_test",test,".RData"))
   AMM_all_df$dlam1_abc <- AMM_all_df$lam1_abc - AMM_all_df$lam1
   AMM_all_df$dlam2_abc <- AMM_all_df$lam2_abc - AMM_all_df$lam2
   AMM_all_df$dmu1_abc <- AMM_all_df$mu1_abc - AMM_all_df$mu1
@@ -253,15 +306,12 @@ for(test in 1:5){
   AMM_all_df$dq12_MLE <- AMM_all_df$q12_MLE - AMM_all_df$q12
   AMM_all_df$dq21_MLE <- AMM_all_df$q21_MLE - AMM_all_df$q21
 
-  AMM_all_df$tree_size <- pars_ss$tree_size
-  AMM_all_df$tip_ratio1 <- pars_ss$state1/pars_ss$state2
-  AMM_all_df$tip_ratio <- AMM_all_df$tip_ratio1
-  AMM_all_df$tip_ratio[AMM_all_df$tip_ratio < 1]<- 1/AMM_all_df$tip_ratio[AMM_all_df$tip_ratio < 1]
-  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
+  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/AMM_per_set_drate_test",test,".RData"))
 }
 
 #####
 ## 4. plot observed treesize /tip ratio vs estimation error
+## skip
 for(test in 1:5){
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
   color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
@@ -366,8 +416,9 @@ for(test in 1:5){
 }
 
 #####
-for(test in 1:5){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
+## run
+for(test in c(1,5,6)){
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/AMM_per_set_drate_test",test,".RData"))
   color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
   p_lam1 <-ggplot2::ggplot(data = AMM_all_df) +
     ggplot2::theme_bw() +
@@ -465,11 +516,22 @@ for(test in 1:5){
                                 values = color_values,
                                 labels = c("ABC", "MCMC", "MLE"))
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/exact_rate_test",test,".tiff"),
-       units="px", width=3000, height=2000,res = 300,compression="lzw")
-  param_estimates <- cowplot::plot_grid(
-    p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/exact_rate_test",test,".tiff"),
+       units="px", width=2000, height=1500,res = 300,compression="lzw")
+  params <- cowplot::plot_grid(
+    p_lam1+ggplot2::theme(legend.position = "none"),
+    p_mu1+ggplot2::theme(legend.position = "none"),
+    p_q12+ggplot2::theme(legend.position = "none"),
+    p_lam2+ggplot2::theme(legend.position = "none"),
+    p_mu2+ggplot2::theme(legend.position = "none"),
+    p_q21+ggplot2::theme(legend.position = "none"),
     align = "hv", nrow = 2, ncol = 3
+  )
+  legend <- cowplot::get_legend(
+    p_lam1 + theme(legend.box.margin = margin(0, 0, 0, 6))
+  )
+  param_estimates <- cowplot::plot_grid(params,legend,
+                                        rel_widths = c(3,0.4)
   )
   print(param_estimates)
   while (!is.null(dev.list()))  dev.off()
@@ -523,14 +585,14 @@ for(test in 1:5){
 }
 
 
-#####
+## histogram
 # 5. plot AMM distribution
 # AMM histogram
 library(ggplot2)
-for(test in 1:5){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/whole_df_MLE",test,".RData"))
+for(test in c(1,5,6)){
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/delta_whole_df_MCMC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/whole_df_MLE",test,".RData"))
 
 
   ## get legend first
@@ -555,8 +617,8 @@ for(test in 1:5){
     ggplot2::ylab("Density") +
     ggplot2::xlab(expression(lambda[1]))+
     ggplot2::scale_fill_manual(name = "Method",
-                               values = c( "MCMC" = "#F7903D", "ABC" = "#4D85BD", "MLE" = "#59A95A"),
-                               labels = c("MCMC", "ABC", "MLE"))+
+                               values = c("ABC" = "#4D85BD","MCMC" = "#F7903D",  "MLE" = "#59A95A"),
+                               labels = c("ABC", "MCMC","MLE"))+
     ggplot2::theme(legend.text = ggplot2::element_text(size = 10)) +
     ggplot2::theme(legend.title = ggplot2::element_text(size = 10)) +
     ggplot2::geom_vline(data= param_abc, aes(xintercept = lam1), linetype = "dashed", size = 0.5)
@@ -565,15 +627,15 @@ for(test in 1:5){
   legend_all <- cowplot::get_legend(
     p_legend + theme(legend.box.margin = margin(0, 0, 0, 6))
   )
-  color_values <-c("MCMC" = "#F7903D", "ABC" = "#4D85BD", "MLE" = "#59A95A")
+  color_values <-c("ABC" = "#4D85BD", "MCMC" = "#F7903D", "MLE" = "#59A95A")
 
 
   for(i in 1:100){
     param_abc <- whole_df_ABC[((i*300-299)):(i*300),]
-    param_mcmc <- whole_df_MCMC[((i*2001-299)):(i*2001),]
+    param_mcmc <- whole_df_MCMC[((i*2001-300)):(i*2001),]
     param_mle <- whole_df_MLE[i,]
 
-    if(!is.na(param_abc[,7])){
+    if(!is.na(param_abc[1,7])){
       p_lam1 <-ggplot2::ggplot(data = param_abc) +
         ggplot2::theme_bw() +
         xlim(-0.032,1.0)+ #1
@@ -593,7 +655,7 @@ for(test in 1:5){
         ggplot2::xlab(expression(lambda[1]))+
         ggplot2::scale_fill_manual(name = "Method",
                                    values = color_values,
-                                   labels = c("MCMC", "ABC", "MLE"))+
+                                   labels = c("ABC","MCMC", "MLE"))+
         ggplot2::theme(legend.position = "none") +
         ggplot2::geom_vline(data= param_abc, aes(xintercept = lam1), linetype = "dashed", size = 0.5)
       # ggplot2::geom_vline(data= MLE_all[i,], aes(xintercept = lac_MLE),
@@ -618,7 +680,7 @@ for(test in 1:5){
         ggplot2::xlab(expression(lambda[2]))+
         ggplot2::scale_fill_manual(name = "Method",
                                    values = color_values,
-                                   labels = c("MCMC", "ABC", "MLE"))+
+                                   labels = c("ABC","MCMC", "MLE"))+
         ggplot2::theme(legend.position = "none") +
         ggplot2::geom_vline(data= param_abc, aes(xintercept = lam2), linetype = "dashed", size = 0.5)
       # ggplot2::geom_vline(data= MLE_all[i,], aes(xintercept = lac_MLE),
@@ -627,7 +689,7 @@ for(test in 1:5){
       p_mu1 <-ggplot2::ggplot(data = param_abc) +
         ggplot2::theme_bw() +
         # ylim(0,300)+
-        xlim(-0.008,0.3)+ #0.2
+        xlim(-0.008,0.4)+ #0.2
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = mu1_mcmc,fill = "MCMC"),
                                 alpha = 0.7,bins = 50) +
@@ -644,13 +706,13 @@ for(test in 1:5){
         ggplot2::xlab(expression(mu[1]))+
         ggplot2::scale_fill_manual(name = "Method",
                                    values = color_values,
-                                   labels = c("MCMC", "ABC", "MLE"))+
+                                   labels = c("ABC","MCMC", "MLE"))+
         ggplot2::theme(legend.position = "none") +
         ggplot2::geom_vline(data= param_abc, aes(xintercept = mu1), linetype = "dashed", size = 0.5)
 
       p_mu2 <-ggplot2::ggplot(data = param_abc) +
         ggplot2::theme_bw() +
-        xlim(-0.008,0.3)+
+        xlim(-0.008,0.4)+
         # ylim(0,200)+
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = mu2_mcmc,fill = "MCMC"),
@@ -668,7 +730,7 @@ for(test in 1:5){
         ggplot2::xlab(expression(mu[2]))+
         ggplot2::scale_fill_manual(name = "Method",
                                    values = color_values,
-                                   labels = c("MCMC", "ABC", "MLE"))+
+                                   labels = c("ABC","MCMC", "MLE"))+
         ggplot2::theme(legend.position = "none") +
         ggplot2::geom_vline(data= param_abc, aes(xintercept = mu2), linetype = "dashed", size = 0.5)
 
@@ -691,7 +753,7 @@ for(test in 1:5){
         ggplot2::xlab(expression(q[12]))+
         ggplot2::scale_fill_manual(name = "Method",
                                    values = color_values,
-                                   labels = c("MCMC", "ABC", "MLE"))+
+                                   labels = c("ABC","MCMC", "MLE"))+
         ggplot2::theme(legend.position = "none") +
         ggplot2::geom_vline(data= param_abc, aes(xintercept = q12), linetype = "dashed", size = 0.5)
 
@@ -715,15 +777,15 @@ for(test in 1:5){
         ggplot2::xlab(expression(q[21]))+
         ggplot2::scale_fill_manual(name = "Method",
                                    values = color_values,
-                                   labels = c("MCMC", "ABC", "MLE"))+
+                                   labels = c("ABC","MCMC", "MLE"))+
         ggplot2::theme(legend.position = "none") +
         ggplot2::geom_vline(data= param_abc, aes(xintercept = q21), linetype = "dashed", size = 0.5)
 
 
       p_emp <- ggplot() + theme_void()
 
-      tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/cowplot_AMM/test",test,"/AMM_rep_",i,".tiff"),
-           units="px", width=3000, height=2000,res = 300,compression="lzw")
+      tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/cowplot_AMM_3gene/test",test,"/AMM_rep_",i,".tiff"),
+           units="px", width=2000, height=1500,res = 300,compression="lzw")
       param_estimates <- cowplot::plot_grid(
         p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
         align = "hv", nrow = 2, ncol = 3

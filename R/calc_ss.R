@@ -65,14 +65,20 @@ calc_ss_no_ext <- function(sim,
   clade_size_sd <- clade_size_sd(sim = sim)
   colon_time_sd <- colon_time_sd(sim = sim)
 
+  num_col_sim <-
+    as.numeric(sim[[1]][[1]]$stt_all[stt_last_row_sim, "present"])
+
+  num_total <- num_ana + num_clado + num_nonend
   return(
   list(total_nltt = total_nltt,
        clade_nltt = clade_nltt,
        num_ana = num_ana,
        num_clado = num_clado,
        num_nonend = num_nonend,
+       num_col_sim = num_col_sim,
        clade_size = clade_size_sd,
-       colon_time = colon_time_sd)
+       colon_time = colon_time_sd,
+       num_total = num_total)
   )
 }
 
