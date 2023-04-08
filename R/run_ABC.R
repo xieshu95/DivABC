@@ -62,7 +62,7 @@ run_ABC <- function(param_space_name,
                                                          obs_sim_pars$laa2,
                                                          obs_sim_pars$trans,
                                                          obs_sim_pars$trans2)),
-                               K = as.numeric(obs_sim_pars$K),
+                               K = Inf,
                                replicates = 1) ## replicates = 30
     sim_function <- get_TraiSIE_sim
     calc_ss_function <- calc_ss_diff_traisie
