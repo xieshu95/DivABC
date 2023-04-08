@@ -1,6 +1,6 @@
 ## formate traisie ABC results
 for(test in c(1,3,5)){
-  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie1/traisie_ABC_test",test)
+  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie2/traisie_ABC_test",test)
   files <- list.files(folder_path)
   param_data <- readr::read_csv2("data/traisie_ABC_test1.csv")
   param_data2<-param_data[rep(seq_len(nrow(param_data)), each=200),]
@@ -74,14 +74,14 @@ for(test in c(1,3,5)){
 
 
   #lac_abc,mu_abc,gam_abc,laa_abc,n_iter)
-  save(whole_df_ABC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie1/whole_df_ABC_test",test,".RData"))
+  save(whole_df_ABC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie2/whole_df_ABC_test",test,".RData"))
 }
 
 ## plot ABC
 # 1. plot estimations for each parameter set (single replicate)
 library(ggplot2)
 for(test in c(1,3,5)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie1/whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie2/whole_df_ABC_test",test,".RData"))
   ## lac scenario, estimation: lac1 and lac2 (others are fixed)
   for(i in 1:100){
     param_abc <- whole_df_ABC[((i*200-199)):(i*200),]
@@ -267,7 +267,7 @@ for(test in c(1,3,5)){
       ggplot2::geom_vline(data= param_abc, aes(xintercept = laa2), linetype = "dashed", size = 0.5)
 
 
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie1/plot_each_set/test",test,"_param_",i,".tiff"),
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie2/plot_each_set/test",test,"_param_",i,".tiff"),
          units="px", width=4000, height=2000,res = 300,compression="lzw")
     param_estimates <- cowplot::plot_grid(
       p_lac1,p_lac2,p_mu1,p_mu2,
@@ -284,7 +284,7 @@ for(test in c(1,3,5)){
 ## plot net diversification rate and transitions
 library(ggplot2)
 for(test in c(1,3,5)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie1/whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie2/whole_df_ABC_test",test,".RData"))
   for(i in 1:100){
     param_abc <- whole_df_ABC[((i*200-199)):(i*200),]
     p_net_div1 <- ggplot2::ggplot(data = param_abc) +
@@ -361,7 +361,7 @@ for(test in c(1,3,5)){
       ggplot2::geom_vline(data= param_abc, aes(xintercept = laa2), linetype = "dashed", size = 0.5)
 
 
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie1/net_div_q/test",test,"_param_",i,".tiff"),
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie2/net_div_q/test",test,"_param_",i,".tiff"),
          units="px", width=3000, height=2000,res = 300,compression="lzw")
     param_estimates <- cowplot::plot_grid(
       p_net_div1,p_net_div2,p_q12,p_q21,
@@ -375,7 +375,7 @@ for(test in c(1,3,5)){
 ## plot rate1 vs rate2
 library(ggplot2)
 for(test in c(1,3,5)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie1/whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie2/whole_df_ABC_test",test,".RData"))
   for(i in 1:100){
     param_abc <- whole_df_ABC[((i*200-199)):(i*200),]
 
@@ -448,7 +448,7 @@ for(test in c(1,3,5)){
       ggplot2::geom_hline(data= param_abc, aes(yintercept = laa2),linetype = "dashed", colour = "black")
 
 
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie1/plot_each_set/test",test,"_r1r2_param_",i,".tiff"),
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie2/plot_each_set/test",test,"_r1r2_param_",i,".tiff"),
          units="px", width=2000, height=2000,res = 300,compression="lzw")
     param_estimates <- cowplot::plot_grid(
       lac1_vs_lac2,mu1_vs_mu2,gam1_vs_gam2,laa1_vs_laa2,

@@ -1,24 +1,24 @@
 # exmaple traisie sims
-# parameters = c(0.3,0,0.01,0.1,0.3,0,0.01,0.1,0.1,0.1)
-# K = 20
-# set.seed(1)
-# sim <- DAISIE::DAISIE_sim_trait_dep( ##TRAISIERCPP
-#   time = 5,
-#   M = 500,
-#   pars = c(parameters[1],parameters[2],K,parameters[3],parameters[4]),
-#   replicates = 1,
-#   sample_freq  = Inf,
-#   plot_sims = FALSE,
-#   cond = 1,
-#   verbose = FALSE,
-#   trait_pars = DAISIE::create_trait_pars(clado_rate2 = parameters[5],
-#                                          ext_rate2 = parameters[6],
-#                                          immig_rate2 = parameters[7],
-#                                          ana_rate2 = parameters[8],
-#                                          trans_rate = parameters[9],
-#                                          trans_rate2 = parameters[10],
-#                                          M2 = 500)
-# )
+parameters = c(0.3,0,0.01,0.1,0.3,0,0.01,0.1,0.1,0.1)
+K = 20
+set.seed(1)
+sim <- DAISIE::DAISIE_sim_trait_dep( ##TRAISIERCPP
+  time = 5,
+  M = 500,
+  pars = c(parameters[1],parameters[2],K,parameters[3],parameters[4]),
+  replicates = 1,
+  sample_freq  = Inf,
+  plot_sims = FALSE,
+  cond = 1,
+  verbose = FALSE,
+  trait_pars = DAISIE::create_trait_pars(clado_rate2 = parameters[5],
+                                         ext_rate2 = parameters[6],
+                                         immig_rate2 = parameters[7],
+                                         ana_rate2 = parameters[8],
+                                         trans_rate = parameters[9],
+                                         trans_rate2 = parameters[10],
+                                         M2 = 500)
+)
 calc_ss_traisie_test <- function(sim) {
   # Spec error
   stt <- full_ltt(sim)
@@ -153,7 +153,7 @@ for(test in c(1:5)) {
     message("set: ", i)
     obs_sim_pars <- param_space[i,]
     obs_sim <- get_TraiSIE_sim(parameters = as.numeric(obs_sim_pars),
-                               K = 20,
+                               K = Inf,
                                replicates = 1) ## replicates = 30
     init_epsilon <- calc_epsilon_init_traisie_test(sim = obs_sim)
     ss<-rbind(ss,init_epsilon)
@@ -166,7 +166,7 @@ for(test in c(1:5)) {
                     "num_total","num_clade","largest")
   ss<-data.frame(ss)
   # colnames(ss) <- c("state1","state2","tree_size","tip_ratio")
-  save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie1/obs_ss_test",test,".RData"))
+  save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie2/DI_obs_ss_test",test,".RData"))
 
 }
 
@@ -177,7 +177,7 @@ for(test in 1:5){
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie1/obs_ss_test",test,".RData"))
   p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
                                         ylab = "Summary statistics", k_col = 2, k_row = 2)
-  saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie1/ss_heatmap/heatmap_ss_test_",test,".html"))
+  saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie2/ss_heatmap/DI_heatmap_ss_test_",test,".html"))
 
 }
 
@@ -188,7 +188,7 @@ for(test in 1:5){
 }
 p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss_comb), xlab = "Summary statistics",
                                       ylab = "Summary statistics", k_col = 2, k_row = 2)
-saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie1/ss_heatmap/heatmap_ss_combine.html"))
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/traisie2/ss_heatmap/DI_heatmap_ss_combine.html"))
 
 
 ## old code for heatmap
