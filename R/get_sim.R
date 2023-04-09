@@ -15,7 +15,7 @@ get_DAISIE_sim <- function(parameters, K, replicates){
     sim[[j]] <- DAISIE::DAISIE_sim_cr(
       time = 5,
       M = 1000,
-      pars = as.numeric(c(parameters[1],parameters[2],Inf,parameters[3],parameters[4])),
+      pars = as.numeric(c(parameters[1],parameters[2],K,parameters[3],parameters[4])),
       replicates = 1,
       nonoceanic_pars = c(0, 0),
       sample_freq  = Inf,
@@ -43,7 +43,7 @@ get_TraiSIE_sim <- function(parameters, K, replicates){
     sim[[j]] <- DAISIE::DAISIE_sim_trait_dep( ##TRAISIERCPP
       time = 4,
       M = 500,
-      pars = c(parameters[1],parameters[2],Inf,parameters[3],parameters[4]),
+      pars = c(parameters[1],parameters[2],K,parameters[3],parameters[4]),
       replicates = 1,
       sample_freq  = Inf,
       plot_sims = FALSE,

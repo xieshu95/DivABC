@@ -89,7 +89,7 @@ while (!is.null(dev.list()))  dev.off()
 
 ### calculate ss for DAISIE space
 param_space <- readr::read_csv2("data/DAISIE_ABC_short.csv")
-save(param_space,file = "G:/results/project 2/tip_info/round4/DAISIE2/param_space.RData")
+
 
 # ss <- c()
 # for(i in 1:81){
@@ -139,15 +139,6 @@ for(i in 1:81){
 }
 
 
-# total_nltt = total_nltt,
-# clade_nltt = clade_nltt,
-# num_ana = num_ana,
-# num_clado = num_clado,
-# num_nonend = num_nonend,
-# num_clade = num_clade,
-# clade_size = clade_size_sd,
-# colon_time = colon_time_sd
-
 colnames(ss) <- c("total-nltt","clade-nltt","ana","clado",
                   "nonend","num-clade","scsd","ctsd","total",
                   "nonend-nltt","singleton-nltt")
@@ -161,6 +152,9 @@ save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_dais
 
 load("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/obs_ss_long_with_pars.RData")
 
+### pairwise ss for DAISIE space
+param_space <- readr::read_csv2("data/DAISIE_ABC_short.csv")
+save(param_space,file = "D:/Onedrive-shu/OneDrive/project 2/results/round4/DAISIE2/param_space.RData")
 
 
 ## new heatmap code
