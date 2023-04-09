@@ -61,9 +61,47 @@ calc_ss_no_ext <- function(sim,
   num_nonend <-
     as.numeric(sim[[1]][[1]]$stt_all[stt_last_row_sim, "nI"])
 
-
   clade_size_sd <- clade_size_sd(sim = sim)
   colon_time_sd <- colon_time_sd(sim = sim)
+
+  ## added nonend_ltt and singleton-ltt
+  end_ltt <- end_ltt(sim)
+  nonend_ltt <- end_ltt$nonend_ltt
+  singleton_ltt <- end_ltt$singleton_ltt
+ if(nonend_ltt[1,1] == 0) {
+   nonend_nltt <- 0
+ } else {
+   sim_0 <- rep(0,length(nonend_ltt$nonend_brt))
+   nonend_nltt <- nLTT::nltt_diff_exact_extinct(
+     event_times = nonend_ltt$nonend_brt,
+     species_number = nonend_ltt$n_nonend,
+     event_times2 = nonend_ltt$nonend_brt,
+     species_number2 = sim_0,
+     distance_method = distance_method,
+     time_unit = "ago",
+     normalize = FALSE
+   )
+ }
+
+  if(singleton_ltt[1,1] == 0) {
+    singleton_nltt <- 0
+  } else {
+    sim_0 <- rep(0,length(singleton_ltt$singleton_brt))
+    singleton_nltt <- nLTT::nltt_diff_exact_extinct(
+      event_times = singleton_ltt$singleton_brt,
+      species_number = singleton_ltt$n_singleton,
+      event_times2 = singleton_ltt$singleton_brt,
+      species_number2 = sim_0,
+      distance_method = distance_method,
+      time_unit = "ago",
+      normalize = FALSE
+    )
+  }
+
+  num_col_sim <-
+    as.numeric(sim[[1]][[1]]$stt_all[stt_last_row_sim, "present"])
+
+  num_total <- num_ana + num_clado + num_nonend
 
   return(
   list(total_nltt = total_nltt,
@@ -71,8 +109,12 @@ calc_ss_no_ext <- function(sim,
        num_ana = num_ana,
        num_clado = num_clado,
        num_nonend = num_nonend,
+       num_col_sim = num_col_sim,
        clade_size = clade_size_sd,
-       colon_time = colon_time_sd)
+       colon_time = colon_time_sd,
+       num_total = num_total,
+       nonend_nltt = nonend_nltt,
+       singleton_nltt = singleton_nltt)
   )
 }
 

@@ -22,18 +22,7 @@ calc_ss_diff_traisie <- function(sim1, sim2, ss_set){
                          sim_2 = sim2,
                          replicates = 1,
                          distance_method = "abs")
-  ss_diff <-as.numeric(c(ss$ana_endemic_nltt_error,
-                         ss$clado_endemic_nltt_error,
-                         ss$nonendemic_nltt_error,
-                         ss$clade_nltt_error,
-                         ss$num_ana_error_state1,
-                         ss$num_ana_error_state2,
-                         ss$num_clado_error_state1,
-                         ss$num_clado_error_state2,
-                         ss$num_nonend_error_state1,
-                         ss$num_nonend_error_state2,
-                         ss$num_trans12_error,
-                         ss$num_trans21_error))
+  ss_diff <- select_ss_DAISIE(ss,ss_set)
   return(ss_diff)
 }
 
