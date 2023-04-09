@@ -12,7 +12,7 @@ while(set < 501){
                                            obs_sim_pars[2],
                                            obs_sim_pars[3],
                                            obs_sim_pars[4]),
-                            K = 20,
+                            K = Inf, # 20/Inf
                             replicates = 1)
   init_epsilon <- calc_epsilon_init(sim = obs_sim)
   ss <- rbind(ss,init_epsilon)
@@ -24,15 +24,15 @@ dt <- t2-t1
 dt
 
 colnames(pars_accept) <- c("lac","mu","gam","laa")
-save(pars_accept,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/ramdom_ss_pars_accept.RData")
+save(pars_accept,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_DI/ramdom_ss_pars_accept.RData")
 
 colnames(ss) <- c("total-nltt","clade-nltt","ana","clado",
                   "nonend","num-clade","scsd","ctsd","total",
                   "nonend-nltt","singleton-nltt")
 rownames(ss) <- 1:500
-save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/random_obs_ss.RData")
+save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_DI/random_obs_ss.RData")
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/random_obs_ss.RData")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_DI/random_obs_ss.RData")
 library(heatmaply)
 library(htmlwidgets)
 
@@ -41,7 +41,7 @@ colnames(ss) <- c("LTT","CTT","Singleton-endemic","Multi-endemic",
                   "Nonend LTT","Singleton LTT")
 p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
                                       ylab = "Summary statistics", k_col = 2, k_row = 2)
-saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/heatmap_ss_random.html"))
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_DI/heatmap_ss_random.html"))
 
 
 ## old code
