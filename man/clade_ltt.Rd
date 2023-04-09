@@ -2,8 +2,8 @@
 % Please edit documentation in R/calc_error_no_ext.R
 \name{clade_ltt}
 \alias{clade_ltt}
-\title{Get the number of exist colonist through time from
-the branching times from each exist clade.}
+\title{Get the number of clades through time from
+the colonization times from each exist clade.}
 \usage{
 clade_ltt(sim)
 }
@@ -11,8 +11,8 @@ clade_ltt(sim)
 \item{sim}{A datalist of observed data with more than one replicate.}
 }
 \description{
-Get the number of exist colonist through time from
-the branching times from each exist clade.
+Get the number of clades through time from
+the colonization times from each exist clade.
 }
 \author{
 Shu Xie
