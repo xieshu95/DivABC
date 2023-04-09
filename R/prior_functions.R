@@ -14,7 +14,7 @@ prior_dens <- function(pars,idparsopt) {
     dens_mu <- 1
   }
   if(3 %in% idparsopt){
-    dens_gam <- stats::dunif(pars[3],0,0.05)
+    dens_gam <- stats::dunif(pars[3],0,0.02)
   } else {
     dens_gam <- 1
   }
@@ -43,7 +43,7 @@ prior_gen <- function(pars,idparsopt){
     mu <- pars[2]
   }
   if(3 %in% idparsopt){
-    gam <- stats::runif(1,0,0.05)
+    gam <- stats::runif(1,0,0.02)
   } else {
     gam <- pars[3]
   }

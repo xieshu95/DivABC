@@ -12,7 +12,7 @@ while(set < 501){
                                            obs_sim_pars[2],
                                            obs_sim_pars[3],
                                            obs_sim_pars[4]),
-                            K = 20,
+                            K = Inf, # 20/Inf
                             replicates = 1)
   init_epsilon <- calc_epsilon_init(sim = obs_sim)
   ss <- rbind(ss,init_epsilon)
@@ -24,47 +24,46 @@ dt <- t2-t1
 dt
 
 colnames(pars_accept) <- c("lac","mu","gam","laa")
-save(pars_accept,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/ramdom_ss_pars_accept.RData")
+save(pars_accept,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_DI/ramdom_ss_pars_accept.RData")
 
 colnames(ss) <- c("total-nltt","clade-nltt","ana","clado",
-                  "nonend","num-clade","scsd","ctsd","total")
+                  "nonend","num-clade","scsd","ctsd","total",
+                  "nonend-nltt","singleton-nltt")
 rownames(ss) <- 1:500
-save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/random_obs_ss.RData")
+save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_DI/random_obs_ss.RData")
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/random_obs_ss.RData")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_DI/random_obs_ss.RData")
 library(heatmaply)
 library(htmlwidgets)
 
 colnames(ss) <- c("LTT","CTT","Singleton-endemic","Multi-endemic",
-                  "Non-endemic","Num clade","SDCS","SDCT","Num total")
+                  "Non-endemic","Num clade","SDCS","SDCT","Num total",
+                  "Nonend LTT","Singleton LTT")
 p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
                                       ylab = "Summary statistics", k_col = 2, k_row = 2)
-saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/heatmap_ss_random.html"))
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_DI/heatmap_ss_random.html"))
 
 
+## old code
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/random_obs_ss.RData")
 
-
-
-
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/test_ss_df_prior.RData")
-
-cormat <- round(cor(ss[1:200,]),2)
+cormat <- round(cor(ss[1:500,]),2)
 # heatmap(cormat)
 head(cormat)
 library(reshape2)
 melted_cormat <- melt(cormat)
 library(ggplot2)
 
-ss_name <- c("MPD","MPD_12","MNTD","MNTD_12",
-             "SDPD","SDPD_12","SDNTD","SDNTD_12",
-             "K","D","Total","Ratio","NLTT")
+ss_name <- c("LTT","CTT","Singleton-endemic","Multi-endemic",
+             "Non-endemic","Num clade","SDCS","SDCT","Num total",
+             "Nonend LTT","Singleton LTT")
 
 label_names <- "Summary statistic"
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/heatmap_ss_with_value_prior.tiff"),
-     units="px", width=3500, height=2500,res = 300,compression="lzw")
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/heatmap_ss_old.tiff"),
+     units="px", width=4500, height=3500,res = 300,compression="lzw")
 heatmap <- ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
   geom_tile() +
-  scale_fill_gradient2(low = "blue", high = "red",
+  scale_fill_gradient2(low = "blue3", high = "red3",
                        limit = c(-1,1), name="Correlation") +
   geom_text(aes(Var2, Var1, label = value), size = 5) +
 
@@ -90,8 +89,40 @@ while (!is.null(dev.list()))  dev.off()
 
 ### calculate ss for DAISIE space
 param_space <- readr::read_csv2("data/DAISIE_ABC_short.csv")
-save(param_space,file = "D:/Onedrive-shu/OneDrive/project 2/results/round4/DAISIE2/param_space.RData")
 
+
+# ss <- c()
+# for(i in 1:81){
+#   set.seed(i)
+#   message("set: ", i)
+#   obs_sim_pars <- param_space[i,]
+#   obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
+#                                            obs_sim_pars$mu,
+#                                            obs_sim_pars$gam,
+#                                            obs_sim_pars$laa),
+#                             K = as.numeric(obs_sim_pars$K),
+#                             replicates = 1)
+#   init_epsilon <- calc_epsilon_init(sim = obs_sim)
+#   ss <- rbind(ss,init_epsilon)
+# }
+#
+#
+# colnames(ss) <- c("total-nltt","clade-nltt","ana","clado",
+#                   "nonend","num-clade","scsd","ctsd","total")
+# rownames(ss) <- 1:81
+# save(ss,file = "G:/results/project 2/tip_info/round4/DAISIE2/obs_ss.RData")
+#
+# load("G:/results/project 2/tip_info/round4/DAISIE2/obs_ss.RData")
+#
+# pars_ss<-data.frame(param_space,ss)
+# save(pars_ss,file = "G:/results/project 2/tip_info/round4/DAISIE2/obs_ss_long_with_pars.RData")
+#
+# load("G:/results/project 2/tip_info/round4/DAISIE2/obs_ss_long_with_pars.RData")
+#
+# ### pairwise ss for DAISIE space
+# param_space <- readr::read_csv2("data/DAISIE_ABC_short.csv")
+# save(param_space,file = "G:/results/project 2/tip_info/round4/DAISIE2/param_space.RData")
+param_space <- readr::read_csv2("data/DAISIE_ABC_short.csv")
 ss <- c()
 for(i in 1:81){
   set.seed(i)
@@ -101,7 +132,7 @@ for(i in 1:81){
                                            obs_sim_pars$mu,
                                            obs_sim_pars$gam,
                                            obs_sim_pars$laa),
-                            K = as.numeric(obs_sim_pars$K),
+                            K = as.numeric(obs_sim_pars$K),  # as.numeric(obs_sim_pars$K)  Inf
                             replicates = 1)
   init_epsilon <- calc_epsilon_init(sim = obs_sim)
   ss <- rbind(ss,init_epsilon)
@@ -109,21 +140,36 @@ for(i in 1:81){
 
 
 colnames(ss) <- c("total-nltt","clade-nltt","ana","clado",
-                  "nonend","num-clade","scsd","ctsd","total")
+                  "nonend","num-clade","scsd","ctsd","total",
+                  "nonend-nltt","singleton-nltt")
 rownames(ss) <- 1:81
-save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round4/DAISIE2/obs_ss.RData")
+save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/obs_ss.RData")
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round4/DAISIE2/obs_ss.RData")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/obs_ss.RData")
 
 pars_ss<-data.frame(param_space,ss)
-save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round4/DAISIE2/obs_ss_long_with_pars.RData")
+save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/obs_ss_long_with_pars.RData")
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round4/DAISIE2/obs_ss_long_with_pars.RData")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/obs_ss_long_with_pars.RData")
 
 ### pairwise ss for DAISIE space
 param_space <- readr::read_csv2("data/DAISIE_ABC_short.csv")
 save(param_space,file = "D:/Onedrive-shu/OneDrive/project 2/results/round4/DAISIE2/param_space.RData")
 
+
+## new heatmap code
+library(heatmaply)
+library(htmlwidgets)
+
+colnames(ss) <- c("LTT","CTT","Singleton-endemic","Multi-endemic",
+                  "Non-endemic","Num clade","SDCS","SDCT","Num total",
+                  "Nonend LTT","Singleton LTT")
+p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
+                                      ylab = "Summary statistics", k_col = 2, k_row = 2)
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/heatmap_ss.html"))
+
+## for DI SPACE
+param_space <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
 ss <- c()
 for(i in 1:81){
   set.seed(i)
@@ -133,33 +179,25 @@ for(i in 1:81){
                                            obs_sim_pars$mu,
                                            obs_sim_pars$gam,
                                            obs_sim_pars$laa),
-                            K = as.numeric(obs_sim_pars$K),
+                            K = Inf,  # as.numeric(obs_sim_pars$K)
                             replicates = 1)
   init_epsilon <- calc_epsilon_init(sim = obs_sim)
   ss <- rbind(ss,init_epsilon)
 }
 
 
-# total_nltt = total_nltt,
-# clade_nltt = clade_nltt,
-# num_ana = num_ana,
-# num_clado = num_clado,
-# num_nonend = num_nonend,
-# num_clade = num_clade,
-# clade_size = clade_size_sd,
-# colon_time = colon_time_sd
-
 colnames(ss) <- c("total-nltt","clade-nltt","ana","clado",
-                  "nonend","num-clade","scsd","ctsd","total")
+                  "nonend","num-clade","scsd","ctsd","total",
+                  "nonend-nltt","singleton-nltt")
 rownames(ss) <- 1:81
-save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round4/DAISIE2/obs_ss.RData")
+save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_DI/obs_ss.RData")
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round4/DAISIE2/obs_ss.RData")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_DI/obs_ss.RData")
 
 pars_ss<-data.frame(param_space,ss)
-save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round4/DAISIE2/obs_ss_long_with_pars.RData")
+save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_DI/obs_ss_long_with_pars.RData")
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round4/DAISIE2/obs_ss_long_with_pars.RData")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_DI/obs_ss_long_with_pars.RData")
 
 
 
@@ -167,9 +205,12 @@ load("D:/Onedrive-shu/OneDrive/project 2/results/round4/DAISIE2/obs_ss_long_with
 library(heatmaply)
 library(htmlwidgets)
 
-colnames(ss) <- c("LTT","CTT","Singleton-end","Mul-end",
-                  "Non-end","Num-clade","SDCS","SDCT","Num-spec")
+colnames(ss) <- c("LTT","CTT","Singleton-endemic","Multi-endemic",
+                  "Non-endemic","Num clade","SDCS","SDCT","Num total",
+                  "Nonend LTT","Singleton LTT")
 p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
                                       ylab = "Summary statistics", k_col = 2, k_row = 2)
-saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/heatmap_ss.html"))
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_DI/heatmap_ss.html"))
+
+
 
