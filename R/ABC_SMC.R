@@ -96,10 +96,13 @@ ABC_SMC <- function( # nolint indeed a complex function
 
 
         accept <- TRUE
+        # for secsse
         if ("phy" %in% names(new_sim[[1]])) {
           if (length(new_sim[[1]]$examTraits) < 20 ||
               length(new_sim[[1]]$examTraits) >= 400 ||
-              length(unique(new_sim[[1]]$examTraits)) < 2) {
+              length(unique(new_sim[[1]]$examTraits)) < 2 ||
+              sum(new_sim[[1]]$examTraits == 1) < 2 ||
+              sum(new_sim[[1]]$examTraits == 2) < 2) {
             accept <- FALSE
           }
         }
@@ -161,7 +164,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.75) #0.5
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7) #0.5
       # if("phy" %in% names(obs_data[[1]])){
       #   epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.65) #0.5
       # } else {
