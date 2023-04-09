@@ -5,7 +5,7 @@
 #SBATCH --job-name=start_ABC
 #SBATCH --output=logs/start_ABC.log
 #SBATCH --mem=1GB
-#SBATCH --partition=short
+#SBATCH --partition=regular
 
 
 # git clone  https://github.com/xieshu95/TraisieABC.git
