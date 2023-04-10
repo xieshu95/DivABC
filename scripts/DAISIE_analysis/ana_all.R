@@ -975,14 +975,14 @@ whole_df_ABC_20 = whole_df_ABC
 
 whole_df_ABC <- rbind(whole_df_ABC_0,whole_df_ABC_1,
                           whole_df_ABC_2,whole_df_ABC_6,
-                          whole_df_ABC_7,whole_df_ABC_20)
+                          whole_df_ABC_7) #whole_df_ABC_20
 
 whole_df_ABC$dlac_abc <- whole_df_ABC$lac_abc - whole_df_ABC$lac
 whole_df_ABC$dmu_abc <- whole_df_ABC$mu_abc - whole_df_ABC$mu
 whole_df_ABC$dgam_abc <- whole_df_ABC$gam_abc - whole_df_ABC$gam
 whole_df_ABC$dlaa_abc <- whole_df_ABC$laa_abc - whole_df_ABC$laa
 whole_df_ABC$dnet_div_abc <- whole_df_ABC$net_div_ABC - whole_df_ABC$net_div
-whole_df_ABC$total <- rep(rep(pars_ss$total, each = 500), 6)
+whole_df_ABC$total <- rep(rep(pars_ss$total, each = 500), 5)
 
 color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
 iqr = function(z, lower = 0.1, upper = 0.9) {
