@@ -410,7 +410,7 @@ for(test in c(1,5,6)){
                                 labels = c("ABC", "MCMC", "MLE"))
 
   tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/rate_error_test",test,".tiff"),
-       units="px", width=3000, height=2000,res = 300,compression="lzw")
+       units="px", width=3000, height=2000,res = 400,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
     align = "hv", nrow = 2, ncol = 3
@@ -527,7 +527,7 @@ for(test in c(1,5,6)){
                                 labels = c("ABC", "MCMC", "MLE"))
 
   tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/exact_rate_test",test,".tiff"),
-       units="px", width=2000, height=1500,res = 300,compression="lzw")
+       units="px", width=3000, height=1800,res = 400,compression="lzw")
   params <- cowplot::plot_grid(
     p_lam1+ggplot2::theme(legend.position = "none"),
     p_mu1+ggplot2::theme(legend.position = "none"),
@@ -585,10 +585,23 @@ for(test in c(1,5,6)){
     ggplot2::geom_hline(yintercept = AMM_all_df$net_div2[1], linetype = "dashed", size = 0.5)
 
   tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/net_div_set_",test,".tiff"),
-       units="px", width=2200, height=1000,res = 300,compression="lzw")
+       units="px", width=2200, height=1000,res = 400,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_div1,p_div2,
     align = "hv", nrow = 1, ncol = 2
+  )
+  print(param_estimates)
+
+  params <- cowplot::plot_grid(
+    p_div1+ggplot2::theme(legend.position = "none"),
+    p_div2+ggplot2::theme(legend.position = "none"),
+    align = "hv", nrow = 1, ncol = 2
+  )
+  legend <- cowplot::get_legend(
+    p_div1 + theme(legend.box.margin = margin(0, 0, 0, 6))
+  )
+  param_estimates <- cowplot::plot_grid(params,legend,
+                                        rel_widths = c(3,0.5)
   )
   print(param_estimates)
   while (!is.null(dev.list()))  dev.off()
@@ -651,13 +664,13 @@ for(test in c(1,5,6)){
         xlim(-0.032,1.0)+ #1
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = lam1_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 50) + #0.03
+                                alpha = 0.7,bins = 150) + #0.03
         ggplot2::geom_histogram(ggplot2::aes(x = lam1_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = lam1_MLE),color = "#59A95A",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -676,13 +689,13 @@ for(test in c(1,5,6)){
         xlim(-0.032,1.0)+
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = lam2_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_histogram(ggplot2::aes(x = lam2_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = lam2_MLE),color = "#59A95A",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -702,13 +715,13 @@ for(test in c(1,5,6)){
         xlim(-0.008,0.4)+ #0.2
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = mu1_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_histogram(ggplot2::aes(x = mu1_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = mu1_MLE),color = "#59A95A",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -726,13 +739,13 @@ for(test in c(1,5,6)){
         # ylim(0,200)+
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = mu2_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_histogram(ggplot2::aes(x = mu2_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = mu2_MLE),color = "#59A95A",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -749,13 +762,13 @@ for(test in c(1,5,6)){
         xlim(-0.02,0.5)+ #1
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = q12_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_histogram(ggplot2::aes(x = q12_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = q12_MLE),color = "#59A95A",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -773,13 +786,13 @@ for(test in c(1,5,6)){
         xlim(-0.02,0.5)+
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = q21_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_histogram(ggplot2::aes(x = q21_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = q21_MLE),color = "#59A95A",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -794,13 +807,13 @@ for(test in c(1,5,6)){
 
       p_emp <- ggplot() + theme_void()
 
-      tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/cowplot_AMM_3gene/test",test,"/AMM_rep_",i,".tiff"),
-           units="px", width=2000, height=1500,res = 300,compression="lzw")
+      tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/cowplot_AMM_3gene/test",test,"AMM_rep_",i,".tiff"),
+           units="px", width=3000, height=1800,res = 400,compression="lzw")
       param_estimates <- cowplot::plot_grid(
         p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
         align = "hv", nrow = 2, ncol = 3
       )
-      param_est_final <- cowplot::plot_grid(param_estimates,legend_all,rel_widths = c(3, .4))
+      param_est_final <- cowplot::plot_grid(param_estimates,legend_all,rel_widths = c(3, 0.5))
       print(param_est_final)
       while (!is.null(dev.list()))  dev.off()
     }
@@ -813,9 +826,9 @@ for(test in c(1,5,6)){
 library(ggplot2)
 for(test in 1:5){
   # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_split_state_space/delta_whole_df_ABC_ss_set0.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/whole_df_MLE_test",test,"_fit_ABC.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_MCMC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/whole_df_MLE_test",test,".RData"))
 
 
   ## get legend first
@@ -869,7 +882,7 @@ for(test in 1:5){
                                 alpha = 0.9,bins = 50) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = net_div_MLE1),colour = "green4",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -893,7 +906,7 @@ for(test in 1:5){
                                 alpha = 0.9,bins = 50) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = net_div_MLE2),colour = "green4",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -955,7 +968,7 @@ for(test in 1:5){
       p_emp <- ggplot() + theme_void()
 
       tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/net_div/test",test,"/net_div_hist_set_",i,".tiff"),
-           units="px", width=2200, height=1000,res = 300,compression="lzw")
+             units="px", width=2200, height=1000,res = 400,compression="lzw")
       param_estimates <- cowplot::plot_grid(
         p_net_div1,p_net_div2,
         # p_ext_frac1,p_ext_frac2,
@@ -1059,7 +1072,7 @@ for(test in 1:5){
         ggplot2::geom_boxplot()
       # print(g8)
       tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/dss/test",test,"/param_set",set,".tiff"),
-           units="px", width=5000, height=2000,res = 300,compression="lzw")
+           units="px", width=5000, height=2000,res = 400,compression="lzw")
       dss <- cowplot::plot_grid(
         g1,g2,g3,g4,g5,g6,g7,g8,g9,g10,
         align = "hv", nrow = 2, ncol = 5
@@ -1139,7 +1152,7 @@ for(test in 1:5){
 
 
       tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/rate_each_gene/test",test,"/param_",set,".tiff"),
-           units="px", width=3000, height=2000,res = 300,compression="lzw")
+           units="px", width=3000, height=2000,res = 400,compression="lzw")
       dss <- cowplot::plot_grid(
         g1,g3,g5,g2,g4,g6,
         align = "hv", nrow = 2, ncol = 3
