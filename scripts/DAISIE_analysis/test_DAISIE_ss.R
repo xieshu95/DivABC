@@ -214,3 +214,48 @@ saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/
 
 
 
+# for DAISIE test space
+## for DI SPACE
+param_space <- readr::read_csv2("data/DAISIE_ABC_test.csv")
+ss <- c()
+for(i in 1:200){
+  set.seed(i)
+  message("set: ", i)
+  obs_sim_pars <- param_space[i,]
+  obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
+                                           obs_sim_pars$mu,
+                                           obs_sim_pars$gam,
+                                           obs_sim_pars$laa),
+                            K = as.numeric(obs_sim_pars$K),  # as.numeric(obs_sim_pars$K)
+                            replicates = 1)
+  init_epsilon <- calc_epsilon_init(sim = obs_sim)
+  ss <- rbind(ss,init_epsilon)
+}
+
+
+colnames(ss) <- c("total-nltt","clade-nltt","ana","clado",
+                  "nonend","num-clade","scsd","ctsd","total",
+                  "nonend-nltt","singleton-nltt")
+rownames(ss) <- 1:200
+save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_test/obs_ss.RData")
+
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_test/obs_ss.RData")
+
+pars_ss<-data.frame(param_space,ss)
+save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_test/obs_ss_long_with_pars.RData")
+
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_test/obs_ss_long_with_pars.RData")
+
+
+
+## new heatmap code
+library(heatmaply)
+library(htmlwidgets)
+
+colnames(ss) <- c("LTT","CTT","Singleton-endemic","Multi-endemic",
+                  "Non-endemic","Num clade","SDCS","SDCT","Num total",
+                  "Nonend LTT","Singleton LTT")
+p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
+                                      ylab = "Summary statistics", k_col = 2, k_row = 2)
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_test/heatmap_ss.html"))
+

@@ -366,3 +366,43 @@ write.csv2(
   "data/DAISIE_MCMC_short_DI.csv",
   row.names = FALSE
 )
+
+
+## test
+par1 <- c(0.3,0.1,0.009,0.2,20)
+par2 <- c(0.3,0,0.009,0.2,20)  ##
+par3 <- c(0.5,0.1,0.009,0.2,20)  ##
+par4 <- c(0.3,0.1,0.009,0.2,Inf)  ##
+
+
+DAISIE_ABC_test <- data.frame(rbind(par1,par2,par3,par4))
+colnames(DAISIE_ABC_test) <- c("lac","mu","gam","laa","K")
+
+DAISIE_ABC_test <- DAISIE_ABC_test[rep(1:4,each = 50), ]
+rownames(DAISIE_ABC_test) <- 1:nrow(DAISIE_ABC_test)
+write.csv2(
+  DAISIE_ABC_test,
+  "data/DAISIE_ABC_test.csv",
+  row.names = FALSE
+)
+DAISIE_MCMC_test = DAISIE_ABC_test
+write.csv2(
+  DAISIE_MCMC_test,
+  "data/DAISIE_MCMC_test.csv",
+  row.names = FALSE
+)
+
+
+# DAISIE_ABC_test1 <- DAISIE_ABC[rep(1,100), ]
+# rownames(DAISIE_ABC_test1) <- 1:nrow(DAISIE_ABC_test1)
+# write.csv2(
+#   DAISIE_ABC_test1,
+#   "data/DAISIE_ABC_test1.csv",
+#   row.names = FALSE
+# )
+# DAISIE_MCMC_test1 = DAISIE_ABC_test1
+# write.csv2(
+#   DAISIE_MCMC_test1,
+#   "data/DAISIE_MCMC_test1.csv",
+#   row.names = FALSE
+# )
