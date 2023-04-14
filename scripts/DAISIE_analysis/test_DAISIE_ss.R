@@ -272,4 +272,4 @@ colnames(ss) <- c("LTT","CTT","Singleton-endemic","Multi-endemic",
                   "Nonend LTT","Singleton LTT")
 p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
                                       ylab = "Summary statistics", k_col = 2, k_row = 2)
-saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_test/heatmap_ss_test",test,".html"))
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_test/heatmap_ss_test_comb.html"))
