@@ -26,12 +26,34 @@ calc_ss_diff_traisie <- function(sim1, sim2, ss_set){
   return(ss_diff)
 }
 
+# calc_ss_diff_daisie <- function(sim1, sim2, ss_set){
+#   ss <- calc_error_no_ext(sim_1 = sim1,   ##calc_error
+#                           sim_2 = sim2,
+#                           replicates = 1,
+#                           distance_method = "abs")
+#   ss_diff <- select_ss_DAISIE(ss,ss_set)
+#
+#   return(ss_diff)
+# }
+
 calc_ss_diff_daisie <- function(sim1, sim2, ss_set){
-  ss <- calc_error_no_ext(sim_1 = sim1,   ##calc_error
-                          sim_2 = sim2,
-                          replicates = 1,
-                          distance_method = "abs")
-  ss_diff <- select_ss_DAISIE(ss,ss_set)
+  if (ss_set == 0){ ## use all ss: nltt+tips 10ss
+    ss <- calc_error_no_ext_all(sim_1 = sim1,   ##calc_error
+                            sim_2 = sim2,
+                            replicates = 1,
+                            distance_method = "abs")
+  } else if(ss_set == 1) { # nltt
+    ss <- calc_error_no_ext_nltt(sim_1 = sim1,   ##calc_error
+                                sim_2 = sim2,
+                                replicates = 1,
+                                distance_method = "abs")
+  } else if (ss_set == 2){ # tips
+    ss <- calc_error_no_ext_tips(sim_1 = sim1,   ##calc_error
+                                 sim_2 = sim2,
+                                 replicates = 1,
+                                 distance_method = "abs")
+  }
+  ss_diff <- as.numeric(ss)
 
   return(ss_diff)
 }
