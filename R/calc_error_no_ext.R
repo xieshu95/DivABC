@@ -55,7 +55,7 @@ calc_error_no_ext_nltt <- function(sim_1,
     normalize = FALSE
   )
 
-  clade_size <- calc_clade_size_error(sim_1,sim_2)
+  # clade_size <- calc_clade_size_error(sim_1,sim_2)
   colon_time <- calc_colon_time_error(sim_1,sim_2)
 
   ## nonendemic_nltt and singleton-endemic-nltt
@@ -98,7 +98,7 @@ calc_error_no_ext_nltt <- function(sim_1,
       clade_nltt,
       nonend_nltt,
       singleton_nltt,
-      clade_size,
+      # clade_size,
       colon_time)
   )
 }
@@ -149,15 +149,15 @@ calc_error_no_ext_tips <- function(sim_1,
 
 
   clade_size <- calc_clade_size_error(sim_1,sim_2)
-  colon_time <- calc_colon_time_error(sim_1,sim_2)
+  # colon_time <- calc_colon_time_error(sim_1,sim_2)
 
   return(
     c(num_clado,
       num_ana,
       num_nonend,
       num_col_error,
-      clade_size,
-      colon_time)
+      clade_size)
+      # colon_time)
   )
 }
 
