@@ -84,7 +84,8 @@ ABC_SMC <- function( # nolint indeed a complex function
           parameters[p_index] <- previous_params[[index]][p_index]
         }
           parameters[idparsopt] <- exp(log(parameters[idparsopt]) +
-                                         stats::rnorm(1, 0, sigma_temp))
+                                         stats::rnorm(length(idparsopt),
+                                                      0, sigma_temp))
       }
 
       #reject if outside the prior
