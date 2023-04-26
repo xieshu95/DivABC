@@ -32,7 +32,7 @@ run_ABC <- function(param_space_name,
   )
   message("sim_model: ", sim_model)
   obs_sim_pars <- param_space[param_set,]
-  obs_sim <- load_obs_sim(sim_model)
+  obs_sim <- load_obs_sim(sim_model)[[param_set]]
   if (sim_model == "DAISIE") {
     # obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
     #                                          obs_sim_pars$mu,
@@ -55,18 +55,18 @@ run_ABC <- function(param_space_name,
       init_epsilon <- c(100,50,50,10,10)
     }
   } else if (sim_model == "TraiSIE") {
-    obs_sim <- get_TraiSIE_sim(parameters = as.numeric(c(obs_sim_pars$lac,
-                                                         obs_sim_pars$mu,
-                                                         obs_sim_pars$gam,
-                                                         obs_sim_pars$laa,
-                                                         obs_sim_pars$lac2,
-                                                         obs_sim_pars$mu2,
-                                                         obs_sim_pars$gam2,
-                                                         obs_sim_pars$laa2,
-                                                         obs_sim_pars$trans,
-                                                         obs_sim_pars$trans2)),
-                               K = as.numeric(obs_sim_pars$K),
-                               replicates = 1) ## replicates = 30
+    # obs_sim <- get_TraiSIE_sim(parameters = as.numeric(c(obs_sim_pars$lac,
+    #                                                      obs_sim_pars$mu,
+    #                                                      obs_sim_pars$gam,
+    #                                                      obs_sim_pars$laa,
+    #                                                      obs_sim_pars$lac2,
+    #                                                      obs_sim_pars$mu2,
+    #                                                      obs_sim_pars$gam2,
+    #                                                      obs_sim_pars$laa2,
+    #                                                      obs_sim_pars$trans,
+    #                                                      obs_sim_pars$trans2)),
+    #                            K = as.numeric(obs_sim_pars$K),
+    #                            replicates = 1) ## replicates = 30
     sim_function <- get_TraiSIE_sim
     calc_ss_function <- calc_ss_diff_traisie
     prior_generating_function <- prior_gen_trait
@@ -80,10 +80,10 @@ run_ABC <- function(param_space_name,
       init_epsilon <- init_epsilon_all[-ss_set]
     }
   } else if (sim_model == "secsse") {
-    obs_sim <- get_secsse_sim_create_obs(
-      parameters = as.numeric(obs_sim_pars),
-      K = Inf,
-      replicates = 1) ## replicates = 30
+    # obs_sim <- get_secsse_sim_create_obs(
+    #   parameters = as.numeric(obs_sim_pars),
+    #   K = Inf,
+    #   replicates = 1) ## replicates = 30
     sim_function <- get_secsse_sim
     calc_ss_function <- calc_ss_diff_secsse
     prior_generating_function <- prior_gen_secsse

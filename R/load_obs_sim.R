@@ -7,9 +7,7 @@
 load_obs_sim <- function(sim_model) {
   file_domain <-
     "https://raw.githubusercontent.com/xieshu95/Traisie-ABC/daisie/data/obs_sims_" # nolint
-  file <- paste0(file_domain, sim_model, ".RData")
-  obs_sim <- load(
-    file = file
-  )
+  file <- paste0(file_domain, sim_model, ".rds")
+  obs_sim <- readRDS(url(file))
   return(obs_sim)
 }

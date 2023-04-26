@@ -183,6 +183,10 @@ pars_ss<-data.frame(param_space,ss)
 save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss_long_with_pars.RData")
 save(obs_sim,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_sims.RData")
 
+
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_sims.RData")
+saveRDS(obs_sim,file = "data/obs_sims_DAISIE.rds")
+
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss_long_with_pars.RData"))
 write.csv2(pars_ss,paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss_long_with_pars.csv"))
 
