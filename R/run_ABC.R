@@ -32,13 +32,14 @@ run_ABC <- function(param_space_name,
   )
   message("sim_model: ", sim_model)
   obs_sim_pars <- param_space[param_set,]
+  obs_sim <- load_obs_sim(sim_model)
   if (sim_model == "DAISIE") {
-    obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
-                                             obs_sim_pars$mu,
-                                             obs_sim_pars$gam,
-                                             obs_sim_pars$laa),
-                              K = as.numeric(obs_sim_pars$K),
-                              replicates = 1)  ## replicates = 30
+    # obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
+    #                                          obs_sim_pars$mu,
+    #                                          obs_sim_pars$gam,
+    #                                          obs_sim_pars$laa),
+    #                           K = as.numeric(obs_sim_pars$K),
+    #                           replicates = 1)  ## replicates = 30
     sim_function <- get_DAISIE_sim
     calc_ss_function <- calc_ss_diff_daisie
     prior_generating_function <- prior_gen
