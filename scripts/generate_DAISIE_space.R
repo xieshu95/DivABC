@@ -296,15 +296,15 @@ write.csv2(
 
 
 ### use less parameter sets to try
-K <- c(20)
-## a. lac
-# lac <- c(0.3,0.5,0.7)
-# mu <- c(0.05,0.1,0.15)
-# gam <- c(0.005,0.0075,0.01)
-# laa <- c(0.1,0.2,0.3)
-lac <- c(0.3,1.0)
+K <- c(50)
+
+# lac <- c(0.3,1.0)
+# mu <- c(0,0.3)
+# gam <- c(0.003,0.012)
+# laa <- c(0.1,1.0)
+lac <- c(0.4,0.7)
 mu <- c(0,0.3)
-gam <- c(0.003,0.012)
+gam <- c(0.003,0.009)
 laa <- c(0.1,1.0)
 DAISIE_ABC_short <- expand.grid(
   lac = lac,
