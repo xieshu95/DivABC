@@ -87,6 +87,8 @@ calc_ss_no_ext <- function(sim,
 
   num_total <- num_singleton + num_clado + num_nonend
 
+  cla_length_sim <- lapply(sim[[1]][-1],"[[", "branching_times")
+  largest_clade_sim <- max(sapply(cla_length_sim,length))
   return(
     list(clade_nltt = clade_nltt,
          total_nltt = total_nltt,
@@ -97,7 +99,8 @@ calc_ss_no_ext <- function(sim,
          num_total = num_total,
          num_singleton = num_singleton,
          num_nonend = num_nonend,
-         clade_size = clade_size_sd
+         clade_size = clade_size_sd,
+         largest_clade_sim = largest_clade_sim
     )
   )
 }
@@ -150,34 +153,44 @@ p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
 saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_test/heatmap_ss_random.html"))
 
 ## for space
-param_space <- readr::read_csv2("data/DAISIE_ABC_short.csv")
+param_space <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+
 ss <- c()
-for(i in 1:81){
-  set.seed(i)
+obs_sim <- list()
+set.seed(10)
+for(i in 1:160){
   message("set: ", i)
   obs_sim_pars <- param_space[i,]
-  obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
+  obs_sim[[i]] <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
                                            obs_sim_pars$mu,
                                            obs_sim_pars$gam,
                                            obs_sim_pars$laa),
                             K = as.numeric(obs_sim_pars$K),  # as.numeric(obs_sim_pars$K)  Inf
                             replicates = 1)
-  init_epsilon <- calc_epsilon_init(sim = obs_sim)
+  init_epsilon <- calc_epsilon_init(sim = obs_sim[[i]])
   ss <- rbind(ss,init_epsilon)
 }
 
 
 colnames(ss) <- c("clade-nltt","total-nltt","singleton-nltt","nonend-nltt","ctsd",
-                  "num-clade","total","singleton","nonend","scsd")
-rownames(ss) <- 1:81
-save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/obs_ss.RData")
+                  "num-clade","total","singleton","nonend","scsd","largest-clade")
+rownames(ss) <- 1:160
+save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss.RData")
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/obs_ss.RData")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss.RData")
 
 pars_ss<-data.frame(param_space,ss)
-save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/heatmaps/obs_ss_long_with_pars.RData")
+save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss_long_with_pars.RData")
+save(obs_sim,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_sims.RData")
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/heatmaps/obs_ss_long_with_pars.RData")
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss_long_with_pars.RData"))
+write.csv2(pars_ss,paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss_long_with_pars.csv"))
+
+length(pars_ss$total[pars_ss$total >200])
+length(pars_ss$total[pars_ss$total >300])
+length(pars_ss$total[pars_ss$total <20])
+
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss_long_with_pars.RData")
 
 ### pairwise ss for DAISIE space
 param_space <- readr::read_csv2("data/DAISIE_ABC_short.csv")

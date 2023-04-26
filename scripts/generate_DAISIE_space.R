@@ -302,11 +302,10 @@ K <- c(20)
 # mu <- c(0.05,0.1,0.15)
 # gam <- c(0.005,0.0075,0.01)
 # laa <- c(0.1,0.2,0.3)
-
-lac <- c(0.3,0.5,0.7)
-mu <- c(0,0.1,0.2)
-gam <- c(0.006,0.009,0.012)
-laa <- c(0.1,0.2,0.3)
+lac <- c(0.3,1.0)
+mu <- c(0,0.3)
+gam <- c(0.003,0.012)
+laa <- c(0.1,1.0)
 DAISIE_ABC_short <- expand.grid(
   lac = lac,
   mu = mu,
@@ -315,6 +314,7 @@ DAISIE_ABC_short <- expand.grid(
   K = K
 )
 
+DAISIE_ABC_short <- DAISIE_ABC_short[rep(seq_len(nrow(DAISIE_ABC_short)), each = 10), ]
 
 write.csv2(
   DAISIE_ABC_short,
@@ -339,10 +339,10 @@ K <- Inf
 # gam <- c(0.005,0.0075,0.01)
 # laa <- c(0.1,0.2,0.3)
 
-lac <- c(0.3,0.4,0.5)
-mu <- c(0,0.1,0.2)
-gam <- c(0.006,0.009,0.012)
-laa <- c(0.1,0.2,0.3)
+lac <- c(0.4,0.7)
+mu <- c(0,0.3)
+gam <- c(0.003,0.009)
+laa <- c(0.1,1.0)
 DAISIE_ABC_short_DI <- expand.grid(
   lac = lac,
   mu = mu,
@@ -350,7 +350,7 @@ DAISIE_ABC_short_DI <- expand.grid(
   laa = laa,
   K = K
 )
-
+DAISIE_ABC_short_DI <- DAISIE_ABC_short_DI[rep(seq_len(nrow(DAISIE_ABC_short_DI)), each = 10), ]
 
 write.csv2(
   DAISIE_ABC_short_DI,
@@ -368,6 +368,7 @@ write.csv2(
 )
 
 
+#####
 ## test
 par1 <- c(0.3,0.1,0.009,0.2,20)
 par2 <- c(0.3,0,0.009,0.2,20)  ##
