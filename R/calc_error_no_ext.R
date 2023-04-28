@@ -65,15 +65,18 @@ calc_error_no_ext_nltt <- function(sim_1,
   nonend_ltt_1 <- end_ltt_1$nonend_ltt
   nonend_ltt_2 <- end_ltt_2$nonend_ltt
   # total number species nltt error
-  nonend_nltt <- nLTT::nltt_diff_exact_extinct(
-    event_times = nonend_ltt_1$nonend_brt,
-    species_number = nonend_ltt_1$n_nonend,
-    event_times2 = nonend_ltt_2$nonend_brt,
-    species_number2 = nonend_ltt_2$n_nonend,
-    distance_method = distance_method,
-    time_unit = "ago",
-    normalize = FALSE
-  )
+  if(nonend_ltt_1[1,1] == 0 && nonend_ltt_2[1,1] == 0) {
+    nonend_nltt  <- 0
+  } else {
+    nonend_nltt <- nLTT::nltt_diff_exact_extinct(
+      event_times = nonend_ltt_1$nonend_brt,
+      species_number = nonend_ltt_1$n_nonend,
+      event_times2 = nonend_ltt_2$nonend_brt,
+      species_number2 = nonend_ltt_2$n_nonend,
+      distance_method = distance_method,
+      time_unit = "ago",
+      normalize = FALSE
+    )}
 
   singleton_ltt_1 <- end_ltt_1$singleton_ltt
   singleton_ltt_2 <- end_ltt_2$singleton_ltt
@@ -251,15 +254,18 @@ calc_error_no_ext_all <- function(sim_1,
   nonend_ltt_1 <- end_ltt_1$nonend_ltt
   nonend_ltt_2 <- end_ltt_2$nonend_ltt
   # total number species nltt error
-  nonend_nltt <- nLTT::nltt_diff_exact_extinct(
-    event_times = nonend_ltt_1$nonend_brt,
-    species_number = nonend_ltt_1$n_nonend,
-    event_times2 = nonend_ltt_2$nonend_brt,
-    species_number2 = nonend_ltt_2$n_nonend,
-    distance_method = distance_method,
-    time_unit = "ago",
-    normalize = FALSE
-  )
+  if(nonend_ltt_1[1,1] == 0 && nonend_ltt_2[1,1] == 0) {
+    nonend_nltt  <- 0
+  } else {
+    nonend_nltt <- nLTT::nltt_diff_exact_extinct(
+      event_times = nonend_ltt_1$nonend_brt,
+      species_number = nonend_ltt_1$n_nonend,
+      event_times2 = nonend_ltt_2$nonend_brt,
+      species_number2 = nonend_ltt_2$n_nonend,
+      distance_method = distance_method,
+      time_unit = "ago",
+      normalize = FALSE
+    )}
 
   singleton_ltt_1 <- end_ltt_1$singleton_ltt
   singleton_ltt_2 <- end_ltt_2$singleton_ltt
