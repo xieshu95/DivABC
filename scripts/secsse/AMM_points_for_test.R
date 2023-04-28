@@ -2,11 +2,11 @@
 #####
 # 1. formate ABC results
 ## check new secsse ABC result
-for(test in c(1,3,5,6)){
+for(test in c(1,5,6)){
   # formate results
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/obs_ss_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/obs_ss_test",test,".RData"))
   ## ABC results
-  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/secsse_ABC_test",test)
+  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/secsse_ABC_test",test)
   files <- list.files(folder_path)
   param_data <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
 
@@ -29,7 +29,7 @@ for(test in c(1,3,5,6)){
     if (!identical(file_to_load, character())) {
       load(file.path(folder_path, file_to_load))
       num_iter <- output$n_iter
-      if(output$n_iter <= 4){
+      if(output$n_iter <= 2){
         lam1_abc <- c(lam1_abc, rep(NA,300))
         lam2_abc <- c(lam2_abc, rep(NA,300))
         mu1_abc <- c(mu1_abc, rep(NA,300))
@@ -67,7 +67,7 @@ for(test in c(1,3,5,6)){
   whole_df_ABC <- data.frame(param_data2,n_iteration,
                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                              lam1_abc,lam2_abc,mu1_abc,mu2_abc,q12_abc,q21_abc)
-  save(whole_df_ABC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/whole_df_ABC_test",test,".RData"))
+  save(whole_df_ABC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/whole_df_ABC_test",test,".RData"))
 
   # whole_df_ABC$dlam <- (whole_df_ABC$lam2-whole_df_ABC$lam1)/(whole_df_ABC$lam2+whole_df_ABC$lam1)
   # whole_df_ABC$dlam_ABC <- (whole_df_ABC$lam2_abc-whole_df_ABC$lam1_abc)/(whole_df_ABC$lam2_abc+whole_df_ABC$lam1_abc)
@@ -87,12 +87,13 @@ for(test in c(1,3,5,6)){
   whole_df_ABC$ext_frac_ABC1 <- (whole_df_ABC$mu1_abc)/(whole_df_ABC$lam1_abc)
   whole_df_ABC$ext_frac_ABC2 <- (whole_df_ABC$mu2_abc)/(whole_df_ABC$lam2_abc)
   save(whole_df_ABC,file =
-         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/delta_whole_df_ABC_test",test,".RData"))
+         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
 
 }
 
 ######
 # 2. formate MCMC results (only plot the estimation points with ABC results)
+# skip
 for(test in 1:5){
   param_data <- readr::read_csv2(paste0("G:/R/Traisie-ABC/data/secsse_ABC_test",test,".csv"))
   param_data3<-param_data[rep(seq_len(nrow(param_data)), each=2001),] #5001
@@ -175,7 +176,7 @@ for(test in 1:5){
 
 
 # 3. formate MLE results
-
+# skip
 for(test in 1:5){
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/whole_df_MLE",test,".RData"))
   whole_df_MLE_fit_ABC <- whole_df_MLE
@@ -261,10 +262,10 @@ for(test in 1:5){
 # }
 
 for(test in c(1,5,6)){
-  # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new3/ABC_rep1/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/delta_whole_df_MCMC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/whole_df_MLE",test,".RData"))
+  # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_MCMC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/whole_df_MLE",test,".RData"))
 
   ## get number of iterations and mean values
   df <- whole_df_ABC
@@ -282,9 +283,9 @@ for(test in c(1,5,6)){
   AMM_all_df <- cbind(ABC_median[1:21],
                       MCMC_median[,c(7:12,15,16,19,20)],
                       MLE_median[,c(7:12,20:23)])
-  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/AMM_per_set_test",test,".RData"))
+  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/AMM_per_set_test",test,".RData"))
 
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/AMM_per_set_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/AMM_per_set_test",test,".RData"))
   AMM_all_df$dlam1_abc <- AMM_all_df$lam1_abc - AMM_all_df$lam1
   AMM_all_df$dlam2_abc <- AMM_all_df$lam2_abc - AMM_all_df$lam2
   AMM_all_df$dmu1_abc <- AMM_all_df$mu1_abc - AMM_all_df$mu1
@@ -306,13 +307,16 @@ for(test in c(1,5,6)){
   AMM_all_df$dq12_MLE <- AMM_all_df$q12_MLE - AMM_all_df$q12
   AMM_all_df$dq21_MLE <- AMM_all_df$q21_MLE - AMM_all_df$q21
 
-  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/AMM_per_set_drate_test",test,".RData"))
+  AMM_all_df$net_div_MLE1 <- AMM_all_df$lam1_MLE-AMM_all_df$mu1_MLE
+  AMM_all_df$net_div_MLE2 <- AMM_all_df$lam2_MLE-AMM_all_df$mu2_MLE
+
+  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/AMM_per_set_drate_test",test,".RData"))
 }
 
 #####
 ## 4. plot observed treesize /tip ratio vs estimation error
 ## skip
-for(test in 1:5){
+for(test in c(1,5,6)){
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
   color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
   p_lam1 <-ggplot2::ggplot(data = AMM_all_df) +
@@ -406,7 +410,7 @@ for(test in 1:5){
                                 labels = c("ABC", "MCMC", "MLE"))
 
   tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/rate_error_test",test,".tiff"),
-       units="px", width=3000, height=2000,res = 300,compression="lzw")
+       units="px", width=3000, height=2000,res = 400,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
     align = "hv", nrow = 2, ncol = 3
@@ -415,10 +419,16 @@ for(test in 1:5){
   while (!is.null(dev.list()))  dev.off()
 }
 
+# run drate plots with all the particles(show distribution for each parameter)
+
+
+
+
 #####
 ## run
+library(ggplot2)
 for(test in c(1,5,6)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/AMM_per_set_drate_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/AMM_per_set_drate_test",test,".RData"))
   color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
   p_lam1 <-ggplot2::ggplot(data = AMM_all_df) +
     ggplot2::theme_bw() +
@@ -516,8 +526,8 @@ for(test in c(1,5,6)){
                                 values = color_values,
                                 labels = c("ABC", "MCMC", "MLE"))
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/exact_rate_test",test,".tiff"),
-       units="px", width=2000, height=1500,res = 300,compression="lzw")
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/exact_rate_test",test,".tiff"),
+       units="px", width=3000, height=1800,res = 400,compression="lzw")
   params <- cowplot::plot_grid(
     p_lam1+ggplot2::theme(legend.position = "none"),
     p_mu1+ggplot2::theme(legend.position = "none"),
@@ -538,8 +548,8 @@ for(test in c(1,5,6)){
 }
 
 ## plot tree size VS net diversification rates
-for(test in 1:5){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
+for(test in c(1,5,6)){
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/AMM_per_set_drate_test",test,".RData"))
   color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
   p_div1 <-ggplot2::ggplot(data = AMM_all_df) +
     ggplot2::theme_bw() +
@@ -574,11 +584,24 @@ for(test in 1:5){
                                 labels = c("ABC", "MCMC", "MLE"))+
     ggplot2::geom_hline(yintercept = AMM_all_df$net_div2[1], linetype = "dashed", size = 0.5)
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/net_div_set_",test,".tiff"),
-       units="px", width=2200, height=1000,res = 300,compression="lzw")
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/net_div_set_",test,".tiff"),
+       units="px", width=2200, height=1000,res = 400,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_div1,p_div2,
     align = "hv", nrow = 1, ncol = 2
+  )
+  print(param_estimates)
+
+  params <- cowplot::plot_grid(
+    p_div1+ggplot2::theme(legend.position = "none"),
+    p_div2+ggplot2::theme(legend.position = "none"),
+    align = "hv", nrow = 1, ncol = 2
+  )
+  legend <- cowplot::get_legend(
+    p_div1 + theme(legend.box.margin = margin(0, 0, 0, 6))
+  )
+  param_estimates <- cowplot::plot_grid(params,legend,
+                                        rel_widths = c(3,0.5)
   )
   print(param_estimates)
   while (!is.null(dev.list()))  dev.off()
@@ -590,9 +613,9 @@ for(test in 1:5){
 # AMM histogram
 library(ggplot2)
 for(test in c(1,5,6)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/delta_whole_df_MCMC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/whole_df_MLE",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_MCMC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/whole_df_MLE",test,".RData"))
 
 
   ## get legend first
@@ -641,13 +664,13 @@ for(test in c(1,5,6)){
         xlim(-0.032,1.0)+ #1
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = lam1_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 50) + #0.03
+                                alpha = 0.7,bins = 150) + #0.03
         ggplot2::geom_histogram(ggplot2::aes(x = lam1_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = lam1_MLE),color = "#59A95A",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -666,13 +689,13 @@ for(test in c(1,5,6)){
         xlim(-0.032,1.0)+
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = lam2_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_histogram(ggplot2::aes(x = lam2_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = lam2_MLE),color = "#59A95A",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -692,13 +715,13 @@ for(test in c(1,5,6)){
         xlim(-0.008,0.4)+ #0.2
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = mu1_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_histogram(ggplot2::aes(x = mu1_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = mu1_MLE),color = "#59A95A",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -716,13 +739,13 @@ for(test in c(1,5,6)){
         # ylim(0,200)+
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = mu2_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_histogram(ggplot2::aes(x = mu2_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = mu2_MLE),color = "#59A95A",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -739,13 +762,13 @@ for(test in c(1,5,6)){
         xlim(-0.02,0.5)+ #1
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = q12_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_histogram(ggplot2::aes(x = q12_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = q12_MLE),color = "#59A95A",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -763,13 +786,13 @@ for(test in c(1,5,6)){
         xlim(-0.02,0.5)+
         ggplot2::geom_histogram(data = param_mcmc,
                                 ggplot2::aes(x = q21_mcmc,fill = "MCMC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_histogram(ggplot2::aes(x = q21_abc,
                                              fill = "ABC"),
-                                alpha = 0.7,bins = 50) +
+                                alpha = 0.7,bins = 150) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = q21_MLE),color = "#59A95A",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -784,13 +807,13 @@ for(test in c(1,5,6)){
 
       p_emp <- ggplot() + theme_void()
 
-      tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_new/cowplot_AMM_3gene/test",test,"/AMM_rep_",i,".tiff"),
-           units="px", width=2000, height=1500,res = 300,compression="lzw")
+      tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/cowplot_AMM_3gene/test",test,"AMM_rep_",i,".tiff"),
+           units="px", width=3000, height=1800,res = 400,compression="lzw")
       param_estimates <- cowplot::plot_grid(
         p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
         align = "hv", nrow = 2, ncol = 3
       )
-      param_est_final <- cowplot::plot_grid(param_estimates,legend_all,rel_widths = c(3, .4))
+      param_est_final <- cowplot::plot_grid(param_estimates,legend_all,rel_widths = c(3, 0.5))
       print(param_est_final)
       while (!is.null(dev.list()))  dev.off()
     }
@@ -802,10 +825,10 @@ for(test in c(1,5,6)){
 # 6. compare net-diversification
 library(ggplot2)
 for(test in 1:5){
-  # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_new_space/delta_whole_df_ABC_ss_set0.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/whole_df_MLE_test",test,"_fit_ABC.RData"))
+  # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_split_state_space/delta_whole_df_ABC_ss_set0.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_MCMC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/whole_df_MLE_test",test,".RData"))
 
 
   ## get legend first
@@ -859,7 +882,7 @@ for(test in 1:5){
                                 alpha = 0.9,bins = 50) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = net_div_MLE1),colour = "green4",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -883,7 +906,7 @@ for(test in 1:5){
                                 alpha = 0.9,bins = 50) +
         ggplot2::geom_vline(data= param_mle,
                             aes(xintercept = net_div_MLE2),colour = "green4",
-                            linetype = "solid", size = 1)+
+                            linetype = "solid", size = 0.6)+
         ggplot2::theme_classic() +
         ggplot2::theme(title = ggplot2::element_text(size = 12),
                        text = ggplot2::element_text(size = 12)) +
@@ -945,7 +968,7 @@ for(test in 1:5){
       p_emp <- ggplot() + theme_void()
 
       tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/net_div/test",test,"/net_div_hist_set_",i,".tiff"),
-           units="px", width=2200, height=1000,res = 300,compression="lzw")
+             units="px", width=2200, height=1000,res = 400,compression="lzw")
       param_estimates <- cowplot::plot_grid(
         p_net_div1,p_net_div2,
         # p_ext_frac1,p_ext_frac2,
@@ -1049,7 +1072,7 @@ for(test in 1:5){
         ggplot2::geom_boxplot()
       # print(g8)
       tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/dss/test",test,"/param_set",set,".tiff"),
-           units="px", width=5000, height=2000,res = 300,compression="lzw")
+           units="px", width=5000, height=2000,res = 400,compression="lzw")
       dss <- cowplot::plot_grid(
         g1,g2,g3,g4,g5,g6,g7,g8,g9,g10,
         align = "hv", nrow = 2, ncol = 5
@@ -1129,7 +1152,7 @@ for(test in 1:5){
 
 
       tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/rate_each_gene/test",test,"/param_",set,".tiff"),
-           units="px", width=3000, height=2000,res = 300,compression="lzw")
+           units="px", width=3000, height=2000,res = 400,compression="lzw")
       dss <- cowplot::plot_grid(
         g1,g3,g5,g2,g4,g6,
         align = "hv", nrow = 2, ncol = 3

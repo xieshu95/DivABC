@@ -20,7 +20,8 @@
 #'     the non-endemic species between the two simulations.}
 #' }
 #'
-calc_error_no_ext <- function(sim_1,
+# nltt
+calc_error_no_ext_nltt <- function(sim_1,
                               sim_2,
                               replicates,
                               distance_method) {
@@ -40,59 +41,21 @@ calc_error_no_ext <- function(sim_1,
   )
 
 
-  # Clades number nltt error
-  clade_ltt_1 <- clade_ltt(sim_1)
-  clade_ltt_2 <- clade_ltt(sim_2)
+  # # Clades number nltt error
+  # clade_ltt_1 <- clade_ltt(sim_1)
+  # clade_ltt_2 <- clade_ltt(sim_2)
+  #
+  # clade_nltt <- nLTT::nltt_diff_exact_extinct(
+  #   event_times = clade_ltt_1$colon_time,
+  #   species_number = clade_ltt_1$n_clade,
+  #   event_times2 = clade_ltt_2$colon_time,
+  #   species_number2 = clade_ltt_2$n_clade,
+  #   distance_method = distance_method,
+  #   time_unit = "ago",
+  #   normalize = FALSE
+  # )
 
-  clade_nltt <- nLTT::nltt_diff_exact_extinct(
-    event_times = clade_ltt_1$colon_time,
-    species_number = clade_ltt_1$n_clade,
-    event_times2 = clade_ltt_2$colon_time,
-    species_number2 = clade_ltt_2$n_clade,
-    distance_method = distance_method,
-    time_unit = "ago",
-    normalize = FALSE
-  )
-
-  # ## tip info
-  # stt_last_row_sim_1 <-
-  #   length(sim_1[[1]][[1]]$stt_all[, "present"])
-  # stt_last_row_sim_2 <-
-  #   length(sim_2[[1]][[1]]$stt_all[, "present"])
-  #
-  # # ## clade number error
-  # # num_col_sim_1 <-
-  # #   as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "present"])
-  # # num_col_sim_2 <-
-  # #   as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "present"])
-  # # num_col_error <-
-  # #   abs(num_col_sim_1 - num_col_sim_2)
-  #
-  # ## singleton clade sepcies number error(anagensis)
-  # num_ana_sim_1 <-
-  #   as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nA"])
-  # num_ana_sim_2 <-
-  #   as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nA"])
-  # num_ana <-
-  #   abs(num_ana_sim_1 - num_ana_sim_2)
-  #
-  # ##  multiple-species clade sepcies number error(cladogenesis)
-  # num_clado_sim_1 <-
-  #   as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nC"])
-  # num_clado_sim_2 <-
-  #   as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nC"])
-  # num_clado <-
-  #   abs(num_clado_sim_1 - num_clado_sim_2)
-  #
-  # ##  nonendemic sepcies number error
-  # num_nonend_sim_1 <-
-  #   as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nI"])
-  # num_nonend_sim_2 <-
-  #   as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nI"])
-  # num_nonend <-
-  #   abs(num_nonend_sim_1 - num_nonend_sim_2)
-
-  clade_size <- calc_clade_size_error(sim_1,sim_2)
+  # clade_size <- calc_clade_size_error(sim_1,sim_2)
   colon_time <- calc_colon_time_error(sim_1,sim_2)
 
   ## nonendemic_nltt and singleton-endemic-nltt
@@ -102,15 +65,18 @@ calc_error_no_ext <- function(sim_1,
   nonend_ltt_1 <- end_ltt_1$nonend_ltt
   nonend_ltt_2 <- end_ltt_2$nonend_ltt
   # total number species nltt error
-  nonend_nltt <- nLTT::nltt_diff_exact_extinct(
-    event_times = nonend_ltt_1$nonend_brt,
-    species_number = nonend_ltt_1$n_nonend,
-    event_times2 = nonend_ltt_2$nonend_brt,
-    species_number2 = nonend_ltt_2$n_nonend,
-    distance_method = distance_method,
-    time_unit = "ago",
-    normalize = FALSE
-  )
+  if(nonend_ltt_1[1,1] == 0 && nonend_ltt_2[1,1] == 0) {
+    nonend_nltt  <- 0
+  } else {
+    nonend_nltt <- nLTT::nltt_diff_exact_extinct(
+      event_times = nonend_ltt_1$nonend_brt,
+      species_number = nonend_ltt_1$n_nonend,
+      event_times2 = nonend_ltt_2$nonend_brt,
+      species_number2 = nonend_ltt_2$n_nonend,
+      distance_method = distance_method,
+      time_unit = "ago",
+      normalize = FALSE
+    )}
 
   singleton_ltt_1 <- end_ltt_1$singleton_ltt
   singleton_ltt_2 <- end_ltt_2$singleton_ltt
@@ -132,14 +98,206 @@ calc_error_no_ext <- function(sim_1,
 
   return(
     c(total_nltt,
-      clade_nltt,
-      nonend_nltt,
+      # clade_nltt,
       singleton_nltt,
-      clade_size,
+      nonend_nltt,
+      # clade_size,
       colon_time)
   )
 }
 
+# tips
+calc_error_no_ext_tips <- function(sim_1,
+                              sim_2,
+                              replicates,
+                              distance_method) {
+
+  ## tip info
+  stt_last_row_sim_1 <-
+    length(sim_1[[1]][[1]]$stt_all[, "present"])
+  stt_last_row_sim_2 <-
+    length(sim_2[[1]][[1]]$stt_all[, "present"])
+
+  # ## clade number error
+  # num_col_sim_1 <-
+  #   as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "present"])
+  # num_col_sim_2 <-
+  #   as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "present"])
+  # num_col_error <-
+  #   abs(num_col_sim_1 - num_col_sim_2)
+
+  ## singleton clade sepcies number error(anagensis)
+  num_sington_sim_1 <-
+    as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nA"])
+  num_sington_sim_2 <-
+    as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nA"])
+  num_sington <-
+    abs(num_sington_sim_1 - num_sington_sim_2)
+
+  ##  multiple-species clade sepcies number error(cladogenesis)
+  num_multi_sim_1 <-
+    as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nC"])
+  num_multi_sim_2 <-
+    as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nC"])
+  num_multi <-
+    abs(num_multi_sim_1 - num_multi_sim_2)
+
+  ##  nonendemic sepcies number error
+  num_nonend_sim_1 <-
+    as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nI"])
+  num_nonend_sim_2 <-
+    as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nI"])
+  num_nonend <-
+    abs(num_nonend_sim_1 - num_nonend_sim_2)
+
+  num_total_sim_1 <- num_sington_sim_1 + num_multi_sim_1 + num_nonend_sim_1
+  num_total_sim_2 <- num_sington_sim_2 + num_multi_sim_2 + num_nonend_sim_2
+  num_total <- abs(num_total_sim_1 - num_total_sim_2)
+
+  clade_size <- calc_clade_size_error(sim_1,sim_2)
+  # colon_time <- calc_colon_time_error(sim_1,sim_2)
+
+  return(
+    c(num_total,
+      num_sington,
+      num_nonend,
+      clade_size)
+      # colon_time,)
+      # num_col_error
+  )
+}
+
+# nltt + tips
+calc_error_no_ext_all <- function(sim_1,
+                              sim_2,
+                              replicates,
+                              distance_method) {
+  # Spec error
+  ltt_1 <- full_ltt(sim_1)
+  ltt_2 <- full_ltt(sim_2)
+
+  # total number species nltt error
+  total_nltt <- nLTT::nltt_diff_exact_extinct(
+    event_times = ltt_1$brt,
+    species_number = ltt_1$n_spec,
+    event_times2 = ltt_2$brt,
+    species_number2 = ltt_2$n_spec,
+    distance_method = distance_method,
+    time_unit = "ago",
+    normalize = FALSE
+  )
+
+
+  # # Clades number nltt error
+  # clade_ltt_1 <- clade_ltt(sim_1)
+  # clade_ltt_2 <- clade_ltt(sim_2)
+  #
+  # clade_nltt <- nLTT::nltt_diff_exact_extinct(
+  #   event_times = clade_ltt_1$colon_time,
+  #   species_number = clade_ltt_1$n_clade,
+  #   event_times2 = clade_ltt_2$colon_time,
+  #   species_number2 = clade_ltt_2$n_clade,
+  #   distance_method = distance_method,
+  #   time_unit = "ago",
+  #   normalize = FALSE
+  # )
+
+  ## tip info
+  stt_last_row_sim_1 <-
+    length(sim_1[[1]][[1]]$stt_all[, "present"])
+  stt_last_row_sim_2 <-
+    length(sim_2[[1]][[1]]$stt_all[, "present"])
+
+  # ## clade number error
+  # num_col_sim_1 <-
+  #   as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "present"])
+  # num_col_sim_2 <-
+  #   as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "present"])
+  # num_col_error <-
+  #   abs(num_col_sim_1 - num_col_sim_2)
+
+  ## singleton clade sepcies number error(anagensis)
+  num_sington_sim_1 <-
+    as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nA"])
+  num_sington_sim_2 <-
+    as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nA"])
+  num_sington <-
+    abs(num_sington_sim_1 - num_sington_sim_2)
+
+  ##  multiple-species clade sepcies number error(cladogenesis)
+  num_multi_sim_1 <-
+    as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nC"])
+  num_multi_sim_2 <-
+    as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nC"])
+  num_multi <-
+    abs(num_multi_sim_1 - num_multi_sim_2)
+
+  ##  nonendemic sepcies number error
+  num_nonend_sim_1 <-
+    as.numeric(sim_1[[1]][[1]]$stt_all[stt_last_row_sim_1, "nI"])
+  num_nonend_sim_2 <-
+    as.numeric(sim_2[[1]][[1]]$stt_all[stt_last_row_sim_2, "nI"])
+  num_nonend <-
+    abs(num_nonend_sim_1 - num_nonend_sim_2)
+
+  num_total_sim_1 <- num_sington_sim_1 + num_multi_sim_1 + num_nonend_sim_1
+  num_total_sim_2 <- num_sington_sim_2 + num_multi_sim_2 + num_nonend_sim_2
+  num_total <- abs(num_total_sim_1 - num_total_sim_2)
+
+  clade_size <- calc_clade_size_error(sim_1,sim_2)
+  colon_time <- calc_colon_time_error(sim_1,sim_2)
+
+  ## nonendemic_nltt and singleton-endemic-nltt
+  end_ltt_1 <- end_ltt(sim_1)
+  end_ltt_2 <- end_ltt(sim_2)
+
+  nonend_ltt_1 <- end_ltt_1$nonend_ltt
+  nonend_ltt_2 <- end_ltt_2$nonend_ltt
+  # total number species nltt error
+  if(nonend_ltt_1[1,1] == 0 && nonend_ltt_2[1,1] == 0) {
+    nonend_nltt  <- 0
+  } else {
+    nonend_nltt <- nLTT::nltt_diff_exact_extinct(
+      event_times = nonend_ltt_1$nonend_brt,
+      species_number = nonend_ltt_1$n_nonend,
+      event_times2 = nonend_ltt_2$nonend_brt,
+      species_number2 = nonend_ltt_2$n_nonend,
+      distance_method = distance_method,
+      time_unit = "ago",
+      normalize = FALSE
+    )}
+
+  singleton_ltt_1 <- end_ltt_1$singleton_ltt
+  singleton_ltt_2 <- end_ltt_2$singleton_ltt
+  # total number species nltt error
+  if(singleton_ltt_1[1,1] == 0 && singleton_ltt_2[1,1] == 0) {
+    singleton_nltt  <- 0
+  } else {
+    singleton_nltt <- nLTT::nltt_diff_exact_extinct(
+      event_times = singleton_ltt_1$singleton_brt,
+      species_number = singleton_ltt_1$n_singleton,
+      event_times2 = singleton_ltt_2$singleton_brt,
+      species_number2 = singleton_ltt_2$n_singleton,
+      distance_method = distance_method,
+      time_unit = "ago",
+      normalize = FALSE
+    )
+  }
+
+
+  return(
+    c(total_nltt,
+      # clade_nltt,
+      singleton_nltt,
+      nonend_nltt,
+      colon_time,
+      clade_size,
+      num_total,
+      num_sington,
+      num_nonend)
+      # num_col_error)
+  )
+}
 
 #' Get the NLTT dataframe from the branching times from each exist clade.
 #'

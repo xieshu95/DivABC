@@ -52,10 +52,10 @@ calc_ss_no_ext <- function(sim,
   stt_last_row_sim <-
     length(sim[[1]][[1]]$stt_all[, "present"])
 
-  num_ana <-
+  num_singleton <-
     as.numeric(sim[[1]][[1]]$stt_all[stt_last_row_sim, "nA"])
 
-  num_clado <-
+  num_multi <-
     as.numeric(sim[[1]][[1]]$stt_all[stt_last_row_sim, "nC"])
 
   num_nonend <-
@@ -101,20 +101,24 @@ calc_ss_no_ext <- function(sim,
   num_col_sim <-
     as.numeric(sim[[1]][[1]]$stt_all[stt_last_row_sim, "present"])
 
-  num_total <- num_ana + num_clado + num_nonend
+  num_total <- num_singleton + num_multi + num_nonend
+
+  cla_length_sim <- lapply(sim[[1]][-1],"[[", "branching_times")
+  largest_clade_sim <- max(sapply(cla_length_sim,length))
 
   return(
   list(total_nltt = total_nltt,
        clade_nltt = clade_nltt,
-       num_ana = num_ana,
-       num_clado = num_clado,
+       num_singleton = num_singleton,
+       num_multi = num_multi,
        num_nonend = num_nonend,
        num_col_sim = num_col_sim,
        clade_size = clade_size_sd,
        colon_time = colon_time_sd,
        num_total = num_total,
        nonend_nltt = nonend_nltt,
-       singleton_nltt = singleton_nltt)
+       singleton_nltt = singleton_nltt,
+       largest_clade_sim = largest_clade_sim)
   )
 }
 
@@ -255,10 +259,10 @@ calc_num_specs <- function(sim,
                  sim[[1]][[1]]$stt_all[stt_last_row_sim, "nA"]+
                  sim[[1]][[1]]$stt_all[stt_last_row_sim, "nC"])
 
-  num_ana <-
+  num_singleton <-
     as.numeric(sim[[1]][[1]]$stt_all[stt_last_row_sim, "nA"])
 
-  num_clado <-
+  num_multi <-
     as.numeric(sim[[1]][[1]]$stt_all[stt_last_row_sim, "nC"])
 
   num_nonend <-
@@ -269,8 +273,8 @@ calc_num_specs <- function(sim,
 
   return(
     as.numeric(c(num_spec,
-                 num_ana,
-                 num_clado,
+                 num_singleton,
+                 num_multi,
                  num_nonend,
                  num_clade))
   )

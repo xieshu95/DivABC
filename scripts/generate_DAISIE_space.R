@@ -296,17 +296,16 @@ write.csv2(
 
 
 ### use less parameter sets to try
-K <- c(20)
-## a. lac
-# lac <- c(0.3,0.5,0.7)
-# mu <- c(0.05,0.1,0.15)
-# gam <- c(0.005,0.0075,0.01)
-# laa <- c(0.1,0.2,0.3)
+K <- c(50)
 
-lac <- c(0.3,0.5,0.7)
-mu <- c(0,0.1,0.2)
-gam <- c(0.006,0.009,0.012)
-laa <- c(0.1,0.2,0.3)
+# lac <- c(0.3,1.0)
+# mu <- c(0,0.3)
+# gam <- c(0.003,0.012)
+# laa <- c(0.1,1.0)
+lac <- c(0.4,0.7)
+mu <- c(0,0.3)
+gam <- c(0.003,0.009)
+laa <- c(0.1,1.0)
 DAISIE_ABC_short <- expand.grid(
   lac = lac,
   mu = mu,
@@ -315,6 +314,7 @@ DAISIE_ABC_short <- expand.grid(
   K = K
 )
 
+DAISIE_ABC_short <- DAISIE_ABC_short[rep(seq_len(nrow(DAISIE_ABC_short)), each = 10), ]
 
 write.csv2(
   DAISIE_ABC_short,
@@ -339,10 +339,10 @@ K <- Inf
 # gam <- c(0.005,0.0075,0.01)
 # laa <- c(0.1,0.2,0.3)
 
-lac <- c(0.3,0.4,0.5)
-mu <- c(0,0.1,0.2)
-gam <- c(0.006,0.009,0.012)
-laa <- c(0.1,0.2,0.3)
+lac <- c(0.4,0.7)
+mu <- c(0,0.3)
+gam <- c(0.003,0.009)
+laa <- c(0.1,1.0)
 DAISIE_ABC_short_DI <- expand.grid(
   lac = lac,
   mu = mu,
@@ -350,7 +350,7 @@ DAISIE_ABC_short_DI <- expand.grid(
   laa = laa,
   K = K
 )
-
+DAISIE_ABC_short_DI <- DAISIE_ABC_short_DI[rep(seq_len(nrow(DAISIE_ABC_short_DI)), each = 10), ]
 
 write.csv2(
   DAISIE_ABC_short_DI,
@@ -364,5 +364,73 @@ DAISIE_MCMC_short_DI = DAISIE_ABC_short_DI
 write.csv2(
   DAISIE_MCMC_short_DI,
   "data/DAISIE_MCMC_short_DI.csv",
+  row.names = FALSE
+)
+
+
+#####
+## test
+par1 <- c(0.3,0.1,0.009,0.2,20)
+par2 <- c(0.3,0,0.009,0.2,20)  ##
+par3 <- c(0.5,0.1,0.009,0.2,20)  ##
+par4 <- c(0.3,0.1,0.009,0.2,Inf)  ##
+
+
+DAISIE_ABC_test <- data.frame(rbind(par1,par2,par3,par4))
+colnames(DAISIE_ABC_test) <- c("lac","mu","gam","laa","K")
+
+DAISIE_ABC_test1 <- DAISIE_ABC_test[rep(1,each = 50), ]
+rownames(DAISIE_ABC_test1) <- 1:nrow(DAISIE_ABC_test1)
+write.csv2(
+  DAISIE_ABC_test1,
+  "data/DAISIE_ABC_test1.csv",
+  row.names = FALSE
+)
+DAISIE_MCMC_test1 = DAISIE_ABC_test1
+write.csv2(
+  DAISIE_MCMC_test1,
+  "data/DAISIE_MCMC_test1.csv",
+  row.names = FALSE
+)
+
+DAISIE_ABC_test2 <- DAISIE_ABC_test[rep(2,each = 50), ]
+rownames(DAISIE_ABC_test2) <- 1:nrow(DAISIE_ABC_test2)
+write.csv2(
+  DAISIE_ABC_test2,
+  "data/DAISIE_ABC_test2.csv",
+  row.names = FALSE
+)
+DAISIE_MCMC_test2 = DAISIE_ABC_test2
+write.csv2(
+  DAISIE_MCMC_test2,
+  "data/DAISIE_MCMC_test2.csv",
+  row.names = FALSE
+)
+
+DAISIE_ABC_test3 <- DAISIE_ABC_test[rep(3,each = 50), ]
+rownames(DAISIE_ABC_test3) <- 1:nrow(DAISIE_ABC_test3)
+write.csv2(
+  DAISIE_ABC_test3,
+  "data/DAISIE_ABC_test3.csv",
+  row.names = FALSE
+)
+DAISIE_MCMC_test3 = DAISIE_ABC_test3
+write.csv2(
+  DAISIE_MCMC_test3,
+  "data/DAISIE_MCMC_test3.csv",
+  row.names = FALSE
+)
+
+DAISIE_ABC_test4 <- DAISIE_ABC_test[rep(4,each = 50), ]
+rownames(DAISIE_ABC_test4) <- 1:nrow(DAISIE_ABC_test4)
+write.csv2(
+  DAISIE_ABC_test4,
+  "data/DAISIE_ABC_test4.csv",
+  row.names = FALSE
+)
+DAISIE_MCMC_test4 = DAISIE_ABC_test4
+write.csv2(
+  DAISIE_MCMC_test4,
+  "data/DAISIE_MCMC_test4.csv",
   row.names = FALSE
 )

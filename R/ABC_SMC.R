@@ -84,7 +84,8 @@ ABC_SMC <- function( # nolint indeed a complex function
           parameters[p_index] <- previous_params[[index]][p_index]
         }
           parameters[idparsopt] <- exp(log(parameters[idparsopt]) +
-                                         stats::rnorm(1, 0, sigma_temp))
+                                         stats::rnorm(length(idparsopt),
+                                                      0, sigma_temp))
       }
 
       #reject if outside the prior
@@ -168,7 +169,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7) #0.5
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.55) #0.5
       # if("phy" %in% names(obs_data[[1]])){
       #   epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.65) #0.5
       # } else {
