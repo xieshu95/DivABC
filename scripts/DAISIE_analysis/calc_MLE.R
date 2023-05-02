@@ -6,13 +6,14 @@ lac_MLE <- c()
 mu_MLE <- c()
 gam_MLE <- c()
 laa_MLE <- c()
+max_ll<- c()
 
 init_lac<-c()
 init_mu<-c()
 init_gam<-c()
 init_laa<-c()
 init_K<-c()
-for(i in 1:81) {
+for(i in 1:160) {
   message("set",i)
   set.seed(i)
   obs_sim_pars <- param_space[i,]
@@ -72,12 +73,13 @@ for(i in 1:81) {
       mu_MLE <-c(mu_MLE,MLE_DD_allpars$mu)
       gam_MLE <- c(gam_MLE,MLE_DD_allpars$gamma)
       laa_MLE <-c(laa_MLE,MLE_DD_allpars$lambda_a)
+      max_ll<- c(max_ll,MLE$ML)
       # K <- c(K,MLE_DD_allpars$K)
       rep <- rep + 1
     }
   }
 }
-MLE_all <- data.frame(lac_MLE, mu_MLE, gam_MLE, laa_MLE, #K,init_K
+MLE_all <- data.frame(lac_MLE, mu_MLE, gam_MLE, laa_MLE,max_ll, #K,init_K
                       init_lac,init_mu,init_gam,init_laa)
 
 save(MLE_all, file = paste0("/home4/p290559/results/MLE_",seed_mle,".RData"))

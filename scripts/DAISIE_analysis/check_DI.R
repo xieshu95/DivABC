@@ -69,53 +69,95 @@ for(n in c(0,1,2)){ # 1,2,6,7,20
 
 # 2. formate MCMC results (only plot the etimation points with ABC results)
 # skip
-# folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DI/DAISIE_MCMC_short_DI"
-# files <- list.files(folder_path)
-# param_data <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
-# param_data <- param_data[1:81,]
-# param_data3<-param_data[rep(seq_len(nrow(param_data)), each=400),] #2001/400
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DI/DAISIE_MCMC_short_DI"
+files <- list.files(folder_path)
+param_data <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+param_data <- param_data[1:81,]
+param_data3<-param_data[rep(seq_len(nrow(param_data)), each=400),] #2001/400
+
+lac_mcmc <- c()
+mu_mcmc <- c()
+gam_mcmc <- c()
+laa_mcmc <- c()
+
+for(i in 1:81){
+  file_to_load <- grep(paste0("DAISIE_MCMC_short_DI_param_set_", i,"_ss_1.RData"), #"_rep",rep,
+                       files,
+                       value = TRUE,
+                       fixed = TRUE)
+
+
+
+  if (!identical(file_to_load, character())) {
+    load(file.path(folder_path, file_to_load))
+    lac_mcmc <- c(lac_mcmc, output[1602:2001,1]) # output[602:1001,1]
+    mu_mcmc <- c(mu_mcmc, output[1602:2001,2])
+    gam_mcmc <- c(gam_mcmc, output[1602:2001,3])
+    laa_mcmc <- c(laa_mcmc, output[1602:2001,4])
+  } else {
+    lac_mcmc <- c(lac_mcmc, rep(NA,400)) #rep(NA,400)
+    mu_mcmc <- c(mu_mcmc, rep(NA,400))
+    gam_mcmc <- c(gam_mcmc, rep(NA,400))
+    laa_mcmc <- c(laa_mcmc, rep(NA,400))
+  }
+}
+
+whole_df_MCMC <- data.frame(param_data3,
+                            lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc)
+
+save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DI/whole_df_MCMC.RData"))
+
+whole_df_MCMC$net_div <- (whole_df_MCMC$lac-whole_df_MCMC$mu)
+whole_df_MCMC$net_div_mcmc <- (whole_df_MCMC$lac_mcmc - whole_df_MCMC$mu_mcmc)
+
+whole_df_MCMC$ext_frac <- (whole_df_MCMC$mu)/(whole_df_MCMC$lac)
+whole_df_MCMC$ext_frac_MCMC <- (whole_df_MCMC$mu_mcmc)/(whole_df_MCMC$lac_mcmc)
+
+save(whole_df_MCMC,
+     file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DI/delta_whole_df_MCMC.RData"))
 #
-# lac_mcmc <- c()
-# mu_mcmc <- c()
-# gam_mcmc <- c()
-# laa_mcmc <- c()
-#
-# for(i in 1:81){
-#   file_to_load <- grep(paste0("DAISIE_MCMC_short_DI_param_set_", i,"_ss_1.RData"), #"_rep",rep,
-#                        files,
-#                        value = TRUE,
-#                        fixed = TRUE)
-#
-#
-#
-#   if (!identical(file_to_load, character())) {
-#     load(file.path(folder_path, file_to_load))
-#     lac_mcmc <- c(lac_mcmc, output[1602:2001,1]) # output[602:1001,1]
-#     mu_mcmc <- c(mu_mcmc, output[1602:2001,2])
-#     gam_mcmc <- c(gam_mcmc, output[1602:2001,3])
-#     laa_mcmc <- c(laa_mcmc, output[1602:2001,4])
-#   } else {
-#     lac_mcmc <- c(lac_mcmc, rep(NA,400)) #rep(NA,400)
-#     mu_mcmc <- c(mu_mcmc, rep(NA,400))
-#     gam_mcmc <- c(gam_mcmc, rep(NA,400))
-#     laa_mcmc <- c(laa_mcmc, rep(NA,400))
-#   }
-# }
-#
-# whole_df_MCMC <- data.frame(param_data3,
-#                             lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc)
-#
-# save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DI/whole_df_MCMC.RData"))
-#
-# whole_df_MCMC$net_div <- (whole_df_MCMC$lac-whole_df_MCMC$mu)
-# whole_df_MCMC$net_div_mcmc <- (whole_df_MCMC$lac_mcmc - whole_df_MCMC$mu_mcmc)
-#
-# whole_df_MCMC$ext_frac <- (whole_df_MCMC$mu)/(whole_df_MCMC$lac)
-# whole_df_MCMC$ext_frac_MCMC <- (whole_df_MCMC$mu_mcmc)/(whole_df_MCMC$lac_mcmc)
-#
-# save(whole_df_MCMC,
-#      file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DI/delta_whole_df_MCMC.RData"))
-#
+
+# ######
+# 3. MLE
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/whole_df_MLE.RData"))
+
+# MLE_DI directly load MLE results from cluster
+param_data <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/MLE_DI.RData")
+whole_df_MLE <- data.frame(param_data,MLE_all[1:4])
+
+whole_df_MLE$net_div <- (whole_df_MLE$lac-whole_df_MLE$mu)
+whole_df_MLE$net_div_MLE <- (whole_df_MLE$lac_MLE-whole_df_MLE$mu_MLE)
+
+whole_df_MLE$ext_frac <- (whole_df_MLE$mu)/(whole_df_MLE$lac)
+whole_df_MLE$ext_frac_MLE <- (whole_df_MLE$mu_MLE)/(whole_df_MLE$lac_MLE)
+save(whole_df_MLE,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/whole_df_MLE_DI.RData")
+
+#####
+# plot MCMC trace
+#skip
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/DAISIE_MCMC_short"
+files <- list.files(folder_path)
+for(i in 1:81){
+  # param_set = (param_num-1)*5 + i
+  file_to_load <- grep(paste0("DAISIE_MCMC_short_param_set_", i,"_ss_1.RData"), #"_rep",rep,
+                       files,
+                       value = TRUE,
+                       fixed = TRUE)
+
+  if (!identical(file_to_load, character())) {
+    load(file.path(folder_path, file_to_load))
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/MCMC_trace_short/set_",i,".tiff"),
+         units="px", width=2000, height=4000,res = 400,compression="lzw")
+    b_mcmc <- coda::as.mcmc(output[,1:4])
+    plot_mcmc <- plot(b_mcmc)
+    print(plot_mcmc)
+    while (!is.null(dev.list()))  dev.off()
+  }
+}
+
+
+
 
 # 81 all particles comparsion
 ## plot all particles (ABC-new vs ABC-old vs MCMC VS MLE)
