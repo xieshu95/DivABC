@@ -29,7 +29,7 @@ Remotes:
     rsetienne/DAISIE@trait_dep,
     thijsjanzen/nltt,
     thijsjanzen/treestats,
-    rsetienne/secsse@simulation
+    rsetienne/secsse
 URL: https://github.com/xieshu95/Traisie-ABC
 BugReports: https://github.com/xieshu95/Traisie-ABC/issues
 RoxygenNote: 7.2.3

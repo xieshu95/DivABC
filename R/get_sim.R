@@ -97,8 +97,8 @@ get_secsse_sim_create_obs <- function(parameters, K, replicates){
                                      mus = idparlist$mus,
                                      qs = q,
                                      speciesTraits = speciesTraits,
-                                     maxSpec = 400)  ## maximum 600 species
-        if(length(sim[[j]]$examTraits) > 20 && ## at least 50 species
+                                     maxSpec = 400)  ## maximum 400 species
+        if(length(sim[[j]]$examTraits) > 20 && ## at least 20-400 species
            length(sim[[j]]$examTraits) < 400 &&
            length(unique(sim[[j]]$examTraits)) == 2){
           save = 1
@@ -155,3 +155,83 @@ get_secsse_sim <- function(parameters, K, replicates){
 # dimnames(q)[1:2]<-list(states)
 # idparlist$Q <- q
 # idparlist
+
+###
+get_secsse_sim_cpp <- function(parameters, K, replicates){
+  idparlist <- secsse::cla_id_paramPos(traits = c(1,2),
+                                       num_concealed_states = 2)
+  idparlist$lambdas[1,] <- rep(c(parameters[1], parameters[2]),2)
+  idparlist$mus[1:4]<- rep(c(parameters[3], parameters[4]),2)
+  masterBlock <- matrix(c(parameters[6], parameters[5]),
+                        ncol=2,nrow=2,byrow=TRUE)
+  diag(masterBlock) <- NA
+  q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)
+  q[1,3]<- q[2,4] <- q[3,1] <- q[4,2] <- 0
+
+  lambdas <- secsse::prepare_full_lambdas(c(1,2),2,idparlist$lambdas)
+  states <- names(idparlist$mus)
+  initialState<- sample(states,1)
+  speciesTraits <- c(initialState,initialState)
+
+  sim <- list()
+  suppressWarnings(
+    suppressMessages(
+      for (j in seq_len(replicates)) {
+        sim[[j]] <- secsse::secsse_sim(lambdas = lambdas,
+                               mus = idparlist$mus,
+                               qs = q,
+                               crown_age = 18,
+                               pool_init_states = NULL,
+                               maxSpec = 400,
+                               conditioning = "none",
+                               non_extinction = TRUE,
+                               verbose = FALSE,
+                               max_tries = 1e6)
+      }
+    )
+  )
+  return(sim)
+}
+
+get_secsse_sim_create_obs_cpp <- function(parameters, K, replicates){
+  idparlist <- secsse::cla_id_paramPos(traits = c(1,2),
+                                       num_concealed_states = 2)
+  idparlist$lambdas[1,] <- rep(c(parameters[1], parameters[2]),2)
+  idparlist$mus[1:4]<- rep(c(parameters[3], parameters[4]),2)
+  masterBlock <- matrix(c(parameters[6], parameters[5]),
+                        ncol=2,nrow=2,byrow=TRUE)
+  diag(masterBlock) <- NA
+  q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)
+  q[1,3]<- q[2,4] <- q[3,1] <- q[4,2] <- 0
+
+  lambdas <- secsse::prepare_full_lambdas(c(1,2),2,idparlist$lambdas)
+  states <- names(idparlist$mus)
+  initialState<- sample(states,1)
+  speciesTraits <- c(initialState,initialState)
+
+  sim <- list()
+  suppressWarnings(
+    for (j in seq_len(replicates)) {
+      save <- 0
+      while(save < 1){
+        sim[[j]] <- secsse::secsse_sim(lambdas = lambdas,
+                                       mus = idparlist$mus,
+                                       qs = q,
+                                       crown_age = 18,
+                                       pool_init_states = NULL,
+                                       maxSpec = 400,
+                                       conditioning = "none",
+                                       non_extinction = TRUE,
+                                       verbose = FALSE,
+                                       max_tries = 1e6)
+        if(length(sim[[j]]$obs_traits) > 20 && ## at least 50 species
+           length(sim[[j]]$obs_traits) < 400 &&
+           length(unique(sim[[j]]$obs_traits)) == 2){
+          save = 1
+        }
+      }
+
+    }
+  )
+  return(sim)
+}
