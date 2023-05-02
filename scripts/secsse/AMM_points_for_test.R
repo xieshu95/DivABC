@@ -4,9 +4,9 @@
 ## check new secsse ABC result
 for(test in c(1,5,6)){
   # formate results
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/obs_ss_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/obs_ss_test",test,".RData"))
   ## ABC results
-  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/secsse_ABC_test",test)
+  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/secsse_ABC_test",test)
   files <- list.files(folder_path)
   param_data <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
 
@@ -67,7 +67,7 @@ for(test in c(1,5,6)){
   whole_df_ABC <- data.frame(param_data2,n_iteration,
                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                              lam1_abc,lam2_abc,mu1_abc,mu2_abc,q12_abc,q21_abc)
-  save(whole_df_ABC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/whole_df_ABC_test",test,".RData"))
+  save(whole_df_ABC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/whole_df_ABC_test",test,".RData"))
 
   # whole_df_ABC$dlam <- (whole_df_ABC$lam2-whole_df_ABC$lam1)/(whole_df_ABC$lam2+whole_df_ABC$lam1)
   # whole_df_ABC$dlam_ABC <- (whole_df_ABC$lam2_abc-whole_df_ABC$lam1_abc)/(whole_df_ABC$lam2_abc+whole_df_ABC$lam1_abc)
@@ -87,17 +87,17 @@ for(test in c(1,5,6)){
   whole_df_ABC$ext_frac_ABC1 <- (whole_df_ABC$mu1_abc)/(whole_df_ABC$lam1_abc)
   whole_df_ABC$ext_frac_ABC2 <- (whole_df_ABC$mu2_abc)/(whole_df_ABC$lam2_abc)
   save(whole_df_ABC,file =
-         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
+         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
 
 }
 
 ######
 # 2. formate MCMC results (only plot the estimation points with ABC results)
 # skip
-for(test in 1:5){
-  param_data <- readr::read_csv2(paste0("G:/R/Traisie-ABC/data/secsse_ABC_test",test,".csv"))
-  param_data3<-param_data[rep(seq_len(nrow(param_data)), each=2001),] #5001
-  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/secsse_ABC_test",test)
+for(test in c(1,3,5,6)){
+  param_data <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
+  param_data3<-param_data[rep(seq_len(nrow(param_data)), each=500),] #5001
+  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/secsse_MCMC_test",test)
   files <- list.files(folder_path)
   lam1_mcmc <- c()
   lam2_mcmc <- c()
@@ -106,51 +106,33 @@ for(test in 1:5){
   q12_mcmc <- c()
   q21_mcmc <- c()
   for(i in 1:100){
-    file_to_load <- grep(paste0("secsse_ABC_test",test,"_param_set_",i,"_ss_0.RData"),  #,"_rep",rep
+    file_to_load <- grep(paste0("secsse_MCMC_test",test,"_param_set_", i,"_ss_1.RData"), #"_rep",rep,
                          files,
                          value = TRUE,
                          fixed = TRUE)
-
     if (!identical(file_to_load, character())) {
-      folder_path_mcmc <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/secsse_MCMC_test",test)
-      files_mcmc <- list.files(folder_path_mcmc)
-      file_to_load_mcmc <- grep(paste0("secsse_MCMC_test",test,"_param_set_", i,"_ss_1.RData"), #"_rep",rep,
-                                files_mcmc,
-                                value = TRUE,
-                                fixed = TRUE)
-
-      if (!identical(file_to_load_mcmc, character())) {
-        load(file.path(folder_path_mcmc, file_to_load_mcmc))
-        lam1_mcmc <- c(lam1_mcmc, output[,1])
-        lam2_mcmc <- c(lam2_mcmc, output[,2])
-        mu1_mcmc <- c(mu1_mcmc, output[,3])
-        mu2_mcmc <- c(mu2_mcmc, output[,4])
-        q12_mcmc <- c(q12_mcmc, output[,5])
-        q21_mcmc <- c(q21_mcmc, output[,6])
-      } else {
-        lam1_mcmc <- c(lam1_mcmc, rep(NA,2001))
-        lam2_mcmc <- c(lam2_mcmc, rep(NA,2001))
-        mu1_mcmc <- c(mu1_mcmc, rep(NA,2001))
-        mu2_mcmc <- c(mu2_mcmc, rep(NA,2001))
-        q12_mcmc <- c(q12_mcmc, rep(NA,2001))
-        q21_mcmc <- c(q21_mcmc, rep(NA,2001))
-      }
+      load(file.path(folder_path, file_to_load))
+      lam1_mcmc <- c(lam1_mcmc, output[1502:2001,1])
+      lam2_mcmc <- c(lam2_mcmc, output[1502:2001,2])
+      mu1_mcmc <- c(mu1_mcmc, output[1502:2001,3])
+      mu2_mcmc <- c(mu2_mcmc, output[1502:2001,4])
+      q12_mcmc <- c(q12_mcmc, output[1502:2001,5])
+      q21_mcmc <- c(q21_mcmc, output[1502:2001,6])
     } else {
-      lam1_mcmc <- c(lam1_mcmc, rep(NA,2001))
-      lam2_mcmc <- c(lam2_mcmc, rep(NA,2001))
-      mu1_mcmc <- c(mu1_mcmc, rep(NA,2001))
-      mu2_mcmc <- c(mu2_mcmc, rep(NA,2001))
-      q12_mcmc <- c(q12_mcmc, rep(NA,2001))
-      q21_mcmc <- c(q21_mcmc, rep(NA,2001))
+      lam1_mcmc <- c(lam1_mcmc, rep(NA,500)) #500
+      lam2_mcmc <- c(lam2_mcmc, rep(NA,500))
+      mu1_mcmc <- c(mu1_mcmc, rep(NA,500))
+      mu2_mcmc <- c(mu2_mcmc, rep(NA,500))
+      q12_mcmc <- c(q12_mcmc, rep(NA,500))
+      q21_mcmc <- c(q21_mcmc, rep(NA,500))
     }
   }
-
   whole_df_MCMC <- data.frame(param_data3,
                               lam1_mcmc,lam2_mcmc,
                               mu1_mcmc,mu2_mcmc,
                               q12_mcmc,q21_mcmc)
 
-  save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/whole_df_MCMC_test",test,"_fit_ABC.RData"))
+  save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/whole_df_MCMC_test",test,"_fit_ABC.RData"))
 
   # whole_df_MCMC$dlam <- (whole_df_MCMC$lam2-whole_df_MCMC$lam1)/(whole_df_MCMC$lam2+whole_df_MCMC$lam1)
   # whole_df_MCMC$dlam_mcmc <- (whole_df_MCMC$lam2_mcmc-whole_df_MCMC$lam1_mcmc)/(whole_df_MCMC$lam2_mcmc+whole_df_MCMC$lam1_mcmc)
@@ -169,8 +151,89 @@ for(test in 1:5){
   whole_df_MCMC$ext_frac_MCMC1 <- (whole_df_MCMC$mu1_mcmc)/(whole_df_MCMC$lam1_mcmc)
   whole_df_MCMC$ext_frac_MCMC2 <- (whole_df_MCMC$mu2_mcmc)/(whole_df_MCMC$lam2_mcmc)
 
-  save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
+  save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/delta_whole_df_MCMC_test",test,".RData"))
 }
+
+# for(test in 1:5){
+#   param_data <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
+#   param_data3<-param_data[rep(seq_len(nrow(param_data)), each=500),] #5001
+#   folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/secsse_ABC_test",test)
+#   files <- list.files(folder_path)
+#   lam1_mcmc <- c()
+#   lam2_mcmc <- c()
+#   mu1_mcmc <- c()
+#   mu2_mcmc <- c()
+#   q12_mcmc <- c()
+#   q21_mcmc <- c()
+#   for(i in 1:100){
+#     file_to_load <- grep(paste0("secsse_ABC_test",test,"_param_set_",i,"_ss_0.RData"),  #,"_rep",rep
+#                          files,
+#                          value = TRUE,
+#                          fixed = TRUE)
+#
+#     if (!identical(file_to_load, character())) {
+#       folder_path_mcmc <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/secsse_MCMC_test",test)
+#       files_mcmc <- list.files(folder_path_mcmc)
+#       file_to_load_mcmc <- grep(paste0("secsse_MCMC_test",test,"_param_set_", i,"_ss_1.RData"), #"_rep",rep,
+#                                 files_mcmc,
+#                                 value = TRUE,
+#                                 fixed = TRUE)
+#
+#       if (!identical(file_to_load_mcmc, character())) {
+#         load(file.path(folder_path_mcmc, file_to_load_mcmc))
+#         lam1_mcmc <- c(lam1_mcmc, output[1502:2001,1])
+#         lam2_mcmc <- c(lam2_mcmc, output[1502:2001,2])
+#         mu1_mcmc <- c(mu1_mcmc, output[1502:2001,3])
+#         mu2_mcmc <- c(mu2_mcmc, output[1502:2001,4])
+#         q12_mcmc <- c(q12_mcmc, output[1502:2001,5])
+#         q21_mcmc <- c(q21_mcmc, output[1502:2001,6])
+#       } else {
+#         lam1_mcmc <- c(lam1_mcmc, rep(NA,500)) #500
+#         lam2_mcmc <- c(lam2_mcmc, rep(NA,500))
+#         mu1_mcmc <- c(mu1_mcmc, rep(NA,500))
+#         mu2_mcmc <- c(mu2_mcmc, rep(NA,500))
+#         q12_mcmc <- c(q12_mcmc, rep(NA,500))
+#         q21_mcmc <- c(q21_mcmc, rep(NA,500))
+#       }
+#     } else {
+#       lam1_mcmc <- c(lam1_mcmc, rep(NA,500))
+#       lam2_mcmc <- c(lam2_mcmc, rep(NA,500))
+#       mu1_mcmc <- c(mu1_mcmc, rep(NA,500))
+#       mu2_mcmc <- c(mu2_mcmc, rep(NA,500))
+#       q12_mcmc <- c(q12_mcmc, rep(NA,500))
+#       q21_mcmc <- c(q21_mcmc, rep(NA,500))
+#     }
+#   }
+#
+#   whole_df_MCMC <- data.frame(param_data3,
+#                               lam1_mcmc,lam2_mcmc,
+#                               mu1_mcmc,mu2_mcmc,
+#                               q12_mcmc,q21_mcmc)
+#
+#   save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/whole_df_MCMC_test",test,"_fit_ABC.RData"))
+#
+#   # whole_df_MCMC$dlam <- (whole_df_MCMC$lam2-whole_df_MCMC$lam1)/(whole_df_MCMC$lam2+whole_df_MCMC$lam1)
+#   # whole_df_MCMC$dlam_mcmc <- (whole_df_MCMC$lam2_mcmc-whole_df_MCMC$lam1_mcmc)/(whole_df_MCMC$lam2_mcmc+whole_df_MCMC$lam1_mcmc)
+#   # whole_df_MCMC$dmu <- (whole_df_MCMC$mu2-whole_df_MCMC$mu1)/(whole_df_MCMC$mu2+whole_df_MCMC$mu1)
+#   # whole_df_MCMC$dmu_mcmc <- (whole_df_MCMC$mu2_mcmc-whole_df_MCMC$mu1_mcmc)/(whole_df_MCMC$mu2_mcmc+whole_df_MCMC$mu1_mcmc)
+#   # whole_df_MCMC$dq <- (whole_df_MCMC$q12-whole_df_MCMC$q21)/(whole_df_MCMC$q12+whole_df_MCMC$q21)
+#   # whole_df_MCMC$dq_mcmc <- (whole_df_MCMC$q12_mcmc-whole_df_MCMC$q21_mcmc)/(whole_df_MCMC$q12_mcmc+whole_df_MCMC$q21_mcmc)
+#
+#   whole_df_MCMC$net_div1 <- (whole_df_MCMC$lam1-whole_df_MCMC$mu1)
+#   whole_df_MCMC$net_div2 <- (whole_df_MCMC$lam2-whole_df_MCMC$mu2)
+#   whole_df_MCMC$net_div_MCMC1 <- (whole_df_MCMC$lam1_mcmc-whole_df_MCMC$mu1_mcmc)
+#   whole_df_MCMC$net_div_MCMC2 <- (whole_df_MCMC$lam2_mcmc-whole_df_MCMC$mu2_mcmc)
+#
+#   whole_df_MCMC$ext_frac1 <- (whole_df_MCMC$mu1)/(whole_df_MCMC$lam1)
+#   whole_df_MCMC$ext_frac2 <- (whole_df_MCMC$mu2)/(whole_df_MCMC$lam2)
+#   whole_df_MCMC$ext_frac_MCMC1 <- (whole_df_MCMC$mu1_mcmc)/(whole_df_MCMC$lam1_mcmc)
+#   whole_df_MCMC$ext_frac_MCMC2 <- (whole_df_MCMC$mu2_mcmc)/(whole_df_MCMC$lam2_mcmc)
+#
+#   save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/delta_whole_df_MCMC_test",test,"_fit_ABC.RData"))
+# }
+
+
+
 
 ######
 
@@ -219,7 +282,7 @@ for(test in 1:5){
 #   ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 #
 #   df<-whole_df_MCMC
-#   n <- 2001
+#   n <- 500
 #   MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 #
 #   MLE_median <- whole_df_MLE_fit_ABC
@@ -262,10 +325,10 @@ for(test in 1:5){
 # }
 
 for(test in c(1,5,6)){
-  # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_MCMC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/whole_df_MLE",test,".RData"))
+  # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/delta_whole_df_MCMC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/whole_df_MLE",test,".RData"))
 
   ## get number of iterations and mean values
   df <- whole_df_ABC
@@ -273,7 +336,7 @@ for(test in c(1,5,6)){
   ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   df<-whole_df_MCMC
-  n <- 2001
+  n <- 500
   MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   MLE_median <- whole_df_MLE
@@ -283,9 +346,9 @@ for(test in c(1,5,6)){
   AMM_all_df <- cbind(ABC_median[1:21],
                       MCMC_median[,c(7:12,15,16,19,20)],
                       MLE_median[,c(7:12,20:23)])
-  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/AMM_per_set_test",test,".RData"))
+  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/AMM_per_set_test",test,".RData"))
 
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/AMM_per_set_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/AMM_per_set_test",test,".RData"))
   AMM_all_df$dlam1_abc <- AMM_all_df$lam1_abc - AMM_all_df$lam1
   AMM_all_df$dlam2_abc <- AMM_all_df$lam2_abc - AMM_all_df$lam2
   AMM_all_df$dmu1_abc <- AMM_all_df$mu1_abc - AMM_all_df$mu1
@@ -310,7 +373,7 @@ for(test in c(1,5,6)){
   AMM_all_df$net_div_MLE1 <- AMM_all_df$lam1_MLE-AMM_all_df$mu1_MLE
   AMM_all_df$net_div_MLE2 <- AMM_all_df$lam2_MLE-AMM_all_df$mu2_MLE
 
-  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/AMM_per_set_drate_test",test,".RData"))
+  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/AMM_per_set_drate_test",test,".RData"))
 }
 
 #####
@@ -428,7 +491,7 @@ for(test in c(1,5,6)){
 ## run
 library(ggplot2)
 for(test in c(1,5,6)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/AMM_per_set_drate_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/AMM_per_set_drate_test",test,".RData"))
   color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
   p_lam1 <-ggplot2::ggplot(data = AMM_all_df) +
     ggplot2::theme_bw() +
@@ -526,7 +589,7 @@ for(test in c(1,5,6)){
                                 values = color_values,
                                 labels = c("ABC", "MCMC", "MLE"))
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/exact_rate_test",test,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/exact_rate_test",test,".tiff"),
        units="px", width=3000, height=1800,res = 400,compression="lzw")
   params <- cowplot::plot_grid(
     p_lam1+ggplot2::theme(legend.position = "none"),
@@ -549,7 +612,7 @@ for(test in c(1,5,6)){
 
 ## plot tree size VS net diversification rates
 for(test in c(1,5,6)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/AMM_per_set_drate_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/AMM_per_set_drate_test",test,".RData"))
   color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
   p_div1 <-ggplot2::ggplot(data = AMM_all_df) +
     ggplot2::theme_bw() +
@@ -584,7 +647,7 @@ for(test in c(1,5,6)){
                                 labels = c("ABC", "MCMC", "MLE"))+
     ggplot2::geom_hline(yintercept = AMM_all_df$net_div2[1], linetype = "dashed", size = 0.5)
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/net_div_set_",test,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/net_div_set_",test,".tiff"),
        units="px", width=2200, height=1000,res = 400,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_div1,p_div2,
@@ -613,9 +676,9 @@ for(test in c(1,5,6)){
 # AMM histogram
 library(ggplot2)
 for(test in c(1,5,6)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_MCMC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/whole_df_MLE",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/delta_whole_df_MCMC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/whole_df_MLE",test,".RData"))
 
 
   ## get legend first
@@ -655,7 +718,7 @@ for(test in c(1,5,6)){
 
   for(i in 1:100){
     param_abc <- whole_df_ABC[((i*300-299)):(i*300),]
-    param_mcmc <- whole_df_MCMC[((i*2001-300)):(i*2001),]
+    param_mcmc <- whole_df_MCMC[((i*500-300)):(i*500),]
     param_mle <- whole_df_MLE[i,]
 
     if(!is.na(param_abc[1,7])){
@@ -807,7 +870,7 @@ for(test in c(1,5,6)){
 
       p_emp <- ggplot() + theme_void()
 
-      tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/cowplot_AMM_3gene/test",test,"AMM_rep_",i,".tiff"),
+      tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/cowplot_AMM_3gene/test",test,"AMM_rep_",i,".tiff"),
            units="px", width=3000, height=1800,res = 400,compression="lzw")
       param_estimates <- cowplot::plot_grid(
         p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
@@ -825,10 +888,10 @@ for(test in c(1,5,6)){
 # 6. compare net-diversification
 library(ggplot2)
 for(test in 1:5){
-  # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_split_state_space/delta_whole_df_ABC_ss_set0.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/delta_whole_df_MCMC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_split_state/whole_df_MLE_test",test,".RData"))
+  # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse/secsse_split_state_space/delta_whole_df_ABC_ss_set0.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/delta_whole_df_MCMC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/whole_df_MLE_test",test,".RData"))
 
 
   ## get legend first
@@ -869,7 +932,7 @@ for(test in 1:5){
   # histogram
   for(i in 1:100){
     param_abc <- whole_df_ABC[((i*300-299)):(i*300),]
-    param_mcmc <- whole_df_MCMC[((i*2001-299)):(i*2001),]
+    param_mcmc <- whole_df_MCMC[((i*500-299)):(i*500),]
     param_mle <- whole_df_MLE_fit_ABC[i,]
     if(!is.na(param_abc[,7])){
       p_net_div1 <-ggplot2::ggplot(data = param_abc) +
@@ -968,7 +1031,7 @@ for(test in 1:5){
       p_emp <- ggplot() + theme_void()
 
       tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/net_div/test",test,"/net_div_hist_set_",i,".tiff"),
-             units="px", width=2200, height=1000,res = 400,compression="lzw")
+           units="px", width=2200, height=1000,res = 400,compression="lzw")
       param_estimates <- cowplot::plot_grid(
         p_net_div1,p_net_div2,
         # p_ext_frac1,p_ext_frac2,
