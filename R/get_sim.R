@@ -87,29 +87,35 @@ get_secsse_sim_create_obs <- function(parameters, K, replicates){
   speciesTraits <- c(initialState,initialState)
 
   sim <- list()
-  suppressWarnings(
-    for (j in seq_len(replicates)) {
-      save <- 0
-      while(save < 1){
-        sim[[j]] <- secsse::secsse_sim(lambdas = lambdas,
-                                       mus = idparlist$mus,
-                                       qs = q,
-                                       crown_age = 18,
-                                       pool_init_states = NULL,
-                                       maxSpec = 400,
-                                       conditioning = "none",
-                                       non_extinction = TRUE,
-                                       verbose = FALSE,
-                                       max_tries = 1e6)
+  for (j in seq_len(replicates)) {
+    save <- 0
+    while(save < 1){
+      skip <- FALSE
+      tryCatch(sim[[j]] <- secsse::secsse_sim(
+        lambdas = lambdas,
+        mus = idparlist$mus,
+        qs = q,
+        crown_age = 18,
+        pool_init_states = NULL,
+        maxSpec = 400,
+        conditioning = "none",
+        non_extinction = TRUE,
+        verbose = FALSE,
+        max_tries = 1e3
+      ), error=function(e) {
+        # print("Error: undefined columns selected")
+        skip <<- TRUE
+      })
+      if(skip == FALSE){
         if(length(sim[[j]]$obs_traits) > 20 && ## at least 50 species
            length(sim[[j]]$obs_traits) < 400 &&
            length(unique(sim[[j]]$obs_traits)) == 2){
           save = 1
         }
       }
-
     }
-  )
+
+  }
   return(sim)
 }
 
@@ -179,22 +185,30 @@ get_secsse_sim <- function(parameters, K, replicates){
   speciesTraits <- c(initialState,initialState)
 
   sim <- list()
-  suppressWarnings(
-    suppressMessages(
-      for (j in seq_len(replicates)) {
-        sim[[j]] <- secsse::secsse_sim(lambdas = lambdas,
-                                       mus = idparlist$mus,
-                                       qs = q,
-                                       crown_age = 18,
-                                       pool_init_states = NULL,
-                                       maxSpec = 400,
-                                       conditioning = "none",
-                                       non_extinction = TRUE,
-                                       verbose = FALSE,
-                                       max_tries = 1e6)
+  for (j in seq_len(replicates)) {
+    save <- 0
+    while(save < 1){
+      skip <- FALSE
+      tryCatch(sim[[j]] <- secsse::secsse_sim(
+        lambdas = lambdas,
+        mus = idparlist$mus,
+        qs = q,
+        crown_age = 18,
+        pool_init_states = NULL,
+        maxSpec = 400,
+        conditioning = "none",
+        non_extinction = TRUE,
+        verbose = FALSE,
+        max_tries = 1e3
+      ), error=function(e) {
+        # print("Error: undefined columns selected")
+        skip <<- TRUE
+      })
+      if(skip == FALSE){
+        save = 1
       }
-    )
-  )
+    }
+  }
   return(sim)
 }
 
