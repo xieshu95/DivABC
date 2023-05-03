@@ -58,8 +58,8 @@ calc_error_secsse <- function(sim_1,
   #                log(spect_2$principal_eigenvalue) )
 
   return(
-    c(mpd1_s1,
-      mpd1_s2,
+    c(mpd_s1,
+      mpd_s2,
       mntd_s1,
       mntd_s2,
       # D,

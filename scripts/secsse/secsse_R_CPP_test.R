@@ -297,22 +297,22 @@ calc_epsilon_init_secsse_test_cpp <- function(sim){
 
 # new secsse Rcpp simulations
 # for(test in c(1,2,3,4,5,6)) {
-  test = 6
+  test = 2
   param_space <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
   ss <- c()
   obs_sim <- list()
   set.seed(1)
-  profvis({
+  # profvis({
     for(i in 1:100){
       message("set: ", i)
       obs_sim_pars <- param_space[i,]
-      obs_sim[[i]] <- get_secsse_sim_create_obs_cpp(parameters = as.numeric(obs_sim_pars),
+      obs_sim[[i]] <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
                                                     K = Inf,
                                                     replicates = 1) ## replicates = 30
       init_epsilon <- calc_epsilon_init_secsse_test_cpp(sim = obs_sim[[i]])
       ss<-rbind(ss,init_epsilon)
     }
-  })
+  # })
 
   colnames(ss) <- c("state1","state2","tree_size","tip_ratio",
                     "mpd","mpd_diff","mpd_s1","mpd_s2",
@@ -344,7 +344,9 @@ load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp
 ##
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/obs_ss_test6.RData"))
 ss_old = ss
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/cpp_obs_ss_test6.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/cpp_obs_ss_test2.RData"))
+# ss_old = ss
+# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/cpp_nonext_false_obs_sim_test2.RData"))
 
 
 ss_comb <- rbind(ss_old,ss)
