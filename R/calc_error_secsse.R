@@ -5,14 +5,14 @@ calc_error_secsse <- function(sim_1,
 
   # drop tips and only keep tips with a single state(1/2)
   phy1_s1<-ape::drop.tip(sim_1$phy,  ## phy1 with only state1 tips
-                         tip = sim_1$phy$tip.label[which(sim_1$examTraits == 2)])
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 2)])
   phy1_s2<-ape::drop.tip(sim_1$phy,
-                         tip = sim_1$phy$tip.label[which(sim_1$examTraits == 1)])
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 1)])
 
   phy2_s1<-ape::drop.tip(sim_2$phy,
-                            tip = sim_2$phy$tip.label[which(sim_2$examTraits == 2)])
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 2)])
   phy2_s2<-ape::drop.tip(sim_2$phy,
-                            tip = sim_2$phy$tip.label[which(sim_2$examTraits == 1)])
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
 
   ## mpd s1
   mpd1_s1 <- treestats::mean_pair_dist(phy1_s1) ## sim1 state1 mpd
@@ -33,16 +33,16 @@ calc_error_secsse <- function(sim_1,
   mntd_s2 <- abs(mntd1_s2 - mntd2_s2)
 
   # D statistic
-  D1 <- calc_D(sim_1)
-  D2 <- calc_D(sim_2)
-  D <- abs (D1 - D2)
+  # D1 <- calc_D(sim_1)
+  # D2 <- calc_D(sim_2)
+  # D <- abs (D1 - D2)
 
   # state 1&2
-  num_state1_sim1 <- length(which(sim_1$examTraits == 1))
-  num_state2_sim1 <- length(which(sim_1$examTraits == 2))
+  num_state1_sim1 <- length(which(sim_1$obs_traits == 1))
+  num_state2_sim1 <- length(which(sim_1$obs_traits == 2))
 
-  num_state1_sim2 <- length(which(sim_2$examTraits == 1))
-  num_state2_sim2 <- length(which(sim_2$examTraits == 2))
+  num_state1_sim2 <- length(which(sim_2$obs_traits == 1))
+  num_state2_sim2 <- length(which(sim_2$obs_traits == 2))
 
   num_state1 <- abs(num_state1_sim1 - num_state1_sim2)
   num_state2 <- abs(num_state2_sim1 - num_state2_sim2)
@@ -62,7 +62,7 @@ calc_error_secsse <- function(sim_1,
       mpd1_s2,
       mntd_s1,
       mntd_s2,
-      D,
+      # D,
       num_state1,
       num_state2,
       nltt,
@@ -71,6 +71,40 @@ calc_error_secsse <- function(sim_1,
   )
 }
 
+
+##
+calc_error_secsse_nltt <- function(sim_1,
+                                   sim_2,
+                                   distance_method = "abs") {
+
+  # drop tips and only keep tips with a single state(1/2)
+  phy1_s1<-ape::drop.tip(sim_1$phy,  ## phy1 with only state1 tips
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 2)])
+  phy1_s2<-ape::drop.tip(sim_1$phy,
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 1)])
+
+  phy2_s1<-ape::drop.tip(sim_2$phy,
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 2)])
+  phy2_s2<-ape::drop.tip(sim_2$phy,
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
+
+
+  # nLTT
+  nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
+  nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
+  nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
+
+
+  return(
+    c(nltt,
+      nltt_s1,
+      nltt_s2)
+  )
+}
+
+
+
+
 ## create trait matrix that show the state is same or not between each two tips
 # 0 means different
 # 1 means both states are 1
@@ -78,7 +112,7 @@ calc_error_secsse <- function(sim_1,
 create_trait_matrix <- function(sim) {
   n <- length(sim$phy$tip.label)
   trait_matrix <- matrix(0, nrow = n, ncol = n)
-  trait <- sim$examTraits
+  trait <- sim$obs_traits
   for (i in 1:n){
     for (j in 1:n) {
       if(trait[i] == trait[j]) {  ## if two states are different, keep 0
@@ -161,7 +195,7 @@ calc_sdntd_trait <- function(sim,state_type = 0)
 
 
 calc_D <- function (sim) {
-  trait = data.frame(sim$phy$tip.label,sim$examTraits)
+  trait = data.frame(sim$phy$tip.label,sim$obs_traits)
   colnames(trait) <- c("tips","trait_val")
   data <- caper::comparative.data(sim$phy, trait, tips)
   PhyloD <- caper::phylo.d(data, binvar=trait_val,permut = 500)
@@ -205,7 +239,7 @@ calc_ss_secsse <- function(sim) {
   #
   # # K statistic
   # K <- adiv::K(sim$phy,
-  #              trait = sim$examTraits,
+  #              trait = sim$obs_traits,
   #              nrep = 1000, alter = c("two-sided"))
   # K <- K$obs
   #
@@ -215,8 +249,8 @@ calc_ss_secsse <- function(sim) {
 
 
   # state 1
-  num_state1 <- length(which(sim$examTraits == 1))
-  num_state2 <- length(which(sim$examTraits == 2))
+  num_state1 <- length(which(sim$obs_traits == 1))
+  num_state2 <- length(which(sim$obs_traits == 2))
   total_spec <- num_state1 + num_state2
   tip_ratio <- max(num_state1,num_state2)/min(num_state1,num_state2)
 
@@ -246,21 +280,21 @@ calc_ss_secsse <- function(sim) {
          state2 = num_state2,
          total_spec = total_spec,
          tip_ratio = tip_ratio)
-         # mpd_all = mpd_all,
-         # mpd_diff = mpd_diff,
-         # mpd_1 = mpd_1,
-         # mpd_2 = mpd_2,
-         # mntd_all = mntd_all,
-         # mntd_diff = mntd_diff,
-         # mntd_1 = mntd_1,
-         # mntd_2 = mntd_2,
-         # sdpd_all = sdpd_all,
-         # sdpd_diff = sdpd_diff,
-         # sdntd_all = sdntd_all,
-         # sdntd_diff = sdntd_diff,
-         # K = K,
-         # D = D,
-         # nltt = nltt)
+    # mpd_all = mpd_all,
+    # mpd_diff = mpd_diff,
+    # mpd_1 = mpd_1,
+    # mpd_2 = mpd_2,
+    # mntd_all = mntd_all,
+    # mntd_diff = mntd_diff,
+    # mntd_1 = mntd_1,
+    # mntd_2 = mntd_2,
+    # sdpd_all = sdpd_all,
+    # sdpd_diff = sdpd_diff,
+    # sdntd_all = sdntd_all,
+    # sdntd_diff = sdntd_diff,
+    # K = K,
+    # D = D,
+    # nltt = nltt)
   )
 }
 
