@@ -60,10 +60,16 @@ calc_ss_diff_daisie <- function(sim1, sim2, ss_set){
 
 
 calc_ss_diff_secsse <- function(sim1, sim2, ss_set){
-  ss <- calc_error_secsse(sim_1 = sim1,
-                          sim_2 = sim2,
-                          distance_method = "abs")
-  ss_diff <- select_ss_secsse(ss,ss_set)
+  if (ss_set == 0){ ## use all ss:
+    ss <- calc_error_secsse(sim_1 = sim1,
+                            sim_2 = sim2,
+                            distance_method = "abs")
+  } else if(ss_set == 1) { # nltt
+    ss <- calc_error_secsse_nltt(sim_1 = sim1,
+                                 sim_2 = sim2,
+                                 distance_method = "abs")
+  }
+  ss_diff <- as.numeric(ss)
   return(ss_diff)
 }
 

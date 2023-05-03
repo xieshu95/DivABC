@@ -110,8 +110,8 @@ calc_epsilon_init_secsse_test <- function(sim){
                     "spect_log_median","spect_prin","sackin")
   ss<-data.frame(ss)
   # colnames(ss) <- c("state1","state2","tree_size","tip_ratio")
-  save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp/obs_ss_test",test,".RData"))
-  save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp/obs_sim_test",test,".RData"))
+  save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/obs_ss_test",test,".RData"))
+  save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/obs_sim_test",test,".RData"))
 # }
 
 
@@ -322,29 +322,29 @@ calc_epsilon_init_secsse_test_cpp <- function(sim){
                     "spect_log_median","spect_prin","sackin")
   ss<-data.frame(ss)
   # colnames(ss) <- c("state1","state2","tree_size","tip_ratio")
-  save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp/cpp_obs_ss_test",test,".RData"))
-  save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp/cpp_obs_sim_test",test,".RData"))
+  save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/cpp_obs_ss_test",test,".RData"))
+  save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/cpp_obs_sim_test",test,".RData"))
 # }
 ## compare secsse_sim_R and secsse_sim_cpp results
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp/obs_ss_test1.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/obs_ss_test1.RData"))
 p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
                                       ylab = "Summary statistics", k_col = 2, k_row = 2)
-saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp/heatmap_ss_test1.html"))
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/heatmap_ss_test1.html"))
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp/cpp_obs_ss_test1.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/cpp_obs_ss_test1.RData"))
 p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
                                       ylab = "Summary statistics", k_col = 2, k_row = 2)
-saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp/cpp_heatmap_ss_test1.html"))
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/cpp_heatmap_ss_test1.html"))
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp/obs_sim_test2.RData"))
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp/cpp_obs_sim_test2.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/obs_sim_test2.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/cpp_obs_sim_test2.RData"))
 
 
 ##
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp/obs_ss_test6.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/obs_ss_test6.RData"))
 ss_old = ss
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp/cpp_obs_ss_test6.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/cpp_obs_ss_test6.RData"))
 
 
 ss_comb <- rbind(ss_old,ss)
@@ -360,7 +360,11 @@ p <- ggplot2::ggplot(data = ss_melt, aes(x = variable, y = value, color = Method
   ggplot2::theme_bw() +
   ggplot2::theme_classic() +
   ggplot2::scale_y_log10()
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp/compare_test6.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/compare_test6.tiff"),
      units="px", width=7000, height=2500,res = 350,compression="lzw")
 print(p)
 while (!is.null(dev.list()))  dev.off()
+
+## change RData to rds
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/cpp_obs_sim_test6.RData"))
+saveRDS(obs_sim,file = "data/obs_sims_secsse_ABC_test6.rds")
