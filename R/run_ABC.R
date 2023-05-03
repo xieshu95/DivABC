@@ -32,7 +32,7 @@ run_ABC <- function(param_space_name,
   )
   message("sim_model: ", sim_model)
   obs_sim_pars <- param_space[param_set,]
-  obs_sim <- load_obs_sim(sim_model)[[param_set]]
+  obs_sim <- load_obs_sim(param_space_name = param_space_name)[[param_set]]
   if (sim_model == "DAISIE") {
     # obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
     #                                          obs_sim_pars$mu,
@@ -90,13 +90,11 @@ run_ABC <- function(param_space_name,
     prior_density_function <- prior_dens_secsse
     fixpars = as.numeric(obs_sim_pars[1:6])
     # init_epsilon <- calc_epsilon_init_secsse(sim = obs_sim)
-    init_epsilon_all <- c(50,50,10,10,2,100,100,1,1,1)
+    # init_epsilon_all <- c(50,50,10,10,100,100,1,1,1)
     if(ss_set == 0){
-      init_epsilon <- init_epsilon_all
-    } else if(ss_set > 10){
-      init_epsilon <- init_epsilon_all
-    } else {
-      init_epsilon <- init_epsilon_all[-ss_set]
+      init_epsilon <- c(50,50,10,10,100,100,1,1,1)
+    } else if (ss_set == 1){
+      init_epsilon <- c(1,1,1)
     }
     obs_sim_pars$K <- Inf
   }
