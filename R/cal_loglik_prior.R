@@ -19,7 +19,7 @@ calc_log_lik_DAISIE <- function(params, datalist,idparsopt) {
 #' @return a numeric represents the log prior density
 #' @export
 calc_log_prior_DAISIE <- function(params) {
-  log_prior <- sum(log(params))
+  log_prior <- sum(log(params)) + log(prior_dens(params, idparsopt))
   return(log_prior)
 }
 
@@ -69,6 +69,6 @@ calc_log_lik_secsse <- function(params, datalist,idparsopt) {
 #' @return a numeric represents the log prior density
 #' @export
 calc_log_prior_secsse <- function(params) {
-  log_prior <- sum(log(params))
+  log_prior <- sum(log(params))+ log(prior_dens(params, idparsopt))
   return(log_prior)
 }
