@@ -2,7 +2,7 @@
 #SBATCH --time=2-23:50:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --job-name=mcte
+#SBATCH --job-name=MCMC_DA
 #SBATCH --output=logs/MCMC-%j.log
 #SBATCH --mem=1GB
 #SBATCH --partition=regular

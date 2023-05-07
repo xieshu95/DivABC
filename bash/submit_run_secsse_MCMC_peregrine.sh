@@ -5,7 +5,7 @@
 #SBATCH --job-name=start_MCMC
 #SBATCH --output=logs/start_MCMC.log
 #SBATCH --mem=1GB
-#SBATCH --partition=short
+#SBATCH --partition=regular
 
 
 # Start script

@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --time=4-23:05:00
+#SBATCH --time=2-23:05:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --job-name=MCMC
+#SBATCH --job-name=mcT
 #SBATCH --output=logs/MCMC-%j.log
 #SBATCH --mem=1GB
 #SBATCH --partition=regular
