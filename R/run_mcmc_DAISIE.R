@@ -23,12 +23,7 @@ run_MCMC_DAISIE <- function(param_space_name,
   )
 
   obs_sim_pars <- param_space[param_set,]
-  obs_sim <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
-                                           obs_sim_pars$mu,
-                                           obs_sim_pars$gam,
-                                           obs_sim_pars$laa),
-                            K = as.numeric(obs_sim_pars$K),
-                            replicates = 1)
+  obs_sim <- load_obs_sim(param_space_name = param_space_name)[[param_set]]
 
   # obs_sim_pars_init <- obs_sim_pars + 0.0001
   initparsopt <- as.numeric(obs_sim_pars[c(1,2,3,4)]) + 0.000001
