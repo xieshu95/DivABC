@@ -112,12 +112,12 @@ for(test in c(1,3,5,6)){
                          fixed = TRUE)
     if (!identical(file_to_load, character())) {
       load(file.path(folder_path, file_to_load))
-      lam1_mcmc <- c(lam1_mcmc, output[1502:2001,1])
-      lam2_mcmc <- c(lam2_mcmc, output[1502:2001,2])
-      mu1_mcmc <- c(mu1_mcmc, output[1502:2001,3])
-      mu2_mcmc <- c(mu2_mcmc, output[1502:2001,4])
-      q12_mcmc <- c(q12_mcmc, output[1502:2001,5])
-      q21_mcmc <- c(q21_mcmc, output[1502:2001,6])
+      lam1_mcmc <- c(lam1_mcmc, output[4502:5001,1])
+      lam2_mcmc <- c(lam2_mcmc, output[4502:5001,2])
+      mu1_mcmc <- c(mu1_mcmc, output[4502:5001,3])
+      mu2_mcmc <- c(mu2_mcmc, output[4502:5001,4])
+      q12_mcmc <- c(q12_mcmc, output[4502:5001,5])
+      q21_mcmc <- c(q21_mcmc, output[4502:5001,6])
     } else {
       lam1_mcmc <- c(lam1_mcmc, rep(NA,500)) #500
       lam2_mcmc <- c(lam2_mcmc, rep(NA,500))
@@ -181,12 +181,12 @@ for(test in c(1,3,5,6)){
 #
 #       if (!identical(file_to_load_mcmc, character())) {
 #         load(file.path(folder_path_mcmc, file_to_load_mcmc))
-#         lam1_mcmc <- c(lam1_mcmc, output[1502:2001,1])
-#         lam2_mcmc <- c(lam2_mcmc, output[1502:2001,2])
-#         mu1_mcmc <- c(mu1_mcmc, output[1502:2001,3])
-#         mu2_mcmc <- c(mu2_mcmc, output[1502:2001,4])
-#         q12_mcmc <- c(q12_mcmc, output[1502:2001,5])
-#         q21_mcmc <- c(q21_mcmc, output[1502:2001,6])
+#         lam1_mcmc <- c(lam1_mcmc, output[1502:5001,1])
+#         lam2_mcmc <- c(lam2_mcmc, output[1502:5001,2])
+#         mu1_mcmc <- c(mu1_mcmc, output[1502:5001,3])
+#         mu2_mcmc <- c(mu2_mcmc, output[1502:5001,4])
+#         q12_mcmc <- c(q12_mcmc, output[1502:5001,5])
+#         q21_mcmc <- c(q21_mcmc, output[1502:5001,6])
 #       } else {
 #         lam1_mcmc <- c(lam1_mcmc, rep(NA,500)) #500
 #         lam2_mcmc <- c(lam2_mcmc, rep(NA,500))
@@ -240,34 +240,43 @@ for(test in c(1,3,5,6)){
 
 # 3. formate MLE results
 # skip
-for(test in 1:5){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/whole_df_MLE",test,".RData"))
-  whole_df_MLE_fit_ABC <- whole_df_MLE
-  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/secsse_ABC_test",test)
-  files <- list.files(folder_path)
-  for(i in 1:100){
-    # param_set = (param_num-1)*5 + i
-    file_to_load <- grep(paste0("secsse_ABC_test",test,"_param_set_", i,"_ss_0.RData"), #"_rep",rep,
-                         files,
-                         value = TRUE,
-                         fixed = TRUE)
-
-    if (identical(file_to_load, character())) {
-      whole_df_MLE_fit_ABC[i,] <- NA
-    } else {
-      whole_df_MLE_fit_ABC$net_div1 <- (whole_df_MLE_fit_ABC$lam1-whole_df_MLE_fit_ABC$mu1)
-      whole_df_MLE_fit_ABC$net_div2 <- (whole_df_MLE_fit_ABC$lam2-whole_df_MLE_fit_ABC$mu2)
-      whole_df_MLE_fit_ABC$net_div_MLE1 <- (whole_df_MLE_fit_ABC$lam1_MLE-whole_df_MLE_fit_ABC$mu1_MLE)
-      whole_df_MLE_fit_ABC$net_div_MLE2 <- (whole_df_MLE_fit_ABC$lam2_MLE-whole_df_MLE_fit_ABC$mu2_MLE)
-
-      whole_df_MLE_fit_ABC$ext_frac1 <- (whole_df_MLE_fit_ABC$mu1)/(whole_df_MLE_fit_ABC$lam1)
-      whole_df_MLE_fit_ABC$ext_frac2 <- (whole_df_MLE_fit_ABC$mu2)/(whole_df_MLE_fit_ABC$lam2)
-      whole_df_MLE_fit_ABC$ext_frac_MLE1 <- (whole_df_MLE_fit_ABC$mu1_MLE)/(whole_df_MLE_fit_ABC$lam1_MLE)
-      whole_df_MLE_fit_ABC$ext_frac_MLE2 <- (whole_df_MLE_fit_ABC$mu2_MLE)/(whole_df_MLE_fit_ABC$lam2_MLE)
-    }
-  }
-  save(whole_df_MLE_fit_ABC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/whole_df_MLE_test",test,"_fit_ABC.RData"))
+for(test in 1:6){
+  param_data <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/cpp_obs_ss_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/MLE/test",test,"_MLE_secsse.RData"))
+  whole_df_MLE <- data.frame(param_data,MLE_all,ss[,1:4])
+  save(whole_df_MLE,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/whole_df_MLE",test,".RData"))
 }
+
+
+# for(test in 1:5){
+#   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/whole_df_MLE",test,".RData"))
+#   whole_df_MLE_fit_ABC <- whole_df_MLE
+#   folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/secsse_ABC_test",test)
+#   files <- list.files(folder_path)
+#   for(i in 1:100){
+#     # param_set = (param_num-1)*5 + i
+#     file_to_load <- grep(paste0("secsse_ABC_test",test,"_param_set_", i,"_ss_0.RData"), #"_rep",rep,
+#                          files,
+#                          value = TRUE,
+#                          fixed = TRUE)
+#
+#     if (identical(file_to_load, character())) {
+#       whole_df_MLE_fit_ABC[i,] <- NA
+#     } else {
+#       whole_df_MLE_fit_ABC$net_div1 <- (whole_df_MLE_fit_ABC$lam1-whole_df_MLE_fit_ABC$mu1)
+#       whole_df_MLE_fit_ABC$net_div2 <- (whole_df_MLE_fit_ABC$lam2-whole_df_MLE_fit_ABC$mu2)
+#       whole_df_MLE_fit_ABC$net_div_MLE1 <- (whole_df_MLE_fit_ABC$lam1_MLE-whole_df_MLE_fit_ABC$mu1_MLE)
+#       whole_df_MLE_fit_ABC$net_div_MLE2 <- (whole_df_MLE_fit_ABC$lam2_MLE-whole_df_MLE_fit_ABC$mu2_MLE)
+#
+#       whole_df_MLE_fit_ABC$ext_frac1 <- (whole_df_MLE_fit_ABC$mu1)/(whole_df_MLE_fit_ABC$lam1)
+#       whole_df_MLE_fit_ABC$ext_frac2 <- (whole_df_MLE_fit_ABC$mu2)/(whole_df_MLE_fit_ABC$lam2)
+#       whole_df_MLE_fit_ABC$ext_frac_MLE1 <- (whole_df_MLE_fit_ABC$mu1_MLE)/(whole_df_MLE_fit_ABC$lam1_MLE)
+#       whole_df_MLE_fit_ABC$ext_frac_MLE2 <- (whole_df_MLE_fit_ABC$mu2_MLE)/(whole_df_MLE_fit_ABC$lam2_MLE)
+#     }
+#   }
+#   save(whole_df_MLE_fit_ABC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3_new/ABC_rep1/whole_df_MLE_test",test,"_fit_ABC.RData"))
+# }
 
 ######
 ## combine ABC, MCMC, MLE for each parameter set(use median value)
@@ -326,7 +335,7 @@ for(test in 1:5){
 
 for(test in c(1,3,5,6)){
   # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/delta_whole_df_ABC_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/delta_whole_df_ABC_test",test,"_ss1.RData"))
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/delta_whole_df_MCMC_test",test,".RData"))
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/whole_df_MLE",test,".RData"))
 
@@ -336,7 +345,7 @@ for(test in c(1,3,5,6)){
   ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   df<-whole_df_MCMC
-  n <- 2001
+  n <- 500
   MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   MLE_median <- whole_df_MLE
@@ -346,9 +355,9 @@ for(test in c(1,3,5,6)){
   AMM_all_df <- cbind(ABC_median[1:21],
                       MCMC_median[,c(7:12,15,16,19,20)],
                       MLE_median[,c(7:12,20:23)])
-  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/AMM_per_set_test",test,".RData"))
+  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/AMM_per_set_test",test,"_ss1.RData"))
 
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/AMM_per_set_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/AMM_per_set_test",test,"_ss1.RData"))
   AMM_all_df$dlam1_abc <- AMM_all_df$lam1_abc - AMM_all_df$lam1
   AMM_all_df$dlam2_abc <- AMM_all_df$lam2_abc - AMM_all_df$lam2
   AMM_all_df$dmu1_abc <- AMM_all_df$mu1_abc - AMM_all_df$mu1
@@ -373,14 +382,14 @@ for(test in c(1,3,5,6)){
   AMM_all_df$net_div_MLE1 <- AMM_all_df$lam1_MLE-AMM_all_df$mu1_MLE
   AMM_all_df$net_div_MLE2 <- AMM_all_df$lam2_MLE-AMM_all_df$mu2_MLE
 
-  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/AMM_per_set_drate_test",test,".RData"))
+  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/AMM_per_set_drate_test",test,"_ss1.RData"))
 }
 
 #####
 ## 4. plot observed treesize /tip ratio vs estimation error
 ## skip
 for(test in c(1,3,5,6)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/AMM_per_set_drate_test",test,"_fit_ABC.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/AMM_per_set_drate_test",test,"_ss1.RData"))
   color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
   p_lam1 <-ggplot2::ggplot(data = AMM_all_df) +
     ggplot2::theme_bw() +
@@ -491,7 +500,7 @@ for(test in c(1,3,5,6)){
 ## run
 library(ggplot2)
 for(test in c(1,3,5,6)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/AMM_per_set_drate_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/AMM_per_set_drate_test",test,"_ss1.RData"))
   color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
   p_lam1 <-ggplot2::ggplot(data = AMM_all_df) +
     ggplot2::theme_bw() +
@@ -589,7 +598,7 @@ for(test in c(1,3,5,6)){
                                 values = color_values,
                                 labels = c("ABC", "MCMC", "MLE"))
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/exact_rate_test",test,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/exact_rate_test",test,"_ss1.tiff"),
        units="px", width=3000, height=1800,res = 400,compression="lzw")
   params <- cowplot::plot_grid(
     p_lam1+ggplot2::theme(legend.position = "none"),
@@ -612,7 +621,7 @@ for(test in c(1,3,5,6)){
 
 ## plot tree size VS net diversification rates
 for(test in c(1,3,5,6)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/AMM_per_set_drate_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/AMM_per_set_drate_test",test,"_ss1.RData"))
   color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
   p_div1 <-ggplot2::ggplot(data = AMM_all_df) +
     ggplot2::theme_bw() +
@@ -647,7 +656,7 @@ for(test in c(1,3,5,6)){
                                 labels = c("ABC", "MCMC", "MLE"))+
     ggplot2::geom_hline(yintercept = AMM_all_df$net_div2[1], linetype = "dashed", size = 0.5)
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/net_div_set_",test,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/net_div_set_",test,"_ss1.tiff"),
        units="px", width=2200, height=1000,res = 400,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_div1,p_div2,

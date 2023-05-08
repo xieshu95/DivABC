@@ -370,3 +370,109 @@ while (!is.null(dev.list()))  dev.off()
 ## change RData to rds
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_test/cpp_obs_sim_test6.RData"))
 saveRDS(obs_sim,file = "data/obs_sims_secsse_ABC_test6.rds")
+
+
+
+
+##
+ss <- c()
+obs_sim <- list()
+for(i in 1:100){
+  message("set: ", i)
+  obs_sim_pars <- c(0.2,0.4,0.05,0.05,0.1,0.1)
+  obs_sim[[i]] <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
+                                            K = Inf,
+                                            replicates = 1) ## replicates = 30
+  init_epsilon <- calc_epsilon_init_secsse_test_cpp(sim = obs_sim[[i]])
+  ss<-rbind(ss,init_epsilon)
+}
+ss1 = ss
+obs_sim1 = obs_sim
+
+ss <- c()
+obs_sim <- list()
+for(i in 1:100){
+  message("set: ", i)
+  obs_sim_pars <- c(0.2,0.4,0.05,0.05,0.2,0.2)
+  obs_sim[[i]] <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
+                                            K = Inf,
+                                            replicates = 1) ## replicates = 30
+  init_epsilon <- calc_epsilon_init_secsse_test_cpp(sim = obs_sim[[i]])
+  ss<-rbind(ss,init_epsilon)
+}
+ss2 = ss
+obs_sim2 = obs_sim
+
+ss_comb <- rbind(ss1,ss2)
+colnames(ss_comb) <- c("state1","state2","tree_size","tip_ratio",
+                  "mpd","mpd_diff","mpd_s1","mpd_s2",
+                  "mntd","mntd_diff","mntd_s1","mntd_s2",
+                  "sdpd","sdpd_diff","sdntd","sdntd_diff",
+                  "K","D","nltt","colless",
+                  "spect_log_median","spect_prin","sackin")
+ss_comb <- ss_comb[,-21]
+ss_comb<-data.frame(ss_comb)
+ss_comb$Method <- c(rep("q1",100),rep("q2",100))
+# install.packages("reshape2")
+library(reshape2)
+ss_melt <- melt(ss_comb, id = c("Method"))
+library(ggplot2)
+p <- ggplot2::ggplot(data = ss_melt, aes(x = variable, y = value, color = Method)) +
+  # `geom_col()` uses `stat_identity()`: it leaves the data as is.
+  ggplot2::geom_boxplot()+
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::scale_y_log10()
+p
+
+
+##
+ss <- c()
+obs_sim <- list()
+for(i in 1:100){
+  message("set: ", i)
+  obs_sim_pars <- c(0.3,0.3,0.05,0.05,0.1,0.1)
+  obs_sim[[i]] <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
+                                            K = Inf,
+                                            replicates = 1) ## replicates = 30
+  init_epsilon <- calc_epsilon_init_secsse_test_cpp(sim = obs_sim[[i]])
+  ss<-rbind(ss,init_epsilon)
+}
+ss3 = ss
+obs_sim3 = obs_sim
+
+ss <- c()
+obs_sim <- list()
+for(i in 1:100){
+  message("set: ", i)
+  obs_sim_pars <- c(0.3,0.3,0.05,0.05,0.2,0.2)
+  obs_sim[[i]] <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
+                                            K = Inf,
+                                            replicates = 1) ## replicates = 30
+  init_epsilon <- calc_epsilon_init_secsse_test_cpp(sim = obs_sim[[i]])
+  ss<-rbind(ss,init_epsilon)
+}
+ss4 = ss
+obs_sim4 = obs_sim
+
+ss_comb <- rbind(ss3,ss4)
+colnames(ss_comb) <- c("state1","state2","tree_size","tip_ratio",
+                       "mpd","mpd_diff","mpd_s1","mpd_s2",
+                       "mntd","mntd_diff","mntd_s1","mntd_s2",
+                       "sdpd","sdpd_diff","sdntd","sdntd_diff",
+                       "K","D","nltt","colless",
+                       "spect_log_median","spect_prin","sackin")
+ss_comb <- ss_comb[,-21]
+ss_comb<-data.frame(ss_comb)
+ss_comb$Method <- c(rep("q1",100),rep("q2",100))
+# install.packages("reshape2")
+library(reshape2)
+ss_melt <- melt(ss_comb, id = c("Method"))
+library(ggplot2)
+p <- ggplot2::ggplot(data = ss_melt, aes(x = variable, y = value, color = Method)) +
+  # `geom_col()` uses `stat_identity()`: it leaves the data as is.
+  ggplot2::geom_boxplot()+
+  ggplot2::theme_bw() +
+  ggplot2::theme_classic() +
+  ggplot2::scale_y_log10()
+p
