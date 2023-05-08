@@ -94,7 +94,7 @@ run_ABC <- function(param_space_name,
     if(ss_set == 0){
       init_epsilon <- c(50,50,10,10,200,200,1,1,1)
     } else if (ss_set == 1){
-      init_epsilon <- c(1,1,1)
+      init_epsilon <- c(1,1,1,1)
     }
     obs_sim_pars$K <- Inf
   }
