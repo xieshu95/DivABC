@@ -113,7 +113,7 @@ run_ABC <- function(param_space_name,
     sigma = 0.2,
     stop_rate = 0.005,
     replicates = 1,  ## simulation replicates for each parameter set
-    num_iterations = 10, #10
+    num_iterations = 15, #10
     K = as.numeric(obs_sim_pars$K),
     idparsopt = as.numeric(idparsopt),
     fixpars = fixpars,
