@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --time=2-23:50:00
+#SBATCH --time=8-23:50:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=MCMC_DA

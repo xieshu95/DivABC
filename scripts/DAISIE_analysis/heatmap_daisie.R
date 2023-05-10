@@ -90,17 +90,17 @@ calc_ss_no_ext <- function(sim,
   cla_length_sim <- lapply(sim[[1]][-1],"[[", "branching_times")
   largest_clade_sim <- max(sapply(cla_length_sim,length))
   return(
-    list(clade_nltt = clade_nltt,
+    list(clade_nltt = clade_nltt, #
          total_nltt = total_nltt,
          singleton_nltt = singleton_nltt,
          nonend_nltt = nonend_nltt,
          colon_time = colon_time_sd,
-         num_clades = num_clades,
+         num_clades = num_clades, #
          num_total = num_total,
          num_singleton = num_singleton,
          num_nonend = num_nonend,
          clade_size = clade_size_sd,
-         largest_clade_sim = largest_clade_sim
+         largest_clade_sim = largest_clade_sim #
     )
   )
 }
@@ -177,7 +177,19 @@ colnames(ss) <- c("clade-nltt","total-nltt","singleton-nltt","nonend-nltt","ctsd
 rownames(ss) <- 1:160
 save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss.RData")
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss.RData")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space/obs_ss.RData")
+
+#
+ss <- ss[,-c(1,6,11)]
+# colnames(ss) <- c("NLTT","SELTT", "NELTT","SD-CT",
+#                   "N Total","NSE","NNE","SD-CS")
+colnames(ss) <- c("NLTT","Singleton LTT", "Nonend LTT","SD-CT",
+                  "N total","N singleton","N nonend","SD-CS")
+p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
+                                      ylab = "Summary statistics", k_col = 2, k_row = 2)
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space/daisie_heatmap_tree_all.html"))
+
+
 
 pars_ss<-data.frame(param_space,ss)
 save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss_long_with_pars.RData")
@@ -214,6 +226,8 @@ saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/
 
 
 ## old code:
+# reset positions of each column
+ss <- ss[,c(1,5,2,6,3,7,4,8)]
 cormat <- round(cor(ss),2)
 # heatmap(cormat)
 head(cormat)
@@ -221,15 +235,19 @@ library(reshape2)
 melted_cormat <- melt(cormat)
 library(ggplot2)
 
-ss_name <- c("Nltt","Clade nltt","nA","nC",
-             "nI","Clade size SD","Colon time SD")
+# ss_name <- c("NLTT","Singleton LTT", "Nonend LTT","SD-CT",
+#                   "N total","N singleton","N nonend","SD-CS")
+ss_name <- c("NLTT","N total",
+             "Singleton LTT","N singleton",
+             "Nonend LTT","N nonend",
+             "SD-CT","SD-CS")
 
 label_names <- "Summary statistic"
-tiff(paste0("G:/results/project 2/tip_info/round4/kernel/heatmap_ss_with_value.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space/heatmap_old2.tiff"),
      units="px", width=3500, height=2500,res = 300,compression="lzw")
 heatmap <- ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
   geom_tile() +
-  scale_fill_gradient2(low = "blue", high = "red",
+  scale_fill_gradient2(low = "blue3", high = "red3",
                        limit = c(-1,1), name="Correlation") +
   geom_text(aes(Var2, Var1, label = value), size = 5) +
 
