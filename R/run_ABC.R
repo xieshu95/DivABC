@@ -52,7 +52,7 @@ run_ABC <- function(param_space_name,
     } else if (ss_set == 1){
       init_epsilon <- c(150,50,50,10)
     } else if (ss_set == 2){
-      init_epsilon <- c(100,50,50,10)
+      init_epsilon <- c(100,50,50)
     }
   } else if (sim_model == "TraiSIE") {
     # obs_sim <- get_TraiSIE_sim(parameters = as.numeric(c(obs_sim_pars$lac,
@@ -110,7 +110,7 @@ run_ABC <- function(param_space_name,
     prior_generating_function = prior_generating_function,
     prior_density_function = prior_density_function,
     number_of_particles = 500, #1000
-    sigma = 0.2,
+    sigma = 0.1,
     stop_rate = 0.005,
     replicates = 1,  ## simulation replicates for each parameter set
     num_iterations = 15, #10

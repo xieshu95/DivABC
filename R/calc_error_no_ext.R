@@ -154,14 +154,14 @@ calc_error_no_ext_tips <- function(sim_1,
   num_total_sim_2 <- num_sington_sim_2 + num_multi_sim_2 + num_nonend_sim_2
   num_total <- abs(num_total_sim_1 - num_total_sim_2)
 
-  clade_size <- calc_clade_size_error(sim_1,sim_2)
+  # clade_size <- calc_clade_size_error(sim_1,sim_2)
   # colon_time <- calc_colon_time_error(sim_1,sim_2)
 
   return(
     c(num_total,
       num_sington,
-      num_nonend,
-      clade_size)
+      num_nonend)
+      # clade_size,
       # colon_time,)
       # num_col_error
   )
