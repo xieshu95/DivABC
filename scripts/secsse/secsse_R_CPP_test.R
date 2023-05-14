@@ -372,8 +372,11 @@ load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp
 saveRDS(obs_sim,file = "data/obs_sims_secsse_ABC_test6.rds")
 
 
+obs_sims_DAISIE_ABC_short_DI<-readRDS("data/obs_sims_DAISIE_ABC_short_DI.rds")
+save(obs_sims_DAISIE_ABC_short_DI,file = "inst/extdata/obs_sims_DAISIE_ABC_short_DI.rda")
 
-
+obs_sims_DAISIE_MCMC_short_DI<-readRDS("data/obs_sims_DAISIE_MCMC_short_DI.rds")
+save(obs_sims_DAISIE_MCMC_short_DI,file = "inst/extdata/obs_sims_DAISIE_MCMC_short_DI.rda")
 ##
 ss <- c()
 obs_sim <- list()
