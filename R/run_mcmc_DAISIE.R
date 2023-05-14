@@ -39,9 +39,9 @@ run_MCMC_DAISIE <- function(param_space_name,
                log_lik_function = calc_log_lik_DAISIE,
                log_prior_function = calc_log_prior_DAISIE,
                parameters = as.numeric(initparsopt),
-               iterations = 500000, ##1000000
-               burnin = 10000,   # 100000
-               thinning = 100,
+               iterations = 5, ##500000
+               burnin = 1,   # 10000
+               thinning = 1, #100
                sigma = 0.01,
                idparsopt = idparsopt)
 
