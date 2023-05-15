@@ -4,7 +4,7 @@
 \alias{calc_log_lik_DAISIE}
 \title{Calculates the posterior probability}
 \usage{
-calc_log_lik_DAISIE(params, datalist)
+calc_log_lik_DAISIE(params, datalist, idparsopt)
 }
 \value{
 a numeric represents the posterior probability
