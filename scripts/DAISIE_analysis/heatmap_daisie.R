@@ -154,7 +154,7 @@ saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/
 
 ## for space
 param_space <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
-
+param_space <- readr::read_csv2("data/DAISIE_ABC_short.csv")
 ss <- c()
 obs_sim <- list()
 set.seed(10)
@@ -175,9 +175,9 @@ for(i in 1:160){
 colnames(ss) <- c("clade-nltt","total-nltt","singleton-nltt","nonend-nltt","ctsd",
                   "num-clade","total","singleton","nonend","scsd","largest-clade")
 rownames(ss) <- 1:160
-save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss.RData")
+save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space2/obs_ss_DD.RData")
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space/obs_ss.RData")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space2/obs_ss_DD.RData")
 
 #
 ss <- ss[,-c(1,6,11)]
@@ -187,17 +187,16 @@ colnames(ss) <- c("NLTT","Singleton LTT", "Nonend LTT","SD-CT",
                   "N total","N singleton","N nonend","SD-CS")
 p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
                                       ylab = "Summary statistics", k_col = 2, k_row = 2)
-saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space/daisie_heatmap_tree_all.html"))
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space2/DD_daisie_heatmap_tree_all.html"))
 
 
 
 pars_ss<-data.frame(param_space,ss)
-save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss_long_with_pars.RData")
-save(obs_sim,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_sims.RData")
+save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space2/obs_ss_long_with_pars_DD.RData")
+save(obs_sim,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space2/obs_sims_DD.RData")
 
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_sims.RData")
-saveRDS(obs_sim,file = "data/obs_sims_DAISIE.rds")
+
 
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss_long_with_pars.RData"))
 write.csv2(pars_ss,paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss_long_with_pars.csv"))
@@ -269,3 +268,14 @@ print(heatmap)
 while (!is.null(dev.list()))  dev.off()
 
 density(stats::rexp(1000,5))
+
+
+obs_sims_DAISIE_ABC_short_DI<-readRDS("data/obs_sims_DAISIE_ABC_short_DI.rds")
+save(obs_sims_DAISIE_ABC_short_DI,file = "inst/extdata/obs_sims_DAISIE_ABC_short_DI.rda")
+
+obs_sims_DAISIE_MCMC_short_DI<-readRDS("data/obs_sims_DAISIE_MCMC_short_DI.rds")
+save(obs_sims_DAISIE_MCMC_short_DI,file = "inst/extdata/obs_sims_DAISIE_MCMC_short_DI.rda")
+
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space2/obs_sims_DD.RData")
+save(obs_sim,file = "inst/extdata/obs_sims_DAISIE_ABC_short.rda")
+save(obs_sim,file = "inst/extdata/obs_sims_DAISIE_MCMC_short.rda")

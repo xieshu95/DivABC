@@ -160,8 +160,8 @@ calc_error_no_ext_tips <- function(sim_1,
   return(
     c(num_total,
       num_sington,
-      num_nonend)
-      # clade_size,
+      num_nonend,
+      clade_size)
       # colon_time,)
       # num_col_error
   )

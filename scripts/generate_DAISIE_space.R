@@ -316,20 +316,12 @@ DAISIE_ABC_short <- expand.grid(
 
 DAISIE_ABC_short <- DAISIE_ABC_short[rep(seq_len(nrow(DAISIE_ABC_short)), each = 10), ]
 
-write.csv2(
-  DAISIE_ABC_short,
-  "data/DAISIE_ABC_short.csv",
-  row.names = FALSE
-)
+save(DAISIE_ABC_short, file = "inst/extdata/DAISIE_ABC_short.rda")
 
 
 DAISIE_MCMC_short = DAISIE_ABC_short
+save(DAISIE_MCMC_short, file = "inst/extdata/DAISIE_MCMC_short.rda")
 
-write.csv2(
-  DAISIE_MCMC_short,
-  "data/DAISIE_MCMC_short.csv",
-  row.names = FALSE
-)
 
 ## DI
 K <- Inf
@@ -363,11 +355,11 @@ save(DAISIE_ABC_short_DI, file = "inst/extdata/DAISIE_ABC_short_DI.rda")
 DAISIE_MCMC_short_DI = DAISIE_ABC_short_DI
 save(DAISIE_MCMC_short_DI, file = "inst/extdata/DAISIE_MCMC_short_DI.rda")
 
-write.csv2(
-  DAISIE_MCMC_short_DI,
-  "data/DAISIE_MCMC_short_DI.csv",
-  row.names = FALSE
-)
+# write.csv2(
+#   DAISIE_MCMC_short_DI,
+#   "data/DAISIE_MCMC_short_DI.csv",
+#   row.names = FALSE
+# )
 
 
 #####
