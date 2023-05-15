@@ -13,7 +13,7 @@ load_obs_sim <- function(param_space_name) {
   loaded_name <- load(system.file(
     "extdata", paste0("obs_sims_",param_space_name, ".rda"), package = "TraisieABC")
   )
-  assign("param_space", get(loaded_name))
+  assign("obs_sim", get(loaded_name))
   return(obs_sim)
 }
 
