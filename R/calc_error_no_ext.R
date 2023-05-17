@@ -370,3 +370,89 @@ end_ltt <- function(sim) {
                   singleton_ltt = singleton_ltt)
   return(end_ltt)
 }
+
+
+calc_error_no_ext_nltt2 <- function(sim_1,
+                                   sim_2,
+                                   replicates,
+                                   distance_method) {
+  # Spec error
+  ltt_1 <- full_ltt(sim_1)
+  ltt_2 <- full_ltt(sim_2)
+
+  # total number species nltt error
+  total_nltt <- nLTT::nltt_diff_exact_extinct(
+    event_times = ltt_1$brt,
+    species_number = ltt_1$n_spec,
+    event_times2 = ltt_2$brt,
+    species_number2 = ltt_2$n_spec,
+    distance_method = distance_method,
+    time_unit = "ago",
+    normalize = FALSE
+  )
+
+
+  # # Clades number nltt error
+  # clade_ltt_1 <- clade_ltt(sim_1)
+  # clade_ltt_2 <- clade_ltt(sim_2)
+  #
+  # clade_nltt <- nLTT::nltt_diff_exact_extinct(
+  #   event_times = clade_ltt_1$colon_time,
+  #   species_number = clade_ltt_1$n_clade,
+  #   event_times2 = clade_ltt_2$colon_time,
+  #   species_number2 = clade_ltt_2$n_clade,
+  #   distance_method = distance_method,
+  #   time_unit = "ago",
+  #   normalize = FALSE
+  # )
+
+  clade_size <- calc_clade_size_error(sim_1,sim_2)
+  colon_time <- calc_colon_time_error(sim_1,sim_2)
+
+  ## nonendemic_nltt and singleton-endemic-nltt
+  end_ltt_1 <- end_ltt(sim_1)
+  end_ltt_2 <- end_ltt(sim_2)
+
+  nonend_ltt_1 <- end_ltt_1$nonend_ltt
+  nonend_ltt_2 <- end_ltt_2$nonend_ltt
+  # total number species nltt error
+  if(nonend_ltt_1[1,1] == 0 && nonend_ltt_2[1,1] == 0) {
+    nonend_nltt  <- 0
+  } else {
+    nonend_nltt <- nLTT::nltt_diff_exact_extinct(
+      event_times = nonend_ltt_1$nonend_brt,
+      species_number = nonend_ltt_1$n_nonend,
+      event_times2 = nonend_ltt_2$nonend_brt,
+      species_number2 = nonend_ltt_2$n_nonend,
+      distance_method = distance_method,
+      time_unit = "ago",
+      normalize = FALSE
+    )}
+
+  singleton_ltt_1 <- end_ltt_1$singleton_ltt
+  singleton_ltt_2 <- end_ltt_2$singleton_ltt
+  # total number species nltt error
+  if(singleton_ltt_1[1,1] == 0 && singleton_ltt_2[1,1] == 0) {
+    singleton_nltt  <- 0
+  } else {
+    singleton_nltt <- nLTT::nltt_diff_exact_extinct(
+      event_times = singleton_ltt_1$singleton_brt,
+      species_number = singleton_ltt_1$n_singleton,
+      event_times2 = singleton_ltt_2$singleton_brt,
+      species_number2 = singleton_ltt_2$n_singleton,
+      distance_method = distance_method,
+      time_unit = "ago",
+      normalize = FALSE
+    )
+  }
+
+
+  return(
+    c(total_nltt,
+      # clade_nltt,
+      singleton_nltt,
+      nonend_nltt,
+      clade_size,
+      colon_time)
+  )
+}

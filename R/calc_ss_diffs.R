@@ -52,6 +52,11 @@ calc_ss_diff_daisie <- function(sim1, sim2, ss_set){
                                  sim_2 = sim2,
                                  replicates = 1,
                                  distance_method = "abs")
+  } else if (ss_set == 3){ # nltt+cssd
+    ss <- calc_error_no_ext_nltt2(sim_1 = sim1,   ##calc_error
+                                 sim_2 = sim2,
+                                 replicates = 1,
+                                 distance_method = "abs")
   }
   ss_diff <- as.numeric(ss)
 
