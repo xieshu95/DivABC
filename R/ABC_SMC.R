@@ -56,7 +56,7 @@ ABC_SMC <- function( # nolint indeed a complex function
     print_frequency <- 20
     tried <- 0
     number_accepted <- 0
-    sigma_temp <- sigma * exp(-0.1 * (i - 1))
+    sigma_temp <- sigma * exp(-0.15 * (i - 1))
 
     #replace all vectors
     if (i > 1) {
@@ -97,16 +97,19 @@ ABC_SMC <- function( # nolint indeed a complex function
 
 
         accept <- TRUE
-        # for secsse
-        if ("phy" %in% names(new_sim[[1]])) {
-          if (length(new_sim[[1]]$obs_traits) < 20 ||
-              length(new_sim[[1]]$obs_traits) >= 400 ||
-              length(unique(new_sim[[1]]$obs_traits)) < 2 ||
-              sum(new_sim[[1]]$obs_traits == 1) < 2 ||
-              sum(new_sim[[1]]$obs_traits == 2) < 2) {
-            accept <- FALSE
-          }
+        if(sum(tail(new_sim[[1]][[1]][[1]]$stt_all, n=1)[2:4]) > 800){
+          accept <- FALSE
         }
+        # for secsse
+        # if ("phy" %in% names(new_sim[[1]])) {
+        #   if (length(new_sim[[1]]$obs_traits) < 20 ||
+        #       length(new_sim[[1]]$obs_traits) >= 400 ||
+        #       length(unique(new_sim[[1]]$obs_traits)) < 2 ||
+        #       sum(new_sim[[1]]$obs_traits == 1) < 2 ||
+        #       sum(new_sim[[1]]$obs_traits == 2) < 2) {
+        #     accept <- FALSE
+        #   }
+        # }
         #calculate the summary statistics for the simulated tree
         if (accept) {
           df_stats <- calc_ss_function (sim1 = obs_data[[1]],
