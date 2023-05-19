@@ -1,7 +1,7 @@
 # calculate MLE with different initials (10 replicates for each parameter set)
 library(TraisieABC)
-param_space <- readr::read_csv2("/home3/p286026/TraisieABC/data/DAISIE_ABC_short_DI.csv")
-# param_space <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+param_space_name <- "DAISIE_ABC_short_DI"
+param_space <- load_param_space(param_space_name = "DAISIE_ABC_short_DI")
 lac_MLE <- c()
 mu_MLE <- c()
 gam_MLE <- c()
@@ -17,19 +17,18 @@ for(i in 1:160) {
   message("set",i)
   set.seed(i)
   obs_sim_pars <- param_space[i,]
-  param_space_name <- "DAISIE_ABC_short_DI"
   obs_sim <- load_obs_sim(param_space_name = param_space_name)[[i]]
   rep <- 1
   while(rep < 2) {
     message("rep:", rep)
-    initparsopt <- as.numeric(obs_sim_pars[c(1,2,5,3,4)])
+    initparsopt <- as.numeric(obs_sim_pars[c(1,2,5,3,4)]) + 0.00001
     seed_mle <-as.integer(Sys.time()) %% 1000000L * sample(1:10,1)
     set.seed(seed_mle)
     message("seed_mle: ", seed_mle)
-    for(n in 1:5){
-      initparsopt[n]<-exp(log(initparsopt[n]) +
-                            stats::rnorm(1, 0, 0.05))+0.00001
-    }
+    # for(n in 1:5){
+    #   initparsopt[n]<-exp(log(initparsopt[n]) +
+    #                         stats::rnorm(1, 0, 0.05))+0.00001
+    # }
     message("initial pars:", initparsopt)
     MLE_allpars <- DAISIE::DAISIE_ML(
       datalist = obs_sim[[1]][[1]],
@@ -38,7 +37,7 @@ for(i in 1:160) {
       parsfix = Inf,
       idparsfix = 3,
       ddmodel = 0,
-      cond = 0,
+      cond = 1,
       methode = "lsodes",
       optimmethod = "subplex",
       jitter = 1e-5
