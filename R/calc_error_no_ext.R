@@ -26,8 +26,11 @@ calc_error_no_ext_nltt <- function(sim_1,
                               replicates,
                               distance_method) {
   # Spec error
-  ltt_1 <- full_ltt(sim_1)
-  ltt_2 <- full_ltt(sim_2)
+  brt1 <- lapply(sim_1[[1]][-1],"[[", "branching_times")
+  brt2 <- lapply(sim_2[[1]][-1],"[[", "branching_times")
+
+  ltt_1 <- full_ltt(sim_1,brt1)
+  ltt_2 <- full_ltt(sim_2,brt2)
 
   # total number species nltt error
   total_nltt <- nLTT::nltt_diff_exact_extinct(
@@ -41,26 +44,26 @@ calc_error_no_ext_nltt <- function(sim_1,
   )
 
 
-  # # Clades number nltt error
-  # clade_ltt_1 <- clade_ltt(sim_1)
-  # clade_ltt_2 <- clade_ltt(sim_2)
-  #
-  # clade_nltt <- nLTT::nltt_diff_exact_extinct(
-  #   event_times = clade_ltt_1$colon_time,
-  #   species_number = clade_ltt_1$n_clade,
-  #   event_times2 = clade_ltt_2$colon_time,
-  #   species_number2 = clade_ltt_2$n_clade,
-  #   distance_method = distance_method,
-  #   time_unit = "ago",
-  #   normalize = FALSE
-  # )
+  # Clades number nltt error
+  clade_ltt_1 <- clade_ltt(sim_1,brt1)
+  clade_ltt_2 <- clade_ltt(sim_2,brt2)
+
+  clade_nltt <- nLTT::nltt_diff_exact_extinct(
+    event_times = clade_ltt_1$colon_time,
+    species_number = clade_ltt_1$n_clade,
+    event_times2 = clade_ltt_2$colon_time,
+    species_number2 = clade_ltt_2$n_clade,
+    distance_method = distance_method,
+    time_unit = "ago",
+    normalize = FALSE
+  )
 
   # clade_size <- calc_clade_size_error(sim_1,sim_2)
-  colon_time <- calc_colon_time_error(sim_1,sim_2)
+  # colon_time <- calc_colon_time_error(sim_1,sim_2)
 
   ## nonendemic_nltt and singleton-endemic-nltt
-  end_ltt_1 <- end_ltt(sim_1)
-  end_ltt_2 <- end_ltt(sim_2)
+  end_ltt_1 <- end_ltt(sim_1,brt1)
+  end_ltt_2 <- end_ltt(sim_2,brt2)
 
   nonend_ltt_1 <- end_ltt_1$nonend_ltt
   nonend_ltt_2 <- end_ltt_2$nonend_ltt
@@ -98,11 +101,11 @@ calc_error_no_ext_nltt <- function(sim_1,
 
   return(
     c(total_nltt,
-      # clade_nltt,
+      clade_nltt,
       singleton_nltt,
-      nonend_nltt,
+      nonend_nltt)
       # clade_size,
-      colon_time)
+      # colon_time)
   )
 }
 
@@ -173,8 +176,11 @@ calc_error_no_ext_all <- function(sim_1,
                               replicates,
                               distance_method) {
   # Spec error
-  ltt_1 <- full_ltt(sim_1)
-  ltt_2 <- full_ltt(sim_2)
+  brt1 <- lapply(sim_1[[1]][-1],"[[", "branching_times")
+  brt2 <- lapply(sim_2[[1]][-1],"[[", "branching_times")
+
+  ltt_1 <- full_ltt(sim_1,brt1)
+  ltt_2 <- full_ltt(sim_2,brt2)
 
   # total number species nltt error
   total_nltt <- nLTT::nltt_diff_exact_extinct(
@@ -189,8 +195,8 @@ calc_error_no_ext_all <- function(sim_1,
 
 
   # # Clades number nltt error
-  # clade_ltt_1 <- clade_ltt(sim_1)
-  # clade_ltt_2 <- clade_ltt(sim_2)
+  # clade_ltt_1 <- clade_ltt(sim_1,brt1)
+  # clade_ltt_2 <- clade_ltt(sim_2,brt2)
   #
   # clade_nltt <- nLTT::nltt_diff_exact_extinct(
   #   event_times = clade_ltt_1$colon_time,
@@ -248,8 +254,8 @@ calc_error_no_ext_all <- function(sim_1,
   colon_time <- calc_colon_time_error(sim_1,sim_2)
 
   ## nonendemic_nltt and singleton-endemic-nltt
-  end_ltt_1 <- end_ltt(sim_1)
-  end_ltt_2 <- end_ltt(sim_2)
+  end_ltt_1 <- end_ltt(sim_1,brt1)
+  end_ltt_2 <- end_ltt(sim_2,brt2)
 
   nonend_ltt_1 <- end_ltt_1$nonend_ltt
   nonend_ltt_2 <- end_ltt_2$nonend_ltt
@@ -306,8 +312,8 @@ calc_error_no_ext_all <- function(sim_1,
 #' @author Shu Xie
 #' @export
 
-full_ltt <- function (sim) {
-  brt <- lapply(sim[[1]][-1],"[[", "branching_times")
+full_ltt <- function (sim,brt) {
+  # brt <- lapply(sim[[1]][-1],"[[", "branching_times")
   recolon <-lapply(sim[[1]],"[[", "all_colonisations")
   recolon <- recolon[!unlist(lapply(recolon, is.null))]
   recolon_brt <- list()
@@ -332,8 +338,8 @@ full_ltt <- function (sim) {
 #' @author Shu Xie
 #' @export
 
-clade_ltt <- function (sim) {
-  brt <- lapply(sim[[1]][-1],"[[", "branching_times")
+clade_ltt <- function (sim,brt) {
+  # brt <- lapply(sim[[1]][-1],"[[", "branching_times")
   colon_time <- sapply(brt,function(x) x[2])
   island_age <- sim[[1]][[2]]$branching_times[1]
   colon_time <- c(island_age, unique(sort(colon_time, decreasing = TRUE)), 0)
@@ -343,8 +349,8 @@ clade_ltt <- function (sim) {
 }
 
 
-end_ltt <- function(sim) {
-  brt <- lapply(sim[[1]][-1],"[[", "branching_times")
+end_ltt <- function(sim,brt) {
+  # brt <- lapply(sim[[1]][-1],"[[", "branching_times")
   stac <- unlist(lapply(sim[[1]][-1],"[[", "stac"))
   nonend_brt <- c(unique(sort(unlist(brt[which(stac ==4)]),
                               decreasing = TRUE)), 0)
