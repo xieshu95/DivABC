@@ -12,15 +12,15 @@ iqr = function(z, lower = 0.1, upper = 0.9) {
 }
 
 library(ggplot2)
-for(test in c(1,5,6)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/whole_df_MLE",test,".RData"))
+for(test in c(1,3,5,6)){
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/whole_df_MLE",test,".RData"))
   total <- whole_df_MLE$tree_size
 
   ss = "ABC"
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/delta_whole_df_ABC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/delta_whole_df_ABC_test",test,"_ss1.RData"))
   whole_df_ABC$ss = "ABC"
   whole_df_ABC = whole_df_ABC[,-7]
-  whole_df_ABC$total <- rep(total, each = 300)
+  whole_df_ABC$total <- rep(total, each = 500)
 
   # whole_df_ABC <- rbind(whole_df_ABC_old,whole_df_ABC_new) #whole_df_ABC_20
   whole_df_ABC$dlam1 <- whole_df_ABC$lam1_abc - whole_df_ABC$lam1
@@ -34,7 +34,7 @@ for(test in c(1,5,6)){
   whole_df_ABC$dext_frac1 <- whole_df_ABC$ext_frac_ABC1 - whole_df_ABC$ext_frac1
   whole_df_ABC$dext_frac2 <- whole_df_ABC$ext_frac_ABC2 - whole_df_ABC$ext_frac2
 
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/delta_whole_df_MCMC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/delta_whole_df_MCMC_test",test,".RData"))
   whole_df_MCMC$ss = "MCMC"
   whole_df_MCMC$total <- rep(total, each = 2001) #2001
   whole_df_MCMC$dlam1 <- whole_df_MCMC$lam1_mcmc - whole_df_MCMC$lam1
@@ -75,7 +75,7 @@ for(test in c(1,5,6)){
   whole_df_all <- rbind(whole_df_ABC[,c(1:6,13,14,17,18,21:32)],
                         whole_df_MCMC[,c(1:6,13,14,17,18,21:32)],
                         whole_df_MLE[,c(1:6,24,25,28,29,32:43)])
-  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/whole_df_all_AMM_test",test,".RData"))
+  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/whole_df_all_AMM_test",test,".RData"))
 }
 
 
@@ -88,7 +88,7 @@ iqr = function(z, lower = 0.1, upper = 0.9) {
 }
 
 for(test in c(1,5,6)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/whole_df_all_AMM_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/whole_df_all_AMM_test",test,".RData"))
   p_netdiv1 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_div1,color = ss,shape = ss)) +
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
@@ -116,7 +116,7 @@ for(test in c(1,5,6)){
     ggplot2::ylab(expression(Delta~Net~diversification~state~2))+
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/drate_all_netdiv_test",test,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/drate_all_netdiv_test",test,".tiff"),
        units="px", width=5000, height=2000,res = 350,compression="lzw")
   params <- cowplot::plot_grid(
     p_netdiv1+ggplot2::theme(legend.position = "none"),
@@ -135,7 +135,7 @@ for(test in c(1,5,6)){
 
 
 for(test in c(1)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/whole_df_all_AMM_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/whole_df_all_AMM_test",test,".RData"))
   p_lam1 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlam1,color = ss,shape = ss)) +
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
@@ -216,7 +216,7 @@ for(test in c(1)){
     ggplot2::ylab(expression(Delta~q[21]))+
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_split_state/drate_all_rates_test",test,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/drate_all_rates_test",test,".tiff"),
        units="px", width=5000, height=2000,res = 350,compression="lzw")
   params <- cowplot::plot_grid(
     p_lam1+ggplot2::theme(legend.position = "none"),

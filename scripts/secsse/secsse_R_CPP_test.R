@@ -374,6 +374,10 @@ saveRDS(obs_sim,file = "data/obs_sims_secsse_ABC_test6.rds")
 obs_sims<-readRDS("data/obs_sims_secsse_ABC_test6.rds")
 # save(obs_sims,file = "inst/extdata/obs_sims_secsse_ABC_test6.rda")
 save(obs_sims,file = "inst/extdata/obs_sims_secsse_MCMC_test6.rda")
+
+a<-readr::read_csv2("data/secsse_ABC_test1.csv")
+
+
 ##
 ss <- c()
 obs_sim <- list()

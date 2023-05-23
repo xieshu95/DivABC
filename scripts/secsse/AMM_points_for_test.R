@@ -233,6 +233,42 @@ for(test in c(1,3,5,6)){
 # }
 
 
+# plot MCMC results
+# load("G:/results/project 2/tip_info/round4/secsse_long_2/secsse_MCMC_long/secsse_MCMC_long_param_set_1_ss_1.RData")
+
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/secsse_MCMC_test1"
+files <- list.files(folder_path)
+for(i in 1:100){
+  # param_set = (param_num-1)*5 + i
+  file_to_load <- grep(paste0("secsse_MCMC_test1_param_set_", i,"_ss_1.RData"), #"_rep",rep,
+                       files,
+                       value = TRUE,
+                       fixed = TRUE)
+
+  if (!identical(file_to_load, character())) {
+    load(file.path(folder_path, file_to_load))
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/MCMC_trace/test1_set_",i,"_lam.tiff"),
+         units="px", width=2000, height=2000,res = 300,compression="lzw")
+    b_mcmc <- coda::as.mcmc(output[,1:2])
+    plot_mcmc <- plot(b_mcmc)
+    print(plot_mcmc)
+    while (!is.null(dev.list()))  dev.off()
+
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/MCMC_trace/test1_set_",i,"_mu.tiff"),
+         units="px", width=2000, height=2000,res = 300,compression="lzw")
+    b_mcmc <- coda::as.mcmc(output[,3:4])
+    plot_mcmc <- plot(b_mcmc)
+    print(plot_mcmc)
+    while (!is.null(dev.list()))  dev.off()
+
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/MCMC_trace/test1_set_",i,"_q.tiff"),
+         units="px", width=2000, height=2000,res = 300,compression="lzw")
+    b_mcmc <- coda::as.mcmc(output[,5:6])
+    plot_mcmc <- plot(b_mcmc)
+    print(plot_mcmc)
+    while (!is.null(dev.list()))  dev.off()
+  }
+}
 
 
 ######
