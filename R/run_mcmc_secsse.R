@@ -37,17 +37,17 @@ run_MCMC_secsse <- function(param_space_name,
   message("seed_mcmc: ", seed_mcmc)
   for(n in 1:6){
     initparsopt[n]<-exp(log(initparsopt[n]) +
-                          stats::rnorm(1, 0, 0.01))+ 0.000001
+                          stats::rnorm(1, 0, 0.001))+ 0.000001
   }
   # initparsopt <- as.numeric(whole_df_MLE[param_set,7:12])
   mcmc <- MCMC(datalist = obs_sim[[1]],
                       log_lik_function = calc_log_lik_secsse,
                       log_prior_function = calc_log_prior_secsse,
                       parameters = as.numeric(initparsopt),
-                      iterations = 300000, ##1000,000
-                      burnin = 10000, #100,000
-                      thinning = 60, #1000
-                      sigma = 0.01,
+                      iterations = 1000000, ##1000,000
+                      burnin = 100000, #100,000
+                      thinning = 200, #1000
+                      sigma = 0.05,
                       idparsopt = idparsopt)
 
   if (save_output == TRUE) {
