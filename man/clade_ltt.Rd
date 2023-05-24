@@ -5,7 +5,7 @@
 \title{Get the number of clades through time from
 the colonization times from each exist clade.}
 \usage{
-clade_ltt(sim)
+clade_ltt(sim, brt)
 }
 \arguments{
 \item{sim}{A datalist of observed data with more than one replicate.}

@@ -50,9 +50,9 @@ run_ABC <- function(param_space_name,
     if(ss_set == 0){
       init_epsilon <- c(300,100,100,20,20,200,100,100)
     } else if (ss_set == 1){
-      init_epsilon <- c(300,100,100,100)
+      init_epsilon <- c(300,100,100,100,50)
     } else if (ss_set == 2){
-      init_epsilon <- c(300,100,100,20)
+      init_epsilon <- c(300,100,100)
     } else if (ss_set == 3){
       init_epsilon <- c(300,100,100,20,20)
     }
@@ -113,7 +113,7 @@ run_ABC <- function(param_space_name,
     prior_density_function = prior_density_function,
     number_of_particles = 500, #1000
     sigma = 0.1,
-    stop_rate = 0.005,
+    stop_rate = 0.004,
     replicates = 1,  ## simulation replicates for each parameter set
     num_iterations = 15, #10
     K = as.numeric(obs_sim_pars$K),

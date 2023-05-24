@@ -4,7 +4,7 @@
 \alias{full_ltt}
 \title{Get the NLTT dataframe from the branching times from each exist clade.}
 \usage{
-full_ltt(sim)
+full_ltt(sim, brt)
 }
 \arguments{
 \item{sim}{A datalist of observed data with more than one replicate.}

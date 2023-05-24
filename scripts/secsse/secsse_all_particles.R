@@ -12,12 +12,12 @@ iqr = function(z, lower = 0.1, upper = 0.9) {
 }
 
 library(ggplot2)
-for(test in c(1,3,5,6)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/whole_df_MLE",test,".RData"))
+for(test in c(5)){
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new2/whole_df_MLE",test,".RData"))
   total <- whole_df_MLE$tree_size
 
   ss = "ABC"
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/delta_whole_df_ABC_test",test,"_ss1.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new2/delta_whole_df_ABC_test",test,"_ss1.RData"))
   whole_df_ABC$ss = "ABC"
   whole_df_ABC = whole_df_ABC[,-7]
   whole_df_ABC$total <- rep(total, each = 500)
@@ -34,9 +34,9 @@ for(test in c(1,3,5,6)){
   whole_df_ABC$dext_frac1 <- whole_df_ABC$ext_frac_ABC1 - whole_df_ABC$ext_frac1
   whole_df_ABC$dext_frac2 <- whole_df_ABC$ext_frac_ABC2 - whole_df_ABC$ext_frac2
 
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/delta_whole_df_MCMC_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new2/delta_whole_df_MCMC_test",test,".RData"))
   whole_df_MCMC$ss = "MCMC"
-  whole_df_MCMC$total <- rep(total, each = 2001) #2001
+  whole_df_MCMC$total <- rep(total, each = 5001) #2001
   whole_df_MCMC$dlam1 <- whole_df_MCMC$lam1_mcmc - whole_df_MCMC$lam1
   whole_df_MCMC$dlam2 <- whole_df_MCMC$lam2_mcmc - whole_df_MCMC$lam2
   whole_df_MCMC$dmu1 <- whole_df_MCMC$mu1_mcmc - whole_df_MCMC$mu1
@@ -75,7 +75,7 @@ for(test in c(1,3,5,6)){
   whole_df_all <- rbind(whole_df_ABC[,c(1:6,13,14,17,18,21:32)],
                         whole_df_MCMC[,c(1:6,13,14,17,18,21:32)],
                         whole_df_MLE[,c(1:6,24,25,28,29,32:43)])
-  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/whole_df_all_AMM_test",test,".RData"))
+  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new2/whole_df_all_AMM_test",test,".RData"))
 }
 
 
@@ -87,13 +87,13 @@ iqr = function(z, lower = 0.1, upper = 0.9) {
   )
 }
 
-for(test in c(1,5,6)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/whole_df_all_AMM_test",test,".RData"))
+for(test in c(5)){
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new2/whole_df_all_AMM_test",test,".RData"))
   p_netdiv1 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_div1,color = ss,shape = ss)) +
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-0.6,0.6)+
+    ggplot2::ylim(-2,2)+
     ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
     ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
     ggplot2::theme(title = ggplot2::element_text(size = 12),
@@ -107,7 +107,7 @@ for(test in c(1,5,6)){
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-0.6,0.6)+
+    ggplot2::ylim(-2,2)+
     ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
     ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+
     ggplot2::theme(title = ggplot2::element_text(size = 12),
@@ -116,7 +116,7 @@ for(test in c(1,5,6)){
     ggplot2::ylab(expression(Delta~Net~diversification~state~2))+
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/drate_all_netdiv_test",test,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new2/drate_all_netdiv_test",test,".tiff"),
        units="px", width=5000, height=2000,res = 350,compression="lzw")
   params <- cowplot::plot_grid(
     p_netdiv1+ggplot2::theme(legend.position = "none"),
@@ -134,13 +134,13 @@ for(test in c(1,5,6)){
 }
 
 
-for(test in c(1)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/whole_df_all_AMM_test",test,".RData"))
+for(test in c(5)){
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new2/whole_df_all_AMM_test",test,".RData"))
   p_lam1 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlam1,color = ss,shape = ss)) +
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-0.5,1)+
+    ggplot2::ylim(-2,2)+
     ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
     ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
     ggplot2::theme(title = ggplot2::element_text(size = 12),
@@ -154,7 +154,7 @@ for(test in c(1)){
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-0.3,1)+
+    ggplot2::ylim(-2,2)+
     ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
     ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
     ggplot2::theme(title = ggplot2::element_text(size = 12),
@@ -167,7 +167,7 @@ for(test in c(1)){
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-0.3,1.0)+
+    ggplot2::ylim(-2,2)+
     ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
     ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
     ggplot2::theme(title = ggplot2::element_text(size = 12),
@@ -180,7 +180,7 @@ for(test in c(1)){
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-0.3,1.0)+
+    ggplot2::ylim(-2,2)+
     ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
     ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
     ggplot2::theme(title = ggplot2::element_text(size = 12),
@@ -194,7 +194,7 @@ for(test in c(1)){
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-0.3,1.0)+
+    ggplot2::ylim(-2,2)+
     ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
     ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
     ggplot2::theme(title = ggplot2::element_text(size = 12),
@@ -207,7 +207,7 @@ for(test in c(1)){
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-0.3,1.0)+
+    ggplot2::ylim(-2,2)+
     ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
     ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
     ggplot2::theme(title = ggplot2::element_text(size = 12),
@@ -216,7 +216,7 @@ for(test in c(1)){
     ggplot2::ylab(expression(Delta~q[21]))+
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/drate_all_rates_test",test,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new2/drate_all_rates_test",test,".tiff"),
        units="px", width=5000, height=2000,res = 350,compression="lzw")
   params <- cowplot::plot_grid(
     p_lam1+ggplot2::theme(legend.position = "none"),
