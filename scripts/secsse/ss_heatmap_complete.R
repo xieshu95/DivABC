@@ -13,7 +13,7 @@ calc_ss_secsse_test <- function(sim) {
 
   # K statistic
   K <- adiv::K(sim$phy,
-               trait = sim$examTraits,
+               trait = sim$obs_traits,
                nrep = 1000, alter = c("two-sided"))
   K <- K$obs
 
@@ -21,8 +21,8 @@ calc_ss_secsse_test <- function(sim) {
   D <- calc_D(sim)
 
   # state 1
-  num_state1 <- length(which(sim$examTraits == 1))
-  num_state2 <- length(which(sim$examTraits == 2))
+  num_state1 <- length(which(sim$obs_traits == 1))
+  num_state2 <- length(which(sim$obs_traits == 2))
   total_spec <- num_state1 + num_state2
   tip_ratio <- max(num_state1,num_state2)/min(num_state1,num_state2)
 
@@ -79,19 +79,21 @@ calc_epsilon_init_secsse_test <- function(sim){
   return(eps_init)
 }
 
-for(test in c(1,2,3,4,5,6)) {
-  param_space <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
+for(test in c(2,3,4)) {
+  param_space_name <- paste0("secsse_ABC_test",test)
+  param_space <- load_param_space(param_space_name = param_space_name)
   ss <- c()
-  for(i in 1:100){
-    set.seed(i)
-    message("set: ", i)
-    obs_sim_pars <- param_space[i,]
-    obs_sim <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
-                                         K = Inf,
-                                         replicates = 1) ## replicates = 30
-    init_epsilon <- calc_epsilon_init_secsse_test(sim = obs_sim)
-    ss<-rbind(ss,init_epsilon)
-  }
+  obs_sim <- list()
+  set.seed(1)
+    for(i in 1:100){
+      message("set: ", i)
+      obs_sim_pars <- param_space[i,]
+      obs_sim[[i]] <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
+                                                K = Inf,
+                                                replicates = 1) ## replicates = 30
+      init_epsilon <- calc_epsilon_init_secsse_test(sim = obs_sim[[i]])
+      ss<-rbind(ss,init_epsilon)
+    }
 
   colnames(ss) <- c("state1","state2","tree_size","tip_ratio",
                     "mpd","mpd_diff","mpd_s1","mpd_s2",
@@ -101,9 +103,12 @@ for(test in c(1,2,3,4,5,6)) {
                     "spect_log_median","spect_prin","sackin")
   ss<-data.frame(ss)
   # colnames(ss) <- c("state1","state2","tree_size","tip_ratio")
-  save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_fix_MCMC/obs_ss_test",test,".RData"))
-
+  save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_new_space/obs_ss_test",test,".rda"))
+  save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_new_space/obs_sim_secsse_ABC_test",test,".rda"))
+  save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_new_space/obs_sim_secsse_MCMC_test",test,".rda"))
 }
+
+
 
 t2 <- Sys.time()
 t2
@@ -111,11 +116,11 @@ t2
 ## new heatmap code
 library(heatmaply)
 library(htmlwidgets)
-for(test in 1:6){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_fix_MCMC/obs_ss_test",test,".RData"))
+for(test in 1:4){
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_new_space/obs_ss_test",test,".rda"))
   p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
                                         ylab = "Summary statistics", k_col = 2, k_row = 2)
-  saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_fix_MCMC/ss_heatmap/heatmap_ss_test_",test,".html"))
+  saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_new_space/ss_heatmap/heatmap_ss_test_",test,".html"))
 
 }
 

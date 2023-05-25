@@ -1,6 +1,40 @@
 ## create input parameter sets for scesse_ABC
 # two examined states and two concealed states
 
+# latest param space
+
+par1 <- c(0.5,0.5,0.1,0.1,0.1,0.1)
+par2 <- c(0.3,0.7,0.1,0.1,0.1,0.1)
+par3 <- c(0.5,0.5,0.05,0.15,0.1,0.1)
+par4 <- c(0.5,0.5,0.1,0.1,0.1,0.2)
+
+# par5 <- c(0.3,0.7,0.05,0.05,0.1,0.1)
+# par6 <- c(0.3,0.7,0.05,0,0.1,0.1)
+secsse_ABC <- rbind(par1,par2,par3,par4)
+colnames(secsse_ABC) <- c("lam1","lam2","mu1","mu2","q12","q21")
+secsse_ABC_test1 <- secsse_ABC[rep(1, 100), ]
+rownames(secsse_ABC_test1) <- 1:nrow(secsse_ABC_test1)
+save(secsse_ABC_test1, file = "inst/extdata/secsse_ABC_test1.rda")
+save(secsse_ABC_test1, file = "inst/extdata/secsse_ABC_test1.rda")
+
+secsse_ABC_test2 <- secsse_ABC[rep(2, 100), ]
+rownames(secsse_ABC_test2) <- 1:nrow(secsse_ABC_test2)
+save(secsse_ABC_test2, file = "inst/extdata/secsse_ABC_test2.rda")
+save(secsse_ABC_test2, file = "inst/extdata/secsse_ABC_test2.rda")
+
+
+secsse_ABC_test3 <- secsse_ABC[rep(3, 100), ]
+rownames(secsse_ABC_test3) <- 1:nrow(secsse_ABC_test3)
+save(secsse_ABC_test3, file = "inst/extdata/secsse_ABC_test3.rda")
+save(secsse_ABC_test3, file = "inst/extdata/secsse_ABC_test3.rda")
+
+secsse_ABC_test4 <- secsse_ABC[rep(4, 100), ]
+rownames(secsse_ABC_test4) <- 1:nrow(secsse_ABC_test4)
+save(secsse_ABC_test4, file = "inst/extdata/secsse_ABC_test4.rda")
+save(secsse_ABC_test4, file = "inst/extdata/secsse_ABC_test4.rda")
+
+
+
 ## 1. ETD_lam
 par1 <- c(0.5,0.5,0,0,0.1,0.1)
 par2 <- c(0.3,0.7,0,0,0.1,0.1)

@@ -85,8 +85,8 @@ calc_epsilon_init_secsse_test <- function(sim){
 # old secsse R simulation
 
 # for(test in c(1,2,3)) {
-  test = 6
-  param_space <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
+  test = 1
+  param_space <- readr::read_csv2(paste0("inst/extdata/secsse_ABC_test",test,".rda"))
   ss <- c()
   obs_sim <- list()
   set.seed(1)

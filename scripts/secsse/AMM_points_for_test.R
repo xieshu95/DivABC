@@ -233,7 +233,7 @@ for(test in c(1,3,5,6)){
 # }
 
 
-# plot MCMC results
+# plot MCMC trace
 # load("G:/results/project 2/tip_info/round4/secsse_long_2/secsse_MCMC_long/secsse_MCMC_long_param_set_1_ss_1.RData")
 
 folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/secsse_MCMC_test1"
