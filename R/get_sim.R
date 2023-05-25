@@ -95,9 +95,9 @@ get_secsse_sim_create_obs <- function(parameters, K, replicates){
         lambdas = lambdas,
         mus = idparlist$mus,
         qs = q,
-        crown_age = 18,
+        crown_age = 10,
         pool_init_states = NULL,
-        maxSpec = 400,
+        maxSpec = 1000,
         conditioning = "none",
         non_extinction = TRUE,
         verbose = FALSE,
@@ -108,7 +108,7 @@ get_secsse_sim_create_obs <- function(parameters, K, replicates){
       })
       if(skip == FALSE){
         if(length(sim[[j]]$obs_traits) > 20 && ## at least 50 species
-           length(sim[[j]]$obs_traits) < 400 &&
+           length(sim[[j]]$obs_traits) < 1000 &&
            length(unique(sim[[j]]$obs_traits)) == 2){
           save = 1
         }
@@ -193,9 +193,9 @@ get_secsse_sim <- function(parameters, K, replicates){
         lambdas = lambdas,
         mus = idparlist$mus,
         qs = q,
-        crown_age = 18,
+        crown_age = 10,
         pool_init_states = NULL,
-        maxSpec = 400,
+        maxSpec = 1000,
         conditioning = "none",
         non_extinction = TRUE,
         verbose = FALSE,
