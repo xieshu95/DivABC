@@ -98,19 +98,20 @@ ABC_SMC <- function( # nolint indeed a complex function
 
         accept <- TRUE
 
-        # if(sum(tail(new_sim[[1]][[1]][[1]]$stt_all, n=1)[2:4]) > 800){
-        #   accept <- FALSE
-        # }
-        # for secsse
-        if ("phy" %in% names(new_sim[[1]])) {
-          if (length(new_sim[[1]]$obs_traits) < 20 ||
-              length(new_sim[[1]]$obs_traits) >= 1000 ||
-              length(unique(new_sim[[1]]$obs_traits)) < 2 ||
-              sum(new_sim[[1]]$obs_traits == 1) < 2 ||
-              sum(new_sim[[1]]$obs_traits == 2) < 2) {
-            accept <- FALSE
-          }
+        if(sum(tail(new_sim[[1]][[1]][[1]]$stt_all, n=1)[2:4]) > 800){
+          accept <- FALSE
         }
+
+        # for secsse
+        # if ("phy" %in% names(new_sim[[1]])) {
+        #   if (length(new_sim[[1]]$obs_traits) < 20 ||
+        #       length(new_sim[[1]]$obs_traits) >= 1000 ||
+        #       length(unique(new_sim[[1]]$obs_traits)) < 2 ||
+        #       sum(new_sim[[1]]$obs_traits == 1) < 2 ||
+        #       sum(new_sim[[1]]$obs_traits == 2) < 2) {
+        #     accept <- FALSE
+        #   }
+        # }
         #calculate the summary statistics for the simulated tree
         if (accept) {
           df_stats <- calc_ss_function (sim1 = obs_data[[1]],
@@ -168,7 +169,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.6) #0.5
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.55) #0.5
       # if("phy" %in% names(obs_data[[1]])){
       #   epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.65) #0.5
       # } else {
