@@ -1,5 +1,5 @@
 library(TraisieABC)
-param_space <- readr::read_csv2("/home4/p290559/TraisieABC/data/secsse_ABC_test4.csv")
+param_space <- param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test",4))
 lam1_MLE<- c()
 lam2_MLE <-c()
 mu1_MLE <- c()
@@ -46,14 +46,14 @@ for(i in 1:100) {
     # initparsopt <- obs_sim_pars
     initparsopt <- c(startingpoint$lambda0,startingpoint$lambda0,
                      startingpoint$mu0,startingpoint$mu0,
-                     0.1,0.1)
+                     0.1,0.1) + 0.00001
     seed_mle <-as.integer(Sys.time()) %% 1000000L * sample(1:10,1)
     set.seed(seed_mle)
     message("seed_mle: ", seed_mle)
-    for(n in 1:6){
-      initparsopt[n]<-exp(log(initparsopt[n]) +
-                            stats::rnorm(1, 0, 0.01))
-    }
+    # for(n in 1:6){
+    #   initparsopt[n]<-exp(log(initparsopt[n]) +
+    #                         stats::rnorm(1, 0, 0.01))
+    # }
     idparsopt = c(1,2,3,4,5,6)
     message("initial pars:", initparsopt)
 

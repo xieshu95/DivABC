@@ -7,13 +7,13 @@ Authors@R: c(
            family = "Xie",
            role = c("aut","cre"),
            email = "s.xie@rug.nl"))
-Description: Using an ABC-SMC chain to estimate posterior diversification rates  
-    of simulated phylogenies from DAISIE/TRAISIE model.Comparing the estimated 
-    values with which from maximum likelihood method. 
+Description: Using an ABC-SMC algorithm to estimate posterior diversification rates  
+    of simulated phylogenies from DAISIE/secsse/TRAISIE models.Comparing the 
+    estimated values with which from maximum likelihood method. 
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.5.0)
+Depends: R (>= 4.2.0)
 Suggests: 
     testthat (>= 2.1.0),
     lintr,

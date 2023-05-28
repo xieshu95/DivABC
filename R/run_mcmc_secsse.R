@@ -31,14 +31,14 @@ run_MCMC_secsse <- function(param_space_name,
 
   initparsopt <- c(startingpoint$lambda0,startingpoint$lambda0,
                    startingpoint$mu0,startingpoint$mu0,
-                   0.1,0.1)
+                   0.1,0.1) + 0.000001
   seed_mcmc <-as.integer(Sys.time()) %% 1000000L * param_set
   set.seed(seed_mcmc)
   message("seed_mcmc: ", seed_mcmc)
-  for(n in 1:6){
-    initparsopt[n]<-exp(log(initparsopt[n]) +
-                          stats::rnorm(1, 0, 0.001))+ 0.000001
-  }
+  # for(n in 1:6){
+  #   initparsopt[n]<-exp(log(initparsopt[n]) +
+  #                         stats::rnorm(1, 0, 0.001))
+  # }
   # initparsopt <- as.numeric(whole_df_MLE[param_set,7:12])
   mcmc <- MCMC(datalist = obs_sim[[1]],
                       log_lik_function = calc_log_lik_secsse,

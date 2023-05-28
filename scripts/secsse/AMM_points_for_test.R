@@ -8,8 +8,7 @@ for(test in c(1,3,5,6)){
   ## ABC results
   folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/secsse_ABC_test",test)
   files <- list.files(folder_path)
-  param_data <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
-
+  param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test",test))
   param_data2<-param_data[rep(seq_len(nrow(param_data)), each=500),] #500
   lam1_abc <- c()
   lam2_abc <- c()
@@ -95,7 +94,7 @@ for(test in c(1,3,5,6)){
 # 2. formate MCMC results (only plot the estimation points with ABC results)
 # skip
 for(test in c(1,3,5,6)){
-  param_data <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
+  param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test",test))
   param_data3<-param_data[rep(seq_len(nrow(param_data)), each=500),] #5001
   folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/secsse_MCMC_test",test)
   files <- list.files(folder_path)
@@ -277,7 +276,7 @@ for(i in 1:100){
 # 3. formate MLE results
 # skip
 for(test in 1:6){
-  param_data <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
+  param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test",test))
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/cpp_obs_ss_test",test,".RData"))
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_ABC_new/MLE/test",test,"_MLE_secsse.RData"))
   whole_df_MLE <- data.frame(param_data,MLE_all,ss[,1:4])
