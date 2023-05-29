@@ -48,7 +48,7 @@ run_ABC <- function(param_space_name,
 
     # init_epsilon_all <- c(150,150,50,50,10,10)
     if(ss_set == 0){
-      init_epsilon <- c(300,100,100,20,20,200,100,100)
+      init_epsilon <- c(200,100,100,20,20,200,100,100)
     } else if (ss_set == 1){
       init_epsilon <- c(200,50,50,50,50)
     } else if (ss_set == 2){
