@@ -412,8 +412,8 @@ calc_error_no_ext_nltt2 <- function(sim_1,
   #   normalize = FALSE
   # )
 
-  clade_size <- calc_clade_size_error(sim_1,sim_2)
-  colon_time <- calc_colon_time_error(sim_1,sim_2)
+  # clade_size <- calc_clade_size_error(sim_1,sim_2)
+  # colon_time <- calc_colon_time_error(sim_1,sim_2)
 
   ## nonendemic_nltt and singleton-endemic-nltt
   end_ltt_1 <- end_ltt(sim_1)
@@ -457,8 +457,8 @@ calc_error_no_ext_nltt2 <- function(sim_1,
     c(total_nltt,
       # clade_nltt,
       singleton_nltt,
-      nonend_nltt,
-      clade_size,
-      colon_time)
+      nonend_nltt)
+      # clade_size,
+      # colon_time)
   )
 }
