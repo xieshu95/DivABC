@@ -379,12 +379,15 @@ end_ltt <- function(sim,brt) {
 
 
 calc_error_no_ext_nltt2 <- function(sim_1,
-                                   sim_2,
-                                   replicates,
-                                   distance_method) {
+                                    sim_2,
+                                    replicates,
+                                    distance_method) {
   # Spec error
-  ltt_1 <- full_ltt(sim_1)
-  ltt_2 <- full_ltt(sim_2)
+  brt1 <- lapply(sim_1[[1]][-1],"[[", "branching_times")
+  brt2 <- lapply(sim_2[[1]][-1],"[[", "branching_times")
+
+  ltt_1 <- full_ltt(sim_1,brt1)
+  ltt_2 <- full_ltt(sim_2,brt2)
 
   # total number species nltt error
   total_nltt <- nLTT::nltt_diff_exact_extinct(
@@ -398,9 +401,9 @@ calc_error_no_ext_nltt2 <- function(sim_1,
   )
 
 
-  # # Clades number nltt error
-  # clade_ltt_1 <- clade_ltt(sim_1)
-  # clade_ltt_2 <- clade_ltt(sim_2)
+  # Clades number nltt error
+  # clade_ltt_1 <- clade_ltt(sim_1,brt1)
+  # clade_ltt_2 <- clade_ltt(sim_2,brt2)
   #
   # clade_nltt <- nLTT::nltt_diff_exact_extinct(
   #   event_times = clade_ltt_1$colon_time,
@@ -416,8 +419,8 @@ calc_error_no_ext_nltt2 <- function(sim_1,
   # colon_time <- calc_colon_time_error(sim_1,sim_2)
 
   ## nonendemic_nltt and singleton-endemic-nltt
-  end_ltt_1 <- end_ltt(sim_1)
-  end_ltt_2 <- end_ltt(sim_2)
+  end_ltt_1 <- end_ltt(sim_1,brt1)
+  end_ltt_2 <- end_ltt(sim_2,brt2)
 
   nonend_ltt_1 <- end_ltt_1$nonend_ltt
   nonend_ltt_2 <- end_ltt_2$nonend_ltt
