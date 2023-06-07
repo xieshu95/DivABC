@@ -50,11 +50,11 @@ run_ABC <- function(param_space_name,
     if(ss_set == 0){
       init_epsilon <- c(200,100,100,20,20,200,100,100)
     } else if (ss_set == 1){
-      init_epsilon <- c(200,100,100,100)
+      init_epsilon <- c(300,200,200,200)
     } else if (ss_set == 2){
       init_epsilon <- c(300,100,100)
     } else if (ss_set == 3){
-      init_epsilon <- c(200,100,100)
+      init_epsilon <- c(300,200,200)
     }
   } else if (sim_model == "TraiSIE") {
     # obs_sim <- get_TraiSIE_sim(parameters = as.numeric(c(obs_sim_pars$lac,

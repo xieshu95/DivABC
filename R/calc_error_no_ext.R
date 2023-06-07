@@ -43,20 +43,26 @@ calc_error_no_ext_nltt <- function(sim_1,
     normalize = FALSE
   )
 
+  ## pw nltt total
+  brt1_reorder<-brt1[order(sapply(brt1,length),decreasing = T)]
+  brt2_reorder<-brt2[order(sapply(brt2,length),decreasing = T)]
+  pw_nltt <- pairwise_sort_per_clade(brts1 = brt1_reorder,
+                                      brts2 = brt2_reorder)
+
 
   # Clades number nltt error
-  clade_ltt_1 <- clade_ltt(sim_1,brt1)
-  clade_ltt_2 <- clade_ltt(sim_2,brt2)
-
-  clade_nltt <- nLTT::nltt_diff_exact_extinct(
-    event_times = clade_ltt_1$colon_time,
-    species_number = clade_ltt_1$n_clade,
-    event_times2 = clade_ltt_2$colon_time,
-    species_number2 = clade_ltt_2$n_clade,
-    distance_method = distance_method,
-    time_unit = "ago",
-    normalize = FALSE
-  )
+  # clade_ltt_1 <- clade_ltt(sim_1,brt1)
+  # clade_ltt_2 <- clade_ltt(sim_2,brt2)
+  #
+  # clade_nltt <- nLTT::nltt_diff_exact_extinct(
+  #   event_times = clade_ltt_1$colon_time,
+  #   species_number = clade_ltt_1$n_clade,
+  #   event_times2 = clade_ltt_2$colon_time,
+  #   species_number2 = clade_ltt_2$n_clade,
+  #   distance_method = distance_method,
+  #   time_unit = "ago",
+  #   normalize = FALSE
+  # )
 
   # clade_size <- calc_clade_size_error(sim_1,sim_2)
   # colon_time <- calc_colon_time_error(sim_1,sim_2)
@@ -101,9 +107,10 @@ calc_error_no_ext_nltt <- function(sim_1,
 
   return(
     c(total_nltt,
-      clade_nltt,
+      # clade_nltt,
       singleton_nltt,
-      nonend_nltt)
+      nonend_nltt,
+      pw_nltt)
       # clade_size,
       # colon_time)
   )
@@ -378,6 +385,29 @@ end_ltt <- function(sim,brt) {
 }
 
 
+#' each clade as a metric
+pairwise_sort_per_clade <- function(brts1, brts2){
+  # clade_size_error <- c()
+  nltt_error <- c()
+  for(i in 1:length(brts1)){
+    brt1<- c(brts1[[i]],0)
+    brt2<- c(brts2[[i]],0)
+    nltt_error[i] <- nLTT::nltt_diff_exact_extinct(
+      event_times = brt1,
+      species_number = c(seq(0,length(brt1)-2),length(brt1)-2),
+      event_times2 = brt2,
+      species_number2 = c(seq(0,length(brt2)-2),length(brt2)-2),
+      distance_method = "abs",
+      time_unit = "ago",
+      normalize = FALSE
+    )
+    # clade_size_error[i] <- abs(length(brt1) - length(brt2))
+  }
+  # pairwise <- list(pw_nltt = nltt_error)
+  return(mean(nltt_error))
+}
+
+
 calc_error_no_ext_nltt2 <- function(sim_1,
                                     sim_2,
                                     replicates,
@@ -465,3 +495,5 @@ calc_error_no_ext_nltt2 <- function(sim_1,
       # colon_time)
   )
 }
+
+

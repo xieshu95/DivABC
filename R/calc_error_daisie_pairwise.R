@@ -177,41 +177,40 @@ pairwise_order <- function(sim1, sim2){
   return(pairwise)
 }
 
-#' each clade as a metric
-pairwise_order_per_clade <- function(sim1, sim2){
-  brts1 <- reorder_ltt(sim1)
-  brts2 <- reorder_ltt(sim2)
-  # clade_size_error <- c()
-  nltt_error <- c()
-  for(i in 1:length(brts1)){
-    brt1<- c(brts1[[i]],0)
-    brt2<- c(brts2[[i]],0)
-    nltt_error[i] <- nLTT::nltt_diff_exact_extinct(
-      event_times = brt1,
-      species_number = c(seq(0,length(brt1)-2),length(brt1)-2),
-      event_times2 = brt2,
-      species_number2 = c(seq(0,length(brt2)-2),length(brt2)-2),
-      distance_method = "abs",
-      time_unit = "ago",
-      normalize = FALSE
-    )
-    # clade_size_error[i] <- abs(length(brt1) - length(brt2))
-  }
-  # pairwise <- list(pw_nltt = nltt_error)
-  return(nltt_error)
-}
+#' #' each clade as a metric
+#' pairwise_order_per_clade <- function(brts1, brts2){
+#'   # clade_size_error <- c()
+#'   nltt_error <- c()
+#'   for(i in 1:length(brts1)){
+#'     brt1<- c(brts1[[i]],0)
+#'     brt2<- c(brts2[[i]],0)
+#'     nltt_error[i] <- nLTT::nltt_diff_exact_extinct(
+#'       event_times = brt1,
+#'       species_number = c(seq(0,length(brt1)-2),length(brt1)-2),
+#'       event_times2 = brt2,
+#'       species_number2 = c(seq(0,length(brt2)-2),length(brt2)-2),
+#'       distance_method = "abs",
+#'       time_unit = "ago",
+#'       normalize = FALSE
+#'     )
+#'     # clade_size_error[i] <- abs(length(brt1) - length(brt2))
+#'   }
+#'   # pairwise <- list(pw_nltt = nltt_error)
+#'   return(mean(nltt_error))
+#' }
 
 
 # pars = c(0.4,0,0.001,0.1)
 # set.seed(1)
-# sim1 <- get_DAISIE_sim(parameters = pars,
+# sim_1 <- get_DAISIE_sim(parameters = pars,
 #                        K = 20,
 #                        replicates = 1)[[1]]
 # set.seed(2)
-# sim2 <- get_DAISIE_sim(parameters = pars,
+# sim_2 <- get_DAISIE_sim(parameters = pars,
 #                        K = 20,
 #                        replicates = 1)[[1]]
-# pairwise_cross(sim1,sim2)
+# pairwise_order_per_clade(brts1 = brt1_reorder,
+#                          brts2 = brt2_reorder)
 #
 # pars = c(0.1,0,0.01,0.1)
 # set.seed(1)

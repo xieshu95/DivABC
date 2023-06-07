@@ -98,6 +98,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
         accept <- TRUE
 
+        # for daisie
         if(sum(tail(new_sim[[1]][[1]][[1]]$stt_all, n=1)[2:4]) > 800){
           accept <- FALSE
         }
@@ -173,7 +174,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.55) #0.5
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.6) #0.5
       # if("phy" %in% names(obs_data[[1]])){
       #   epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.65) #0.5
       # } else {
