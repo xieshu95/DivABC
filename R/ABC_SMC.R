@@ -102,6 +102,10 @@ ABC_SMC <- function( # nolint indeed a complex function
           accept <- FALSE
         }
 
+        if(length(obs_data[[1]][[1]]) != length(new_sim[[1]][[1]])) {
+          accept <- FALSE
+        }
+
         # for secsse
         # if ("phy" %in% names(new_sim[[1]])) {
         #   if (length(new_sim[[1]]$obs_traits) < 20 ||
