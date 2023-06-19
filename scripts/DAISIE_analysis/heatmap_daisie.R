@@ -205,7 +205,7 @@ length(pars_ss$total[pars_ss$total >200])
 length(pars_ss$total[pars_ss$total >300])
 length(pars_ss$total[pars_ss$total <20])
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_new_space/obs_ss_long_with_pars.RData")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space/obs_ss_long_with_pars.RData")
 
 ### pairwise ss for DAISIE space
 param_space <- readr::read_csv2("data/DAISIE_ABC_short.csv")
@@ -215,12 +215,17 @@ save(param_space,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/heatm
 ## new heatmap code
 library(heatmaply)
 library(htmlwidgets)
+## paper
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/obs_ss_long_with_pars_DI.RData")
+ss <- pars_ss[c(7,8,9,10,12,13,14,15)]
+colnames(ss) <- c("NLTT Total","NLTT Singleton-end", "NLTT Non-end","SD-CT",
+                  "N Total","N Singleton","N Non-end","SD-CS")
+# colnames(ss) <- c("CTT","LTT","Singleton LTT", "Nonend LTT","SDCT",
+#                   "N clade","N total","N singleton","N nonend","SDCS")
 
-colnames(ss) <- c("CTT","LTT","Singleton LTT", "Nonend LTT","SDCT",
-                  "N clade","N total","N singleton","N nonend","SDCS")
-p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
-                                      ylab = "Summary statistics", k_col = 2, k_row = 2)
-saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/heatmaps/daisie_heatmap_tree.html"))
+p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistic",
+                                      ylab = "Summary statistic", k_col = 2, k_row = 2)
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/heatmaps/daisie_heatmap_tree_new.html"))
 
 
 
