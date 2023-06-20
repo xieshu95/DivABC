@@ -70,7 +70,7 @@ get_TraiSIE_sim <- function(parameters, K, replicates){
 #' @author Shu Xie
 #' @export
 
-get_secsse_sim_create_obs <- function(parameters, K, replicates){
+get_secsse_sim_create_obs <- function(parameters, pool_init_states, replicates){
   idparlist <- secsse::cla_id_paramPos(traits = c(1,2),
                                        num_concealed_states = 2)
   idparlist$lambdas[1,] <- rep(c(parameters[1], parameters[2]),2)
@@ -95,9 +95,9 @@ get_secsse_sim_create_obs <- function(parameters, K, replicates){
         lambdas = lambdas,
         mus = idparlist$mus,
         qs = q,
-        crown_age = 10,
+        crown_age = 15,
         pool_init_states = NULL,
-        maxSpec = 1000,
+        maxSpec = 500,
         conditioning = "none",
         non_extinction = TRUE,
         verbose = FALSE,
@@ -108,7 +108,7 @@ get_secsse_sim_create_obs <- function(parameters, K, replicates){
       })
       if(skip == FALSE){
         if(length(sim[[j]]$obs_traits) > 20 && ## at least 50 species
-           length(sim[[j]]$obs_traits) < 1000 &&
+           length(sim[[j]]$obs_traits) < 500 &&
            length(unique(sim[[j]]$obs_traits)) == 2){
           save = 1
         }
@@ -168,7 +168,7 @@ get_secsse_sim_create_obs <- function(parameters, K, replicates){
 #' @author Shu Xie
 #' @export
 
-get_secsse_sim <- function(parameters, K, replicates){
+get_secsse_sim <- function(parameters, pool_init_states, replicates){
   idparlist <- secsse::cla_id_paramPos(traits = c(1,2),
                                        num_concealed_states = 2)
   idparlist$lambdas[1,] <- rep(c(parameters[1], parameters[2]),2)
@@ -193,9 +193,9 @@ get_secsse_sim <- function(parameters, K, replicates){
         lambdas = lambdas,
         mus = idparlist$mus,
         qs = q,
-        crown_age = 10,
-        pool_init_states = NULL,
-        maxSpec = 1000,
+        crown_age = 15,
+        pool_init_states = pool_init_states,
+        maxSpec = 600,
         conditioning = "none",
         non_extinction = TRUE,
         verbose = FALSE,

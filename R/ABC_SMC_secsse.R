@@ -7,7 +7,7 @@
 #' @export
 
 
-ABC_SMC <- function( # nolint indeed a complex function
+ABC_SMC_secsse <- function( # nolint indeed a complex function
   obs_data,
   sim_function,
   calc_ss_function,
@@ -42,6 +42,7 @@ ABC_SMC <- function( # nolint indeed a complex function
   ABC_list <- list()
   sim_list <- list()
   ss_diff_list <- list()
+  init_prob_list <- list()
 
   #convergence is expected within 50 iterations
   #usually convergence occurs within 20 iterations
@@ -70,6 +71,11 @@ ABC_SMC <- function( # nolint indeed a complex function
     stoprate_reached <- FALSE
     # ss_logic <- c()
 
+    # for secsse
+    init_prob_list[[1]] <- c(0.25,0.25,0.25,0.25)
+    init_prob <- init_prob_list[[i]]
+    init_state <- c()
+
     while (number_accepted < number_of_particles) {
       #in this initial step, generate parameters from the prior
       if (i == 1) {
@@ -83,35 +89,38 @@ ABC_SMC <- function( # nolint indeed a complex function
         for (p_index in seq_along(parameters)) {
           parameters[p_index] <- previous_params[[index]][p_index]
         }
-          parameters[idparsopt] <- exp(log(parameters[idparsopt]) +
-                                         stats::rnorm(length(idparsopt),
-                                                      0, sigma_temp))
+        parameters[idparsopt] <- exp(log(parameters[idparsopt]) +
+                                       stats::rnorm(length(idparsopt),
+                                                    0, sigma_temp))
       }
 
       #reject if outside the prior
       if (prior_density_function(parameters,idparsopt) > 0) {
         #simulate a new tree, given the proposed parameters
+        pool_init_states <- sample(c("1A","2A","1B","2B"), size = 1, prob = init_prob)
         new_sim <- sim_function(parameters = parameters,
-                                K = K,
+                                pool_init_states = pool_init_states,
                                 replicates = replicates)
 
 
         accept <- TRUE
 
-        # for daisie
-        if(sum(tail(new_sim[[1]][[1]][[1]]$stt_all, n=1)[2:4]) > 1000){
-          accept <- FALSE
+        # for secsse
+
+        if ("phy" %in% names(new_sim[[1]])) {
+          if (length(new_sim[[1]]$obs_traits) < 20 ||
+              length(new_sim[[1]]$obs_traits) >= 600 ||
+              length(unique(new_sim[[1]]$obs_traits)) < 2 ||
+              sum(new_sim[[1]]$obs_traits == 1) < 2 ||
+              sum(new_sim[[1]]$obs_traits == 2) < 2) {
+            accept <- FALSE
+          }
         }
-
-        # if(length(obs_data[[1]][[1]]) != length(new_sim[[1]][[1]])) {
-        #   accept <- FALSE
-        # }
-
         #calculate the summary statistics for the simulated tree
         if (accept) {
           df_stats <- calc_ss_function (sim1 = obs_data[[1]],
-                                    sim2 = new_sim[[1]],
-                                    ss_set = ss_set)
+                                        sim2 = new_sim[[1]],
+                                        ss_set = ss_set)
 
           # #check if the summary statistics are sufficiently
           for (k in seq_along(df_stats)) {
@@ -131,6 +140,7 @@ ABC_SMC <- function( # nolint indeed a complex function
           sim_list[[number_accepted]] <- new_sim[[1]]
           accepted_weight <- 1
           ss_diff <- rbind(ss_diff,df_stats)
+          init_state[number_accepted] <- new_sim[[1]]$initialState
 
           #calculate the weight
           if (i > 1) {
@@ -162,9 +172,11 @@ ABC_SMC <- function( # nolint indeed a complex function
       }
     }
 
+    init_prob_list[[i + 1]] <- c(sum(init_state == 0),sum(init_state == 1),
+                                 sum(init_state == 2),sum(init_state == 3))/length(init_state)
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.5)
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.6)
     }
     ABC <- c()
     for (k in seq_along(new_params)) {
@@ -186,7 +198,9 @@ ABC_SMC <- function( # nolint indeed a complex function
                       n_iter = n_iter,
                       epsilon = epsilon,
                       obs_sim = obs_data,
-                      ss_diff_list = ss_diff_list),
+                      ss_diff_list = ss_diff_list,
+                      init_prob_list = init_prob_list,
+                      init_state = init_state),
         param_space_name = param_space_name,
         param_set = param_set,
         ss_set = ss_set
@@ -200,6 +214,8 @@ ABC_SMC <- function( # nolint indeed a complex function
                  n_iter = n_iter,
                  epsilon = epsilon,
                  obs_sim = obs_data,
-                 ss_diff_list = ss_diff_list)
+                 ss_diff_list = ss_diff_list,
+                 init_prob_list = init_prob_list,
+                 init_state = init_state)
   return(output)
 }

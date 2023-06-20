@@ -3,35 +3,45 @@
 
 # latest param space
 
-par1 <- c(0.5,0.5,0.1,0.1,0.1,0.1)
-par2 <- c(0.3,0.7,0.1,0.1,0.1,0.1)
-par3 <- c(0.5,0.5,0.05,0.15,0.1,0.1)
-par4 <- c(0.5,0.5,0.1,0.1,0.1,0.2)
+par1 <- c(0.3,0.3,0.05,0.05,0.1,0.1)
+par2 <- c(0.2,0.4,0.05,0.05,0.1,0.1)
+par3 <- c(0.1,0.5,0.05,0.05,0.1,0.1)
+par4 <- c(0.3,0.3,0.05,0.01,0.1,0.1)
+par5 <- c(0.3,0.3,0.05,0.1,0.1,0.1)
+par6 <- c(0.3,0.3,0.05,0.05,0.1,0.2)
+par7 <- c(0.3,0.3,0.05,0.05,0.1,0.02)
+
 
 # par5 <- c(0.3,0.7,0.05,0.05,0.1,0.1)
 # par6 <- c(0.3,0.7,0.05,0,0.1,0.1)
-secsse_ABC <- rbind(par1,par2,par3,par4)
+secsse_ABC <- rbind(par1,par2,par3,par4,par5,par6,par7)
 colnames(secsse_ABC) <- c("lam1","lam2","mu1","mu2","q12","q21")
-secsse_ABC_test1 <- secsse_ABC[rep(1, 100), ]
-rownames(secsse_ABC_test1) <- 1:nrow(secsse_ABC_test1)
-save(secsse_ABC_test1, file = "inst/extdata/secsse_ABC_test1.rda")
-save(secsse_ABC_test1, file = "inst/extdata/secsse_ABC_test1.rda")
 
-secsse_ABC_test2 <- secsse_ABC[rep(2, 100), ]
-rownames(secsse_ABC_test2) <- 1:nrow(secsse_ABC_test2)
-save(secsse_ABC_test2, file = "inst/extdata/secsse_ABC_test2.rda")
-save(secsse_ABC_test2, file = "inst/extdata/secsse_ABC_test2.rda")
+secsse_ABC_test <- secsse_ABC[rep(1:7, each = 50), ]
+rownames(secsse_ABC_test) <- 1:nrow(secsse_ABC_test)
+save(secsse_ABC_test, file = "inst/extdata/secsse_ABC_test.rda")
+save(secsse_ABC_test, file = "inst/extdata/secsse_ABC_test.rda")
 
-
-secsse_ABC_test3 <- secsse_ABC[rep(3, 100), ]
-rownames(secsse_ABC_test3) <- 1:nrow(secsse_ABC_test3)
-save(secsse_ABC_test3, file = "inst/extdata/secsse_ABC_test3.rda")
-save(secsse_ABC_test3, file = "inst/extdata/secsse_ABC_test3.rda")
-
-secsse_ABC_test4 <- secsse_ABC[rep(4, 100), ]
-rownames(secsse_ABC_test4) <- 1:nrow(secsse_ABC_test4)
-save(secsse_ABC_test4, file = "inst/extdata/secsse_ABC_test4.rda")
-save(secsse_ABC_test4, file = "inst/extdata/secsse_ABC_test4.rda")
+# secsse_ABC_test1 <- secsse_ABC[rep(1, 100), ]
+# rownames(secsse_ABC_test1) <- 1:nrow(secsse_ABC_test1)
+# save(secsse_ABC_test1, file = "inst/extdata/secsse_ABC_test1.rda")
+# save(secsse_ABC_test1, file = "inst/extdata/secsse_ABC_test1.rda")
+#
+# secsse_ABC_test2 <- secsse_ABC[rep(2, 100), ]
+# rownames(secsse_ABC_test2) <- 1:nrow(secsse_ABC_test2)
+# save(secsse_ABC_test2, file = "inst/extdata/secsse_ABC_test2.rda")
+# save(secsse_ABC_test2, file = "inst/extdata/secsse_ABC_test2.rda")
+#
+#
+# secsse_ABC_test3 <- secsse_ABC[rep(3, 100), ]
+# rownames(secsse_ABC_test3) <- 1:nrow(secsse_ABC_test3)
+# save(secsse_ABC_test3, file = "inst/extdata/secsse_ABC_test3.rda")
+# save(secsse_ABC_test3, file = "inst/extdata/secsse_ABC_test3.rda")
+#
+# secsse_ABC_test4 <- secsse_ABC[rep(4, 100), ]
+# rownames(secsse_ABC_test4) <- 1:nrow(secsse_ABC_test4)
+# save(secsse_ABC_test4, file = "inst/extdata/secsse_ABC_test4.rda")
+# save(secsse_ABC_test4, file = "inst/extdata/secsse_ABC_test4.rda")
 
 
 
