@@ -1,5 +1,5 @@
 library(TraisieABC)
-param_space <- readr::read_csv2("/home/p290559/TraisieABC/data/secsse_ABC.csv")
+param_space <- param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
 lam1_MLE<- c()
 lam2_MLE <-c()
 mu1_MLE <- c()
@@ -13,6 +13,7 @@ init_mu1<-c()
 init_mu2<-c()
 init_q12<-c()
 init_q21<-c()
+max_ll<- c()
 
 create_ML_idpars <- function(traits,num_concealed_states) {
   idparslist <- secsse::id_paramPos(traits, num_concealed_states)
@@ -31,17 +32,16 @@ create_ML_idpars <- function(traits,num_concealed_states) {
 }
 
 ## MLE, 20 different initial for each obs-data
-for(i in 1:27) {
+for(i in 1:350) {
   message("set",i)
   set.seed(i)
   obs_sim_pars <- param_space[i,]
-  obs_sim <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
-                                       K = Inf,
-                                       replicates = 1)
+  param_space_name <- "secsse_ABC_test"
+  obs_sim <- load_obs_sim(param_space_name = param_space_name)[[i]]
   startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))
 
   rep <- 1
-  while(rep < 21) {
+  while(rep < 2) {
     message("rep",rep)
     # initparsopt <- obs_sim_pars
     initparsopt <- c(startingpoint$lambda0,startingpoint$lambda0,
@@ -52,7 +52,7 @@ for(i in 1:27) {
     message("seed_mle: ", seed_mle)
     for(n in 1:6){
       initparsopt[n]<-exp(log(initparsopt[n]) +
-                            stats::rnorm(1, 0, 1))
+                            stats::rnorm(1, 0, 0.005))+ 0.00001
     }
     idparsopt = c(1,2,3,4,5,6)
     message("initial pars:", initparsopt)
@@ -60,9 +60,9 @@ for(i in 1:27) {
     skip <- FALSE
     tryCatch(MLE <- secsse::secsse_ml(
       phy = obs_sim[[1]]$phy,
-      traits = obs_sim[[1]]$examTraits,
+      traits = obs_sim[[1]]$obs_traits,
       num_concealed_states = 2,
-      idparslist = create_ML_idpars(obs_sim[[1]]$examTraits,2),
+      idparslist = create_ML_idpars(obs_sim[[1]]$obs_traits,2),
       idparsopt = idparsopt,
       initparsopt = initparsopt,
       idparsfix = c(0),
@@ -94,10 +94,11 @@ for(i in 1:27) {
       mu2_MLE <- c(mu2_MLE,MLE$MLpars[[2]][2])
       q12_MLE <- c(q12_MLE,MLE$MLpars[[3]][1,2])
       q21_MLE <- c(q21_MLE,MLE$MLpars[[3]][2,1])
+      max_ll<- c(max_ll,MLE$ML)
     }
   }
 }
-MLE_all <- data.frame(lam1_MLE,lam2_MLE,mu1_MLE,mu2_MLE,q12_MLE,q21_MLE,
+MLE_all <- data.frame(lam1_MLE,lam2_MLE,mu1_MLE,mu2_MLE,q12_MLE,q21_MLE,max_ll,
                       init_lam1,init_lam2,init_mu1,init_mu2,init_q12,init_q21)
-save(MLE_all, file = paste0("/home/p290559/results/MLE_secsse",seed_mle,".RData"))
-
+# save(MLE_all, file = paste0("/home4/p290559/results/test1_MLE_secsse",seed_mle,".RData"))
+save(MLE_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/test_MLE_secsse1.RData"))

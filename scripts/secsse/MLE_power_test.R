@@ -1,119 +1,121 @@
 # i = 1
 # load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/obs_ss_test",i,".RData"))
-for(test in 1:6){
-  param_data <- readr::read_csv2(paste0("data/secsse_ABC_test",test,".csv"))
-  load(paste0("scripts/loglik_test/obs_ss_test",test,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_fix_MCMC/MLE/test",test,"_MLE_secsse.RData"))
-  whole_df_MLE <- data.frame(param_data,MLE_all,pars_ss[,7:10])
-  save(whole_df_MLE,file = paste0("scripts/loglik_test/whole_df_MLE",test,".RData"))
-}
+# for(test in 1:6){
+param_space_name <- paste0("secsse_ABC_test")
+param_space <- load_param_space(param_space_name = param_space_name)
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_ss_test.rda"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/test_MLE_secsse1.RData"))
+whole_df_MLE <- data.frame(param_space,MLE_all,ss[,1:4])
+whole_df_MLE$dlam1 <- whole_df_MLE$lam1_MLE - whole_df_MLE$lam1
+whole_df_MLE$dlam2 <- whole_df_MLE$lam2_MLE - whole_df_MLE$lam2
+whole_df_MLE$dmu1 <- whole_df_MLE$mu1_MLE - whole_df_MLE$mu1
+whole_df_MLE$dmu2 <- whole_df_MLE$mu2_MLE - whole_df_MLE$mu2
+whole_df_MLE$dq12 <- whole_df_MLE$q12_MLE - whole_df_MLE$q12
+whole_df_MLE$dq21 <- whole_df_MLE$q21_MLE - whole_df_MLE$q21
+save(whole_df_MLE,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/whole_df_MLE.RData"))
+
 
 
 ## secsse test MLE
-library(ggplot2)
-for (i in c(1,5)){
-  param_data <- readr::read_csv2(paste0("G:/R/Traisie-ABC/data/secsse_ABC_test",i,".csv"))
-  param_data2<-param_data[rep(seq_len(nrow(param_data)), each=10),]
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/obs_ss_test",i,".RData"))
-  load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/MLE/test",i,"_MLE_secsse.RData"))
-  set <- rep(1:100,each = 10)
-  MLE_df <- data.frame(set,param_data2,MLE_all)
-  MLE_df$dlam1 <- MLE_df$lam1_MLE - MLE_df$lam1
-  MLE_df$dlam2 <- MLE_df$lam2_MLE - MLE_df$lam2
-  MLE_df$dmu1 <- MLE_df$mu1_MLE - MLE_df$mu1
-  MLE_df$dmu2 <- MLE_df$mu2_MLE - MLE_df$mu2
-  MLE_df$dq12 <- MLE_df$q12_MLE - MLE_df$q12
-  MLE_df$dq21 <- MLE_df$q21_MLE - MLE_df$q21
-  n <- 10
-  MLE_median <- aggregate(MLE_df, list(rep(1:(nrow(MLE_df) %/% n + 1), each = n, len = nrow(MLE_df))), median,na.rm = TRUE)[-1]
-  whole_df_MLE <- data.frame(MLE_median,pars_ss[,7:10])
-  save(whole_df_MLE,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/whole_df_MLE",i,".RData"))
-  # plot MLE results of each rate with true values
-  p_lam1 <-ggplot2::ggplot(data = whole_df_MLE) +
-    ggplot2::theme_bw() +
-    ggplot2::ylim(0,1)+
-    ggplot2::geom_point(ggplot2::aes(x = tree_size, y = abs(dlam1)),
-                        colour = "blue") +
-    ggplot2::theme_classic() +
-    ggplot2::theme(title = ggplot2::element_text(size = 12),
-                   text = ggplot2::element_text(size = 12)) +
-    ggplot2::ylab(expression(paste("Error ",lambda[1]),)) +
-    ggplot2::xlab("Tree size")+
-    ggplot2::geom_hline(data= whole_df_MLE, aes(yintercept = 0), linetype = "dashed", size = 0.5)
+# library(ggplot2)
+# # for (i in c(1,5)){
+# param_space_name <- paste0("secsse_ABC_test")
+# param_space <- load_param_space(param_space_name = param_space_name)
+# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_ss_test.rda"))
+# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/test_MLE_secsse1.RData"))
+# set <- rep(1:100,each = 1)
+# MLE_df <- data.frame(set,param_space,MLE_all)
+
+# # n <- 10
+# # MLE_median <- aggregate(MLE_df, list(rep(1:(nrow(MLE_df) %/% n + 1), each = n, len = nrow(MLE_df))), median,na.rm = TRUE)[-1]
+# whole_df_MLE <- data.frame(MLE_median,pars_ss[,7:10])
+# save(whole_df_MLE,file = paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/whole_df_MLE",i,".RData"))
+# plot MLE results of each rate with true values
+p_lam1 <-ggplot2::ggplot(data = whole_df_MLE) +
+  ggplot2::theme_bw() +
+  ggplot2::ylim(-1,1)+
+  ggplot2::geom_point(ggplot2::aes(x = tree_size, y = dlam1),
+                      colour = "blue") +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::ylab(expression(paste("Error ",lambda[1]),)) +
+  ggplot2::xlab("Tree size")+
+  ggplot2::geom_hline(data= whole_df_MLE, aes(yintercept = 0), linetype = "dashed", size = 0.5)
 
 
-  p_lam2 <-ggplot2::ggplot(data = whole_df_MLE) +
-    ggplot2::theme_bw() +
-    ggplot2::ylim(0,1)+
-    ggplot2::geom_point(ggplot2::aes(x = tree_size, y = abs(dlam2)),
-                        colour = "blue") +
-    ggplot2::theme_classic() +
-    ggplot2::theme(title = ggplot2::element_text(size = 12),
-                   text = ggplot2::element_text(size = 12)) +
-    ggplot2::ylab(expression(paste("Error ",lambda[2]),)) +
-    ggplot2::xlab("Tree size")+
-    ggplot2::geom_hline(data= whole_df_MLE, aes(yintercept = 0), linetype = "dashed", size = 0.5)
+p_lam2 <-ggplot2::ggplot(data = whole_df_MLE) +
+  ggplot2::theme_bw() +
+  ggplot2::ylim(-1,1)+
+  ggplot2::geom_point(ggplot2::aes(x = tree_size, y = (dlam2)),
+                      colour = "blue") +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::ylab(expression(paste("Error ",lambda[2]),)) +
+  ggplot2::xlab("Tree size")+
+  ggplot2::geom_hline(data= whole_df_MLE, aes(yintercept = 0), linetype = "dashed", size = 0.5)
 
-  p_mu1 <-ggplot2::ggplot(data = whole_df_MLE) +
-    ggplot2::theme_bw() +
-    ggplot2::ylim(0,1)+
-    ggplot2::geom_point(ggplot2::aes(x = tree_size, y = abs(dmu1)),
-                        colour = "blue") +
-    ggplot2::theme_classic() +
-    ggplot2::theme(title = ggplot2::element_text(size = 12),
-                   text = ggplot2::element_text(size = 12)) +
-    ggplot2::ylab(expression(paste("Error ",mu[1]),)) +
-    ggplot2::xlab("Tree size")+
-    ggplot2::geom_hline(data= whole_df_MLE, aes(yintercept = 0), linetype = "dashed", size = 0.5)
-
-
-  p_mu2 <-ggplot2::ggplot(data = whole_df_MLE) +
-    ggplot2::theme_bw() +
-    ggplot2::ylim(0,1.0)+
-    ggplot2::geom_point(ggplot2::aes(x = tree_size, y = abs(dmu2)),
-                        colour = "blue") +
-    ggplot2::theme_classic() +
-    ggplot2::theme(title = ggplot2::element_text(size = 12),
-                   text = ggplot2::element_text(size = 12)) +
-    ggplot2::ylab(expression(paste("Error ",mu[2]),)) +
-    ggplot2::xlab("Tree size")+
-    ggplot2::geom_hline(data= whole_df_MLE, aes(yintercept = 0), linetype = "dashed", size = 0.5)
-
-  p_q12 <-ggplot2::ggplot(data = whole_df_MLE) +
-    ggplot2::theme_bw() +
-    ggplot2::ylim(0,1)+
-    ggplot2::geom_point(ggplot2::aes(x = tree_size, y = abs(dq12)),
-                        colour = "blue") +
-    ggplot2::theme_classic() +
-    ggplot2::theme(title = ggplot2::element_text(size = 12),
-                   text = ggplot2::element_text(size = 12)) +
-    ggplot2::ylab(expression(paste("Error ",q[12]),)) +
-    ggplot2::xlab("Tree size")+
-    ggplot2::geom_hline(data= whole_df_MLE, aes(yintercept = 0), linetype = "dashed", size = 0.5)
-
-  p_q21 <-ggplot2::ggplot(data = whole_df_MLE) +
-    ggplot2::theme_bw() +
-    ggplot2::ylim(0,1)+
-    ggplot2::geom_point(ggplot2::aes(x = tree_size, y = abs(dq21)),
-                        colour = "blue") +
-    ggplot2::theme_classic() +
-    ggplot2::theme(title = ggplot2::element_text(size = 12),
-                   text = ggplot2::element_text(size = 12)) +
-    ggplot2::ylab(expression(paste("Error ",q[21]),)) +
-    ggplot2::xlab("Tree size")+
-    ggplot2::geom_hline(data= whole_df_MLE, aes(yintercept = 0), linetype = "dashed", size = 0.5)
+p_mu1 <-ggplot2::ggplot(data = whole_df_MLE) +
+  ggplot2::theme_bw() +
+  ggplot2::ylim(-1,1)+
+  ggplot2::geom_point(ggplot2::aes(x = tree_size, y = (dmu1)),
+                      colour = "blue") +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::ylab(expression(paste("Error ",mu[1]),)) +
+  ggplot2::xlab("Tree size")+
+  ggplot2::geom_hline(data= whole_df_MLE, aes(yintercept = 0), linetype = "dashed", size = 0.5)
 
 
-  tiff(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/MLE_power_test/tree_size_set_",i,".tiff"),
-       units="px", width=2000, height=1500,res = 300,compression="lzw")
-  param_estimates <- cowplot::plot_grid(
-    p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
-    align = "hv", nrow = 2, ncol = 3
-  )
-  print(param_estimates)
-  while (!is.null(dev.list()))  dev.off()
+p_mu2 <-ggplot2::ggplot(data = whole_df_MLE) +
+  ggplot2::theme_bw() +
+  ggplot2::ylim(-1,1.0)+
+  ggplot2::geom_point(ggplot2::aes(x = tree_size, y = (dmu2)),
+                      colour = "blue") +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::ylab(expression(paste("Error ",mu[2]),)) +
+  ggplot2::xlab("Tree size")+
+  ggplot2::geom_hline(data= whole_df_MLE, aes(yintercept = 0), linetype = "dashed", size = 0.5)
 
-}
+p_q12 <-ggplot2::ggplot(data = whole_df_MLE) +
+  ggplot2::theme_bw() +
+  ggplot2::ylim(-1,1)+
+  ggplot2::geom_point(ggplot2::aes(x = tree_size, y = (dq12)),
+                      colour = "blue") +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::ylab(expression(paste("Error ",q[12]),)) +
+  ggplot2::xlab("Tree size")+
+  ggplot2::geom_hline(data= whole_df_MLE, aes(yintercept = 0), linetype = "dashed", size = 0.5)
+
+p_q21 <-ggplot2::ggplot(data = whole_df_MLE) +
+  ggplot2::theme_bw() +
+  ggplot2::ylim(-1,1)+
+  ggplot2::geom_point(ggplot2::aes(x = tree_size, y = (dq21)),
+                      colour = "blue") +
+  ggplot2::theme_classic() +
+  ggplot2::theme(title = ggplot2::element_text(size = 12),
+                 text = ggplot2::element_text(size = 12)) +
+  ggplot2::ylab(expression(paste("Error ",q[21]),)) +
+  ggplot2::xlab("Tree size")+
+  ggplot2::geom_hline(data= whole_df_MLE, aes(yintercept = 0), linetype = "dashed", size = 0.5)
+
+
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/MLE_tree_size_drate.tiff"),
+     units="px", width=3000, height=2000,res = 300,compression="lzw")
+param_estimates <- cowplot::plot_grid(
+  p_lam1,p_mu1,p_q12,p_lam2,p_mu2,p_q21,
+  align = "hv", nrow = 2, ncol = 3
+)
+print(param_estimates)
+while (!is.null(dev.list()))  dev.off()
+
+
 
 
 ## plot tree size VS exact rate estimations

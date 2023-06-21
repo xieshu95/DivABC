@@ -5,12 +5,12 @@
 prior_dens_secsse <- function(pars,idparsopt) {
   if(1 %in% idparsopt){
     # dens_lam1 <- stats::dexp(pars[1],2.5)
-    dens_lam1 <- stats::dunif(pars[1],0,2)
+    dens_lam1 <- stats::dunif(pars[1],0,1)
   } else {
     dens_lam1 <- 1
   }
   if(2 %in% idparsopt){
-    dens_lam2 <- stats::dunif(pars[2],0,2)
+    dens_lam2 <- stats::dunif(pars[2],0,1)
   } else {
     dens_lam2 <- 1
   }
@@ -44,12 +44,12 @@ prior_dens_secsse <- function(pars,idparsopt) {
 #' @export
 prior_gen_secsse <- function(pars,idparsopt){
   if(1 %in% idparsopt){
-    lam1 <- stats::runif(1,0,2)
+    lam1 <- stats::runif(1,0,1)
   } else {
     lam1 <- pars[1]
   }
   if(2 %in% idparsopt){
-    lam2 <- stats::runif(1,0,2)
+    lam2 <- stats::runif(1,0,1)
   } else {
     lam2 <- pars[2]
   }

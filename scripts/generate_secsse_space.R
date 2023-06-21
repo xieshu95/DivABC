@@ -19,8 +19,9 @@ colnames(secsse_ABC) <- c("lam1","lam2","mu1","mu2","q12","q21")
 
 secsse_ABC_test <- secsse_ABC[rep(1:7, each = 50), ]
 rownames(secsse_ABC_test) <- 1:nrow(secsse_ABC_test)
+secsse_MCMC_test = secsse_ABC_test
 save(secsse_ABC_test, file = "inst/extdata/secsse_ABC_test.rda")
-save(secsse_ABC_test, file = "inst/extdata/secsse_ABC_test.rda")
+save(secsse_MCMC_test, file = "inst/extdata/secsse_MCMC_test.rda")
 
 # secsse_ABC_test1 <- secsse_ABC[rep(1, 100), ]
 # rownames(secsse_ABC_test1) <- 1:nrow(secsse_ABC_test1)

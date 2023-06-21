@@ -29,6 +29,12 @@ calc_ss_secsse_test <- function(sim) {
 
   # nLTT
   nltt <- treestats::nLTT_base(sim$phy)
+  phy_s1<-ape::drop.tip(sim$phy,  ## phy1 with only state1 tips
+                        tip = sim$phy$tip.label[which(sim$obs_traits == 2)])
+  phy_s2<-ape::drop.tip(sim$phy,
+                        tip = sim$phy$tip.label[which(sim$obs_traits == 1)])
+  nltt1 <- treestats::nLTT_base(phy_s1)
+  nltt2 <- treestats::nLTT_base(phy_s2)
 
   ## standard deviation of pairwise distance
   sdpd_all <- calc_sdpd_trait(sim = sim,state_type = 3)
@@ -64,6 +70,8 @@ calc_ss_secsse_test <- function(sim) {
          K = K,
          D = D,
          nltt = nltt,
+         nltt1 = nltt1,
+         nltt2 = nltt2,
          colless,
          spect_log_median,
          spect_prin,
@@ -79,39 +87,68 @@ calc_epsilon_init_secsse_test <- function(sim){
   return(eps_init)
 }
 
-for(test in c(2,3,4)) {
-  param_space_name <- paste0("secsse_ABC_test",test)
-  param_space <- load_param_space(param_space_name = param_space_name)
-  ss <- c()
-  obs_sim <- list()
-  set.seed(1)
-    for(i in 1:100){
-      message("set: ", i)
-      obs_sim_pars <- param_space[i,]
-      obs_sim[[i]] <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
-                                                K = Inf,
-                                                replicates = 1) ## replicates = 30
-      init_epsilon <- calc_epsilon_init_secsse_test(sim = obs_sim[[i]])
-      ss<-rbind(ss,init_epsilon)
-    }
-
-  colnames(ss) <- c("state1","state2","tree_size","tip_ratio",
-                    "mpd","mpd_diff","mpd_s1","mpd_s2",
-                    "mntd","mntd_diff","mntd_s1","mntd_s2",
-                    "sdpd","sdpd_diff","sdntd","sdntd_diff",
-                    "K","D","nltt","colless",
-                    "spect_log_median","spect_prin","sackin")
-  ss<-data.frame(ss)
-  # colnames(ss) <- c("state1","state2","tree_size","tip_ratio")
-  save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_new_space/obs_ss_test",test,".rda"))
-  save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_new_space/obs_sim_secsse_ABC_test",test,".rda"))
-  save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_new_space/obs_sim_secsse_MCMC_test",test,".rda"))
+# for(test in c(2,3,4)) {
+param_space_name <- paste0("secsse_ABC_test")
+param_space <- load_param_space(param_space_name = param_space_name)
+ss <- c()
+obs_sim <- list()
+set.seed(100)
+for(i in 1:350){
+  message("set: ", i)
+  obs_sim_pars <- param_space[i,]
+  obs_sim[[i]] <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
+                                            pool_init_states = NULL,
+                                            replicates = 1) ## replicates = 30
+  init_epsilon <- calc_epsilon_init_secsse_test(sim = obs_sim[[i]])
+  ss<-rbind(ss,init_epsilon)
 }
 
+colnames(ss) <- c("state1","state2","tree_size","tip_ratio",
+                  "mpd","mpd_diff","mpd_s1","mpd_s2",
+                  "mntd","mntd_diff","mntd_s1","mntd_s2",
+                  "sdpd","sdpd_diff","sdntd","sdntd_diff",
+                  "K","D","nltt","nltt1","nltt2","colless",
+                  "spect_log_median","spect_prin","sackin")
+ss<-data.frame(ss)
+# colnames(ss) <- c("state1","state2","tree_size","tip_ratio")
+save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_ss_test.rda"))
+save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_sims_secsse_ABC_test.rda"))
+save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_sims_secsse_MCMC_test.rda"))
+
+sum(ss[,3]<400)
+plot(hist(ss[,3], breaks = 200))
 
 
-t2 <- Sys.time()
-t2
+plot(hist(ss[1:50,3], breaks = 200))
+plot(hist(ss[51:100,3], breaks = 200))
+plot(hist(ss[101:150,3], breaks = 200))
+plot(hist(ss[151:200,3], breaks = 200))
+plot(hist(ss[201:250,3], breaks = 200))
+plot(hist(ss[251:300,3], breaks = 200))
+plot(hist(ss[301:350,3], breaks = 200))
+
+
+# ## change obs
+# load("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/secsse1/obs_ss_test.rda")
+# ss_old <- ss
+# load("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_ss_test.rda")
+# ss[146,] <- ss_old[146,]
+
+
+# load("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/secsse1/obs_sims_secsse_ABC_test.rda")
+# sim_old <- obs_sim
+# load("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_sims_secsse_ABC_test.rda")
+# obs_sim[[146]] <- sim_old[[146]]
+#
+# save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_ss_test.rda"))
+# save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_sims_secsse_ABC_test.rda"))
+# save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_sims_secsse_MCMC_test.rda"))
+#
+# load("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/secsse1/test_MLE_secsse1.RData")
+# MLE_old <- MLE_all
+# load("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/test_MLE_secsse1.RData")
+# MLE_all[146,] <- MLE_old[146,]
+# save(MLE_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/test_MLE_secsse1.RData"))
 
 ## new heatmap code
 library(heatmaply)

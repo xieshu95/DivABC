@@ -43,6 +43,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
   sim_list <- list()
   ss_diff_list <- list()
   init_prob_list <- list()
+  init_prob_list[[1]] <- c(0.25,0.25,0.25,0.25)
 
   #convergence is expected within 50 iterations
   #usually convergence occurs within 20 iterations
@@ -72,7 +73,6 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
     # ss_logic <- c()
 
     # for secsse
-    init_prob_list[[1]] <- c(0.25,0.25,0.25,0.25)
     init_prob <- init_prob_list[[i]]
     init_state <- c()
 
@@ -109,7 +109,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
 
         if ("phy" %in% names(new_sim[[1]])) {
           if (length(new_sim[[1]]$obs_traits) < 20 ||
-              length(new_sim[[1]]$obs_traits) >= 600 ||
+              length(new_sim[[1]]$obs_traits) >= 500 ||
               length(unique(new_sim[[1]]$obs_traits)) < 2 ||
               sum(new_sim[[1]]$obs_traits == 1) < 2 ||
               sum(new_sim[[1]]$obs_traits == 2) < 2) {
