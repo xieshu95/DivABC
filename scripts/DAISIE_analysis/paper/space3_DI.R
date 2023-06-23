@@ -1591,11 +1591,12 @@ write.csv2(round(ss_min,0),paste0("D:/Onedrive-shu/OneDrive/project 2/results/ro
 write.csv2(round(ss_sd,0),paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/ss_sd.csv"))
 
 ###
+library(coda)
 folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/DAISIE_MCMC_short_DI"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("data/DAISIE_MCMC_short_DI.csv")
 param_data <- param_data[1:160,]
-param_data3<-param_data[rep(seq_len(nrow(param_data)), each=5001),] #2001/400
+
 
 lac_cor <- c()
 mu_cor <- c()
@@ -1612,30 +1613,27 @@ for(i in 1:160){
 
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-    lac_mcmc <- c(lac_mcmc, output[,1]) # output[4002:5001,1]
-    mu_mcmc <- c(mu_mcmc, output[,2])
-    gam_mcmc <- c(gam_mcmc, output[,3])
-    laa_mcmc <- c(laa_mcmc, output[,4])
+    lac_cor <- c(lac_cor, autocorr(output[,1], lags = c(2), relative=TRUE)) # output[4002:5001,1]
+    mu_cor <- c(mu_cor, autocorr(output[,2], lags = c(2), relative=TRUE))
+    gam_cor <- c(gam_cor, autocorr(output[,3], lags = c(2), relative=TRUE))
+    laa_cor <- c(laa_cor, autocorr(output[,4], lags = c(2), relative=TRUE))
   } else {
-    lac_mcmc <- c(lac_mcmc, rep(NA,5001)) #rep(NA,400)
-    mu_mcmc <- c(mu_mcmc, rep(NA,5001))
-    gam_mcmc <- c(gam_mcmc, rep(NA,5001))
-    laa_mcmc <- c(laa_mcmc, rep(NA,5001))
+    lac_cor <- c(lac_cor, rep(NA,1)) #rep(NA,400)
+    mu_cor <- c(mu_cor, rep(NA,1))
+    gam_cor <- c(gam_cor, rep(NA,1))
+    laa_cor <- c(laa_cor, rep(NA,1))
   }
 }
 
-whole_df_MCMC <- data.frame(param_data3,
-                            lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc)
+whole_df_cor <- data.frame(param_data,
+                            lac_cor,mu_cor,gam_cor,laa_cor)
 
-save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/whole_df_MCMC.RData"))
+save(whole_df_cor,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/whole_df_cor_lag1.RData"))
 
-whole_df_MCMC$net_div <- (whole_df_MCMC$lac-whole_df_MCMC$mu)
-whole_df_MCMC$net_div_mcmc <- (whole_df_MCMC$lac_mcmc - whole_df_MCMC$mu_mcmc)
-
-whole_df_MCMC$ext_frac <- (whole_df_MCMC$mu)/(whole_df_MCMC$lac)
-whole_df_MCMC$ext_frac_MCMC <- (whole_df_MCMC$mu_mcmc)/(whole_df_MCMC$lac_mcmc)
-
-save(whole_df_MCMC,
-     file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/delta_whole_df_MCMC.RData"))
+plot(density(whole_df_cor[,7],na.rm = T))
+median(whole_df_cor[,6],na.rm = T)
+median(whole_df_cor[,7],na.rm = T)
+median(whole_df_cor[,8],na.rm = T)
+median(whole_df_cor[,9],na.rm = T)
 #
-autocorr(output[,1], lags = c(0, 1, 5, 10, 50), relative=TRUE)
+# autocorr(output[,1], lags = c(1), relative=TRUE)

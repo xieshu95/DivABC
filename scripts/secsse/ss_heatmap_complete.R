@@ -261,20 +261,22 @@ dt <- t2-t1
 
 
 ### random space
-ss <- matrix(NA,nrow = 300,ncol = 23)
+ss <- matrix(NA,nrow = 1000,ncol = 25)
 pars_accept <- c()
 t1 <- Sys.time()
 set <- 1
 # set.seed(1)
-while(set < 301){
+while(set < 1001){
   message("set",set)
   pars <- prior_gen_secsse(1:6,1:6)
   obs_sim <- get_secsse_sim(parameters = as.numeric(pars),
-                            K = Inf,
+                            pool_init_states = NULL,
                             replicates = 1)
-  if (length(obs_sim[[1]]$examTraits) > 20 &&
-      length(obs_sim[[1]]$examTraits) < 600 &&
-      length(unique(obs_sim[[1]]$examTraits)) > 1) {
+  if (length(obs_sim[[1]]$obs_traits) > 20 &&
+      length(obs_sim[[1]]$obs_traits) < 1000 &&
+      length(unique(obs_sim[[1]]$obs_traits)) > 1 &&
+      sum(obs_sim[[1]]$obs_traits == 1) > 2 &&
+      sum(obs_sim[[1]]$obs_traits == 2) > 2) {
     ss[set,] <- calc_epsilon_init_secsse_test(sim = obs_sim)
     pars_accept <- rbind(pars_accept, pars)
     set <- set + 1
@@ -285,18 +287,18 @@ dt <- t2-t1
 dt
 
 
-colnames(ss) <- c("state1","state2","tree_size","tip_ratio",
-                  "mpd","mpd_diff","mpd_s1","mpd_s2",
-                  "mntd","mntd_diff","mntd_s1","mntd_s2",
-                  "sdpd","sdpd_diff","sdntd","sdntd_diff",
-                  "K","D","nltt","colless",
-                  "spect_log_median","spect_prin","sackin")
+colnames(ss) <- c("S1","S2","Tree size","Tip ratio",
+                  "MPD","MPD 12","MPD1","MPD2",
+                  "MNTD","MNTD 12","MNTD1","MNTD2",
+                  "SDPD","SDPD 12","SDNTD","SDNTD 12",
+                  "K","D","NLTT","NLTT1","NLTT2","Colless",
+                  "Spect_log","Spect_prin","Sackin")
 
-save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_fix_MCMC/random_space_ss.RData")
+save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/random_space_ss.RData")
 
 colnames(pars_accept) <- c("lam1","lam2","mu1","mu2","q12","q21")
 pars_ss <-data.frame(pars_accept,ss)
-save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_fix_MCMC/random_space_pars_ss.RData")
+save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/random_space_pars_ss.RData")
 p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
                                       ylab = "Summary statistics", k_col = 2, k_row = 2)
-saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse_fix_MCMC/ss_heatmap/heatmap_ss_random.html"))
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/heatmap_ss_random.html"))

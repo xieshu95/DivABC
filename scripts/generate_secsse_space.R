@@ -23,6 +23,21 @@ secsse_MCMC_test = secsse_ABC_test
 save(secsse_ABC_test, file = "inst/extdata/secsse_ABC_test.rda")
 save(secsse_MCMC_test, file = "inst/extdata/secsse_MCMC_test.rda")
 
+
+write.csv2(
+  secsse_ABC_test,
+  "data/secsse_ABC_test.csv",
+  row.names = FALSE
+)
+
+
+write.csv2(
+  secsse_MCMC_test,
+  "data/secsse_MCMC_test.csv",
+  row.names = FALSE
+)
+
+
 # secsse_ABC_test1 <- secsse_ABC[rep(1, 100), ]
 # rownames(secsse_ABC_test1) <- 1:nrow(secsse_ABC_test1)
 # save(secsse_ABC_test1, file = "inst/extdata/secsse_ABC_test1.rda")

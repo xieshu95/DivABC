@@ -12,6 +12,7 @@ save_output <- TRUE
 metadata <- paste0("This is parameter set ", param_set)
 
 library(TraisieABC)
+library(DAISIE)
 
 run_MCMC_DAISIE(
   param_space_name = args[1],
