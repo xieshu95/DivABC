@@ -69,6 +69,16 @@ MCMC <- function(datalist,
         # chain[(i - burnin) / thinning + 1, ] <- parameters
       }
     }
+
+    if (((i - burnin) / thinning) == 30000 ||
+        ((i - burnin) / thinning) == 40000){
+      save_output(
+        output = coda::as.mcmc(chain),
+        param_space_name = param_space_name,
+        param_set = param_set,
+        ss_set = 1
+      )
+    }
   }
   cat("\nFinished MCMC.\n")
   #return a mcmc object, used by coda to plot

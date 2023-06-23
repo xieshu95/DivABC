@@ -1603,6 +1603,7 @@ mu_cor <- c()
 gam_cor <- c()
 laa_cor <- c()
 
+seq <- seq(1,5001,2)
 for(i in 1:160){
   file_to_load <- grep(paste0("DAISIE_MCMC_short_DI_param_set_", i,"_ss_1.RData"), #"_rep",rep,
                        files,
@@ -1613,10 +1614,10 @@ for(i in 1:160){
 
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-    lac_cor <- c(lac_cor, autocorr(output[,1], lags = c(2), relative=TRUE)) # output[4002:5001,1]
-    mu_cor <- c(mu_cor, autocorr(output[,2], lags = c(2), relative=TRUE))
-    gam_cor <- c(gam_cor, autocorr(output[,3], lags = c(2), relative=TRUE))
-    laa_cor <- c(laa_cor, autocorr(output[,4], lags = c(2), relative=TRUE))
+    lac_cor <- c(lac_cor, autocorr(coda::as.mcmc(output[seq,1]), lags = c(1), relative=TRUE)) # output[4002:5001,1]
+    mu_cor <- c(mu_cor, autocorr(coda::as.mcmc(output[seq,2]), lags = c(1), relative=TRUE))
+    gam_cor <- c(gam_cor, autocorr(coda::as.mcmc(output[seq,3]), lags = c(1), relative=TRUE))
+    laa_cor <- c(laa_cor, autocorr(coda::as.mcmc(output[seq,4]), lags = c(1), relative=TRUE))
   } else {
     lac_cor <- c(lac_cor, rep(NA,1)) #rep(NA,400)
     mu_cor <- c(mu_cor, rep(NA,1))
