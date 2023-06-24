@@ -753,3 +753,56 @@ for(test in c(1,2,3,4)){
   while (!is.null(dev.list()))  dev.off()
 }
 
+#####
+library(coda)
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/secsse_MCMC_test"
+files <- list.files(folder_path)
+param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
+
+
+lam1_cor <- c()
+lam2_cor <- c()
+mu1_cor <- c()
+mu2_cor <- c()
+q12_cor <- c()
+q21_cor <- c()
+
+seq <- seq(1,5001,2)
+for(i in 1:350){
+  file_to_load <- grep(paste0("secsse_MCMC_test_param_set_", i,"_ss_1.RData"), #"_rep",rep,
+                       files,
+                       value = TRUE,
+                       fixed = TRUE)
+
+  if (!identical(file_to_load, character())) {
+    load(file.path(folder_path, file_to_load))
+    lam1_cor <- c(lam1_cor,autocorr(coda::as.mcmc(output[seq,1]), lags = c(1), relative=TRUE))
+    lam2_cor <- c(lam2_cor,autocorr(coda::as.mcmc(output[seq,2]), lags = c(1), relative=TRUE))
+    mu1_cor <- c(mu1_cor,autocorr(coda::as.mcmc(output[seq,3]), lags = c(1), relative=TRUE))
+    mu2_cor <- c(mu2_cor,autocorr(coda::as.mcmc(output[seq,4]), lags = c(1), relative=TRUE))
+    q12_cor <- c(q12_cor,autocorr(coda::as.mcmc(output[seq,5]), lags = c(1), relative=TRUE))
+    q21_cor <- c(q21_cor,autocorr(coda::as.mcmc(output[seq,6]), lags = c(1), relative=TRUE))
+
+  } else {
+    lam1_cor <- c(lam1_cor,NA)
+    lam2_cor <- c(lam2_cor,NA)
+    mu1_cor <- c(mu1_cor,NA)
+    mu2_cor <- c(mu2_cor,NA)
+    q12_cor <- c(q12_cor,NA)
+    q21_cor <- c(q21_cor,NA)
+  }
+}
+
+whole_df_cor <- data.frame(param_data,
+                           lam1_cor,lam2_cor,mu1_cor,mu2_cor,q12_cor,q21_cor)
+
+save(whole_df_cor,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/whole_df_cor_lag1.RData"))
+
+plot(density(whole_df_cor[,7],na.rm = T))
+
+median(whole_df_cor[,7],na.rm = T)
+median(whole_df_cor[,8],na.rm = T)
+median(whole_df_cor[,9],na.rm = T)
+median(whole_df_cor[,10],na.rm = T)
+median(whole_df_cor[,11],na.rm = T)
+median(whole_df_cor[,12],na.rm = T)
