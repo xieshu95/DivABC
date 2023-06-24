@@ -110,7 +110,7 @@ run_ABC <- function(param_space_name,
     # init_epsilon <- calc_epsilon_init_secsse(sim = obs_sim)
     # init_epsilon_all <- c(50,50,10,10,100,100,1,1,1)
     if(ss_set == 0){
-      init_epsilon <- c(10,0.2,0.2,0.2,0.2,0.5)
+      init_epsilon <- c(20,0.5,0.5,0.5,0.5,0.5)
     } else if (ss_set == 1){
       init_epsilon <- c(1,1,1,1)
     }
