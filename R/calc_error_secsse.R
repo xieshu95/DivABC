@@ -15,35 +15,38 @@ calc_error_secsse <- function(sim_1,
                          tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
 
   ## mpd s1
-  mpd1_s1 <- treestats::mean_pair_dist(phy1_s1) ## sim1 state1 mpd
-  mpd2_s1 <- treestats::mean_pair_dist(phy2_s1) ## sim2 state1 mpd
-  mpd_s1 <- abs(mpd1_s1 - mpd2_s1)
+  mpd1 <- treestats::mean_pair_dist(sim_1$phy) ## sim1 state1 mpd
+  mpd2 <- treestats::mean_pair_dist(sim_2$phy) ## sim2 state1 mpd
+  mpd <- abs(mpd1 - mpd2)
 
-  mpd1_s2 <- treestats::mean_pair_dist(phy1_s2)
-  mpd2_s2 <- treestats::mean_pair_dist(phy2_s2)
-  mpd_s2 <- abs(mpd1_s2 - mpd2_s2)
+  # mpd1_s2 <- treestats::mean_pair_dist(phy1_s2)
+  # mpd2_s2 <- treestats::mean_pair_dist(phy2_s2)
+  # mpd_s2 <- abs(mpd1_s2 - mpd2_s2)
 
-  # mntd_diff
-  mntd1_s1 <- treestats::mntd(phy1_s1)
-  mntd2_s1 <- treestats::mntd(phy2_s1)
-  mntd_s1 <- abs(mntd1_s1 - mntd2_s1)
-
-  mntd1_s2 <- treestats::mntd(phy1_s2)
-  mntd2_s2 <- treestats::mntd(phy2_s2)
-  mntd_s2 <- abs(mntd1_s2 - mntd2_s2)
+  # # mntd_diff
+  # mntd1_s1 <- treestats::mntd(phy1_s1)
+  # mntd2_s1 <- treestats::mntd(phy2_s1)
+  # mntd_s1 <- abs(mntd1_s1 - mntd2_s1)
+  #
+  # mntd1_s2 <- treestats::mntd(phy1_s2)
+  # mntd2_s2 <- treestats::mntd(phy2_s2)
+  # mntd_s2 <- abs(mntd1_s2 - mntd2_s2)
 
   # D statistic
   D1 <- calc_D(sim_1)
   D2 <- calc_D(sim_2)
   D <- abs (D1 - D2)
 
-  # state 1&2
-  # num_state1_sim1 <- length(which(sim_1$obs_traits == 1))
-  # num_state2_sim1 <- length(which(sim_1$obs_traits == 2))
-  #
-  # num_state1_sim2 <- length(which(sim_2$obs_traits == 1))
-  # num_state2_sim2 <- length(which(sim_2$obs_traits == 2))
-  #
+  # tip ratio
+  num_state1_sim1 <- sum(sim_1$obs_traits == 1)
+  num_state2_sim1 <- sum(sim_1$obs_traits == 2)
+  tip_ratio_sim1 <- num_state2_sim1/num_state1_sim1
+
+  num_state1_sim2 <- sum(sim_2$obs_traits == 1)
+  num_state2_sim2 <- sum(sim_2$obs_traits == 2)
+  tip_ratio_sim2 <- num_state2_sim2/num_state1_sim2
+  tip_ratio <- abs(tip_ratio_sim1 - tip_ratio_sim2)
+
   # num_state1 <- abs(num_state1_sim1 - num_state1_sim2)
   # num_state2 <- abs(num_state2_sim1 - num_state2_sim2)
 
@@ -58,16 +61,13 @@ calc_error_secsse <- function(sim_1,
   #                log(spect_2$principal_eigenvalue) )
 
   return(
-    c(mpd_s1,
-      mpd_s2,
-      mntd_s1,
-      mntd_s2,
-      D,
-      # num_state1,
-      # num_state2,
+    c(mpd,
       nltt,
       nltt_s1,
-      nltt_s2)
+      nltt_s2,
+      D,
+      tip_ratio
+      )
   )
 }
 
@@ -100,11 +100,11 @@ calc_error_secsse_nltt <- function(sim_1,
   D <- abs (D1 - D2)
 
   # state 1&2
-  # num_state1_sim1 <- length(which(sim_1$obs_traits == 1))
-  # num_state2_sim1 <- length(which(sim_1$obs_traits == 2))
+  # num_state1_sim1 <- sum(sim_1$obs_traits == 1)
+  # num_state2_sim1 <- sum(sim_1$obs_traits == 2)
   #
-  # num_state1_sim2 <- length(which(sim_2$obs_traits == 1))
-  # num_state2_sim2 <- length(which(sim_2$obs_traits == 2))
+  # num_state1_sim2 <- sum(sim_2$obs_traits == 1)
+  # num_state2_sim2 <- sum(sim_2$obs_traits == 2)
   #
   # num_state1 <- abs(num_state1_sim1 - num_state1_sim2)
   # num_state2 <- abs(num_state2_sim1 - num_state2_sim2)
@@ -264,8 +264,8 @@ calc_ss_secsse <- function(sim) {
 
 
   # state 1
-  num_state1 <- length(which(sim$obs_traits == 1))
-  num_state2 <- length(which(sim$obs_traits == 2))
+  num_state1 <- sum(sim$obs_traits == 1)
+  num_state2 <- sum(sim$obs_traits == 2)
   total_spec <- num_state1 + num_state2
   tip_ratio <- max(num_state1,num_state2)/min(num_state1,num_state2)
 
