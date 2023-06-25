@@ -99,21 +99,21 @@ calc_error_secsse_nltt <- function(sim_1,
   D2 <- calc_D(sim_2)
   D <- abs (D1 - D2)
 
-  # state 1&2
-  # num_state1_sim1 <- sum(sim_1$obs_traits == 1)
-  # num_state2_sim1 <- sum(sim_1$obs_traits == 2)
-  #
-  # num_state1_sim2 <- sum(sim_2$obs_traits == 1)
-  # num_state2_sim2 <- sum(sim_2$obs_traits == 2)
-  #
-  # num_state1 <- abs(num_state1_sim1 - num_state1_sim2)
-  # num_state2 <- abs(num_state2_sim1 - num_state2_sim2)
+  # # tip ratio
+  tip_ratio_sim1 <- min(sum(sim_1$obs_traits == 2),sum(sim_1$obs_traits == 1))/
+    max(sum(sim_1$obs_traits == 2),sum(sim_1$obs_traits == 1))
+  tip_ratio_sim2 <- min(sum(sim_2$obs_traits == 2),sum(sim_2$obs_traits == 1))/
+    max(sum(sim_2$obs_traits == 2),sum(sim_2$obs_traits == 1))
+
+  tip_ratio <- abs(tip_ratio_sim1 - tip_ratio_sim2)
+
 
   return(
     c(nltt,
       nltt_s1,
       nltt_s2,
-      D)
+      D,
+      tip_ratio)
   )
 }
 
