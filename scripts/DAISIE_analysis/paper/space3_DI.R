@@ -1603,7 +1603,7 @@ mu_cor <- c()
 gam_cor <- c()
 laa_cor <- c()
 
-seq <- seq(1,5001,2)
+seq <- seq(1,50001,10)
 for(i in 1:160){
   file_to_load <- grep(paste0("DAISIE_MCMC_short_DI_param_set_", i,"_ss_1.RData"), #"_rep",rep,
                        files,
@@ -1629,12 +1629,18 @@ for(i in 1:160){
 whole_df_cor <- data.frame(param_data,
                             lac_cor,mu_cor,gam_cor,laa_cor)
 
-save(whole_df_cor,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/whole_df_cor_lag1.RData"))
+save(whole_df_cor,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/whole_df_cor_lag2.RData"))
 
-plot(density(whole_df_cor[,7],na.rm = T))
+plot(density(whole_df_cor[,6],na.rm = T))
 median(whole_df_cor[,6],na.rm = T)
 median(whole_df_cor[,7],na.rm = T)
 median(whole_df_cor[,8],na.rm = T)
 median(whole_df_cor[,9],na.rm = T)
+
+sd(whole_df_cor[,6],na.rm = T)
+sd(whole_df_cor[,7],na.rm = T)
+sd(whole_df_cor[,8],na.rm = T)
+sd(whole_df_cor[,9],na.rm = T)
+
 #
 # autocorr(output[,1], lags = c(1), relative=TRUE)

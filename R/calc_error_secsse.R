@@ -15,9 +15,9 @@ calc_error_secsse <- function(sim_1,
                          tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
 
   ## mpd s1
-  mpd1 <- treestats::mean_pair_dist(sim_1$phy) ## sim1 state1 mpd
-  mpd2 <- treestats::mean_pair_dist(sim_2$phy) ## sim2 state1 mpd
-  mpd <- abs(mpd1 - mpd2)
+  # mpd1 <- treestats::mean_pair_dist(sim_1$phy) ## sim1 state1 mpd
+  # mpd2 <- treestats::mean_pair_dist(sim_2$phy) ## sim2 state1 mpd
+  # mpd <- abs(mpd1 - mpd2)
 
   # mpd1_s2 <- treestats::mean_pair_dist(phy1_s2)
   # mpd2_s2 <- treestats::mean_pair_dist(phy2_s2)
@@ -40,15 +40,20 @@ calc_error_secsse <- function(sim_1,
   # tip ratio
   num_state1_sim1 <- sum(sim_1$obs_traits == 1)
   num_state2_sim1 <- sum(sim_1$obs_traits == 2)
-  tip_ratio_sim1 <- num_state2_sim1/num_state1_sim1
+
 
   num_state1_sim2 <- sum(sim_2$obs_traits == 1)
   num_state2_sim2 <- sum(sim_2$obs_traits == 2)
-  tip_ratio_sim2 <- num_state2_sim2/num_state1_sim2
+
+  tip_ratio_sim1 <- min(num_state1_sim1,num_state2_sim1)/
+    max(num_state1_sim1,num_state2_sim1)
+  tip_ratio_sim2 <- min(num_state1_sim2,num_state2_sim2)/
+    max(num_state1_sim2,num_state2_sim2)
+
   tip_ratio <- abs(tip_ratio_sim1 - tip_ratio_sim2)
 
-  # num_state1 <- abs(num_state1_sim1 - num_state1_sim2)
-  # num_state2 <- abs(num_state2_sim1 - num_state2_sim2)
+  num_state1 <- abs(num_state1_sim1 - num_state1_sim2)
+  num_state2 <- abs(num_state2_sim1 - num_state2_sim2)
 
   # nLTT
   nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
@@ -61,12 +66,13 @@ calc_error_secsse <- function(sim_1,
   #                log(spect_2$principal_eigenvalue) )
 
   return(
-    c(mpd,
-      nltt,
+    c(nltt,
       nltt_s1,
       nltt_s2,
       D,
-      tip_ratio
+      tip_ratio,
+      num_state1,
+      num_state2
       )
   )
 }

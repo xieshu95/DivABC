@@ -73,12 +73,12 @@ for (num_ss in c(1)){
   files <- list.files(folder_path)
   param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
   param_data2<-param_data[rep(seq_len(nrow(param_data)), each=500),] #500
-  lam1_init <- c()
-  lam2_init <- c()
-  mu1_init <- c()
-  mu2_init <- c()
-  q12_init <- c()
-  q21_init <- c()
+  lam1_abc <- c()
+  lam2_abc <- c()
+  mu1_abc <- c()
+  mu2_abc <- c()
+  q12_abc <- c()
+  q21_abc <- c()
   n_iter <- c()
   n_iteration <- c()
   for(i in 1:350){
@@ -92,64 +92,64 @@ for (num_ss in c(1)){
       load(file.path(folder_path, file_to_load))
       num_iter <- output$n_iter
       if(output$n_iter <= 2){
-        lam1_init <- c(lam1_init, rep(NA,500))
-        lam2_init <- c(lam2_init, rep(NA,500))
-        mu1_init <- c(mu1_init, rep(NA,500))
-        mu2_init <- c(mu2_init, rep(NA,500))
-        q12_init <- c(q12_init, rep(NA,500))
-        q21_init <- c(q21_init, rep(NA,500))
+        lam1_abc <- c(lam1_abc, rep(NA,500))
+        lam2_abc <- c(lam2_abc, rep(NA,500))
+        mu1_abc <- c(mu1_abc, rep(NA,500))
+        mu2_abc <- c(mu2_abc, rep(NA,500))
+        q12_abc <- c(q12_abc, rep(NA,500))
+        q21_abc <- c(q21_abc, rep(NA,500))
         n_iteration <- c(n_iteration,rep(NA,500))
       } else if (nrow(output$ABC[[output$n_iter]]) == 500) {
-        lam1_init <- c(lam1_init, output$ABC[[num_iter]][,1])
-        lam2_init <- c(lam2_init, output$ABC[[num_iter]][,2])
-        mu1_init <- c(mu1_init, output$ABC[[num_iter]][,3])
-        mu2_init <- c(mu2_init, output$ABC[[num_iter]][,4])
-        q12_init <- c(q12_init, output$ABC[[num_iter]][,5])
-        q21_init <- c(q21_init, output$ABC[[num_iter]][,6])
+        lam1_abc <- c(lam1_abc, output$ABC[[num_iter]][,1])
+        lam2_abc <- c(lam2_abc, output$ABC[[num_iter]][,2])
+        mu1_abc <- c(mu1_abc, output$ABC[[num_iter]][,3])
+        mu2_abc <- c(mu2_abc, output$ABC[[num_iter]][,4])
+        q12_abc <- c(q12_abc, output$ABC[[num_iter]][,5])
+        q21_abc <- c(q21_abc, output$ABC[[num_iter]][,6])
         n_iteration <- c(n_iteration,rep(num_iter,500))
       } else {
-        lam1_init <- c(lam1_init, output$ABC[[num_iter-1]][,1])
-        lam2_init <- c(lam2_init, output$ABC[[num_iter-1]][,2])
-        mu1_init <- c(mu1_init, output$ABC[[num_iter-1]][,3])
-        mu2_init <- c(mu2_init, output$ABC[[num_iter-1]][,4])
-        q12_init <- c(q12_init, output$ABC[[num_iter-1]][,5])
-        q21_init <- c(q21_init, output$ABC[[num_iter-1]][,6])
+        lam1_abc <- c(lam1_abc, output$ABC[[num_iter-1]][,1])
+        lam2_abc <- c(lam2_abc, output$ABC[[num_iter-1]][,2])
+        mu1_abc <- c(mu1_abc, output$ABC[[num_iter-1]][,3])
+        mu2_abc <- c(mu2_abc, output$ABC[[num_iter-1]][,4])
+        q12_abc <- c(q12_abc, output$ABC[[num_iter-1]][,5])
+        q21_abc <- c(q21_abc, output$ABC[[num_iter-1]][,6])
         n_iteration <- c(n_iteration,rep(num_iter,500))
       }
     } else {
-      lam1_init <- c(lam1_init, rep(NA,500))
-      lam2_init <- c(lam2_init, rep(NA,500))
-      mu1_init <- c(mu1_init, rep(NA,500))
-      mu2_init <- c(mu2_init, rep(NA,500))
-      q12_init <- c(q12_init, rep(NA,500))
-      q21_init <- c(q21_init, rep(NA,500))
+      lam1_abc <- c(lam1_abc, rep(NA,500))
+      lam2_abc <- c(lam2_abc, rep(NA,500))
+      mu1_abc <- c(mu1_abc, rep(NA,500))
+      mu2_abc <- c(mu2_abc, rep(NA,500))
+      q12_abc <- c(q12_abc, rep(NA,500))
+      q21_abc <- c(q21_abc, rep(NA,500))
       n_iteration <- c(n_iteration,rep(NA,500))
     }
   }
-  whole_df_init <- data.frame(param_data2,n_iteration,
+  whole_df_ABC <- data.frame(param_data2,n_iteration,
                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
-                             lam1_init,lam2_init,mu1_init,mu2_init,q12_init,q21_init)
-  save(whole_df_init,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/whole_df_init_test_ss",num_ss,".RData"))
+                             lam1_abc,lam2_abc,mu1_abc,mu2_abc,q12_abc,q21_abc)
+  save(whole_df_ABC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/whole_df_ABC_test_ss",num_ss,".RData"))
 
-  # whole_df_init$dlam <- (whole_df_init$lam2-whole_df_init$lam1)/(whole_df_init$lam2+whole_df_init$lam1)
-  # whole_df_init$dlam_init <- (whole_df_init$lam2_init-whole_df_init$lam1_init)/(whole_df_init$lam2_init+whole_df_init$lam1_init)
-  # whole_df_init$dmu <- (whole_df_init$mu2-whole_df_init$mu1)/(whole_df_init$mu2+whole_df_init$mu1)
-  # whole_df_init$dmu_init <- (whole_df_init$mu2_init-whole_df_init$mu1_init)/(whole_df_init$mu2_init+whole_df_init$mu1_init)
-  # whole_df_init$dq <- (whole_df_init$q12-whole_df_init$q21)/(whole_df_init$q12+whole_df_init$q21)
-  # whole_df_init$dq_init <- (whole_df_init$q12_init-whole_df_init$q21_init)/(whole_df_init$q12_init+whole_df_init$q21_init)
+  # whole_df_ABC$dlam <- (whole_df_ABC$lam2-whole_df_ABC$lam1)/(whole_df_ABC$lam2+whole_df_ABC$lam1)
+  # whole_df_ABC$dlam_ABC <- (whole_df_ABC$lam2_ABC-whole_df_ABC$lam1_ABC)/(whole_df_ABC$lam2_ABC+whole_df_ABC$lam1_ABC)
+  # whole_df_ABC$dmu <- (whole_df_ABC$mu2-whole_df_ABC$mu1)/(whole_df_ABC$mu2+whole_df_ABC$mu1)
+  # whole_df_ABC$dmu_ABC <- (whole_df_ABC$mu2_ABC-whole_df_ABC$mu1_ABC)/(whole_df_ABC$mu2_ABC+whole_df_ABC$mu1_ABC)
+  # whole_df_ABC$dq <- (whole_df_ABC$q12-whole_df_ABC$q21)/(whole_df_ABC$q12+whole_df_ABC$q21)
+  # whole_df_ABC$dq_ABC <- (whole_df_ABC$q12_ABC-whole_df_ABC$q21_ABC)/(whole_df_ABC$q12_ABC+whole_df_ABC$q21_ABC)
 
-  whole_df_init$net_div1 <- (whole_df_init$lam1-whole_df_init$mu1)
-  whole_df_init$net_div2 <- (whole_df_init$lam2-whole_df_init$mu2)
-  whole_df_init$net_div_init1 <- (whole_df_init$lam1_init-whole_df_init$mu1_init)
-  whole_df_init$net_div_init2 <- (whole_df_init$lam2_init-whole_df_init$mu2_init)
+  whole_df_ABC$net_div1 <- (whole_df_ABC$lam1-whole_df_ABC$mu1)
+  whole_df_ABC$net_div2 <- (whole_df_ABC$lam2-whole_df_ABC$mu2)
+  whole_df_ABC$net_div_ABC1 <- (whole_df_ABC$lam1_abc-whole_df_ABC$mu1_abc)
+  whole_df_ABC$net_div_ABC2 <- (whole_df_ABC$lam2_abc-whole_df_ABC$mu2_abc)
 
 
-  whole_df_init$ext_frac1 <- (whole_df_init$mu1)/(whole_df_init$lam1)
-  whole_df_init$ext_frac2 <- (whole_df_init$mu2)/(whole_df_init$lam2)
-  whole_df_init$ext_frac_init1 <- (whole_df_init$mu1_init)/(whole_df_init$lam1_init)
-  whole_df_init$ext_frac_init2 <- (whole_df_init$mu2_init)/(whole_df_init$lam2_init)
-  save(whole_df_init,file =
-         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/delta_whole_df_init_test_ss",num_ss,".RData"))
+  whole_df_ABC$ext_frac1 <- (whole_df_ABC$mu1)/(whole_df_ABC$lam1)
+  whole_df_ABC$ext_frac2 <- (whole_df_ABC$mu2)/(whole_df_ABC$lam2)
+  whole_df_ABC$ext_frac_ABC1 <- (whole_df_ABC$mu1_abc)/(whole_df_ABC$lam1_abc)
+  whole_df_ABC$ext_frac_ABC2 <- (whole_df_ABC$mu2_abc)/(whole_df_ABC$lam2_abc)
+  save(whole_df_ABC,file =
+         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/delta_whole_df_ABC_test_ss",num_ss,".RData"))
 
 
 }
@@ -168,6 +168,7 @@ mu1_mcmc <- c()
 mu2_mcmc <- c()
 q12_mcmc <- c()
 q21_mcmc <- c()
+seq <- seq(1,10001,2)
 for(i in 1:350){
   file_to_load <- grep(paste0("secsse_MCMC_test_param_set_", i,"_ss_1.RData"), #"_rep",rep,
                        files,
@@ -175,12 +176,12 @@ for(i in 1:350){
                        fixed = TRUE)
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-    lam1_mcmc <- c(lam1_mcmc, output[,1]) #4502:5001
-    lam2_mcmc <- c(lam2_mcmc, output[,2])
-    mu1_mcmc <- c(mu1_mcmc, output[,3])
-    mu2_mcmc <- c(mu2_mcmc, output[,4])
-    q12_mcmc <- c(q12_mcmc, output[,5])
-    q21_mcmc <- c(q21_mcmc, output[,6])
+    lam1_mcmc <- c(lam1_mcmc, output[seq,1]) #4502:10001
+    lam2_mcmc <- c(lam2_mcmc, output[seq,2])
+    mu1_mcmc <- c(mu1_mcmc, output[seq,3])
+    mu2_mcmc <- c(mu2_mcmc, output[seq,4])
+    q12_mcmc <- c(q12_mcmc, output[seq,5])
+    q21_mcmc <- c(q21_mcmc, output[seq,6])
   } else {
     lam1_mcmc <- c(lam1_mcmc, rep(NA,5001)) #500
     lam2_mcmc <- c(lam2_mcmc, rep(NA,5001))
@@ -258,20 +259,20 @@ save(whole_df_MLE,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/roun
 
 
 ## median
-for (num_ss in c(1)){
+for (c in c(1)){
   # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_init_new/delta_whole_df_init_test.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/delta_whole_df_init_test_ss",num_ss,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/delta_whole_df_ABC_test_ss",num_ss,".RData"))
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/delta_whole_df_MCMC_test.RData"))
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/whole_df_MLE.RData"))
 
   ## get number of iterations and mean values
-  df <- whole_df_init
+  df <- whole_df_ABC
   n <- 500
-  ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+  ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), mean())[-1]
 
   df<-whole_df_MCMC
   n <- 5001
-  MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+  MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), mean)[-1]
 
   MLE_median <- whole_df_MLE
 
@@ -284,12 +285,12 @@ for (num_ss in c(1)){
   save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/AMM_per_set_test_ss",num_ss,".RData"))
 
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/AMM_per_set_test_ss",num_ss,".RData"))
-  AMM_all_df$dlam1_init <- AMM_all_df$lam1_init - AMM_all_df$lam1
-  AMM_all_df$dlam2_init <- AMM_all_df$lam2_init - AMM_all_df$lam2
-  AMM_all_df$dmu1_init <- AMM_all_df$mu1_init - AMM_all_df$mu1
-  AMM_all_df$dmu2_init <- AMM_all_df$mu2_init - AMM_all_df$mu2
-  AMM_all_df$dq12_init <- AMM_all_df$q12_init - AMM_all_df$q12
-  AMM_all_df$dq21_init <- AMM_all_df$q21_init - AMM_all_df$q21
+  AMM_all_df$dlam1_abc <- AMM_all_df$lam1_abc - AMM_all_df$lam1
+  AMM_all_df$dlam2_abc <- AMM_all_df$lam2_abc - AMM_all_df$lam2
+  AMM_all_df$dmu1_abc <- AMM_all_df$mu1_abc - AMM_all_df$mu1
+  AMM_all_df$dmu2_abc <- AMM_all_df$mu2_abc - AMM_all_df$mu2
+  AMM_all_df$dq12_abc <- AMM_all_df$q12_abc - AMM_all_df$q12
+  AMM_all_df$dq21_abc <- AMM_all_df$q21_abc - AMM_all_df$q21
   AMM_all_df$tree_size <- ss$tree_size
   AMM_all_df$dlam1_mcmc <- AMM_all_df$lam1_mcmc - AMM_all_df$lam1
   AMM_all_df$dlam2_mcmc <- AMM_all_df$lam2_mcmc - AMM_all_df$lam2
@@ -316,16 +317,16 @@ for (num_ss in c(1)){
 ## run\
 library(ggplot2)
 for(num_ss in c(1)){
-  for(i in 1:7){
+  for(i in c(1)){
     load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/AMM_per_set_drate_test_ss",num_ss,".RData"))
     color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
     AMM <- AMM_all_df[(i*50-49):(i*50),]
     p_lam1 <-ggplot2::ggplot(data = AMM) +
       ggplot2::theme_bw() +
-      ggplot2::ylim(0,2.0)+
+      ggplot2::ylim(0,1.1)+
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(lam1_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(lam1_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(lam1_init),color = "ABC"),shape = 18) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(lam1_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
       ggplot2::theme(title = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
@@ -338,10 +339,10 @@ for(num_ss in c(1)){
 
     p_lam2 <-ggplot2::ggplot(data = AMM) +
       ggplot2::theme_bw() +
-      ggplot2::ylim(0,2.0)+
+      ggplot2::ylim(0,1.1)+
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(lam2_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(lam2_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(lam2_init),color = "ABC"),shape = 18) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(lam2_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
       ggplot2::theme(title = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
@@ -354,10 +355,10 @@ for(num_ss in c(1)){
 
     p_mu1 <-ggplot2::ggplot(data = AMM) +
       ggplot2::theme_bw() +
-      ggplot2::ylim(0,1.5)+
+      ggplot2::ylim(0,1.1)+
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(mu1_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(mu1_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(mu1_init),color = "ABC"),shape = 18) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(mu1_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
       ggplot2::theme(title = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
@@ -370,10 +371,10 @@ for(num_ss in c(1)){
 
     p_mu2 <-ggplot2::ggplot(data = AMM) +
       ggplot2::theme_bw() +
-      ggplot2::ylim(0,1.5)+
+      ggplot2::ylim(0,1.1)+
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(mu2_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(mu2_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(mu2_init),color = "ABC"),shape = 18) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(mu2_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
       ggplot2::theme(title = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
@@ -386,10 +387,10 @@ for(num_ss in c(1)){
 
     p_q12 <-ggplot2::ggplot(data = AMM) +
       ggplot2::theme_bw() +
-      ggplot2::ylim(0,1.5)+
+      ggplot2::ylim(0,1.1)+
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(q12_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(q12_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(q12_init),color = "ABC"),shape = 18) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(q12_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
       ggplot2::theme(title = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
@@ -402,10 +403,10 @@ for(num_ss in c(1)){
 
     p_q21 <-ggplot2::ggplot(data = AMM) +
       ggplot2::theme_bw() +
-      ggplot2::ylim(0,1.5)+
+      ggplot2::ylim(0,1.1)+
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(q21_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(q21_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(q21_init),color = "ABC"),shape = 18) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(q21_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
       ggplot2::theme(title = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
@@ -417,7 +418,133 @@ for(num_ss in c(1)){
                                   labels = c("ABC", "MCMC", "MLE"))
 
     tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/exact_rate_test",i,"_ss",num_ss,".tiff"),
-         units="px", width=3600, height=2000,res = 400,compression="lzw")
+         units="px", width=3000, height=1500,res = 380,compression="lzw")
+    params <- cowplot::plot_grid(
+      p_lam1+ggplot2::theme(legend.position = "none"),
+      p_mu1+ggplot2::theme(legend.position = "none"),
+      p_q12+ggplot2::theme(legend.position = "none"),
+      p_lam2+ggplot2::theme(legend.position = "none"),
+      p_mu2+ggplot2::theme(legend.position = "none"),
+      p_q21+ggplot2::theme(legend.position = "none"),
+      align = "hv", nrow = 2, ncol = 3
+    )
+    legend <- cowplot::get_legend(
+      p_lam1 + theme(legend.box.margin = margin(0, 0, 0, 6))
+    )
+    param_estimates <- cowplot::plot_grid(params,legend,
+                                          rel_widths = c(3,0.4)
+    )
+    print(param_estimates)
+    while (!is.null(dev.list()))  dev.off()
+  }
+}
+
+
+## run\ drate
+library(ggplot2)
+for(num_ss in c(1)){
+  for(i in c(1)){
+    load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/AMM_per_set_drate_test_ss",num_ss,".RData"))
+    color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
+    AMM <- AMM_all_df[(i*50-49):(i*50),]
+    p_lam1 <-ggplot2::ggplot(data = AMM) +
+      ggplot2::theme_bw() +
+      ggplot2::ylim(-0.26,1)+
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dlam1_MLE),color = "MLE")) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dlam1_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dlam1_abc),color = "ABC"),shape = 18) +
+      ggplot2::theme_classic() +
+      ggplot2::theme(title = ggplot2::element_text(size = 15),
+                     text = ggplot2::element_text(size = 15)) +
+      ggplot2::xlab("Tree size") +
+      ggplot2::ylab(expression(Delta~lambda[1]))+
+      ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.3) +
+      ggplot2::scale_color_manual(name = "Method",
+                                  values = color_values,
+                                  labels = c("ABC", "MCMC", "MLE"))
+
+    p_lam2 <-ggplot2::ggplot(data = AMM) +
+      ggplot2::theme_bw() +
+      ggplot2::ylim(-0.26,1)+
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dlam2_MLE),color = "MLE")) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dlam2_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dlam2_abc),color = "ABC"),shape = 18) +
+      ggplot2::theme_classic() +
+      ggplot2::theme(title = ggplot2::element_text(size = 15),
+                     text = ggplot2::element_text(size = 15)) +
+      ggplot2::xlab("Tree size") +
+      ggplot2::ylab(expression(Delta~lambda[2]))+
+      ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.3) +
+      ggplot2::scale_color_manual(name = "Method",
+                                  values = color_values,
+                                  labels = c("ABC", "MCMC", "MLE"))
+
+    p_mu1 <-ggplot2::ggplot(data = AMM) +
+      ggplot2::theme_bw() +
+      ggplot2::ylim(-0.26,1)+
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dmu1_MLE),color = "MLE")) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dmu1_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dmu1_abc),color = "ABC"),shape = 18) +
+      ggplot2::theme_classic() +
+      ggplot2::theme(title = ggplot2::element_text(size = 15),
+                     text = ggplot2::element_text(size = 15)) +
+      ggplot2::xlab("Tree size") +
+      ggplot2::ylab(expression(Delta~mu[1]))+
+      ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.3) +
+      ggplot2::scale_color_manual(name = "Method",
+                                  values = color_values,
+                                  labels = c("ABC", "MCMC", "MLE"))
+
+    p_mu2 <-ggplot2::ggplot(data = AMM) +
+      ggplot2::theme_bw() +
+      ggplot2::ylim(-0.26,1)+
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dmu2_MLE),color = "MLE")) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dmu2_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dmu2_abc),color = "ABC"),shape = 18) +
+      ggplot2::theme_classic() +
+      ggplot2::theme(title = ggplot2::element_text(size = 15),
+                     text = ggplot2::element_text(size = 15)) +
+      ggplot2::xlab("Tree size") +
+      ggplot2::ylab(expression(Delta~mu[2]))+
+      ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.3) +
+      ggplot2::scale_color_manual(name = "Method",
+                                  values = color_values,
+                                  labels = c("ABC", "MCMC", "MLE"))
+
+    p_q12 <-ggplot2::ggplot(data = AMM) +
+      ggplot2::theme_bw() +
+      ggplot2::ylim(-0.26,1)+
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dq12_MLE),color = "MLE")) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dq12_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dq12_abc),color = "ABC"),shape = 18) +
+      ggplot2::theme_classic() +
+      ggplot2::theme(title = ggplot2::element_text(size = 15),
+                     text = ggplot2::element_text(size = 15)) +
+      ggplot2::xlab("Tree size") +
+      ggplot2::ylab(expression(Delta~q[12]))+
+      ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.3) +
+      ggplot2::scale_color_manual(name = "Method",
+                                  values = color_values,
+                                  labels = c("ABC", "MCMC", "MLE"))
+
+    p_q21 <-ggplot2::ggplot(data = AMM) +
+      ggplot2::theme_bw() +
+      ggplot2::ylim(-0.26,1)+
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dq21_MLE),color = "MLE")) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dq21_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (dq21_abc),color = "ABC"),shape = 18) +
+      ggplot2::theme_classic() +
+      ggplot2::theme(title = ggplot2::element_text(size = 15),
+                     text = ggplot2::element_text(size = 15)) +
+      ggplot2::xlab("Tree size") +
+      ggplot2::ylab(expression(Delta~q[21]))+
+      ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.3) +
+      ggplot2::scale_color_manual(name = "Method",
+                                  values = color_values,
+                                  labels = c("ABC", "MCMC", "MLE"))
+
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/delta_rate_test",i,"_ss",num_ss,".tiff"),
+         units="px", width=3000, height=1800,res = 380,compression="lzw")
     params <- cowplot::plot_grid(
       p_lam1+ggplot2::theme(legend.position = "none"),
       p_mu1+ggplot2::theme(legend.position = "none"),
@@ -450,7 +577,7 @@ for(num_ss in c(1)) {
       ggplot2::ylim(-0.1,1.5)+
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(net_div_MLE1),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(net_div_MCMC1),color = "MCMC"),shape = 17,alpha = 0.6) +
-      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(net_div_init1),color = "ABC"),shape = 18) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(net_div_ABC1),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
       ggplot2::theme(title = ggplot2::element_text(size = 12),
                      text = ggplot2::element_text(size = 12)) +
@@ -467,7 +594,7 @@ for(num_ss in c(1)) {
       ggplot2::ylim(-0.1,1.5)+
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(net_div_MLE2),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(net_div_MCMC2),color = "MCMC"),shape = 17,alpha = 0.6) +
-      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(net_div_init2),color = "ABC"),shape = 18) +
+      ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(net_div_ABC2),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
       ggplot2::theme(title = ggplot2::element_text(size = 12),
                      text = ggplot2::element_text(size = 12)) +
@@ -516,7 +643,7 @@ for(num_ss in c(1)){
       ggplot2::ylim(0,2.0)+
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(lam1_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(lam1_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-      ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(lam1_init),color = "ABC"),shape = 18) +
+      ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(lam1_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
       ggplot2::theme(title = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
@@ -532,7 +659,7 @@ for(num_ss in c(1)){
       ggplot2::ylim(0,2.0)+
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(lam2_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(lam2_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-      ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(lam2_init),color = "ABC"),shape = 18) +
+      ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(lam2_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
       ggplot2::theme(title = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
@@ -548,7 +675,7 @@ for(num_ss in c(1)){
       ggplot2::ylim(0,1.5)+
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(mu1_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(mu1_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-      ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(mu1_init),color = "ABC"),shape = 18) +
+      ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(mu1_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
       ggplot2::theme(title = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
@@ -564,7 +691,7 @@ for(num_ss in c(1)){
       ggplot2::ylim(0,1.5)+
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(mu2_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(mu2_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-      ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(mu2_init),color = "ABC"),shape = 18) +
+      ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(mu2_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
       ggplot2::theme(title = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
@@ -580,7 +707,7 @@ for(num_ss in c(1)){
       ggplot2::ylim(0,1.5)+
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(q12_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(q12_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-      ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(q12_init),color = "ABC"),shape = 18) +
+      ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(q12_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
       ggplot2::theme(title = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
@@ -596,7 +723,7 @@ for(num_ss in c(1)){
       ggplot2::ylim(0,1.5)+
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(q21_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(q21_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-      ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(q21_init),color = "ABC"),shape = 18) +
+      ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(q21_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
       ggplot2::theme(title = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
@@ -641,7 +768,7 @@ for(test in c(1,2,3,4)){
     ggplot2::ylim(-0.3,2)+
     ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (lam1_MLE),color = "MLE")) +
     ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (lam1_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-    ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (lam1_init),color = "ABC"),shape = 18) +
+    ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (lam1_abc),color = "ABC"),shape = 18) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 15),
                    text = ggplot2::element_text(size = 15)) +
@@ -657,7 +784,7 @@ for(test in c(1,2,3,4)){
     ggplot2::ylim(-0.3,2)+
     ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (lam2_MLE),color = "MLE")) +
     ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (lam2_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-    ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (lam2_init),color = "ABC"),shape = 18) +
+    ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (lam2_abc),color = "ABC"),shape = 18) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 15),
                    text = ggplot2::element_text(size = 15)) +
@@ -673,7 +800,7 @@ for(test in c(1,2,3,4)){
     ggplot2::ylim(-0.3,2)+
     ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (mu1_MLE),color = "MLE")) +
     ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (mu1_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-    ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (mu1_init),color = "ABC"),shape = 18) +
+    ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (mu1_abc),color = "ABC"),shape = 18) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 15),
                    text = ggplot2::element_text(size = 15)) +
@@ -689,7 +816,7 @@ for(test in c(1,2,3,4)){
     ggplot2::ylim(-0.3,2)+
     ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (mu2_MLE),color = "MLE")) +
     ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (mu2_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-    ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (mu2_init),color = "ABC"),shape = 18) +
+    ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (mu2_abc),color = "ABC"),shape = 18) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 15),
                    text = ggplot2::element_text(size = 15)) +
@@ -705,7 +832,7 @@ for(test in c(1,2,3,4)){
     ggplot2::ylim(-0.3,2)+
     ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (q12_MLE),color = "MLE")) +
     ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (q12_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-    ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (q12_init),color = "ABC"),shape = 18) +
+    ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (q12_abc),color = "ABC"),shape = 18) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 15),
                    text = ggplot2::element_text(size = 15)) +
@@ -721,7 +848,7 @@ for(test in c(1,2,3,4)){
     ggplot2::ylim(-0.3,2)+
     ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (q21_MLE),color = "MLE")) +
     ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (q21_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
-    ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (q21_init),color = "ABC"),shape = 18) +
+    ggplot2::geom_point(ggplot2::aes(x = tree_size,y = (q21_abc),color = "ABC"),shape = 18) +
     ggplot2::theme_classic() +
     ggplot2::theme(title = ggplot2::element_text(size = 15),
                    text = ggplot2::element_text(size = 15)) +
@@ -767,7 +894,7 @@ mu2_cor <- c()
 q12_cor <- c()
 q21_cor <- c()
 
-seq <- seq(1,5001,2)
+seq <- seq(4,5001,4)
 for(i in 1:350){
   file_to_load <- grep(paste0("secsse_MCMC_test_param_set_", i,"_ss_1.RData"), #"_rep",rep,
                        files,
@@ -806,3 +933,11 @@ median(whole_df_cor[,9],na.rm = T)
 median(whole_df_cor[,10],na.rm = T)
 median(whole_df_cor[,11],na.rm = T)
 median(whole_df_cor[,12],na.rm = T)
+
+mean(whole_df_cor[,7],na.rm = T)
+mean(whole_df_cor[,8],na.rm = T)
+mean(whole_df_cor[,9],na.rm = T)
+mean(whole_df_cor[,10],na.rm = T)
+mean(whole_df_cor[,11],na.rm = T)
+mean(whole_df_cor[,12],na.rm = T)
+

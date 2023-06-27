@@ -58,7 +58,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
     print_frequency <- 20
     tried <- 0
     number_accepted <- 0
-    sigma_temp <- sigma * exp(-0.2 * (i - 1))
+    sigma_temp <- sigma * exp(-0.1 * (i - 1))
 
     #replace all vectors
     if (i > 1) {
@@ -176,7 +176,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
                                  sum(init_state == 2),sum(init_state == 3))/length(init_state)
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.5)
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.6)
     }
     ABC <- c()
     for (k in seq_along(new_params)) {
