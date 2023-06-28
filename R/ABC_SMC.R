@@ -99,7 +99,7 @@ ABC_SMC <- function( # nolint indeed a complex function
         accept <- TRUE
 
         # for daisie
-        if(sum(tail(new_sim[[1]][[1]][[1]]$stt_all, n=1)[2:4]) > 1000){
+        if(sum(tail(new_sim[[1]][[1]][[1]]$stt_all, n=1)[2:4]) > 600){
           accept <- FALSE
         }
 

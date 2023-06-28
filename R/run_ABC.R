@@ -42,14 +42,14 @@ run_ABC <- function(param_space_name,
     fixpars = as.numeric(obs_sim_pars[1:4])
 
     # init_epsilon_all <- c(150,150,50,50,10,10)
-    if(ss_set == 0){
-      init_epsilon <- c(200,100,100,20,20,200,100,100)
-    } else if (ss_set == 1){
-      init_epsilon <- c(300,200,200,200)
-    } else if (ss_set == 2){
-      init_epsilon <- c(300,100,100)
-    } else if (ss_set == 3){
-      init_epsilon <- c(300,200,200)
+    if(ss_set == 0){ # all
+      init_epsilon <- c(200,200,50,50,20,20,200,100,50)
+    } else if (ss_set == 1){  # phylogenetic-- nltt+sd
+      init_epsilon <- c(200,200,50,50,20,20)
+    } else if (ss_set == 2){  # tip
+      init_epsilon <- c(200,100,50)
+    } else if (ss_set == 3){  #nltt
+      init_epsilon <- c(100,100,20,20)
     }
 
     abc <- ABC_SMC (
@@ -61,7 +61,7 @@ run_ABC <- function(param_space_name,
       prior_density_function = prior_density_function,
       number_of_particles = 500,
       sigma = 0.1,
-      stop_rate = 0.002,
+      stop_rate = 0.001,
       replicates = 1,
       num_iterations = 15,
       K = as.numeric(obs_sim_pars$K),
