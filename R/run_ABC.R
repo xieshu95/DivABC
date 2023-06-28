@@ -112,7 +112,7 @@ run_ABC <- function(param_space_name,
     if(ss_set == 0){
       init_epsilon <- c(0.5,0.5,0.5,0.5,0.2,30,30)
     } else if (ss_set == 1){
-      init_epsilon <- c(0.5,0.5,0.5,0.5,0.2)
+      init_epsilon <- c(0.5,0.5,0.5,0.5)
     }
     abc <- ABC_SMC_secsse (
       obs_data = obs_sim,

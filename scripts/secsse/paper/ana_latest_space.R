@@ -259,7 +259,7 @@ save(whole_df_MLE,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/roun
 
 
 ## median
-for (c in c(1)){
+for (num_ss in c(1)){
   # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_init_new/delta_whole_df_init_test.RData"))
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/delta_whole_df_ABC_test_ss",num_ss,".RData"))
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/delta_whole_df_MCMC_test.RData"))
@@ -268,11 +268,11 @@ for (c in c(1)){
   ## get number of iterations and mean values
   df <- whole_df_ABC
   n <- 500
-  ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), mean())[-1]
+  ABC_median <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   df<-whole_df_MCMC
   n <- 5001
-  MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), mean)[-1]
+  MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   MLE_median <- whole_df_MLE
 
@@ -317,7 +317,7 @@ for (c in c(1)){
 ## run\
 library(ggplot2)
 for(num_ss in c(1)){
-  for(i in c(1)){
+  for(i in 1:7){
     load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/AMM_per_set_drate_test_ss",num_ss,".RData"))
     color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
     AMM <- AMM_all_df[(i*50-49):(i*50),]
@@ -443,7 +443,7 @@ for(num_ss in c(1)){
 ## run\ drate
 library(ggplot2)
 for(num_ss in c(1)){
-  for(i in c(1)){
+  for(i in 1:7){
     load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/AMM_per_set_drate_test_ss",num_ss,".RData"))
     color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
     AMM <- AMM_all_df[(i*50-49):(i*50),]
@@ -645,9 +645,9 @@ for(num_ss in c(1)){
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(lam1_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(lam1_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
-      ggplot2::theme(title = ggplot2::element_text(size = 15),
-                     text = ggplot2::element_text(size = 15)) +
-      ggplot2::xlab("Tree size") +
+      ggplot2::theme(title = ggplot2::element_text(size = 13),
+                     text = ggplot2::element_text(size = 13)) +
+      ggplot2::xlab("Tip ratio") +
       ggplot2::ylab(expression(lambda[1]))+
       ggplot2::geom_hline(yintercept = AMM$lam1[1], linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
@@ -661,9 +661,9 @@ for(num_ss in c(1)){
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(lam2_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(lam2_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
-      ggplot2::theme(title = ggplot2::element_text(size = 15),
-                     text = ggplot2::element_text(size = 15)) +
-      ggplot2::xlab("Tree size") +
+      ggplot2::theme(title = ggplot2::element_text(size = 13),
+                     text = ggplot2::element_text(size = 13)) +
+      ggplot2::xlab("Tip ratio") +
       ggplot2::ylab(expression(lambda[2]))+
       ggplot2::geom_hline(yintercept = AMM$lam2[1], linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
@@ -677,9 +677,9 @@ for(num_ss in c(1)){
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(mu1_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(mu1_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
-      ggplot2::theme(title = ggplot2::element_text(size = 15),
-                     text = ggplot2::element_text(size = 15)) +
-      ggplot2::xlab("Tree size") +
+      ggplot2::theme(title = ggplot2::element_text(size = 13),
+                     text = ggplot2::element_text(size = 13)) +
+      ggplot2::xlab("Tip ratio") +
       ggplot2::ylab(expression(mu[1]))+
       ggplot2::geom_hline(yintercept = AMM$mu1[1], linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
@@ -693,9 +693,9 @@ for(num_ss in c(1)){
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(mu2_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(mu2_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
-      ggplot2::theme(title = ggplot2::element_text(size = 15),
-                     text = ggplot2::element_text(size = 15)) +
-      ggplot2::xlab("Tree size") +
+      ggplot2::theme(title = ggplot2::element_text(size = 13),
+                     text = ggplot2::element_text(size = 13)) +
+      ggplot2::xlab("Tip ratio") +
       ggplot2::ylab(expression(mu[2]))+
       ggplot2::geom_hline(yintercept = AMM$mu2[1], linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
@@ -709,9 +709,9 @@ for(num_ss in c(1)){
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(q12_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(q12_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
-      ggplot2::theme(title = ggplot2::element_text(size = 15),
-                     text = ggplot2::element_text(size = 15)) +
-      ggplot2::xlab("Tree size") +
+      ggplot2::theme(title = ggplot2::element_text(size = 13),
+                     text = ggplot2::element_text(size = 13)) +
+      ggplot2::xlab("Tip ratio") +
       ggplot2::ylab(expression(q[12]))+
       ggplot2::geom_hline(yintercept = AMM$q12[1], linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
@@ -725,9 +725,9 @@ for(num_ss in c(1)){
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(q21_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
       ggplot2::geom_point(ggplot2::aes(x = tip_ratio,y = abs(q21_abc),color = "ABC"),shape = 18) +
       ggplot2::theme_classic() +
-      ggplot2::theme(title = ggplot2::element_text(size = 15),
-                     text = ggplot2::element_text(size = 15)) +
-      ggplot2::xlab("Tree size") +
+      ggplot2::theme(title = ggplot2::element_text(size = 13),
+                     text = ggplot2::element_text(size = 13)) +
+      ggplot2::xlab("Tip ratio") +
       ggplot2::ylab(expression(q[21]))+
       ggplot2::geom_hline(yintercept = AMM$q21[1], linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
@@ -735,7 +735,7 @@ for(num_ss in c(1)){
                                   labels = c("ABC", "MCMC", "MLE"))
 
     tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/tipratip_exact_rate_test",i,"_ss",num_ss,".tiff"),
-         units="px", width=3600, height=2000,res = 400,compression="lzw")
+         units="px", width=3000, height=1800,res = 380,compression="lzw")
     params <- cowplot::plot_grid(
       p_lam1+ggplot2::theme(legend.position = "none"),
       p_mu1+ggplot2::theme(legend.position = "none"),
