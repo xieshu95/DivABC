@@ -1,10 +1,10 @@
-## analyse DAISIE results (DI version comparison) for 'daisie_merge'
+## analyse DAISIE results (DI version comparison) for 'daisie_z_final'
 #####
 library(ggplot2)
 # formate results
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/obs_ss_long_with_pars_DI.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/obs_ss_long_with_pars_DI.RData"))
 ## ABC results
-folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/DAISIE_ABC_short_DI")
+folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/DAISIE_ABC_short_DI")
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
 param_data2<-param_data[rep(seq_len(nrow(param_data)), each=500),] #500
@@ -55,7 +55,7 @@ for(n in c(0,1,2,3)){ # 1,2,6,7,20
                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                              lac_abc,mu_abc,gam_abc,laa_abc)
   save(whole_df_ABC,
-       file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/whole_df_ABC_ss_set",n,".RData"))
+       file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/whole_df_ABC_ss_set",n,".RData"))
 
   whole_df_ABC$net_div <- (whole_df_ABC$lac-whole_df_ABC$mu)
   whole_df_ABC$net_div_ABC <- (whole_df_ABC$lac_abc-whole_df_ABC$mu_abc)
@@ -63,13 +63,13 @@ for(n in c(0,1,2,3)){ # 1,2,6,7,20
   whole_df_ABC$ext_frac <- (whole_df_ABC$mu)/(whole_df_ABC$lac)
   whole_df_ABC$ext_frac_ABC <- (whole_df_ABC$mu_abc)/(whole_df_ABC$lac_abc)
   save(whole_df_ABC,file =
-         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/delta_whole_df_ABC_ss_set",n,".RData"))
+         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/delta_whole_df_ABC_ss_set",n,".RData"))
 
 }
 
 # 2. formate MCMC results (only plot the etimation points with ABC results)
 # skip
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/DAISIE_MCMC_short_DI"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/DAISIE_MCMC_short_DI"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("data/DAISIE_MCMC_short_DI.csv")
 param_data <- param_data[1:160,]
@@ -105,7 +105,7 @@ for(i in 1:160){
 whole_df_MCMC <- data.frame(param_data3,
                             lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc)
 
-save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/whole_df_MCMC.RData"))
+save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/whole_df_MCMC.RData"))
 
 whole_df_MCMC$net_div <- (whole_df_MCMC$lac-whole_df_MCMC$mu)
 whole_df_MCMC$net_div_mcmc <- (whole_df_MCMC$lac_mcmc - whole_df_MCMC$mu_mcmc)
@@ -114,16 +114,16 @@ whole_df_MCMC$ext_frac <- (whole_df_MCMC$mu)/(whole_df_MCMC$lac)
 whole_df_MCMC$ext_frac_MCMC <- (whole_df_MCMC$mu_mcmc)/(whole_df_MCMC$lac_mcmc)
 
 save(whole_df_MCMC,
-     file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/delta_whole_df_MCMC.RData"))
+     file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/delta_whole_df_MCMC.RData"))
 #
 
 # ######
 # 3. MLE
-# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/whole_df_MLE.RData"))
+# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/whole_df_MLE.RData"))
 
 # MLE_DI directly load MLE results from cluster
 param_data <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/MLE_DI.RData")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/MLE_DI.RData")
 whole_df_MLE <- data.frame(param_data,MLE_all[1:4])
 
 whole_df_MLE$net_div <- (whole_df_MLE$lac-whole_df_MLE$mu)
@@ -131,12 +131,12 @@ whole_df_MLE$net_div_MLE <- (whole_df_MLE$lac_MLE-whole_df_MLE$mu_MLE)
 
 whole_df_MLE$ext_frac <- (whole_df_MLE$mu)/(whole_df_MLE$lac)
 whole_df_MLE$ext_frac_MLE <- (whole_df_MLE$mu_MLE)/(whole_df_MLE$lac_MLE)
-save(whole_df_MLE,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/whole_df_MLE_DI.RData")
+save(whole_df_MLE,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/whole_df_MLE_DI.RData")
 
 #####
 # plot MCMC trace
 #skip
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/DAISIE_MCMC_short_DI"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/DAISIE_MCMC_short_DI"
 files <- list.files(folder_path)
 for(i in 1:160){
   # param_set = (param_num-1)*5 + i
@@ -147,7 +147,7 @@ for(i in 1:160){
 
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/MCMC_trace_short/set_",i,".tiff"),
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/MCMC_trace_short/set_",i,".tiff"),
          units="px", width=2000, height=4000,res = 400,compression="lzw")
     b_mcmc <- coda::as.mcmc(output[,1:4])
     plot_mcmc <- plot(b_mcmc)
@@ -162,9 +162,9 @@ for(i in 1:160){
 # 81 all particles comparsion
 ## plot all particles (ABC-new vs ABC-old vs MCMC VS MLE)
 library(ggplot2)
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/obs_ss_long_with_pars_DI.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/obs_ss_long_with_pars_DI.RData"))
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/delta_whole_df_ABC_ss_set",0,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/delta_whole_df_ABC_ss_set",0,".RData"))
 whole_df_ABC$ss = "ABC All"
 whole_df_ABC_s0 = whole_df_ABC
 whole_df_ABC_s0$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -173,7 +173,7 @@ whole_df_ABC_s0$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s0$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/delta_whole_df_ABC_ss_set",1,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/delta_whole_df_ABC_ss_set",1,".RData"))
 whole_df_ABC$ss = "ABC Phylogenetic"
 whole_df_ABC_s1 = whole_df_ABC
 whole_df_ABC_s1$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -181,7 +181,7 @@ whole_df_ABC_s1$rep <- rep(rep(1:10, each = 500), 16)
 whole_df_ABC_s1$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s1$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/delta_whole_df_ABC_ss_set",2,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/delta_whole_df_ABC_ss_set",2,".RData"))
 whole_df_ABC$ss = "ABC Diversity"
 whole_df_ABC_s2 = whole_df_ABC
 whole_df_ABC_s2$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -189,7 +189,7 @@ whole_df_ABC_s2$rep <- rep(rep(1:10, each = 500), 16)
 whole_df_ABC_s2$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s2$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/delta_whole_df_ABC_ss_set",3,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/delta_whole_df_ABC_ss_set",3,".RData"))
 whole_df_ABC$ss = "ABC NLTT"
 whole_df_ABC_s3 = whole_df_ABC
 whole_df_ABC_s3$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -211,7 +211,7 @@ whole_df_ABC$dext_frac <- whole_df_ABC$ext_frac_ABC - whole_df_ABC$ext_frac
 # whole_df_ABC$total <- rep(rep(pars_ss$total, each = 400), 1) # 400,5
 
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/delta_whole_df_MCMC.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/delta_whole_df_MCMC.RData"))
 whole_df_MCMC$ss = "MCMC"
 whole_df_MCMC$total <- rep(rep(pars_ss$total, each = 5001), 1)
 whole_df_MCMC$rep <- rep(rep(1:10, each = 5001), 16)
@@ -224,7 +224,7 @@ whole_df_MCMC$dlaa <- whole_df_MCMC$laa_mcmc - whole_df_MCMC$laa
 whole_df_MCMC$dnet_div <- whole_df_MCMC$net_div_mcmc - whole_df_MCMC$net_div
 whole_df_MCMC$dext_frac <- whole_df_MCMC$ext_frac_MCMC - whole_df_MCMC$ext_frac
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/whole_df_MLE_DI.RData")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/whole_df_MLE_DI.RData")
 whole_df_MLE$ss = "MLE"
 whole_df_MLE$total <- rep(rep(pars_ss$total, each = 1), 1)
 whole_df_MLE$rep <- rep(rep(1:10, each = 1), 16)
@@ -278,7 +278,7 @@ laa_names <- c(
 #   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
 #   facet_grid(lac~ mu,labeller = labeller(lac  = as_labeller(lac_names,  label_parsed),
 #                                          mu = as_labeller(mu_names, label_parsed)))
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_ABC_netdiv_lac.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_ABC_netdiv_lac.tiff"),
 #      units="px", width=4000, height=2500,res = 300,compression="lzw")
 # print(p_netdiv_lac)
 # while (!is.null(dev.list()))  dev.off()
@@ -299,7 +299,7 @@ laa_names <- c(
 #              labeller = label_bquote(.(as.expression(
 #                eval(parse(text = paste0('mu_names', '$`', mu, '`')))
 #              ))))
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_ABC_netdiv_mu.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_ABC_netdiv_mu.tiff"),
 #      units="px", width=4000, height=2500,res = 300,compression="lzw")
 # print(p_netdiv_mu)
 # while (!is.null(dev.list()))  dev.off()
@@ -317,7 +317,7 @@ laa_names <- c(
 #   ggplot2::ylab(expression(Delta~Net~diversification))+
 #   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
 #   facet_wrap(~ gam)
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_ABC_netdiv_gam.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_ABC_netdiv_gam.tiff"),
 #      units="px", width=4000, height=2500,res = 300,compression="lzw")
 # print(p_netdiv_gam)
 # while (!is.null(dev.list()))  dev.off()
@@ -336,7 +336,7 @@ laa_names <- c(
 #   ggplot2::ylab(expression(Delta~Net~diversification))+
 #   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
 #   facet_wrap(~ laa)
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_ABC_netdiv_laa.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_ABC_netdiv_laa.tiff"),
 #      units="px", width=4000, height=2500,res = 300,compression="lzw")
 # print(p_netdiv_laa)
 # while (!is.null(dev.list()))  dev.off()
@@ -376,7 +376,7 @@ p_netdiv_all <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div,y 
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_net_div.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_net_div.tiff"),
      units="px", width=4000, height=2500,res = 300,compression="lzw")
 print(p_netdiv_all)
 while (!is.null(dev.list()))  dev.off()
@@ -402,7 +402,7 @@ p_lac<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlac,y = ss,color =
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_lac.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_lac.tiff"),
      units="px", width=4000, height=2500,res = 300,compression="lzw")
 print(p_lac)
 while (!is.null(dev.list()))  dev.off()
@@ -427,7 +427,7 @@ p_mu<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dmu,y = ss,color = s
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_mu.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_mu.tiff"),
      units="px", width=4000, height=2500,res = 300,compression="lzw")
 print(p_mu)
 while (!is.null(dev.list()))  dev.off()
@@ -452,7 +452,7 @@ p_gam<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dgam,y = ss,color =
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_gam.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_gam.tiff"),
      units="px", width=4000, height=2500,res = 300,compression="lzw")
 print(p_gam)
 while (!is.null(dev.list()))  dev.off()
@@ -477,7 +477,7 @@ p_laa<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlaa,y = ss,color =
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_laa.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_laa.tiff"),
      units="px", width=4000, height=2500,res = 300,compression="lzw")
 print(p_laa)
 while (!is.null(dev.list()))  dev.off()
@@ -511,7 +511,7 @@ p_netdiv_all <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div,y 
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_net_div_each_rep2.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_net_div_each_rep2.tiff"),
      units="px", width=7000, height=4000,res = 320,compression="lzw")
 print(p_netdiv_all)
 while (!is.null(dev.list()))  dev.off()
@@ -534,7 +534,7 @@ p_lac<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlac,y = ss,color =
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_lac_each_rep.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_lac_each_rep.tiff"),
      units="px", width=7000, height=4000,res = 320,compression="lzw")
 print(p_lac)
 while (!is.null(dev.list()))  dev.off()
@@ -557,7 +557,7 @@ p_mu<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dmu,y = ss,color = s
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_mu_each_rep.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_mu_each_rep.tiff"),
      units="px", width=7000, height=4000,res = 320,compression="lzw")
 print(p_mu)
 while (!is.null(dev.list()))  dev.off()
@@ -579,7 +579,7 @@ p_gam<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dgam,y = ss,color =
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_gam_each_rep.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_gam_each_rep.tiff"),
      units="px", width=7000, height=4000,res = 320,compression="lzw")
 print(p_gam)
 while (!is.null(dev.list()))  dev.off()
@@ -603,42 +603,42 @@ p_laa<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlaa,y = ss,color =
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_laa_each_rep.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_laa_each_rep.tiff"),
      units="px", width=7000, height=4000,res = 320,compression="lzw")
 print(p_laa)
 while (!is.null(dev.list()))  dev.off()
 
 ## plot use all the particles rather than median values
 # library(ggplot2)
-# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/obs_ss_long_with_pars.RData"))
+# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/obs_ss_long_with_pars.RData"))
 #
 # ss = 0
-# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/delta_whole_df_ABC_ss_set",ss,".RData"))
+# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/delta_whole_df_ABC_ss_set",ss,".RData"))
 # whole_df_ABC$ss = 0
 # whole_df_ABC_0 = whole_df_ABC
 #
 # ss = 1
-# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/delta_whole_df_ABC_ss_set",ss,".RData"))
+# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/delta_whole_df_ABC_ss_set",ss,".RData"))
 # whole_df_ABC$ss = 1
 # whole_df_ABC_1 = whole_df_ABC
 #
 # ss = 2
-# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/delta_whole_df_ABC_ss_set",ss,".RData"))
+# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/delta_whole_df_ABC_ss_set",ss,".RData"))
 # whole_df_ABC$ss = 2
 # whole_df_ABC_2 = whole_df_ABC
 
 # ss = 6
-# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/delta_whole_df_ABC_ss_set",ss,".RData"))
+# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/delta_whole_df_ABC_ss_set",ss,".RData"))
 # whole_df_ABC$ss = 6
 # whole_df_ABC_6 = whole_df_ABC
 #
 # ss = 7
-# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/delta_whole_df_ABC_ss_set",ss,".RData"))
+# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/delta_whole_df_ABC_ss_set",ss,".RData"))
 # whole_df_ABC$ss = 7
 # whole_df_ABC_7 = whole_df_ABC
 #
 # ss = 20
-# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/delta_whole_df_ABC_ss_set",ss,".RData"))
+# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/delta_whole_df_ABC_ss_set",ss,".RData"))
 # whole_df_ABC$ss = 20
 # whole_df_ABC_20 = whole_df_ABC
 
@@ -681,7 +681,7 @@ p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_
 #                                                gam = as_labeller(gam_names, label_parsed),
 #                                                laa = as_labeller(laa_names, label_parsed)))
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_netdiv_median.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_netdiv_median.tiff"),
      units="px", width=4000, height=2000,res = 350,compression="lzw")
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
@@ -698,7 +698,7 @@ p_lac <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlac, co
   ggplot2::xlab("Species richness") +
   ggplot2::ylab(expression(Delta~lambda^c))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_lac.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_lac.tiff"),
 #      units="px", width=2500, height=1500,res = 350,compression="lzw")
 # print(p_lac)
 # while (!is.null(dev.list()))  dev.off()
@@ -715,7 +715,7 @@ p_mu <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dmu, colo
   ggplot2::xlab("Species richness") +
   ggplot2::ylab(expression(Delta~mu))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_mu.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_mu.tiff"),
 #      units="px", width=2500, height=1500,res = 350,compression="lzw")
 # print(p_mu)
 # while (!is.null(dev.list()))  dev.off()
@@ -732,7 +732,7 @@ p_gam <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dgam, co
   ggplot2::xlab("Species richness") +
   ggplot2::ylab(expression(Delta~gamma))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_gam.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_gam.tiff"),
 #      units="px", width=2500, height=1500,res = 350,compression="lzw")
 # print(p_gam)
 # while (!is.null(dev.list()))  dev.off()
@@ -750,7 +750,7 @@ p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlaa, co
   ggplot2::ylab(expression(Delta~lambda^a))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_all_rates_median.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_all_rates_median.tiff"),
      units="px", width=5500, height=2500,res = 300,compression="lzw")
 params <- cowplot::plot_grid(
   p_lac+ggplot2::theme(legend.position = "none"),
@@ -772,7 +772,7 @@ while (!is.null(dev.list()))  dev.off()
 
 
 
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_laa.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_laa.tiff"),
 #      units="px", width=2500, height=1500,res = 350,compression="lzw")
 # print(p_laa)
 # while (!is.null(dev.list()))  dev.off()
@@ -794,7 +794,7 @@ p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y 
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_net_div_facet.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_net_div_facet.tiff"),
      units="px", width=3500, height=2500,res = 300,compression="lzw")
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
@@ -816,7 +816,7 @@ p_lac <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y = d
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_lac_facet.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_lac_facet.tiff"),
      units="px", width=3500, height=2500,res = 300,compression="lzw")
 print(p_lac)
 while (!is.null(dev.list()))  dev.off()
@@ -837,7 +837,7 @@ p_mu <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y = dm
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_mu_facet.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_mu_facet.tiff"),
      units="px", width=3500, height=2500,res = 300,compression="lzw")
 print(p_mu)
 while (!is.null(dev.list()))  dev.off()
@@ -858,7 +858,7 @@ p_gam <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y = d
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_gam_facet.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_gam_facet.tiff"),
      units="px", width=3500, height=2500,res = 300,compression="lzw")
 print(p_gam)
 while (!is.null(dev.list()))  dev.off()
@@ -880,7 +880,7 @@ p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y = d
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_laa_facet.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_laa_facet.tiff"),
      units="px", width=3500, height=2500,res = 300,compression="lzw")
 print(p_laa)
 while (!is.null(dev.list()))  dev.off()
@@ -906,7 +906,7 @@ ggplot(whole_df_ABC, aes(x = total, y = dlac_abc, color = as.factor(ss)) ) +
 #   ggplot2::ylab(expression(Delta~lambda^c))+
 #   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
 #   facet_wrap(~ ss)
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_all_particles_fit_lac.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_all_particles_fit_lac.tiff"),
 #      units="px", width=4000, height=2500,res = 300,compression="lzw")
 # print(p_lac)
 # while (!is.null(dev.list()))  dev.off()
@@ -924,7 +924,7 @@ ggplot(whole_df_ABC, aes(x = total, y = dlac_abc, color = as.factor(ss)) ) +
 #   ggplot2::ylab(expression(Delta~mu))+
 #   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
 #   facet_wrap(~ ss)
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_all_particles_fit_mu.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_all_particles_fit_mu.tiff"),
 #      units="px", width=4000, height=2500,res = 300,compression="lzw")
 # print(p_mu)
 # while (!is.null(dev.list()))  dev.off()
@@ -942,7 +942,7 @@ ggplot(whole_df_ABC, aes(x = total, y = dlac_abc, color = as.factor(ss)) ) +
 #   ggplot2::ylab(expression(Delta~gamma))+
 #   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
 #   facet_wrap(~ ss)
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_all_particles_fit_gam.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_all_particles_fit_gam.tiff"),
 #      units="px", width=4000, height=2500,res = 300,compression="lzw")
 # print(p_gam)
 # while (!is.null(dev.list()))  dev.off()
@@ -960,7 +960,7 @@ ggplot(whole_df_ABC, aes(x = total, y = dlac_abc, color = as.factor(ss)) ) +
 #   ggplot2::ylab(expression(Delta~lambda^a))+
 #   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
 #   facet_wrap(~ ss)
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_all_particles_fit_laa.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_all_particles_fit_laa.tiff"),
 #      units="px", width=4000, height=2500,res = 300,compression="lzw")
 # print(p_laa)
 # while (!is.null(dev.list()))  dev.off()
@@ -978,7 +978,7 @@ p_netdiv_lac <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = d
   ggplot2::ylab(expression(Delta~Net~diversification))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
   facet_grid(~ lac,labeller = labeller(lac  = as_labeller(lac_names,  label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_ABC_netdiv_lac.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_ABC_netdiv_lac.tiff"),
      units="px", width=4500, height=1500,res = 350,compression="lzw")
 print(p_netdiv_lac)
 while (!is.null(dev.list()))  dev.off()
@@ -995,7 +995,7 @@ p_netdiv_mu <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dn
   ggplot2::ylab(expression(Delta~Net~diversification))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
   facet_grid(~ mu,labeller = labeller(mu  = as_labeller(mu_names,  label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_ABC_netdiv_mu.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_ABC_netdiv_mu.tiff"),
      units="px", width=4500, height=1500,res = 350,compression="lzw")
 print(p_netdiv_mu)
 while (!is.null(dev.list()))  dev.off()
@@ -1012,7 +1012,7 @@ p_netdiv_gam <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = d
   ggplot2::ylab(expression(Delta~Net~diversification))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
   facet_grid(~ gam,labeller = labeller(gam  = as_labeller(gam_names,  label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_ABC_netdiv_gam.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_ABC_netdiv_gam.tiff"),
      units="px", width=4500, height=1500,res = 350,compression="lzw")
 print(p_netdiv_gam)
 while (!is.null(dev.list()))  dev.off()
@@ -1030,7 +1030,7 @@ p_netdiv_laa <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = d
   ggplot2::ylab(expression(Delta~Net~diversification))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
   facet_grid(~ laa,labeller = labeller(laa  = as_labeller(laa_names,  label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/paper/drate_ABC_netdiv_laa.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/paper/drate_ABC_netdiv_laa.tiff"),
      units="px", width=4500, height=1500,res = 350,compression="lzw")
 print(p_netdiv_laa)
 while (!is.null(dev.list()))  dev.off()
@@ -1050,7 +1050,7 @@ while (!is.null(dev.list()))  dev.off()
 #   ggplot2::ylab(expression(Delta~Net~diversification))+
 #   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
 #   facet_grid(~ lac,labeller = labeller(lac  = as_labeller(lac_names,  label_parsed)))
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_nltt_netdiv_lac.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_nltt_netdiv_lac.tiff"),
 #      units="px", width=4500, height=1500,res = 350,compression="lzw")
 # print(p_netdiv_lac)
 # while (!is.null(dev.list()))  dev.off()
@@ -1068,7 +1068,7 @@ while (!is.null(dev.list()))  dev.off()
 #   ggplot2::ylab(expression(Delta~Net~diversification))+
 #   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
 #   facet_grid(~ mu,labeller = labeller(mu  = as_labeller(mu_names,  label_parsed)))
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_nltt_netdiv_mu.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_nltt_netdiv_mu.tiff"),
 #      units="px", width=4500, height=1500,res = 350,compression="lzw")
 # print(p_netdiv_mu)
 # while (!is.null(dev.list()))  dev.off()
@@ -1086,7 +1086,7 @@ while (!is.null(dev.list()))  dev.off()
 #   ggplot2::ylab(expression(Delta~Net~diversification))+
 #   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
 #   facet_grid(~ gam,labeller = labeller(gam  = as_labeller(gam_names,  label_parsed)))
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_nltt_netdiv_gam.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_nltt_netdiv_gam.tiff"),
 #      units="px", width=4500, height=1500,res = 350,compression="lzw")
 # print(p_netdiv_gam)
 # while (!is.null(dev.list()))  dev.off()
@@ -1105,7 +1105,7 @@ while (!is.null(dev.list()))  dev.off()
 #   ggplot2::ylab(expression(Delta~Net~diversification))+
 #   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
 #   facet_grid(~ laa,labeller = labeller(laa  = as_labeller(laa_names,  label_parsed)))
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/drate_nltt_netdiv_laa.tiff"),
+# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/drate_nltt_netdiv_laa.tiff"),
 #      units="px", width=4500, height=1500,res = 350,compression="lzw")
 # print(p_netdiv_laa)
 # while (!is.null(dev.list()))  dev.off()
@@ -1115,7 +1115,7 @@ while (!is.null(dev.list()))  dev.off()
 #####
 # combine all generations into one
 library(ggplot2)
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/DAISIE_ABC_short_DI"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/DAISIE_ABC_short_DI"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
 for(n in c(0,1,2)){
@@ -1171,12 +1171,12 @@ for(n in c(0,1,2)){
   ABC_df_all$net_div_ABC <- (ABC_df_all$lac_abc-ABC_df_all$mu_abc)
   ABC_df_all$ext_frac <- (ABC_df_all$mu)/(ABC_df_all$lac)
   ABC_df_all$ext_frac_ABC <- (ABC_df_all$mu_abc)/(ABC_df_all$lac_abc)
-  save(ABC_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/rates_all_generations",n,".RData"))
+  save(ABC_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/rates_all_generations",n,".RData"))
 }
 
 library(ggplot2)
 for(ss in c(0,1,2)) {
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/rates_all_generations",ss,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/rates_all_generations",ss,".RData"))
   iqr = function(z, lower = 0.05, upper = 0.95) {
     data.frame(
       y = median(z),
@@ -1224,7 +1224,7 @@ for(ss in c(0,1,2)) {
                                                    mu = as_labeller(mu_names, label_parsed),
                                                    gam = as_labeller(gam_names, label_parsed),
                                                    laa = as_labeller(laa_names, label_parsed)))
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/drate_each_gene_netdiv",ss,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/drate_each_gene_netdiv",ss,".tiff"),
        units="px", width=6000, height=3000,res = 350,compression="lzw")
   print(p_netdiv_all)
   while (!is.null(dev.list()))  dev.off()
@@ -1243,7 +1243,7 @@ for(ss in c(0,1,2)) {
                                                    mu = as_labeller(mu_names, label_parsed),
                                                    gam = as_labeller(gam_names, label_parsed),
                                                    laa = as_labeller(laa_names, label_parsed)))
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/drate_each_gene_lac",ss,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/drate_each_gene_lac",ss,".tiff"),
        units="px", width=6000, height=3000,res = 350,compression="lzw")
   print(p_lac)
   while (!is.null(dev.list()))  dev.off()
@@ -1262,7 +1262,7 @@ for(ss in c(0,1,2)) {
                                                    mu = as_labeller(mu_names, label_parsed),
                                                    gam = as_labeller(gam_names, label_parsed),
                                                    laa = as_labeller(laa_names, label_parsed)))
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/drate_each_gene_mu",ss,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/drate_each_gene_mu",ss,".tiff"),
        units="px", width=6000, height=3000,res = 350,compression="lzw")
   print(p_mu)
   while (!is.null(dev.list()))  dev.off()
@@ -1281,7 +1281,7 @@ for(ss in c(0,1,2)) {
                                                    mu = as_labeller(mu_names, label_parsed),
                                                    gam = as_labeller(gam_names, label_parsed),
                                                    laa = as_labeller(laa_names, label_parsed)))
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/drate_each_gene_gam",ss,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/drate_each_gene_gam",ss,".tiff"),
        units="px", width=6000, height=3000,res = 350,compression="lzw")
   print(p_gam)
   while (!is.null(dev.list()))  dev.off()
@@ -1300,7 +1300,7 @@ for(ss in c(0,1,2)) {
                                                    mu = as_labeller(mu_names, label_parsed),
                                                    gam = as_labeller(gam_names, label_parsed),
                                                    laa = as_labeller(laa_names, label_parsed)))
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/drate_each_gene_laa",ss,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/drate_each_gene_laa",ss,".tiff"),
        units="px", width=6000, height=3000,res = 350,compression="lzw")
   print(p_laa)
   while (!is.null(dev.list()))  dev.off()
@@ -1361,9 +1361,9 @@ for(n in c(0)){ # 1,2,6,7,20
 #  density plots - ABC comparison(all VS tips VS nltt) for each parameter set
 library(ggplot2)
 ss = 1
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/delta_whole_df_ABC_ss_set",ss,".RData"))
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/delta_whole_df_MCMC.RData"))
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/whole_df_MLE_DI.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/delta_whole_df_ABC_ss_set",ss,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/delta_whole_df_MCMC.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/whole_df_MLE_DI.RData"))
 ## get legend first
 param_abc <- whole_df_ABC[1:10,]
 param_mcmc <- whole_df_MCMC[1:10,]
@@ -1549,7 +1549,7 @@ for(i in 1:160){
 
   p_emp <- ggplot() + theme_void()
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/cowplot_AMM/ss_",ss,"_AMM_hist_set_",i,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/cowplot_AMM/ss_",ss,"_AMM_hist_set_",i,".tiff"),
        units="px", width=4000, height=2000,res = 400,compression="lzw")
   param_estimates <- cowplot::plot_grid(
     p_lac,p_mu,p_net_div,p_gam,p_laa,p_emp,
@@ -1568,12 +1568,12 @@ for(i in 1:160){
 
 ## RDATA TO excel
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/obs_ss_long_with_pars_DI.RData"))
-write.csv2(pars_ss,paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/obs_ss_long_with_pars_DI.csv"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/obs_ss_long_with_pars_DI.RData"))
+write.csv2(pars_ss,paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/obs_ss_long_with_pars_DI.csv"))
 
 
 ###
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/obs_ss_long_with_pars_DI.RData")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/obs_ss_long_with_pars_DI.RData")
 df <- pars_ss
 n <- 10
 ss_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
@@ -1584,15 +1584,15 @@ ss_sd <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))
 
 
 
-write.csv2(round(ss_median,0),paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/ss_median.csv"))
-write.csv2(round(ss_mean,0),paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/ss_mean.csv"))
-write.csv2(round(ss_max,0),paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/ss_max.csv"))
-write.csv2(round(ss_min,0),paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/ss_min.csv"))
-write.csv2(round(ss_sd,0),paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/ss_sd.csv"))
+write.csv2(round(ss_median,0),paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/ss_median.csv"))
+write.csv2(round(ss_mean,0),paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/ss_mean.csv"))
+write.csv2(round(ss_max,0),paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/ss_max.csv"))
+write.csv2(round(ss_min,0),paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/ss_min.csv"))
+write.csv2(round(ss_sd,0),paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/ss_sd.csv"))
 
 ###
 library(coda)
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/DAISIE_MCMC_short_DI"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/DAISIE_MCMC_short_DI"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("data/DAISIE_MCMC_short_DI.csv")
 param_data <- param_data[1:160,]
@@ -1603,7 +1603,7 @@ mu_cor <- c()
 gam_cor <- c()
 laa_cor <- c()
 
-seq <- seq(1,50001,10)
+seq <- seq(1,50001,20)
 for(i in 1:160){
   file_to_load <- grep(paste0("DAISIE_MCMC_short_DI_param_set_", i,"_ss_1.RData"), #"_rep",rep,
                        files,
@@ -1629,7 +1629,7 @@ for(i in 1:160){
 whole_df_cor <- data.frame(param_data,
                             lac_cor,mu_cor,gam_cor,laa_cor)
 
-save(whole_df_cor,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/whole_df_cor_lag2.RData"))
+save(whole_df_cor,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_z_final/DI/whole_df_cor_lag1.RData"))
 
 plot(density(whole_df_cor[,6],na.rm = T))
 median(whole_df_cor[,6],na.rm = T)

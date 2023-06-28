@@ -24,6 +24,7 @@ for(i in 1:7){
   whole_df_ABC = whole_df_ABC[,-7]
   whole_df_ABC$total <- rep(total, each = 500)
 
+
   # whole_df_ABC <- rbind(whole_df_ABC_old,whole_df_ABC_new) #whole_df_ABC_20
   whole_df_ABC$dlam1 <- whole_df_ABC$lam1_abc - whole_df_ABC$lam1
   whole_df_ABC$dlam2 <- whole_df_ABC$lam2_abc - whole_df_ABC$lam2
@@ -36,6 +37,12 @@ for(i in 1:7){
   whole_df_ABC$dext_frac1 <- whole_df_ABC$ext_frac_ABC1 - whole_df_ABC$ext_frac1
   whole_df_ABC$dext_frac2 <- whole_df_ABC$ext_frac_ABC2 - whole_df_ABC$ext_frac2
   whole_df_ABC$rep <- rep(rep(1:50, each = 500), 1)
+
+  df <- whole_df_ABC
+  n <- 500
+  ABC_median <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+  ABC_median$ss = "ABC"
+
 
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/delta_whole_df_MCMC_test.RData"))
   whole_df_MCMC <- whole_df_MCMC[(i*250050-250049):(i*250050),]
@@ -52,6 +59,10 @@ for(i in 1:7){
   whole_df_MCMC$dext_frac1 <- whole_df_MCMC$ext_frac_MCMC1 - whole_df_MCMC$ext_frac1
   whole_df_MCMC$dext_frac2 <- whole_df_MCMC$ext_frac_MCMC2 - whole_df_MCMC$ext_frac2
   whole_df_MCMC$rep <- rep(rep(1:50, each = 5001), 1)
+
+  df<-whole_df_MCMC
+  n <- 5001
+  MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   # MLE
   whole_df_MLE$net_div1 <- (whole_df_MLE$lam1-whole_df_MLE$mu1)
@@ -82,6 +93,12 @@ for(i in 1:7){
                         whole_df_MCMC[,c(1:6,13,14,17,18,21:33)],
                         whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
   save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/whole_df_all_AMM_test",i,".RData"))
+
+  median_all <- rbind(ABC_median[,c(1:6,13,14,17,18,21:33)],
+                      MCMC_median[,c(1:6,13,14,17,18,21:33)],
+                        whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
+
+  save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/median_AMM_test",i,".RData"))
 }
 
 ## sum_stat each replicate
@@ -457,4 +474,5 @@ for(test in c(5)){
   print(param_estimates)
   while (!is.null(dev.list()))  dev.off()
 }
+
 
