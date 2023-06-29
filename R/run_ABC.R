@@ -110,7 +110,7 @@ run_ABC <- function(param_space_name,
     # init_epsilon <- calc_epsilon_init_secsse(sim = obs_sim)
     # init_epsilon_all <- c(50,50,10,10,100,100,1,1,1)
     if(ss_set == 0){
-      init_epsilon <- c(0.5,0.5,0.5,0.5,0.2,30,30)
+      init_epsilon <- c(0.5,0.5,0.5,0.5,30,30)
     } else if (ss_set == 1){
       init_epsilon <- c(0.5,0.5,0.5,0.5)
     }
@@ -121,8 +121,8 @@ run_ABC <- function(param_space_name,
       init_epsilon_values = init_epsilon,
       prior_generating_function = prior_generating_function,
       prior_density_function = prior_density_function,
-      number_of_particles = 400,
-      sigma = 0.1,
+      number_of_particles = 500,
+      sigma = 0.2,
       stop_rate = 0.001,
       replicates = 1,
       num_iterations = 15,

@@ -45,12 +45,12 @@ calc_error_secsse <- function(sim_1,
   num_state1_sim2 <- sum(sim_2$obs_traits == 1)
   num_state2_sim2 <- sum(sim_2$obs_traits == 2)
 
-  tip_ratio_sim1 <- min(num_state1_sim1,num_state2_sim1)/
-    max(num_state1_sim1,num_state2_sim1)
-  tip_ratio_sim2 <- min(num_state1_sim2,num_state2_sim2)/
-    max(num_state1_sim2,num_state2_sim2)
-
-  tip_ratio <- abs(tip_ratio_sim1 - tip_ratio_sim2)
+  # tip_ratio_sim1 <- min(num_state1_sim1,num_state2_sim1)/
+  #   max(num_state1_sim1,num_state2_sim1)
+  # tip_ratio_sim2 <- min(num_state1_sim2,num_state2_sim2)/
+  #   max(num_state1_sim2,num_state2_sim2)
+  #
+  # tip_ratio <- abs(tip_ratio_sim1 - tip_ratio_sim2)
 
   num_state1 <- abs(num_state1_sim1 - num_state1_sim2)
   num_state2 <- abs(num_state2_sim1 - num_state2_sim2)
@@ -70,7 +70,7 @@ calc_error_secsse <- function(sim_1,
       nltt_s1,
       nltt_s2,
       D,
-      tip_ratio,
+      # tip_ratio,
       num_state1,
       num_state2
       )
