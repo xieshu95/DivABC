@@ -323,7 +323,7 @@ for(num_ss in c(1)){
     AMM <- AMM_all_df[(i*50-49):(i*50),]
     p_lam1 <-ggplot2::ggplot(data = AMM) +
       ggplot2::theme_bw() +
-      ggplot2::ylim(0,1.1)+
+      ggplot2::ylim(0,1.35)+
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(lam1_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(lam1_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(lam1_abc),color = "ABC"),shape = 18) +
@@ -339,7 +339,7 @@ for(num_ss in c(1)){
 
     p_lam2 <-ggplot2::ggplot(data = AMM) +
       ggplot2::theme_bw() +
-      ggplot2::ylim(0,1.1)+
+      ggplot2::ylim(0,1.35)+
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(lam2_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(lam2_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(lam2_abc),color = "ABC"),shape = 18) +
@@ -355,7 +355,7 @@ for(num_ss in c(1)){
 
     p_mu1 <-ggplot2::ggplot(data = AMM) +
       ggplot2::theme_bw() +
-      ggplot2::ylim(0,1.1)+
+      ggplot2::ylim(0,1.35)+
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(mu1_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(mu1_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(mu1_abc),color = "ABC"),shape = 18) +
@@ -371,7 +371,7 @@ for(num_ss in c(1)){
 
     p_mu2 <-ggplot2::ggplot(data = AMM) +
       ggplot2::theme_bw() +
-      ggplot2::ylim(0,1.1)+
+      ggplot2::ylim(0,1.35)+
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(mu2_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(mu2_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(mu2_abc),color = "ABC"),shape = 18) +
@@ -387,7 +387,7 @@ for(num_ss in c(1)){
 
     p_q12 <-ggplot2::ggplot(data = AMM) +
       ggplot2::theme_bw() +
-      ggplot2::ylim(0,1.1)+
+      ggplot2::ylim(0,1.35)+
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(q12_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(q12_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(q12_abc),color = "ABC"),shape = 18) +
@@ -403,7 +403,7 @@ for(num_ss in c(1)){
 
     p_q21 <-ggplot2::ggplot(data = AMM) +
       ggplot2::theme_bw() +
-      ggplot2::ylim(0,1.1)+
+      ggplot2::ylim(0,1.35)+
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(q21_MLE),color = "MLE")) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(q21_mcmc),color = "MCMC"),shape = 17,alpha = 0.6) +
       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(q21_abc),color = "ABC"),shape = 18) +
@@ -418,7 +418,7 @@ for(num_ss in c(1)){
                                   labels = c("ABC", "MCMC", "MLE"))
 
     tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/exact_rate_test",i,"_ss",num_ss,".tiff"),
-         units="px", width=3000, height=1500,res = 380,compression="lzw")
+         units="px", width=3800, height=1800,res = 400,compression="lzw")
     params <- cowplot::plot_grid(
       p_lam1+ggplot2::theme(legend.position = "none"),
       p_mu1+ggplot2::theme(legend.position = "none"),
@@ -544,7 +544,7 @@ for(num_ss in c(1)){
                                   labels = c("ABC", "MCMC", "MLE"))
 
     tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/delta_rate_test",i,"_ss",num_ss,".tiff"),
-         units="px", width=3000, height=1800,res = 380,compression="lzw")
+         units="px", width=3800, height=1800,res = 400,compression="lzw")
     params <- cowplot::plot_grid(
       p_lam1+ggplot2::theme(legend.position = "none"),
       p_mu1+ggplot2::theme(legend.position = "none"),
