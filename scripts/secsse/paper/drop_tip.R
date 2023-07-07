@@ -1,4 +1,5 @@
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_new_space/obs_sims_secsse_ABC_test4.rda")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_2/obs_sims_secsse_ABC_test.rda")
+
 test <- c()
 for(i in 1:100){
   sim_1 <- obs_sim[[i]][[1]]
