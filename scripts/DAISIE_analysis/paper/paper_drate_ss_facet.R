@@ -59,10 +59,10 @@ ABC_median$Method <- rep(c("ABC All","ABC Phylogenetic","ABC Diversity","ABC NLT
 
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_MCMC.RData"))
 whole_df_MCMC$Method = "MCMC"
-whole_df_MCMC$total <- rep(rep(pars_ss$total, each = 5001), 1)
-whole_df_MCMC$rep <- rep(rep(1:10, each = 5001), 16)
-whole_df_MCMC$num_clade <- rep(rep(pars_ss$num.clade, each = 5001), 1)
-whole_df_MCMC$largest_clade <- rep(rep(pars_ss$largest.clade, each = 5001), 1)
+whole_df_MCMC$total <- rep(rep(pars_ss$total, each = 1001), 1)
+whole_df_MCMC$rep <- rep(rep(1:10, each = 1001), 16)
+whole_df_MCMC$num_clade <- rep(rep(pars_ss$num.clade, each = 1001), 1)
+whole_df_MCMC$largest_clade <- rep(rep(pars_ss$largest.clade, each = 1001), 1)
 whole_df_MCMC$dlac <- whole_df_MCMC$lac_mcmc - whole_df_MCMC$lac
 whole_df_MCMC$dmu <- whole_df_MCMC$mu_mcmc - whole_df_MCMC$mu
 whole_df_MCMC$dgam <- whole_df_MCMC$gam_mcmc - whole_df_MCMC$gam
@@ -71,7 +71,7 @@ whole_df_MCMC$dnet_div <- whole_df_MCMC$net_div_mcmc - whole_df_MCMC$net_div
 whole_df_MCMC$dext_frac <- whole_df_MCMC$ext_frac_MCMC - whole_df_MCMC$ext_frac
 
 df<-whole_df_MCMC
-n <- 5001
+n <- 1001
 MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
 

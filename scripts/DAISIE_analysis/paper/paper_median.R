@@ -1,9 +1,9 @@
 ## 3 dimentiuons in a 2D plot
 ### median
 library(ggplot2)
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/obs_ss_long_with_pars_DI.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/obs_ss_long_with_pars_DI.RData"))
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/delta_whole_df_ABC_ss_set",0,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",0,".RData"))
 whole_df_ABC$Method = "ABC All"
 whole_df_ABC_s0 = whole_df_ABC
 whole_df_ABC_s0$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -12,7 +12,7 @@ whole_df_ABC_s0$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s0$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/delta_whole_df_ABC_ss_set",1,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",1,".RData"))
 whole_df_ABC$Method = "ABC Phylogenetic"
 whole_df_ABC_s1 = whole_df_ABC
 whole_df_ABC_s1$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -20,7 +20,7 @@ whole_df_ABC_s1$rep <- rep(rep(1:10, each = 500), 16)
 whole_df_ABC_s1$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s1$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/delta_whole_df_ABC_ss_set",2,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",2,".RData"))
 whole_df_ABC$Method = "ABC Diversity"
 whole_df_ABC_s2 = whole_df_ABC
 whole_df_ABC_s2$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -28,7 +28,7 @@ whole_df_ABC_s2$rep <- rep(rep(1:10, each = 500), 16)
 whole_df_ABC_s2$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s2$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/delta_whole_df_ABC_ss_set",3,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",3,".RData"))
 whole_df_ABC$Method = "ABC NLTT"
 whole_df_ABC_s3 = whole_df_ABC
 whole_df_ABC_s3$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -56,12 +56,12 @@ ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow
 ABC_median$Method <- rep(c("ABC All","ABC Phylogenetic","ABC Diversity","ABC NLTT"),each = 160)
 
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space6/DI/delta_whole_df_MCMC.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_MCMC.RData"))
 whole_df_MCMC$Method = "MCMC"
-whole_df_MCMC$total <- rep(rep(pars_ss$total, each = 5001), 1)
-whole_df_MCMC$rep <- rep(rep(1:10, each = 5001), 16)
-whole_df_MCMC$num_clade <- rep(rep(pars_ss$num.clade, each = 5001), 1)
-whole_df_MCMC$largest_clade <- rep(rep(pars_ss$largest.clade, each = 5001), 1)
+whole_df_MCMC$total <- rep(rep(pars_ss$total, each = 1001), 1)
+whole_df_MCMC$rep <- rep(rep(1:10, each = 1001), 16)
+whole_df_MCMC$num_clade <- rep(rep(pars_ss$num.clade, each = 1001), 1)
+whole_df_MCMC$largest_clade <- rep(rep(pars_ss$largest.clade, each = 1001), 1)
 whole_df_MCMC$dlac <- whole_df_MCMC$lac_mcmc - whole_df_MCMC$lac
 whole_df_MCMC$dmu <- whole_df_MCMC$mu_mcmc - whole_df_MCMC$mu
 whole_df_MCMC$dgam <- whole_df_MCMC$gam_mcmc - whole_df_MCMC$gam
@@ -70,7 +70,7 @@ whole_df_MCMC$dnet_div <- whole_df_MCMC$net_div_mcmc - whole_df_MCMC$net_div
 whole_df_MCMC$dext_frac <- whole_df_MCMC$ext_frac_MCMC - whole_df_MCMC$ext_frac
 
 df<-whole_df_MCMC
-n <- 5001
+n <- 1001
 MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
 
@@ -127,7 +127,7 @@ p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total/num_clade
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
   facet_grid(~ Method)
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/average_largest_median.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/average_largest_median.tiff"),
      units="px", width=4000, height=2000,res = 350,compression="lzw")
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
@@ -151,7 +151,7 @@ p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = num_clade,y = t
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
   facet_grid(~ Method)
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/richness_numclade_median.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/richness_numclade_median.tiff"),
      units="px", width=4000, height=2000,res = 350,compression="lzw")
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
@@ -171,7 +171,7 @@ p_netdiv <-ggplot2::ggplot(data = ABC_median[1:160,],mapping = aes(x = total,y =
   ggplot2::ylab("Largest")+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/numclade_largest_netdiv_median.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/numclade_largest_netdiv_median.tiff"),
      units="px", width=4000, height=2000,res = 350,compression="lzw")
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
@@ -192,7 +192,7 @@ p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total/num_clade
   ggplot2::ylab(expression(Delta~Net~diversification))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
   facet_grid(~ Method)
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/ave_netdiv_median.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/ave_netdiv_median.tiff"),
      units="px", width=4000, height=2000,res = 350,compression="lzw")
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
@@ -212,7 +212,7 @@ p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_
   ggplot2::ylab(expression(Delta~Net~diversification))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
   facet_grid(~ Method)
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/total_netdiv_median.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/total_netdiv_median.tiff"),
      units="px", width=4000, height=2000,res = 350,compression="lzw")
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
@@ -233,7 +233,7 @@ p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = num_clade,y = (
   ggplot2::ylab(expression(Delta~Net~diversification))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
   facet_grid(~ Method)
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/numclade_netdiv_median.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/numclade_netdiv_median.tiff"),
      units="px", width=4000, height=2000,res = 350,compression="lzw")
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
@@ -253,7 +253,7 @@ p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = largest_clade,y
   ggplot2::ylab(expression(Delta~Net~diversification))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
   facet_grid(~ Method)
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/largest_netdiv_median.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/largest_netdiv_median.tiff"),
      units="px", width=4000, height=2000,res = 350,compression="lzw")
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
@@ -325,7 +325,7 @@ p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlaa, co
   facet_grid(~ Method)
 
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_merge/DI/facet_total_drate_median.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/facet_total_drate_median.tiff"),
      units="px", width=6500, height=3000,res = 350,compression="lzw")
 params <- cowplot::plot_grid(
   p_lac+ggplot2::theme(legend.position = "none"),
