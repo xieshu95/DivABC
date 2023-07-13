@@ -1,5 +1,6 @@
 library(ape)
 library(ggtree)
+library(nLTT)
 
 # Generate Tree and Traits -----------------------------------------------------
 # examples
@@ -64,6 +65,7 @@ plot_tree <- ggtree(phy1_s1,right = TRUE, size = 0.1)+
   geom_tiplab()
 plot_tree %<+% trait_df + geom_tippoint(aes(color = trait))
 ltt.plot(sim_1$phy)
+nltt_plot(sim_1$phy, col = "red")
 
 # phy_2
 trait_df = data.frame(

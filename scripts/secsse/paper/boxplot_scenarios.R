@@ -3,12 +3,12 @@
 ## generate data frame combine all the particles/medians
 library(ggplot2)
 for(i in 1:7){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/whole_df_MLE.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/whole_df_MLE.RData"))
   whole_df_MLE <- whole_df_MLE[(i*50-49):(i*50),]
   total <- whole_df_MLE$tree_size
 
   ss = "ABC"
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/delta_whole_df_ABC_test_ss1.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/delta_whole_df_ABC_test_ss1.RData"))
   whole_df_ABC <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC[(i*20000-19999):(i*20000),]
   whole_df_ABC$ss = "ABC"
   whole_df_ABC = whole_df_ABC[,-7]
@@ -33,7 +33,7 @@ for(i in 1:7){
   ABC_median <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
   ABC_median$ss = "ABC"
 
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/delta_whole_df_MCMC_test.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/delta_whole_df_MCMC_test.RData"))
   whole_df_MCMC <- whole_df_MCMC[(i*250050-250049):(i*250050),]
   whole_df_MCMC$ss = "MCMC"
   whole_df_MCMC$total <- rep(total, each = 5001) #2001
@@ -82,34 +82,35 @@ for(i in 1:7){
   whole_df_all <- rbind(whole_df_ABC[,c(1:6,13,14,17,18,21:33)],
                         whole_df_MCMC[,c(1:6,13,14,17,18,21:33)],
                         whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
-  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/whole_df_all_AMM_test",i,".RData"))
+  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/whole_df_all_AMM_test",i,".RData"))
 
   median_all <- rbind(ABC_median[,c(1:6,13,14,17,18,21:33)],
                       MCMC_median[,c(1:6,13,14,17,18,21:33)],
                       whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
 
-  save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/median_AMM_test",i,".RData"))
+  save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/median_AMM_test",i,".RData"))
 
 
 }
 
-
+# install.packages("ggbeeswarm")
+library(ggbeeswarm)
 library(ggplot2)
 i = 1
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/median_AMM_test",i,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/median_AMM_test",i,".RData"))
 # whole_df_all1<-whole_df_all
 whole_df_all1<-median_all
-whole_df_all1$Scenario <- "Scenario1"
+whole_df_all1$Scenario <- "Scenario 1"
 
-i = 6
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/median_AMM_test",i,".RData"))
+i = 2
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/median_AMM_test",i,".RData"))
 whole_df_all2<-median_all
-whole_df_all2$Scenario <- "Scenario6"
+whole_df_all2$Scenario <- "Scenario 2"
 
-i = 7
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/median_AMM_test",i,".RData"))
+i = 3
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/median_AMM_test",i,".RData"))
 whole_df_all3<-median_all
-whole_df_all3$Scenario <- "Scenario7"
+whole_df_all3$Scenario <- "Scenario 3"
 
 whole_df_lam <- rbind(whole_df_all1,whole_df_all2,whole_df_all3)
 
@@ -119,6 +120,7 @@ p_lam1 <-ggplot2::ggplot(data = whole_df_lam) +
   ggplot2::geom_boxplot(ggplot2::aes(x = ss,y = dlam1,
                                      color = ss),
                         alpha = 0.5) +  #outlier.shape = NA
+  # geom_quasirandom(aes(x = ss,y = dlam1, color = ss),cex = 2,size = 0.5,alpha = 0.5)+
   ggplot2::theme_classic() +
   ggplot2::theme(title = ggplot2::element_text(size = 12),
                  text = ggplot2::element_text(size = 12)) +
@@ -214,7 +216,7 @@ p_q21 <-ggplot2::ggplot(data = whole_df_lam) +
 
 p_emp <- ggplot() + theme_void()
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/whole_q_median2.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/whole_q_median2.tiff"),
      units="px", width=5500, height=2500,res = 350,compression="lzw")
 
 param_estimates <- cowplot::plot_grid(
@@ -238,18 +240,18 @@ while (!is.null(dev.list()))  dev.off()
 
 library(ggplot2)
 i = 1
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/median_AMM_test",i,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/median_AMM_test",i,".RData"))
 # whole_df_all1<-whole_df_all
 whole_df_all1<-median_all
 whole_df_all1$Scenario <- "Scenario1"
 
 i = 6
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/median_AMM_test",i,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/median_AMM_test",i,".RData"))
 whole_df_all2<-median_all
 whole_df_all2$Scenario <- "Scenario2"
 
 i = 7
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/median_AMM_test",i,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/median_AMM_test",i,".RData"))
 whole_df_all3<-median_all
 whole_df_all3$Scenario <- "Scenario3"
 
@@ -290,7 +292,7 @@ p_net2 <-ggplot2::ggplot(data = whole_df_lam) +
 
 
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/figures/whole_q_net_div.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/figures/whole_q_net_div.tiff"),
      units="px", width=4000, height=1200,res = 300,compression="lzw")
 
 param_estimates <- cowplot::plot_grid(
@@ -311,18 +313,18 @@ while (!is.null(dev.list()))  dev.off()
 
 library(ggplot2)
 i = 1
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/whole_df_all_AMM_test",i,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/whole_df_all_AMM_test",i,".RData"))
 # whole_df_all1<-whole_df_all
 whole_df_all1<-whole_df_all
 whole_df_all1$Scenario <- "Scenario1"
 
 i = 2
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/whole_df_all_AMM_test",i,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/whole_df_all_AMM_test",i,".RData"))
 whole_df_all2<-whole_df_all
 whole_df_all2$Scenario <- "Scenario2"
 
 i = 3
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/whole_df_all_AMM_test",i,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/whole_df_all_AMM_test",i,".RData"))
 whole_df_all3<-whole_df_all
 whole_df_all3$Scenario <- "Scenario3"
 
@@ -429,7 +431,7 @@ p_q21 <-ggplot2::ggplot(data = whole_df_lam) +
 
 p_emp <- ggplot() + theme_void()
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_3/whole_lam.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_4/whole_lam.tiff"),
      units="px", width=5500, height=2500,res = 350,compression="lzw")
 
 param_estimates <- cowplot::plot_grid(

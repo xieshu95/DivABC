@@ -159,7 +159,7 @@ for (num_ss in c(1)){
 # 2. formate MCMC results (only plot the estimation points with ABC results)
 # skip
 param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
-param_data3<-param_data[rep(seq_len(nrow(param_data)), each=5001),] #5001
+param_data3<-param_data[rep(seq_len(nrow(param_data)), each=1001),] #5001
 folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/secsse_MCMC_test")
 files <- list.files(folder_path)
 lam1_mcmc <- c()
@@ -168,7 +168,7 @@ mu1_mcmc <- c()
 mu2_mcmc <- c()
 q12_mcmc <- c()
 q21_mcmc <- c()
-seq <- seq(1,10001,2)
+seq <- seq(1,5001,5)
 for(i in 1:350){
   file_to_load <- grep(paste0("secsse_MCMC_test_param_set_", i,"_ss_1.RData"), #"_rep",rep,
                        files,
@@ -183,12 +183,12 @@ for(i in 1:350){
     q12_mcmc <- c(q12_mcmc, output[seq,5])
     q21_mcmc <- c(q21_mcmc, output[seq,6])
   } else {
-    lam1_mcmc <- c(lam1_mcmc, rep(NA,5001)) #500
-    lam2_mcmc <- c(lam2_mcmc, rep(NA,5001))
-    mu1_mcmc <- c(mu1_mcmc, rep(NA,5001))
-    mu2_mcmc <- c(mu2_mcmc, rep(NA,5001))
-    q12_mcmc <- c(q12_mcmc, rep(NA,5001))
-    q21_mcmc <- c(q21_mcmc, rep(NA,5001))
+    lam1_mcmc <- c(lam1_mcmc, rep(NA,1001)) #500
+    lam2_mcmc <- c(lam2_mcmc, rep(NA,1001))
+    mu1_mcmc <- c(mu1_mcmc, rep(NA,1001))
+    mu2_mcmc <- c(mu2_mcmc, rep(NA,1001))
+    q12_mcmc <- c(q12_mcmc, rep(NA,1001))
+    q21_mcmc <- c(q21_mcmc, rep(NA,1001))
   }
 }
 whole_df_MCMC <- data.frame(param_data3,
@@ -223,6 +223,7 @@ library(bayesplot)
 # load("G:/results/project 2/tip_info/round4/secsse_long_2/secsse_MCMC_long/secsse_MCMC_long_param_set_1_ss_1.RData")
 folder_path <-  paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/secsse_MCMC_test")
 files <- list.files(folder_path)
+seq <- seq(1,5001,5)
 for(i in 1:350){
   # param_set = (param_num-1)*5 + i
   file_to_load <- grep(paste0("secsse_MCMC_test_param_set_", i,"_ss_1.RData"), #"_rep",rep,
@@ -234,9 +235,9 @@ for(i in 1:350){
     load(file.path(folder_path, file_to_load))
     tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/MCMC_trace/set_",i,".tiff"),
          units="px", width=2000, height=3000,res = 300,compression="lzw")
-    b_mcmc <- coda::as.mcmc(output[,1:6])
+    b_mcmc <- coda::as.mcmc(output[seq,1:6])
     colnames(b_mcmc) <- c("Speciation 1","Speciation 2","Extinction 1","Extinction 2", "Transition 12","Transition 21")
-    plot_mcmc <- plot(b_mcmc,trace = T, density = F)
+    plot_mcmc <- plot(b_mcmc,trace = T, density = F,ylim = c(0,1.2))
     print(plot_mcmc)
     while (!is.null(dev.list()))  dev.off()
   }
@@ -271,7 +272,7 @@ for (num_ss in c(1)){
   ABC_median <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   df<-whole_df_MCMC
-  n <- 5001
+  n <- 1001
   MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   MLE_median <- whole_df_MLE
@@ -894,7 +895,7 @@ mu2_cor <- c()
 q12_cor <- c()
 q21_cor <- c()
 
-seq <- seq(4,5001,4)
+seq <- seq(1,5001,5)
 for(i in 1:350){
   file_to_load <- grep(paste0("secsse_MCMC_test_param_set_", i,"_ss_1.RData"), #"_rep",rep,
                        files,

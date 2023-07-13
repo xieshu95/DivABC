@@ -1,7 +1,7 @@
 ## secsse all particles all parameter sets into one
 
 # change RGB color
-rgb(red=016, green=070, blue=128, maxColorValue = 255)
+rgb(red=255, green=208, blue=111, maxColorValue = 255)
 
 iqr = function(z, lower = 0.1, upper = 0.9) {
   data.frame(
