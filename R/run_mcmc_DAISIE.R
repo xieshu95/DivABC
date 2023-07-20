@@ -39,10 +39,10 @@ run_MCMC_DAISIE <- function(param_space_name,
                log_lik_function = calc_log_lik_DAISIE,
                log_prior_function = calc_log_prior_DAISIE,
                parameters = as.numeric(initparsopt),
-               iterations = 500000, ##1000000
-               burnin = 50000,   # 100000
-               thinning = 10, #200
-               sigma = 0.15,
+               iterations = 1000000,
+               burnin = 100000,
+               thinning = 200, #200
+               sigma = 0.2,
                idparsopt = idparsopt)
 
   if (save_output == TRUE) {
@@ -56,29 +56,3 @@ run_MCMC_DAISIE <- function(param_space_name,
     return(mcmc)
   }
 }
-
-
-
-### function to decide the initial values for the parameters
-### should test if idparopt only contains 4 rates in MCMC
-#' Run mcmc
-#'
-#' @author Shu Xie
-#' @return
-#' @export
-# idparsopt <- c(1,3,4)
-# obs_sim_pars1 <- obs_sim_pars
-mcmc_init <- function(idparsopt, obs_sim_pars){
-  for (m in idparsopt){
-    if(m == 3){
-      obs_sim_pars[m + 1] <- 0.05
-    } else {
-      obs_sim_pars[m + 1] <- 2
-    }
-  }
-  return(obs_sim_pars)
-}
-
-# a <- mcmc_init(idparsopt = idparsopt,obs_sim_pars = obs_sim_pars1)
-# obs_sim_pars
-# a

@@ -654,7 +654,7 @@ while (!is.null(dev.list()))  dev.off()
 # whole_df_ABC$total <- rep(rep(pars_ss$total, each = 400), 1) # 500,5
 #
 # color_values <-c("ABC" = "red2","MCMC" = "green2", "MLE" = "yellow2")
-iqr = function(z, lower = 0.025, upper = 0.975) {
+iqr = function(z, lower = 0.1, upper = 0.9) {
   data.frame(
     y = median(z),
     ymin = quantile(z, lower),
@@ -691,7 +691,7 @@ p_lac <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlac, co
   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
   ggplot2::theme_bw() +
   ggplot2::theme_classic() +
-  ggplot2::ylim(-0.6,2)+
+  ggplot2::ylim(-0.8,2)+
   # ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.1)+ #,color = "red2"
   ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
   ggplot2::theme(title = ggplot2::element_text(size = 12),

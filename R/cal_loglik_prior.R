@@ -3,25 +3,27 @@
 #' @return a numeric represents the posterior probability
 #' @export
 
-# calc_log_lik_DAISIE <- function(params, datalist) {
-#   log_lik <- DAISIE::DAISIE_loglik_all(
-#     pars1 = as.numeric(c(params[1],params[2],Inf,params[3],params[4])),
-#     pars2 = c(100, 0, 0, 0),
-#     datalist = datalist,
-#     methode = "lsodes"
-#   )
-#   return(log_lik)
-# }
-
-calc_log_lik_DAISIE <- function(params, datalist,idparsopt) {
+# DI model
+calc_log_lik_DAISIE <- function(params, datalist) {
   log_lik <- DAISIE::DAISIE_loglik_all(
-    pars1 = as.numeric(c(params[1],params[2],50,params[3],params[4])),
-    pars2 = c(100, 11, 1, 0),
+    pars1 = as.numeric(c(params[1],params[2],Inf,params[3],params[4])),
+    pars2 = c(100, 0, 0, 0),
     datalist = datalist,
     methode = "lsodes"
   )
   return(log_lik)
 }
+
+# DD model
+# calc_log_lik_DAISIE <- function(params, datalist,idparsopt) {
+#   log_lik <- DAISIE::DAISIE_loglik_all(
+#     pars1 = as.numeric(c(params[1],params[2],50,params[3],params[4])),
+#     pars2 = c(100, 11, 1, 0),
+#     datalist = datalist,
+#     methode = "lsodes"
+#   )
+#   return(log_lik)
+# }
 
 #' Calculates the log prior density
 #'
@@ -47,14 +49,6 @@ calc_log_lik_secsse <- function(params, datalist) {
   q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)
   q[1,3]<- q[2,4] <- q[3,1] <- q[4,2] <- 0
   pars[[3]][] <- q
-  # log_lik <- secsse::secsse_loglik(
-  #   parameter = pars,
-  #   phy = datalist$phy,
-  #   traits = datalist$obs_traits,
-  #   num_concealed_states = 2,
-  #   sampling_fraction = c(1,1),
-  #   cond = "proper_cond"
-  # )
   skip <- FALSE
   tryCatch(log_lik <- secsse::secsse_loglik(
     parameter = pars,
