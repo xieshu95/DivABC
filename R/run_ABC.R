@@ -49,7 +49,7 @@ run_ABC <- function(param_space_name,
     } else if (ss_set == 2){  # tip
       init_epsilon <- c(150,50,50)
     } else if (ss_set == 3){  #nltt
-      init_epsilon <- c(150,30,30)
+      init_epsilon <- c(100,20,20)
     }
 
     abc <- ABC_SMC (
@@ -63,7 +63,7 @@ run_ABC <- function(param_space_name,
       sigma = 0.2,
       stop_rate = 0.001,
       replicates = 1,
-      num_iterations = 15,
+      num_iterations = 12,
       K = as.numeric(obs_sim_pars$K),
       idparsopt = as.numeric(idparsopt),
       fixpars = fixpars,
