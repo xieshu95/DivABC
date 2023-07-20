@@ -13,12 +13,12 @@ iqr = function(z, lower = 0.1, upper = 0.9) {
 
 library(ggplot2)
 for(i in 1:7){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/whole_df_MLE.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_MLE.RData"))
   whole_df_MLE <- whole_df_MLE[(i*50-49):(i*50),]
   total <- whole_df_MLE$tree_size
 
   ss = "ABC"
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/delta_whole_df_ABC_test_ss1.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/delta_whole_df_ABC_test_ss1.RData"))
   whole_df_ABC <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC$ss = "ABC"
   whole_df_ABC = whole_df_ABC[,-7]
@@ -44,10 +44,10 @@ for(i in 1:7){
   ABC_median$ss = "ABC"
 
 
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/delta_whole_df_MCMC_test.RData"))
-  whole_df_MCMC <- whole_df_MCMC[(i*250050-250049):(i*250050),]
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/delta_whole_df_MCMC_test.RData"))
+  whole_df_MCMC <- whole_df_MCMC[(i*125050-125049):(i*125050),]
   whole_df_MCMC$ss = "MCMC"
-  whole_df_MCMC$total <- rep(total, each = 5001) #2001
+  whole_df_MCMC$total <- rep(total, each = 2501) #2001
   whole_df_MCMC$dlam1 <- whole_df_MCMC$lam1_mcmc - whole_df_MCMC$lam1
   whole_df_MCMC$dlam2 <- whole_df_MCMC$lam2_mcmc - whole_df_MCMC$lam2
   whole_df_MCMC$dmu1 <- whole_df_MCMC$mu1_mcmc - whole_df_MCMC$mu1
@@ -58,10 +58,10 @@ for(i in 1:7){
   whole_df_MCMC$dnet_div2 <- whole_df_MCMC$net_div_MCMC2 - whole_df_MCMC$net_div2
   whole_df_MCMC$dext_frac1 <- whole_df_MCMC$ext_frac_MCMC1 - whole_df_MCMC$ext_frac1
   whole_df_MCMC$dext_frac2 <- whole_df_MCMC$ext_frac_MCMC2 - whole_df_MCMC$ext_frac2
-  whole_df_MCMC$rep <- rep(rep(1:50, each = 5001), 1)
+  whole_df_MCMC$rep <- rep(rep(1:50, each = 2501), 1)
 
   df<-whole_df_MCMC
-  n <- 5001
+  n <- 2501
   MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   # MLE
@@ -92,13 +92,13 @@ for(i in 1:7){
   whole_df_all <- rbind(whole_df_ABC[,c(1:6,13,14,17,18,21:33)],
                         whole_df_MCMC[,c(1:6,13,14,17,18,21:33)],
                         whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
-  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/whole_df_all_AMM_test",i,".RData"))
+  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_all_AMM_test",i,".RData"))
 
   median_all <- rbind(ABC_median[,c(1:6,13,14,17,18,21:33)],
                       MCMC_median[,c(1:6,13,14,17,18,21:33)],
                         whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
 
-  save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/median_AMM_test",i,".RData"))
+  save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
 }
 
 ## sum_stat each replicate
@@ -145,7 +145,7 @@ iqr = function(z, lower = 0.05, upper = 0.95) {
 
 
 for (i in 1:7){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/whole_df_all_AMM_test",i,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_all_AMM_test",i,".RData"))
   p_netdiv1 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div1,y = ss,color = ss)) +
     ggplot2::stat_summary(fun.data = iqr,alpha = 1) +
     # geom_density_ridges_gradient(scale = 2, rel_min_height = 0.005) +
@@ -153,15 +153,15 @@ for (i in 1:7){
     ggplot2::theme_classic() +
     ggplot2::xlim(-1,1)+
     # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
-    ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
+    ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
     ggplot2::theme(title = ggplot2::element_text(size = 14,colour = "black"),
                    text = ggplot2::element_text(size = 14,colour = "black"),
                    strip.text = element_text(size = 14,colour = "black")) +
-    ggplot2::xlab(expression(Delta~Net~diversification~1))+
+    ggplot2::xlab(expression(Delta~Net~diversification~0))+
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/each_rep_plots/drate_net_div1_scen",i,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_net_div1_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_netdiv1)
   while (!is.null(dev.list()))  dev.off()
@@ -174,15 +174,15 @@ for (i in 1:7){
     ggplot2::theme_classic() +
     ggplot2::xlim(-1,1)+
     # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
-    ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
+    ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
     ggplot2::theme(title = ggplot2::element_text(size = 14,colour = "black"),
                    text = ggplot2::element_text(size = 14,colour = "black"),
                    strip.text = element_text(size = 14,colour = "black")) +
-    ggplot2::xlab(expression(Delta~Net~diversification~2))+
+    ggplot2::xlab(expression(Delta~Net~diversification~1))+
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/each_rep_plots/drate_net_div2_scen",i,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_net_div2_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_netdiv2)
   while (!is.null(dev.list()))  dev.off()
@@ -196,15 +196,15 @@ for (i in 1:7){
     ggplot2::theme_classic() +
     ggplot2::xlim(-1,1)+
     # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
-    ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
+    ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
     ggplot2::theme(title = ggplot2::element_text(size = 14,colour = "black"),
                    text = ggplot2::element_text(size = 14,colour = "black"),
                    strip.text = element_text(size = 14,colour = "black")) +
-    ggplot2::xlab(expression(Delta~lambda[1]))+
+    ggplot2::xlab(expression(Delta~lambda[0]))+
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/each_rep_plots/drate_lam1_scen",i,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_lam1_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_lam1)
   while (!is.null(dev.list()))  dev.off()
@@ -217,15 +217,15 @@ for (i in 1:7){
     ggplot2::theme_classic() +
     ggplot2::xlim(-1,1)+
     # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
-    ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
+    ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
     ggplot2::theme(title = ggplot2::element_text(size = 14,colour = "black"),
                    text = ggplot2::element_text(size = 14,colour = "black"),
                    strip.text = element_text(size = 14,colour = "black")) +
-    ggplot2::xlab(expression(Delta~lambda[2]))+
+    ggplot2::xlab(expression(Delta~lambda[1]))+
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/each_rep_plots/drate_lam2_scen",i,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_lam2_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_lam2)
   while (!is.null(dev.list()))  dev.off()
@@ -237,15 +237,15 @@ for (i in 1:7){
     ggplot2::theme_classic() +
     ggplot2::xlim(-0.2,1)+
     # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
-    ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
+    ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
     ggplot2::theme(title = ggplot2::element_text(size = 14,colour = "black"),
                    text = ggplot2::element_text(size = 14,colour = "black"),
                    strip.text = element_text(size = 14,colour = "black")) +
-    ggplot2::xlab(expression(Delta~mu[1]))+
+    ggplot2::xlab(expression(Delta~mu[0]))+
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/each_rep_plots/drate_mu1_scen",i,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_mu1_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_mu1)
   while (!is.null(dev.list()))  dev.off()
@@ -257,15 +257,15 @@ for (i in 1:7){
     ggplot2::theme_classic() +
     ggplot2::xlim(-0.2,1)+
     # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
-    ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
+    ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
     ggplot2::theme(title = ggplot2::element_text(size = 14,colour = "black"),
                    text = ggplot2::element_text(size = 14,colour = "black"),
                    strip.text = element_text(size = 14,colour = "black")) +
-    ggplot2::xlab(expression(Delta~mu[2]))+
+    ggplot2::xlab(expression(Delta~mu[1]))+
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/each_rep_plots/drate_mu2_scen",i,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_mu2_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_mu2)
   while (!is.null(dev.list()))  dev.off()
@@ -278,15 +278,15 @@ for (i in 1:7){
     ggplot2::theme_classic() +
     ggplot2::xlim(-0.2,1)+
     # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
-    ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
+    ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
     ggplot2::theme(title = ggplot2::element_text(size = 14,colour = "black"),
                    text = ggplot2::element_text(size = 14,colour = "black"),
                    strip.text = element_text(size = 14,colour = "black")) +
-    ggplot2::xlab(expression(Delta~q[12]))+
+    ggplot2::xlab(expression(Delta~q[01]))+
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/each_rep_plots/drate_q12_scen",i,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_q12_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_q12)
   while (!is.null(dev.list()))  dev.off()
@@ -299,15 +299,15 @@ for (i in 1:7){
     ggplot2::theme_classic() +
     ggplot2::xlim(-0.2,1)+
     # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
-    ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
+    ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
     ggplot2::theme(title = ggplot2::element_text(size = 14,colour = "black"),
                    text = ggplot2::element_text(size = 14,colour = "black"),
                    strip.text = element_text(size = 14,colour = "black")) +
-    ggplot2::xlab(expression(Delta~q[21]))+
+    ggplot2::xlab(expression(Delta~q[10]))+
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/each_rep_plots/drate_q21_scen",i,".tiff"),
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_q21_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_q21)
   while (!is.null(dev.list()))  dev.off()
@@ -326,18 +326,20 @@ iqr = function(z, lower = 0.1, upper = 0.9) {
 }
 
 for(test in 1:7){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/whole_df_all_AMM_test",test,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_all_AMM_test",test,".RData"))
   p_netdiv1 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_div1,color = ss,shape = ss)) +
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-2,2)+
-    ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
-    ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
-    ggplot2::theme(title = ggplot2::element_text(size = 12),
-                   text = ggplot2::element_text(size = 12)) +
+    ggplot2::ylim(-1,1)+
+    # ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
+    # ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
+    ggplot2::scale_colour_manual(values = c("#b81f25","#EFC000","#4daf4a"))+
+    ggplot2::theme(axis.title.x = ggplot2::element_blank(),
+                   axis.title.y = ggplot2::element_text(size = 11),
+                   text = ggplot2::element_text(size = 15)) +
     ggplot2::xlab("Tree size") +
-    ggplot2::ylab(expression(Delta~Net~diversification~state~1))+
+    ggplot2::ylab(expression(Delta~Net~diversification~state~0))+
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
 
@@ -345,46 +347,28 @@ for(test in 1:7){
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-2,2)+
-    ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
-    ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+
-    ggplot2::theme(title = ggplot2::element_text(size = 12),
-                   text = ggplot2::element_text(size = 12)) +
+    ggplot2::ylim(-1,1)+
+    # ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
+    ggplot2::scale_colour_manual(values = c("#b81f25","#EFC000","#4daf4a"))+
+    ggplot2::theme(axis.title.x = ggplot2::element_blank(),
+                   axis.title.y = ggplot2::element_text(size = 11),
+                   text = ggplot2::element_text(size = 15)) +
     ggplot2::xlab("Tree size") +
-    ggplot2::ylab(expression(Delta~Net~diversification~state~2))+
+    ggplot2::ylab(expression(Delta~Net~diversification~state~1))+
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/drate_all_netdiv_test",test,".tiff"),
-       units="px", width=5000, height=2000,res = 350,compression="lzw")
-  params <- cowplot::plot_grid(
-    p_netdiv1+ggplot2::theme(legend.position = "none"),
-    p_netdiv2+ggplot2::theme(legend.position = "none"),
-    align = "hv", nrow = 1, ncol = 2
-  )
-  legend <- cowplot::get_legend(
-    p_netdiv1 + theme(legend.box.margin = margin(0, 0, 0, 6))
-  )
-  param_estimates <- cowplot::plot_grid(params,legend,
-                                        rel_widths = c(3,0.4)
-  )
-  print(param_estimates)
-  while (!is.null(dev.list()))  dev.off()
-}
-
-
-for(test in c(5)){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/whole_df_all_AMM_test",test,".RData"))
   p_lam1 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlam1,color = ss,shape = ss)) +
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-2,2)+
-    ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
-    ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
-    ggplot2::theme(title = ggplot2::element_text(size = 12),
-                   text = ggplot2::element_text(size = 12)) +
+    ggplot2::ylim(-0.5,1.05)+
+    # ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
+    ggplot2::scale_colour_manual(values = c("#b81f25","#EFC000","#4daf4a"))+ # "#104680","#4393C3"
+    ggplot2::theme(axis.title.x = ggplot2::element_blank(),
+                   axis.title.y = ggplot2::element_text(size = 15),
+                   text = ggplot2::element_text(size = 15)) +
     ggplot2::xlab("Tree size") +
-    ggplot2::ylab(expression(Delta~lambda[1]))+
+    ggplot2::ylab(expression(Delta~lambda[0]))+
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
 
@@ -392,39 +376,42 @@ for(test in c(5)){
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-2,2)+
-    ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
-    ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
-    ggplot2::theme(title = ggplot2::element_text(size = 12),
-                   text = ggplot2::element_text(size = 12)) +
+    ggplot2::ylim(-0.5,1.05)+
+    # ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
+    ggplot2::scale_colour_manual(values = c("#b81f25","#EFC000","#4daf4a"))+ # "#104680","#4393C3"
+    ggplot2::theme(axis.title.x = ggplot2::element_blank(),
+                   axis.title.y = ggplot2::element_text(size = 15),
+                   text = ggplot2::element_text(size = 15)) +
     ggplot2::xlab("Tree size") +
-    ggplot2::ylab(expression(Delta~lambda[2]))+
+    ggplot2::ylab(expression(Delta~lambda[1]))+
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
   p_mu1 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dmu1,color = ss,shape = ss)) +
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-2,2)+
-    ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
-    ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
-    ggplot2::theme(title = ggplot2::element_text(size = 12),
-                   text = ggplot2::element_text(size = 12)) +
+    ggplot2::ylim(-0.5,1.05)+
+    # ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
+    ggplot2::scale_colour_manual(values = c("#b81f25","#EFC000","#4daf4a"))+ # "#104680","#4393C3"
+    ggplot2::theme(axis.title.x = ggplot2::element_blank(),
+                   axis.title.y = ggplot2::element_text(size = 15),
+                   text = ggplot2::element_text(size = 15)) +
     ggplot2::xlab("Tree size") +
-    ggplot2::ylab(expression(Delta~mu[1]))+
+    ggplot2::ylab(expression(Delta~mu[0]))+
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
   p_mu2 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dmu2,color = ss,shape = ss)) +
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-2,2)+
-    ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
-    ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
-    ggplot2::theme(title = ggplot2::element_text(size = 12),
-                   text = ggplot2::element_text(size = 12)) +
+    ggplot2::ylim(-0.5,1.05)+
+    # ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
+    ggplot2::scale_colour_manual(values = c("#b81f25","#EFC000","#4daf4a"))+ # "#104680","#4393C3"
+    ggplot2::theme(axis.title.x = ggplot2::element_blank(),
+                   axis.title.y = ggplot2::element_text(size = 15),
+                   text = ggplot2::element_text(size = 15)) +
     ggplot2::xlab("Tree size") +
-    ggplot2::ylab(expression(Delta~mu[2]))+
+    ggplot2::ylab(expression(Delta~mu[1]))+
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
 
@@ -432,38 +419,43 @@ for(test in c(5)){
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-2,2)+
-    ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
-    ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
-    ggplot2::theme(title = ggplot2::element_text(size = 12),
-                   text = ggplot2::element_text(size = 12)) +
+    ggplot2::ylim(-0.5,1.05)+
+    # ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
+    ggplot2::scale_colour_manual(values = c("#b81f25","#EFC000","#4daf4a"))+ # "#104680","#4393C3"
+    ggplot2::theme(axis.title.x = ggplot2::element_blank(),
+                   axis.title.y = ggplot2::element_text(size = 15),
+                   text = ggplot2::element_text(size = 15)) +
     ggplot2::xlab("Tree size") +
-    ggplot2::ylab(expression(Delta~q[12]))+
+    ggplot2::ylab(expression(Delta~q[01]))+
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
   p_q21 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dq21,color = ss,shape = ss)) +
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
     ggplot2::theme_classic() +
-    ggplot2::ylim(-2,2)+
-    ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
-    ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
-    ggplot2::theme(title = ggplot2::element_text(size = 12),
-                   text = ggplot2::element_text(size = 12)) +
+    ggplot2::ylim(-0.5,1.05)+
+    # ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
+    ggplot2::scale_colour_manual(values = c("#b81f25","#EFC000","#4daf4a"))+ # "#104680","#4393C3"
+    ggplot2::theme(axis.title.x = ggplot2::element_blank(),
+                   axis.title.y = ggplot2::element_text(size = 15),
+                   text = ggplot2::element_text(size = 15)) +
     ggplot2::xlab("Tree size") +
-    ggplot2::ylab(expression(Delta~q[21]))+
+    ggplot2::ylab(expression(Delta~q[10]))+
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/drate_all_rates_test",test,".tiff"),
+
+  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/drate_all_rates_test",test,".tiff"),
        units="px", width=5000, height=2000,res = 350,compression="lzw")
   params <- cowplot::plot_grid(
     p_lam1+ggplot2::theme(legend.position = "none"),
     p_mu1+ggplot2::theme(legend.position = "none"),
     p_q12+ggplot2::theme(legend.position = "none"),
+    p_netdiv1+ggplot2::theme(legend.position = "none"),
     p_lam2+ggplot2::theme(legend.position = "none"),
     p_mu2+ggplot2::theme(legend.position = "none"),
     p_q21+ggplot2::theme(legend.position = "none"),
-    align = "hv", nrow = 2, ncol = 3
+    p_netdiv2+ggplot2::theme(legend.position = "none"),
+    align = "hv", nrow = 2, ncol = 4
   )
   legend <- cowplot::get_legend(
     p_lam1 + theme(legend.box.margin = margin(0, 0, 0, 6))
@@ -471,8 +463,113 @@ for(test in c(5)){
   param_estimates <- cowplot::plot_grid(params,legend,
                                         rel_widths = c(3,0.4)
   )
-  print(param_estimates)
+  param_estimates <- cowplot::add_sub(param_estimates, "Total species richness", hjust = 1)
+  print(cowplot::ggdraw(param_estimates))
   while (!is.null(dev.list()))  dev.off()
 }
+
+
+# for(test in c(5)){
+#   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_all_AMM_test",test,".RData"))
+#   p_lam1 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlam1,color = ss,shape = ss)) +
+#     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
+#     ggplot2::theme_bw() +
+#     ggplot2::theme_classic() +
+#     ggplot2::ylim(-2,2)+
+#     ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
+#     ggplot2::scale_colour_manual(values = c("#b81f25","#EFC000","#4daf4a"))+ # "#104680","#4393C3"
+#     ggplot2::theme(title = ggplot2::element_text(size = 12),
+#                    text = ggplot2::element_text(size = 12)) +
+#     ggplot2::xlab("Tree size") +
+#     ggplot2::ylab(expression(Delta~lambda[1]))+
+#     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
+#
+#
+#   p_lam2 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlam2,color = ss,shape = ss)) +
+#     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
+#     ggplot2::theme_bw() +
+#     ggplot2::theme_classic() +
+#     ggplot2::ylim(-2,2)+
+#     ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
+#     ggplot2::scale_colour_manual(values = c("#b81f25","#EFC000","#4daf4a"))+ # "#104680","#4393C3"
+#     ggplot2::theme(title = ggplot2::element_text(size = 12),
+#                    text = ggplot2::element_text(size = 12)) +
+#     ggplot2::xlab("Tree size") +
+#     ggplot2::ylab(expression(Delta~lambda[2]))+
+#     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
+#
+#   p_mu1 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dmu1,color = ss,shape = ss)) +
+#     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
+#     ggplot2::theme_bw() +
+#     ggplot2::theme_classic() +
+#     ggplot2::ylim(-2,2)+
+#     ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
+#     ggplot2::scale_colour_manual(values = c("#b81f25","#EFC000","#4daf4a"))+ # "#104680","#4393C3"
+#     ggplot2::theme(title = ggplot2::element_text(size = 12),
+#                    text = ggplot2::element_text(size = 12)) +
+#     ggplot2::xlab("Tree size") +
+#     ggplot2::ylab(expression(Delta~mu[1]))+
+#     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
+#
+#   p_mu2 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dmu2,color = ss,shape = ss)) +
+#     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
+#     ggplot2::theme_bw() +
+#     ggplot2::theme_classic() +
+#     ggplot2::ylim(-2,2)+
+#     ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
+#     ggplot2::scale_colour_manual(values = c("#b81f25","#EFC000","#4daf4a"))+ # "#104680","#4393C3"
+#     ggplot2::theme(title = ggplot2::element_text(size = 12),
+#                    text = ggplot2::element_text(size = 12)) +
+#     ggplot2::xlab("Tree size") +
+#     ggplot2::ylab(expression(Delta~mu[2]))+
+#     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
+#
+#
+#   p_q12 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dq12,color = ss,shape = ss)) +
+#     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
+#     ggplot2::theme_bw() +
+#     ggplot2::theme_classic() +
+#     ggplot2::ylim(-2,2)+
+#     ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
+#     ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
+#     ggplot2::theme(title = ggplot2::element_text(size = 12),
+#                    text = ggplot2::element_text(size = 12)) +
+#     ggplot2::xlab("Tree size") +
+#     ggplot2::ylab(expression(Delta~q[12]))+
+#     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
+#
+#   p_q21 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dq21,color = ss,shape = ss)) +
+#     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
+#     ggplot2::theme_bw() +
+#     ggplot2::theme_classic() +
+#     ggplot2::ylim(-2,2)+
+#     ggplot2::stat_smooth(method = "lm", se = F,alpha = 0.5,size = 1.2)+
+#     ggplot2::scale_colour_manual(values = c("#B72230","#8CC269","#f5cb1f"))+ # "#104680","#4393C3"
+#     ggplot2::theme(title = ggplot2::element_text(size = 12),
+#                    text = ggplot2::element_text(size = 12)) +
+#     ggplot2::xlab("Tree size") +
+#     ggplot2::ylab(expression(Delta~q[21]))+
+#     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
+#
+#   tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/drate_all_rates_test",test,".tiff"),
+#        units="px", width=5500, height=2000,res = 400,compression="lzw")
+#   params <- cowplot::plot_grid(
+#     p_lam1+ggplot2::theme(legend.position = "none"),
+#     p_mu1+ggplot2::theme(legend.position = "none"),
+#     p_q12+ggplot2::theme(legend.position = "none"),
+#     p_lam2+ggplot2::theme(legend.position = "none"),
+#     p_mu2+ggplot2::theme(legend.position = "none"),
+#     p_q21+ggplot2::theme(legend.position = "none"),
+#     align = "hv", nrow = 2, ncol = 3
+#   )
+#   legend <- cowplot::get_legend(
+#     p_lam1 + theme(legend.box.margin = margin(0, 0, 0, 6))
+#   )
+#   param_estimates <- cowplot::plot_grid(params,legend,
+#                                         rel_widths = c(3,0.4)
+#   )
+#   print(param_estimates)
+#   while (!is.null(dev.list()))  dev.off()
+# }
 
 

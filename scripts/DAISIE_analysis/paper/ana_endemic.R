@@ -73,14 +73,14 @@ folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("data/DAISIE_MCMC_short_DI.csv")
 param_data <- param_data[1:160,]
-param_data3<-param_data[rep(seq_len(nrow(param_data)), each=1001),] #2001/400
+param_data3<-param_data[rep(seq_len(nrow(param_data)), each=2501),] #2001/400
 
 lac_mcmc <- c()
 mu_mcmc <- c()
 gam_mcmc <- c()
 laa_mcmc <- c()
 
-seq <- seq(1,5001,5)
+seq <- seq(1,5001,2)
 for(i in 1:160){
   file_to_load <- grep(paste0("DAISIE_MCMC_short_DI_param_set_", i,"_ss_1.RData"), #"_rep",rep,
                        files,
@@ -91,15 +91,15 @@ for(i in 1:160){
 
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-    lac_mcmc <- c(lac_mcmc, output[seq,1]) # output[4002:1001,1]
+    lac_mcmc <- c(lac_mcmc, output[seq,1]) # output[4002:2501,1]
     mu_mcmc <- c(mu_mcmc, output[seq,2])
     gam_mcmc <- c(gam_mcmc, output[seq,3])
     laa_mcmc <- c(laa_mcmc, output[seq,4])
   } else {
-    lac_mcmc <- c(lac_mcmc, rep(NA,1001)) #rep(NA,400)
-    mu_mcmc <- c(mu_mcmc, rep(NA,1001))
-    gam_mcmc <- c(gam_mcmc, rep(NA,1001))
-    laa_mcmc <- c(laa_mcmc, rep(NA,1001))
+    lac_mcmc <- c(lac_mcmc, rep(NA,2501)) #rep(NA,400)
+    mu_mcmc <- c(mu_mcmc, rep(NA,2501))
+    gam_mcmc <- c(gam_mcmc, rep(NA,2501))
+    laa_mcmc <- c(laa_mcmc, rep(NA,2501))
   }
 }
 
@@ -214,10 +214,10 @@ whole_df_ABC$dext_frac <- whole_df_ABC$ext_frac_ABC - whole_df_ABC$ext_frac
 
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_MCMC.RData"))
 whole_df_MCMC$ss = "MCMC"
-whole_df_MCMC$total <- rep(rep(pars_ss$total, each = 1001), 1)
-whole_df_MCMC$rep <- rep(rep(1:10, each = 1001), 16)
-whole_df_MCMC$num_clade <- rep(rep(pars_ss$num.clade, each = 1001), 1)
-whole_df_MCMC$largest_clade <- rep(rep(pars_ss$largest.clade, each = 1001), 1)
+whole_df_MCMC$total <- rep(rep(pars_ss$total, each = 2501), 1)
+whole_df_MCMC$rep <- rep(rep(1:10, each = 2501), 16)
+whole_df_MCMC$num_clade <- rep(rep(pars_ss$num.clade, each = 2501), 1)
+whole_df_MCMC$largest_clade <- rep(rep(pars_ss$largest.clade, each = 2501), 1)
 whole_df_MCMC$dlac <- whole_df_MCMC$lac_mcmc - whole_df_MCMC$lac
 whole_df_MCMC$dmu <- whole_df_MCMC$mu_mcmc - whole_df_MCMC$mu
 whole_df_MCMC$dgam <- whole_df_MCMC$gam_mcmc - whole_df_MCMC$gam
@@ -499,7 +499,7 @@ p_netdiv_all <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div,y 
   # geom_density_ridges_gradient(scale = 2, rel_min_height = 0.005) +
   ggplot2::theme_bw() +
   ggplot2::theme_classic() +
-  ggplot2::xlim(-1.6,1.6)+
+  ggplot2::xlim(-1.51,1.51)+
   # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
   ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
   ggplot2::theme(title = ggplot2::element_text(size = 14,colour = "black"),
@@ -1593,7 +1593,7 @@ write.csv2(round(ss_sd,0),paste0("D:/Onedrive-shu/OneDrive/project 2/results/rou
 
 ###
 library(coda)
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/DAISIE_MCMC_short_DI"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/new MCMC/DAISIE_MCMC_short_DI"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("data/DAISIE_MCMC_short_DI.csv")
 param_data <- param_data[1:160,]
@@ -1604,7 +1604,7 @@ mu_cor <- c()
 gam_cor <- c()
 laa_cor <- c()
 
-seq <- seq(1,5001,6)
+seq <- seq(1,5001,2)
 for(i in 1:160){
   file_to_load <- grep(paste0("DAISIE_MCMC_short_DI_param_set_", i,"_ss_1.RData"), #"_rep",rep,
                        files,
@@ -1615,7 +1615,7 @@ for(i in 1:160){
 
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-    lac_cor <- c(lac_cor, autocorr(coda::as.mcmc(output[seq,1]), lags = c(2), relative=TRUE)) # output[4002:1001,1]
+    lac_cor <- c(lac_cor, autocorr(coda::as.mcmc(output[seq,1]), lags = c(2), relative=TRUE)) # output[4002:2501,1]
     mu_cor <- c(mu_cor, autocorr(coda::as.mcmc(output[seq,2]), lags = c(2), relative=TRUE))
     gam_cor <- c(gam_cor, autocorr(coda::as.mcmc(output[seq,3]), lags = c(2), relative=TRUE))
     laa_cor <- c(laa_cor, autocorr(coda::as.mcmc(output[seq,4]), lags = c(2), relative=TRUE))

@@ -43,6 +43,8 @@ calc_ss_no_ext <- function(sim,
   num_nonend <-
     as.numeric(sim[[1]][[1]]$stt_all[stt_last_row_sim, "nI"])
 
+
+  num_end <- num_singleton + num_clado
   num_total <- num_singleton + num_clado + num_nonend
 
   clade_size_sd <- clade_size_sd(sim = sim)
@@ -97,9 +99,10 @@ calc_ss_no_ext <- function(sim,
          colon_time = colon_time_sd,
          num_clades = num_clades, #
          num_total = num_total,
-         num_singleton = num_singleton,
+         num_end = num_end,
          num_nonend = num_nonend,
          clade_size = clade_size_sd,
+         num_singleton = num_singleton,
          largest_clade_sim = largest_clade_sim #
     )
   )
@@ -187,8 +190,9 @@ colnames(ss) <- c("NLTT","Singleton LTT", "Nonend LTT","SD-CT",
                   "N total","N singleton","N nonend","SD-CS")
 p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
                                       ylab = "Summary statistics", k_col = 2, k_row = 2)
-saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space2/DD_daisie_heatmap_tree_all.html"))
-
+saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI_daisie_heatmap_tree_all.html"))
+plotly::export(p = p, #the graph to export
+               file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI_daisie_heatmap_tree_all.png"))
 
 
 pars_ss<-data.frame(param_space,ss)
@@ -226,7 +230,8 @@ colnames(ss) <- c("NLTT Total","NLTT Singleton-end", "NLTT Non-end","SD-CT",
 p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistic",
                                       ylab = "Summary statistic", k_col = 2, k_row = 2)
 saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/heatmaps/daisie_heatmap_tree_new.html"))
-
+plotly::export(p = p, #the graph to export
+               file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/heatmaps/daisie_heatmap_tree_new.png"))
 
 
 ## old code:

@@ -1,6 +1,87 @@
-# boxplot of scenarios, combine medians of all the replications
+## 根据initial state分成两组，比较每一个parameterset（共350个）init和obsdata相同或不相同时的参数估计
+# 1. 需要有一个vector记录所有 obsdata的initial state，并变成0/1形式
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_sims_secsse_ABC_test.rda")
+init_state <- c()
+for (i in 1:350) {
+  init_state[i] <- obs_sim[[i]][[1]]$initialState
+}
+init_state <- as.data.frame(init_state)
+init_state$init_obs <- rep(NA,350)
+init_state$init_obs[which(init_state$init_state == 0)] <-"0"
+init_state$init_obs[which(init_state$init_state == 1)] <-"1"
+init_state$init_obs[which(init_state$init_state == 2)] <-"0"
+init_state$init_obs[which(init_state$init_state == 3)] <-"1"
 
-## generate data frame combine all the particles/medians
+
+# 2. 提取每一个accepted simulation （从 sim_list中提取），变成0/1形式
+for (num_ss in c(1)){
+  # formate results
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_ss_test.rda"))
+  ## ABC results
+  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/secsse_ABC_test")
+  files <- list.files(folder_path)
+  param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
+  param_data2<-param_data[rep(seq_len(nrow(param_data)), each=500),] #500
+  init_sim <- c()
+  for(i in 1:350){
+    file_to_load <- grep(paste0("secsse_ABC_test_param_set_",i,"_ss_",num_ss,".RData"),  #,"_rep",rep
+                         files,
+                         value = TRUE,
+                         fixed = TRUE)
+
+    # abc <- NULL; rm(abc) # nolint ; hack around global var
+    if (!identical(file_to_load, character())) {
+      load(file.path(folder_path, file_to_load))
+      num_iter <- output$n_iter
+      if(output$n_iter <= 2){
+        init_sim <- c(init_sim,rep(NA,500))
+      } else {
+        init<-c()
+        for (m in 1:500) {
+          init[m] <- output$sim_list[[m]]$initialState
+        }
+        init[which(init == 0)] <-"0"
+        init[which(init == 1)] <-"1"
+        init[which(init == 2)] <-"0"
+        init[which(init == 3)] <-"1"
+
+        init_sim <- c(init_sim,init)
+      }
+    } else {
+      init_sim <- c(init_sim,rep(NA,500))
+    }
+  }
+
+  init_obs <- rep(init_state$init_obs,each = 500)
+
+  whole_df_init <- data.frame(init_obs,
+                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
+                              init_sim)
+  whole_df_init$equal <- rep(NA,175000)
+  whole_df_init$equal[which(whole_df_init$init_obs == whole_df_init$init_sim)]<- T
+  whole_df_init$equal[which(whole_df_init$init_obs != whole_df_init$init_sim)]<- F
+  save(whole_df_init,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_init_all_ss",num_ss,".RData"))
+}
+
+# 3. 和之前一样需要一个whole_df——ABC 记录每个parameter set（350）* particles（500）并计算 drate
+# 4. 根据obs和sim initstate是否相同，拆分成两个whole_df_ABC, 一个是只保留相同的，一个是只保留不同的
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_init_all_ss",1,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/delta_whole_df_ABC_test_ss",1,".RData"))
+df_init <- data.frame(whole_df_ABC,whole_df_init)
+df_equal <- df_init
+df_diff <- df_init
+df_equal[which(df_equal$init_obs != df_equal$init_sim),c(8:13,16,17,20,21)]<-NA
+df_diff[which(df_diff$init_obs == df_diff$init_sim),c(8:13,16,17,20,21)]<-NA
+save(df_equal,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_init_equal_ss",1,".RData"))
+save(df_diff,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_init_diff_ss",1,".RData"))
+
+equal_prob <-c()
+for (i in 1:350) {
+  n <- c((i*500-499):(i*500))
+  equal_prob[i] <- sum(whole_df_init$equal[n] == T,na.rm = T)/500
+}
+
+# 5. 分别将两个whole_df_ABC和完整的whole_df_ABC,和MCMC MLE 结果进行比较
 library(ggplot2)
 for(i in 1:7){
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_MLE.RData"))
@@ -8,11 +89,13 @@ for(i in 1:7){
   total <- whole_df_MLE$tree_size
 
   ss = "ABC"
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/delta_whole_df_ABC_test_ss1.RData"))
-  whole_df_ABC <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC[(i*20000-19999):(i*20000),]
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_init_equal_ss",1,".RData"))
+  whole_df_ABC<- df_equal
+  whole_df_ABC <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC$ss = "ABC"
-  whole_df_ABC = whole_df_ABC[,-7]
+  whole_df_ABC = whole_df_ABC[,-c(7,22,23,24)]
   whole_df_ABC$total <- rep(total, each = 500)
+
 
   # whole_df_ABC <- rbind(whole_df_ABC_old,whole_df_ABC_new) #whole_df_ABC_20
   whole_df_ABC$dlam1 <- whole_df_ABC$lam1_abc - whole_df_ABC$lam1
@@ -27,11 +110,11 @@ for(i in 1:7){
   whole_df_ABC$dext_frac2 <- whole_df_ABC$ext_frac_ABC2 - whole_df_ABC$ext_frac2
   whole_df_ABC$rep <- rep(rep(1:50, each = 500), 1)
 
-
   df <- whole_df_ABC
   n <- 500
-  ABC_median <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+  ABC_median <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median,na.rm = T)[-1]
   ABC_median$ss = "ABC"
+
 
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/delta_whole_df_MCMC_test.RData"))
   whole_df_MCMC <- whole_df_MCMC[(i*125050-125049):(i*125050),]
@@ -48,7 +131,6 @@ for(i in 1:7){
   whole_df_MCMC$dext_frac1 <- whole_df_MCMC$ext_frac_MCMC1 - whole_df_MCMC$ext_frac1
   whole_df_MCMC$dext_frac2 <- whole_df_MCMC$ext_frac_MCMC2 - whole_df_MCMC$ext_frac2
   whole_df_MCMC$rep <- rep(rep(1:50, each = 2501), 1)
-
 
   df<-whole_df_MCMC
   n <- 2501
@@ -82,33 +164,30 @@ for(i in 1:7){
   whole_df_all <- rbind(whole_df_ABC[,c(1:6,13,14,17,18,21:33)],
                         whole_df_MCMC[,c(1:6,13,14,17,18,21:33)],
                         whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
-  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_all_AMM_test",i,".RData"))
+  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/init_equal_all",i,".RData"))
 
   median_all <- rbind(ABC_median[,c(1:6,13,14,17,18,21:33)],
                       MCMC_median[,c(1:6,13,14,17,18,21:33)],
                       whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
 
-  save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
-
-
+  save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/init_equal_median",i,".RData"))
 }
 
-# install.packages("ggbeeswarm")
 library(ggbeeswarm)
 library(ggplot2)
 i = 1
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/init_equal_median",i,".RData"))
 # whole_df_all1<-whole_df_all
 whole_df_all1<-median_all
 whole_df_all1$Scenario <- 1
 
 i = 2
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/init_equal_median",i,".RData"))
 whole_df_all2<-median_all
 whole_df_all2$Scenario <- 2
 
 i = 3
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/init_equal_median",i,".RData"))
 whole_df_all3<-median_all
 whole_df_all3$Scenario <- 3
 
@@ -146,7 +225,7 @@ p_lam1 <-ggplot2::ggplot(data = whole_df_lam) +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_text(size = 10),
                  text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(lambda[0])) +
+  ggplot2::ylab(expression(lambda[1])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
   ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
@@ -166,7 +245,7 @@ p_lam2 <-ggplot2::ggplot(data = whole_df_lam) +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_text(size = 10),
                  text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(lambda[1])) +
+  ggplot2::ylab(expression(lambda[2])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
   ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
@@ -186,7 +265,7 @@ p_mu1 <-ggplot2::ggplot(data = whole_df_lam) +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_text(size = 10),
                  text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(mu[0])) +
+  ggplot2::ylab(expression(mu[1])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
   ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
@@ -205,7 +284,7 @@ p_mu2 <-ggplot2::ggplot(data = whole_df_lam) +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_text(size = 10),
                  text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(mu[1])) +
+  ggplot2::ylab(expression(mu[2])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
   ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
@@ -224,7 +303,7 @@ p_q12 <-ggplot2::ggplot(data = whole_df_lam) +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_text(size = 10),
                  text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(q[01])) +
+  ggplot2::ylab(expression(q[12])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
   ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
@@ -243,7 +322,7 @@ p_q21 <-ggplot2::ggplot(data = whole_df_lam) +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_text(size = 10),
                  text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(q[10])) +
+  ggplot2::ylab(expression(q[21])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
   ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
@@ -263,7 +342,7 @@ p_net1 <-ggplot2::ggplot(data = whole_df_lam) +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_text(size = 10),
                  text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(Net~Diversification~0)) +
+  ggplot2::ylab(expression(Net~Diversification~1)) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
   ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
@@ -282,7 +361,7 @@ p_net2 <-ggplot2::ggplot(data = whole_df_lam) +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_text(size = 10),
                  text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(Net~Diversification~1)) +
+  ggplot2::ylab(expression(Net~Diversification~2)) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
   ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
@@ -293,7 +372,7 @@ p_net2 <-ggplot2::ggplot(data = whole_df_lam) +
 
 p_emp <- ggplot() + theme_void()
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/boxplot_median_lam.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/equal_init_boxplot_median_lam.tiff"),
      units="px", width=7200, height=2000,res = 400,compression="lzw")
 
 param_estimates <- cowplot::plot_grid(
@@ -317,241 +396,4 @@ print(param_est_final)
 while (!is.null(dev.list()))  dev.off()
 
 
-
-
-
-
-
-
-
-
-######
-# violin all the particles not only median
-library(ggbeeswarm)
-library(ggplot2)
-i = 1
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_all_AMM_test",i,".RData"))
-# whole_df_all1<-whole_df_all
-whole_df_all1<-whole_df_all
-whole_df_all1$Scenario <- 1
-
-i = 6
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_all_AMM_test",i,".RData"))
-whole_df_all2<-whole_df_all
-whole_df_all2$Scenario <- 6
-
-i = 7
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_all_AMM_test",i,".RData"))
-whole_df_all3<-whole_df_all
-whole_df_all3$Scenario <- 7
-
-
-scen_names1 <- c(
-  `1` = 'lambda[1]~"="~0.3~\n~lambda[2]~"="~0.3',
-  `2` = 'lambda[1]~"="~0.2~\n~lambda[2]~"="~0.4',
-  `3` = 'lambda[1]~"="~0.1~\n~lambda[2]~"="~0.5'
-)
-
-
-scen_names2 <- c(
-  `1` = 'mu[1]~"="~0.05~\n~mu[2]~"="~0.05',
-  `4` = 'mu[1]~"="~0.05~\n~mu[2]~"="~0.01',
-  `5` = 'mu[1]~"="~0.05~\n~mu[2]~"="~0.1'
-)
-
-
-scen_names3 <- c(
-  `1` = 'q[12]~"="~0.1~\n~q[21]~"="~0.1',
-  `6` = 'q[12]~"="~0.1~\n~q[21]~"="~0.2',
-  `7` = 'q[12]~"="~0.1~\n~q[21]~"="~0.02'
-)
-
-whole_df_lam <- rbind(whole_df_all1,whole_df_all2,whole_df_all3)
-
-iqr = function(z, lower = 0.05, upper = 0.95) {
-  data.frame(
-    y = mean(z),
-    ymin = quantile(z, lower),
-    ymax = quantile(z, upper)
-  )
-}
-
-p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
-                                     color = ss,fill =ss)) +
-  ggplot2::theme_bw() +
-  ylim(-0.5,1.15)+ #1
-  ggplot2::geom_violin(alpha = 0.3) +  #outlier.shape = NA
-  ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
-  ggplot2::theme_classic() +
-  ggplot2::theme(axis.title.x = ggplot2::element_blank(),
-                 axis.title.y = ggplot2::element_text(size = 10),
-                 text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(lambda[0])) +
-  ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  # ggplot2::theme(legend.position = "none") +
-  ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-  facet_grid(~Scenario,
-             labeller = labeller(Scenario  = as_labeller(scen_names3,  label_parsed)))
-
-
-p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
-                                                          color = ss,fill =ss)) +
-  ggplot2::theme_bw() +
-  ylim(-0.5,1.15)+ #1
-  ggplot2::geom_violin(alpha = 0.3) +  #outlier.shape = NA
-  ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
-  ggplot2::theme_classic() +
-  ggplot2::theme(axis.title.x = ggplot2::element_blank(),
-                 axis.title.y = ggplot2::element_text(size = 10),
-                 text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(lambda[1])) +
-  ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  # ggplot2::theme(legend.position = "none") +
-  ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-  facet_grid(~Scenario,
-             labeller = labeller(Scenario  = as_labeller(scen_names3,  label_parsed)))
-
-
-p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
-                                                         color = ss,fill =ss)) +
-  ggplot2::theme_bw() +
-  ylim(-0.5,1.15)+ #1
-  ggplot2::geom_violin(alpha = 0.3) +  #outlier.shape = NA
-  ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
-  ggplot2::theme_classic() +
-  ggplot2::theme(axis.title.x = ggplot2::element_blank(),
-                 axis.title.y = ggplot2::element_text(size = 10),
-                 text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(mu[0])) +
-  ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  # ggplot2::theme(legend.position = "none") +
-  ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-  facet_grid(~Scenario,
-             labeller = labeller(Scenario  = as_labeller(scen_names3,  label_parsed)))
-
-p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
-                                                         color = ss,fill =ss)) +
-  ggplot2::theme_bw() +
-  ylim(-0.5,1.15)+ #1
-  ggplot2::geom_violin(alpha = 0.3) +  #outlier.shape = NA
-  ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
-  ggplot2::theme_classic() +
-  ggplot2::theme(axis.title.x = ggplot2::element_blank(),
-                 axis.title.y = ggplot2::element_text(size = 10),
-                 text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(mu[1])) +
-  ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  # ggplot2::theme(legend.position = "none") +
-  ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-  facet_grid(~Scenario,
-             labeller = labeller(Scenario  = as_labeller(scen_names3,  label_parsed)))
-
-p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
-                                                         color = ss,fill =ss)) +
-  ggplot2::theme_bw() +
-  ylim(-0.5,1.15)+ #1
-  ggplot2::geom_violin(alpha = 0.3) +  #outlier.shape = NA
-  ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
-  ggplot2::theme_classic() +
-  ggplot2::theme(axis.title.x = ggplot2::element_blank(),
-                 axis.title.y = ggplot2::element_text(size = 10),
-                 text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(q[01])) +
-  ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  # ggplot2::theme(legend.position = "none") +
-  ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-  facet_grid(~Scenario,
-             labeller = labeller(Scenario  = as_labeller(scen_names3,  label_parsed)))
-
-p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
-                                                         color = ss,fill =ss)) +
-  ggplot2::theme_bw() +
-  ylim(-0.5,1.15)+ #1
-  ggplot2::geom_violin(alpha = 0.3) +  #outlier.shape = NA
-  ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
-  ggplot2::theme_classic() +
-  ggplot2::theme(axis.title.x = ggplot2::element_blank(),
-                 axis.title.y = ggplot2::element_text(size = 10),
-                 text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(q[10])) +
-  ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  # ggplot2::theme(legend.position = "none") +
-  ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-  facet_grid(~Scenario,
-             labeller = labeller(Scenario  = as_labeller(scen_names3,  label_parsed)))
-
-
-p_net1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div1,
-                                     color = ss,fill =ss)) +
-  ggplot2::theme_bw() +
-  ylim(-1.2,1.15)+ #1
-  ggplot2::geom_violin(alpha = 0.3) +  #outlier.shape = NA
-  ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
-  ggplot2::theme_classic() +
-  ggplot2::theme(axis.title.x = ggplot2::element_blank(),
-                 axis.title.y = ggplot2::element_text(size = 10),
-                 text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(Net~Diversification~0)) +
-  ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  # ggplot2::theme(legend.position = "none") +
-  ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-  facet_grid(~Scenario,
-             labeller = labeller(Scenario  = as_labeller(scen_names3,  label_parsed)))
-
-p_net2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div2,
-                                     color = ss,fill =ss)) +
-  ggplot2::theme_bw() +
-  ylim(-1.2,1.15)+ #1
-  ggplot2::geom_violin(alpha = 0.3) +  #outlier.shape = NA
-  ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
-  ggplot2::theme_classic() +
-  ggplot2::theme(axis.title.x = ggplot2::element_blank(),
-                 axis.title.y = ggplot2::element_text(size = 10),
-                 text = ggplot2::element_text(size = 10)) +
-  ggplot2::ylab(expression(Net~Diversification~1)) +
-  ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  ggplot2::scale_fill_manual("Method",values = c("#b81f25","#EFC000","#4daf4a"))+
-  # ggplot2::theme(legend.position = "none") +
-  ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-  facet_grid(~Scenario,
-             labeller = labeller(Scenario  = as_labeller(scen_names3,  label_parsed)))
-
-
-p_emp <- ggplot() + theme_void()
-
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_q.tiff"),
-     units="px", width=7200, height=2000,res = 400,compression="lzw")
-
-param_estimates <- cowplot::plot_grid(
-  p_lam1+ggplot2::theme(legend.position = "none"),
-  p_mu1+ggplot2::theme(legend.position = "none"),
-  p_q12+ggplot2::theme(legend.position = "none"),
-  p_net1+ggplot2::theme(legend.position = "none"),
-  p_lam2+ggplot2::theme(legend.position = "none"),
-  p_mu2+ggplot2::theme(legend.position = "none"),
-  p_q21+ggplot2::theme(legend.position = "none"),
-  p_net2+ggplot2::theme(legend.position = "none"),
-  align = "hv", nrow = 2, ncol = 4
-)
-legend <- cowplot::get_legend(
-  p_lam1 + theme(legend.box.margin = margin(0, 0, 0, 6))
-)
-param_est_final <- cowplot::plot_grid(param_estimates,legend,rel_widths = c(3, 0.5))
-print(param_est_final)
-while (!is.null(dev.list()))  dev.off()
 
