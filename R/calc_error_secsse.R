@@ -3,17 +3,17 @@ calc_error_secsse <- function(sim_1,
                               sim_2,
                               distance_method = "abs") {
 
-  # # drop tips and only keep tips with a single state(1/2)
-  # phy1_s1<-ape::drop.tip(sim_1$phy,  ## phy1 with only state1 tips
-  #                        tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 2)])
-  # phy1_s2<-ape::drop.tip(sim_1$phy,
-  #                        tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 1)])
-  #
-  # phy2_s1<-ape::drop.tip(sim_2$phy,
-  #                        tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 2)])
-  # phy2_s2<-ape::drop.tip(sim_2$phy,
-  #                        tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
-  #
+  # drop tips and only keep tips with a single state(1/2)
+  phy1_s1<-ape::drop.tip(sim_1$phy,  ## phy1 with only state1 tips
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 2)])
+  phy1_s2<-ape::drop.tip(sim_1$phy,
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 1)])
+
+  phy2_s1<-ape::drop.tip(sim_2$phy,
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 2)])
+  phy2_s2<-ape::drop.tip(sim_2$phy,
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
+
   # ## mpd s1
   # mpd1_s1  <- treestats::mean_pair_dist(phy1_s1) ## sim1 state1 mpd
   # mpd2_s1  <- treestats::mean_pair_dist(phy2_s1) ## sim2 state1 mpd

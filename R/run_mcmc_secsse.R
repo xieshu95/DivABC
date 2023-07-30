@@ -46,7 +46,7 @@ run_MCMC_secsse <- function(param_space_name,
                       parameters = as.numeric(initparsopt),
                       iterations = 1000000, ##1000,000
                       burnin = 100000, #100,000
-                      thinning = 100, #1000
+                      thinning = 100, #100
                       sigma = 0.3,
                       idparsopt = idparsopt)
 
