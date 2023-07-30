@@ -8,8 +8,10 @@ whole_df_ABC$Method = "ABC All"
 whole_df_ABC_s0 = whole_df_ABC
 whole_df_ABC_s0$total <- rep(rep(pars_ss$total, each = 500), 1)
 whole_df_ABC_s0$rep <- rep(rep(1:10, each = 500), 16)
+whole_df_ABC_s0$set <- rep(1:16, each = 5000)
 whole_df_ABC_s0$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s0$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
+
 
 
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",1,".RData"))
@@ -17,6 +19,7 @@ whole_df_ABC$Method = "ABC Phylogenetic"
 whole_df_ABC_s1 = whole_df_ABC
 whole_df_ABC_s1$total <- rep(rep(pars_ss$total, each = 500), 1)
 whole_df_ABC_s1$rep <- rep(rep(1:10, each = 500), 16)
+whole_df_ABC_s1$set <- rep(1:16, each = 5000)
 whole_df_ABC_s1$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s1$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
@@ -25,6 +28,7 @@ whole_df_ABC$Method = "ABC Diversity"
 whole_df_ABC_s2 = whole_df_ABC
 whole_df_ABC_s2$total <- rep(rep(pars_ss$total, each = 500), 1)
 whole_df_ABC_s2$rep <- rep(rep(1:10, each = 500), 16)
+whole_df_ABC_s2$set <- rep(1:16, each = 5000)
 whole_df_ABC_s2$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s2$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
@@ -33,6 +37,7 @@ whole_df_ABC$Method = "ABC NLTT"
 whole_df_ABC_s3 = whole_df_ABC
 whole_df_ABC_s3$total <- rep(rep(pars_ss$total, each = 500), 1)
 whole_df_ABC_s3$rep <- rep(rep(1:10, each = 500), 16)
+whole_df_ABC_s3$set <- rep(1:16, each = 5000)
 whole_df_ABC_s3$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s3$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
@@ -53,13 +58,14 @@ whole_df_ABC$dext_frac <- whole_df_ABC$ext_frac_ABC - whole_df_ABC$ext_frac
 df <- whole_df_ABC
 n <- 500
 ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
-ABC_median$Method <- rep(c("ABC All","ABC Phylogenetic","ABC Diversity","ABC NLTT"),each = 160)
+ABC_median$Method <- rep(c("ABC All","ABC Phylogenetic","ABC Diversity","ABC NLTT"),each = 160) #
 
 
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_MCMC.RData"))
 whole_df_MCMC$Method = "MCMC"
 whole_df_MCMC$total <- rep(rep(pars_ss$total, each = 2501), 1)
 whole_df_MCMC$rep <- rep(rep(1:10, each = 2501), 16)
+whole_df_MCMC$set <- rep(1:16, each = 25010)
 whole_df_MCMC$num_clade <- rep(rep(pars_ss$num.clade, each = 2501), 1)
 whole_df_MCMC$largest_clade <- rep(rep(pars_ss$largest.clade, each = 2501), 1)
 whole_df_MCMC$dlac <- whole_df_MCMC$lac_mcmc - whole_df_MCMC$lac
@@ -78,6 +84,7 @@ load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space6
 whole_df_MLE$Method = "MLE"
 whole_df_MLE$total <- rep(rep(pars_ss$total, each = 1), 1)
 whole_df_MLE$rep <- rep(rep(1:10, each = 1), 16)
+whole_df_MLE$set <- rep(1:16, each = 10)
 whole_df_MLE$num_clade <- rep(rep(pars_ss$num.clade, each = 1), 1)
 whole_df_MLE$largest_clade <- rep(rep(pars_ss$largest.clade, each = 1), 1)
 whole_df_MLE$dlac <- whole_df_MLE$lac_MLE - whole_df_MLE$lac
@@ -88,9 +95,9 @@ whole_df_MLE$dnet_div <- whole_df_MLE$net_div_MLE - whole_df_MLE$net_div
 whole_df_MLE$dext_frac <- whole_df_MLE$ext_frac_MLE - whole_df_MLE$ext_frac
 
 
-whole_df_all <- rbind(ABC_median[,c(1:5,10,12,14:24)],
-                      MCMC_median[,c(1:5,10,12,14:24)],
-                      whole_df_MLE[,c(1:5,10,12,14:24)])
+whole_df_all <- rbind(ABC_median[,c(1:5,10,12,14:25)],
+                      MCMC_median[,c(1:5,10,12,14:25)],
+                      whole_df_MLE[,c(1:5,10,12,14:25)])
 lac_names <- c(
   `0.4` = 'lambda^c~"="~0.4',
   `0.7` = 'lambda^c~"="~0.7'

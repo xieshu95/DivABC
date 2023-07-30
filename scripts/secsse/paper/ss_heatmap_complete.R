@@ -93,11 +93,12 @@ param_space <- load_param_space(param_space_name = param_space_name)
 ss <- c()
 obs_sim <- list()
 set.seed(100)
+init_state <- rep(c(rep("1A",25),rep("2A",25)),7)
 for(i in 1:350){
   message("set: ", i)
   obs_sim_pars <- param_space[i,]
   obs_sim[[i]] <- get_secsse_sim_create_obs(parameters = as.numeric(obs_sim_pars),
-                                            pool_init_states = NULL,
+                                            pool_init_states = init_state[i],
                                             replicates = 1) ## replicates = 30
   init_epsilon <- calc_epsilon_init_secsse_test(sim = obs_sim[[i]])
   ss<-rbind(ss,init_epsilon)
@@ -111,9 +112,9 @@ colnames(ss) <- c("state1","state2","tree_size","tip_ratio",
                   "spect_log_median","spect_prin","sackin")
 ss<-data.frame(ss)
 # colnames(ss) <- c("state1","state2","tree_size","tip_ratio")
-save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_ss_test.rda"))
-save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_sims_secsse_ABC_test.rda"))
-save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_sims_secsse_MCMC_test.rda"))
+save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_sep_state/obs_ss_test.rda"))
+save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_sep_state/obs_sims_secsse_ABC_test.rda"))
+save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_sep_state/obs_sims_secsse_MCMC_test.rda"))
 
 sum(ss[,3]<400)
 plot(hist(ss[,3], breaks = 200))
@@ -302,3 +303,18 @@ save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/se
 p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
                                       ylab = "Summary statistics", k_col = 2, k_row = 2)
 saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/heatmap_ss_random.html"))
+
+## mean and sd of ss of observed trees
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/obs_ss_test.rda"))
+df = ss
+n = 50
+ss_median <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+
+
+n = 50
+ss_sd <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), sd)[-1]
+
+n = 50
+ss_mean <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), mean)[-1]
+
+

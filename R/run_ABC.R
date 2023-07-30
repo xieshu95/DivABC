@@ -110,9 +110,13 @@ run_ABC <- function(param_space_name,
     # init_epsilon <- calc_epsilon_init_secsse(sim = obs_sim)
     # init_epsilon_all <- c(50,50,10,10,100,100,1,1,1)
     if(ss_set == 0){
-      init_epsilon <- c(0.5,0.5,0.5,0.5,30,30)
+      init_epsilon <- c(0.4,0.4,0.4,0.4)
     } else if (ss_set == 1){
-      init_epsilon <- c(0.5,0.5,0.5)
+      init_epsilon <- c(0.4,0.4,0.4)
+    } else if (ss_set == 2){  # D+NLTT
+      init_epsilon <- c(0.4,0.4)
+    } else if (ss_set == 3){  # D+NLTT
+      init_epsilon <- c(0.4)
     }
     abc <- ABC_SMC_secsse (
       obs_data = obs_sim,
@@ -121,11 +125,11 @@ run_ABC <- function(param_space_name,
       init_epsilon_values = init_epsilon,
       prior_generating_function = prior_generating_function,
       prior_density_function = prior_density_function,
-      number_of_particles = 500,
+      number_of_particles = 5,
       sigma = 0.2,
       stop_rate = 0.002,
       replicates = 1,
-      num_iterations = 15,
+      num_iterations = 2,
       K = as.numeric(obs_sim_pars$K),
       idparsopt = as.numeric(idparsopt),
       fixpars = fixpars,

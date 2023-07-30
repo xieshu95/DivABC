@@ -166,42 +166,49 @@ library(ggplot2)
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/obs_ss_long_with_pars_DI.RData"))
 
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",0,".RData"))
-whole_df_ABC$ss = "ABC All"
+whole_df_ABC$Method = "ABC All"
 whole_df_ABC_s0 = whole_df_ABC
 whole_df_ABC_s0$total <- rep(rep(pars_ss$total, each = 500), 1)
 whole_df_ABC_s0$rep <- rep(rep(1:10, each = 500), 16)
+whole_df_ABC_s0$set <- rep(1:16, each = 5000)
 whole_df_ABC_s0$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s0$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
 
+
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",1,".RData"))
-whole_df_ABC$ss = "ABC Phylogenetic"
+whole_df_ABC$Method = "ABC Phylogenetic"
 whole_df_ABC_s1 = whole_df_ABC
 whole_df_ABC_s1$total <- rep(rep(pars_ss$total, each = 500), 1)
 whole_df_ABC_s1$rep <- rep(rep(1:10, each = 500), 16)
+whole_df_ABC_s1$set <- rep(1:16, each = 5000)
 whole_df_ABC_s1$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s1$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",2,".RData"))
-whole_df_ABC$ss = "ABC Diversity"
+whole_df_ABC$Method = "ABC Diversity"
 whole_df_ABC_s2 = whole_df_ABC
 whole_df_ABC_s2$total <- rep(rep(pars_ss$total, each = 500), 1)
 whole_df_ABC_s2$rep <- rep(rep(1:10, each = 500), 16)
+whole_df_ABC_s2$set <- rep(1:16, each = 5000)
 whole_df_ABC_s2$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s2$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",3,".RData"))
-whole_df_ABC$ss = "ABC NLTT"
+whole_df_ABC$Method = "ABC NLTT"
 whole_df_ABC_s3 = whole_df_ABC
 whole_df_ABC_s3$total <- rep(rep(pars_ss$total, each = 500), 1)
 whole_df_ABC_s3$rep <- rep(rep(1:10, each = 500), 16)
+whole_df_ABC_s3$set <- rep(1:16, each = 5000)
 whole_df_ABC_s3$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s3$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
+
 
 whole_df_ABC <- rbind(whole_df_ABC_s0,
                       whole_df_ABC_s1,
                       whole_df_ABC_s2,
                       whole_df_ABC_s3) #whole_df_ABC_20
+
 
 whole_df_ABC$dlac <- whole_df_ABC$lac_abc - whole_df_ABC$lac
 whole_df_ABC$dmu <- whole_df_ABC$mu_abc - whole_df_ABC$mu
@@ -210,12 +217,17 @@ whole_df_ABC$dlaa <- whole_df_ABC$laa_abc - whole_df_ABC$laa
 whole_df_ABC$dnet_div <- whole_df_ABC$net_div_ABC - whole_df_ABC$net_div
 whole_df_ABC$dext_frac <- whole_df_ABC$ext_frac_ABC - whole_df_ABC$ext_frac
 # whole_df_ABC$total <- rep(rep(pars_ss$total, each = 400), 1) # 400,5
+df <- whole_df_ABC
+n <- 500
+ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+ABC_median$Method <- rep(c("ABC All","ABC Phylogenetic","ABC Diversity","ABC NLTT"),each = 160) #
 
 
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_MCMC.RData"))
-whole_df_MCMC$ss = "MCMC"
+whole_df_MCMC$Method = "MCMC"
 whole_df_MCMC$total <- rep(rep(pars_ss$total, each = 2501), 1)
 whole_df_MCMC$rep <- rep(rep(1:10, each = 2501), 16)
+whole_df_MCMC$set <- rep(1:16, each = 25010)
 whole_df_MCMC$num_clade <- rep(rep(pars_ss$num.clade, each = 2501), 1)
 whole_df_MCMC$largest_clade <- rep(rep(pars_ss$largest.clade, each = 2501), 1)
 whole_df_MCMC$dlac <- whole_df_MCMC$lac_mcmc - whole_df_MCMC$lac
@@ -225,10 +237,16 @@ whole_df_MCMC$dlaa <- whole_df_MCMC$laa_mcmc - whole_df_MCMC$laa
 whole_df_MCMC$dnet_div <- whole_df_MCMC$net_div_mcmc - whole_df_MCMC$net_div
 whole_df_MCMC$dext_frac <- whole_df_MCMC$ext_frac_MCMC - whole_df_MCMC$ext_frac
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/whole_df_MLE_DI.RData")
-whole_df_MLE$ss = "MLE"
+df<-whole_df_MCMC
+n <- 2501
+MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+
+
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space6/DI/whole_df_MLE_DI.RData")
+whole_df_MLE$Method = "MLE"
 whole_df_MLE$total <- rep(rep(pars_ss$total, each = 1), 1)
 whole_df_MLE$rep <- rep(rep(1:10, each = 1), 16)
+whole_df_MLE$set <- rep(1:16, each = 10)
 whole_df_MLE$num_clade <- rep(rep(pars_ss$num.clade, each = 1), 1)
 whole_df_MLE$largest_clade <- rep(rep(pars_ss$largest.clade, each = 1), 1)
 whole_df_MLE$dlac <- whole_df_MLE$lac_MLE - whole_df_MLE$lac
@@ -239,9 +257,11 @@ whole_df_MLE$dnet_div <- whole_df_MLE$net_div_MLE - whole_df_MLE$net_div
 whole_df_MLE$dext_frac <- whole_df_MLE$ext_frac_MLE - whole_df_MLE$ext_frac
 
 
-whole_df_all <- rbind(whole_df_ABC[,c(1:5,10,12,14:24)],
-                      whole_df_MCMC[,c(1:5,10,12,14:24)],
-                      whole_df_MLE[,c(1:5,10,12,14:24)])
+whole_df_all <- rbind(whole_df_ABC[,c(1:5,10,12,14:25)],
+                      whole_df_MCMC[,c(1:5,10,12,14:25)],
+                      whole_df_MLE[,c(1:5,10,12,14:25)])
+
+
 
 lac_names <- c(
   `0.4` = 'lambda^c~"="~0.4',
@@ -265,7 +285,7 @@ laa_names <- c(
 
 
 # ## 1.only compare ABC-NEW AND ABC-OLD plot delta-rate for all the particles
-# p_netdiv_lac <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color = ss)) +
+# p_netdiv_lac <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color  = Method)) +
 #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 #   ggplot2::theme_bw() +
 #   ggplot2::theme_classic() +
@@ -284,7 +304,7 @@ laa_names <- c(
 # print(p_netdiv_lac)
 # while (!is.null(dev.list()))  dev.off()
 #
-# p_netdiv_mu <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color = ss)) +
+# p_netdiv_mu <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color  = Method)) +
 #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 #   ggplot2::theme_bw() +
 #   ggplot2::theme_classic() +
@@ -305,7 +325,7 @@ laa_names <- c(
 # print(p_netdiv_mu)
 # while (!is.null(dev.list()))  dev.off()
 #
-# p_netdiv_gam <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color = ss)) +
+# p_netdiv_gam <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color  = Method)) +
 #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 #   ggplot2::theme_bw() +
 #   ggplot2::theme_classic() +
@@ -324,7 +344,7 @@ laa_names <- c(
 # while (!is.null(dev.list()))  dev.off()
 #
 #
-# p_netdiv_laa <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color = ss)) +
+# p_netdiv_laa <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color  = Method)) +
 #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 #   ggplot2::theme_bw() +
 #   ggplot2::theme_classic() +
@@ -356,7 +376,7 @@ library(ggplot2)
 library(viridis)
 # install.packages("hrbrthemes")
 library(hrbrthemes)
-p_netdiv_all <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div,y = ss,color = ss)) +
+p_netdiv_all <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div,y  = Method,color  = Method)) +
   # ggplot2:: geom_jitter(position = position_jitter(height = 0.15, width = 0), alpha = .01,size  = 0.1) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   # geom_density_ridges_gradient(scale = 2, rel_min_height = 0.02,fill = "lightgrey") +
@@ -383,7 +403,7 @@ print(p_netdiv_all)
 while (!is.null(dev.list()))  dev.off()
 
 
-p_lac<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlac,y = ss,color = ss)) +
+p_lac<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlac,y  = Method,color  = Method)) +
   # ggplot2:: geom_jitter(position = position_jitter(height = 0.15, width = 0), alpha = .012) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   # geom_density_ridges_gradient(scale = 2, rel_min_height = 0.02,fill = "lightgrey") +
@@ -408,7 +428,7 @@ tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_end
 print(p_lac)
 while (!is.null(dev.list()))  dev.off()
 
-p_mu<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dmu,y = ss,color = ss)) +
+p_mu<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dmu,y  = Method,color  = Method)) +
   # ggplot2:: geom_jitter(position = position_jitter(height = 0.15, width = 0), alpha = .012) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   # geom_density_ridges_gradient(scale = 2, rel_min_height = 0.02,fill = "lightgrey") +
@@ -433,7 +453,7 @@ tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_end
 print(p_mu)
 while (!is.null(dev.list()))  dev.off()
 
-p_gam<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dgam,y = ss,color = ss)) +
+p_gam<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dgam,y  = Method,color  = Method)) +
   # ggplot2:: geom_jitter(position = position_jitter(height = 0.15, width = 0), alpha = .012) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   # geom_density_ridges_gradient(scale = 2, rel_min_height = 0.02,fill = "lightgrey") +
@@ -458,7 +478,7 @@ tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_end
 print(p_gam)
 while (!is.null(dev.list()))  dev.off()
 
-p_laa<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlaa,y = ss,color = ss)) +
+p_laa<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlaa,y  = Method,color  = Method)) +
   # ggplot2:: geom_jitter(position = position_jitter(height = 0.15, width = 0), alpha = .012) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   # geom_density_ridges_gradient(scale = 2, rel_min_height = 0.02,fill = "lightgrey") +
@@ -494,7 +514,7 @@ iqr = function(z, lower = 0.025, upper = 0.975) {
   )
 }
 
-p_netdiv_all <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div,y = ss,color = ss)) +
+p_netdiv_all <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div,y  = Method,color  = Method)) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 1) +
   # geom_density_ridges_gradient(scale = 2, rel_min_height = 0.005) +
   ggplot2::theme_bw() +
@@ -502,7 +522,7 @@ p_netdiv_all <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div,y 
   ggplot2::xlim(-1.51,1.51)+
   # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
   ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
-  ggplot2::theme(title = ggplot2::element_text(size = 14,colour = "black"),
+  ggplot2::theme(title = ggplot2::element_text(size = 16,colour = "black"),
                  text = ggplot2::element_text(size = 14,colour = "black"),
                  strip.text = element_text(size = 14,colour = "black")) +
   ggplot2::xlab(expression(Delta~Net~diversification))+
@@ -513,19 +533,19 @@ p_netdiv_all <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div,y 
                                                      gam = as_labeller(gam_names, label_parsed),
                                                      laa = as_labeller(laa_names, label_parsed)))
 tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/drate_net_div_each_rep2.tiff"),
-     units="px", width=7000, height=4000,res = 320,compression="lzw")
+     units="px", width=6200, height=3500,res = 320,compression="lzw")
 print(p_netdiv_all)
 while (!is.null(dev.list()))  dev.off()
 
 
-p_lac<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlac,y = ss,color = ss)) +
+p_lac<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlac,y  = Method,color  = Method)) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 1) +
   ggplot2::theme_bw() +
   ggplot2::theme_classic() +
   ggplot2::xlim(-1,1.7)+
   # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
   ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
-  ggplot2::theme(title = ggplot2::element_text(size = 14,colour = "black"),
+  ggplot2::theme(title = ggplot2::element_text(size = 16,colour = "black"),
                  text = ggplot2::element_text(size = 14,colour = "black"),
                  strip.text = element_text(size = 14,colour = "black")) +
   ggplot2::xlab(expression(Delta~lambda^c))+
@@ -536,11 +556,11 @@ p_lac<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlac,y = ss,color =
                                                      gam = as_labeller(gam_names, label_parsed),
                                                      laa = as_labeller(laa_names, label_parsed)))
 tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/drate_lac_each_rep.tiff"),
-     units="px", width=7000, height=4000,res = 320,compression="lzw")
+     units="px", width=6200, height=3500,res = 320,compression="lzw")
 print(p_lac)
 while (!is.null(dev.list()))  dev.off()
 
-p_mu<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dmu,y = ss,color = ss)) +
+p_mu<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dmu,y  = Method,color  = Method)) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 1) +
   # geom_density_ridges_gradient(scale = 2, rel_min_height = 0.005) +
   ggplot2::theme_bw() +
@@ -548,7 +568,7 @@ p_mu<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dmu,y = ss,color = s
   ggplot2::xlim(-0.6,1.8)+
   # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
   ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
-  ggplot2::theme(title = ggplot2::element_text(size = 14,colour = "black"),
+  ggplot2::theme(title = ggplot2::element_text(size = 16,colour = "black"),
                  text = ggplot2::element_text(size = 14,colour = "black"),
                  strip.text = element_text(size = 14,colour = "black")) +
   ggplot2::xlab(expression(Delta~mu))+
@@ -559,19 +579,20 @@ p_mu<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dmu,y = ss,color = s
                                                      gam = as_labeller(gam_names, label_parsed),
                                                      laa = as_labeller(laa_names, label_parsed)))
 tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/drate_mu_each_rep.tiff"),
-     units="px", width=7000, height=4000,res = 320,compression="lzw")
+     units="px", width=6200, height=3500,res = 320,compression="lzw")
 print(p_mu)
 while (!is.null(dev.list()))  dev.off()
 
-p_gam<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dgam,y = ss,color = ss)) +
+p_gam<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dgam,y  = Method,color  = Method)) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 1) +
   ggplot2::theme_bw() +
   ggplot2::theme_classic() +
   ggplot2::xlim(-0.008,0.019)+
   # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
   ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
-  ggplot2::theme(title = ggplot2::element_text(size = 14,colour = "black"),
-                 text = ggplot2::element_text(size = 14,colour = "black"),
+  ggplot2::theme(title = ggplot2::element_text(size = 18,colour = "black"),
+                 axis.text.x = ggplot2::element_text(size = 12,colour = "black"),
+                 axis.text.y = ggplot2::element_blank(),
                  strip.text = element_text(size = 14,colour = "black")) +
   ggplot2::xlab(expression(Delta~gamma))+
   ggplot2::ylab("Method") +
@@ -581,12 +602,12 @@ p_gam<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dgam,y = ss,color =
                                                      gam = as_labeller(gam_names, label_parsed),
                                                      laa = as_labeller(laa_names, label_parsed)))
 tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/drate_gam_each_rep.tiff"),
-     units="px", width=7000, height=4000,res = 320,compression="lzw")
+     units="px", width=6200, height=3500,res = 320,compression="lzw")
 print(p_gam)
 while (!is.null(dev.list()))  dev.off()
 
-p_laa<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlaa,y = ss,color = ss)) +
-  ggplot2::stat_summary(fun.data = iqr,alpha = 1.5) +
+p_laa<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlaa,y  = Method,color  = Method)) +
+  ggplot2::stat_summary(fun.data = iqr,alpha = 1) +
   # geom_density_ridges_gradient(scale = 2, rel_min_height = 0.005,fill = "white") +
   # ggplot2::geom_boxplot(outlier.shape=NA)+
   ggplot2::theme_bw() +
@@ -594,8 +615,9 @@ p_laa<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlaa,y = ss,color =
   ggplot2::xlim(-0.6,1.9)+
   # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
   ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
-  ggplot2::theme(title = ggplot2::element_text(size = 14,colour = "black"),
-                 text = ggplot2::element_text(size = 14,colour = "black"),
+  ggplot2::theme(title = ggplot2::element_text(size = 18,colour = "black"),
+                 axis.text.x = ggplot2::element_text(size = 14,colour = "black"),
+                 axis.text.y = ggplot2::element_blank(),
                  strip.text = element_text(size = 14,colour = "black")) +
   ggplot2::xlab(expression(Delta~lambda^a))+
   ggplot2::ylab("Method") +
@@ -605,7 +627,7 @@ p_laa<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlaa,y = ss,color =
                                                      gam = as_labeller(gam_names, label_parsed),
                                                      laa = as_labeller(laa_names, label_parsed)))
 tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/drate_laa_each_rep.tiff"),
-     units="px", width=7000, height=4000,res = 320,compression="lzw")
+     units="px", width=6200, height=3500,res = 320,compression="lzw")
 print(p_laa)
 while (!is.null(dev.list()))  dev.off()
 
@@ -663,7 +685,7 @@ iqr = function(z, lower = 0.1, upper = 0.9) {
 }
 
 ## 1. total VS drates (combine all 81 sets with all particles)
-p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_div,color = ss)) +
+p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_div,color  = Method)) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 0.7) +
   ggplot2::theme_bw() +
   ggplot2::theme_classic() +
@@ -687,7 +709,7 @@ tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_end
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
 
-p_lac <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlac, color = ss)) + ##,color = as.factor(gam)
+p_lac <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlac, color  = Method)) + ##,color = as.factor(gam)
   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
   ggplot2::theme_bw() +
   ggplot2::theme_classic() +
@@ -704,7 +726,7 @@ p_lac <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlac, co
 # print(p_lac)
 # while (!is.null(dev.list()))  dev.off()
 
-p_mu <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dmu, color = ss)) +
+p_mu <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dmu, color  = Method)) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
   ggplot2::theme_bw() +
   ggplot2::theme_classic() +
@@ -721,7 +743,7 @@ p_mu <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dmu, colo
 # print(p_mu)
 # while (!is.null(dev.list()))  dev.off()
 
-p_gam <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dgam, color = ss)) +
+p_gam <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dgam, color  = Method)) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
   ggplot2::theme_bw() +
   ggplot2::theme_classic() +
@@ -738,7 +760,7 @@ p_gam <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dgam, co
 # print(p_gam)
 # while (!is.null(dev.list()))  dev.off()
 
-p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlaa, color = ss)) +
+p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlaa, color  = Method)) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
   ggplot2::theme_bw() +
   ggplot2::theme_classic() +
@@ -779,7 +801,7 @@ while (!is.null(dev.list()))  dev.off()
 # # while (!is.null(dev.list()))  dev.off()
 #
 # ## log(Species richness) vs drates, facet
-# p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y = dnet_div,color = ss)) +
+# p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y = dnet_div,color  = Method)) +
 #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.3) +
 #   ggplot2::theme_bw() +
 #   ggplot2::theme_classic() +
@@ -801,7 +823,7 @@ while (!is.null(dev.list()))  dev.off()
 # while (!is.null(dev.list()))  dev.off()
 #
 #
-# p_lac <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y = dlac, color = ss)) + ##,color = as.factor(gam)
+# p_lac <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y = dlac, color  = Method)) + ##,color = as.factor(gam)
 #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 #   ggplot2::theme_bw() +
 #   ggplot2::theme_classic() +
@@ -822,7 +844,7 @@ while (!is.null(dev.list()))  dev.off()
 # print(p_lac)
 # while (!is.null(dev.list()))  dev.off()
 #
-# p_mu <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y = dmu, color = ss)) +
+# p_mu <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y = dmu, color  = Method)) +
 #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 #   ggplot2::theme_bw() +
 #   ggplot2::theme_classic() +
@@ -843,7 +865,7 @@ while (!is.null(dev.list()))  dev.off()
 # print(p_mu)
 # while (!is.null(dev.list()))  dev.off()
 #
-# p_gam <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y = dgam, color = ss)) +
+# p_gam <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y = dgam, color  = Method)) +
 #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 #   ggplot2::theme_bw() +
 #   ggplot2::theme_classic() +
@@ -864,7 +886,7 @@ while (!is.null(dev.list()))  dev.off()
 # print(p_gam)
 # while (!is.null(dev.list()))  dev.off()
 #
-# p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y = dlaa, color = ss)) +
+# p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = log10(total),y = dlaa, color  = Method)) +
 #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 #   ggplot2::theme_bw() +
 #   ggplot2::theme_classic() +
@@ -967,7 +989,7 @@ while (!is.null(dev.list()))  dev.off()
 # # while (!is.null(dev.list()))  dev.off()
 #
 # ## plot num_total VS drates_netdiv (all particles) only in ABC, facet with each rate
-# p_netdiv_lac <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color = ss)) + #whole_df_all
+# p_netdiv_lac <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color  = Method)) + #whole_df_all
 #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 #   ggplot2::theme_bw() +
 #   ggplot2::theme_classic() +
@@ -984,7 +1006,7 @@ while (!is.null(dev.list()))  dev.off()
 # print(p_netdiv_lac)
 # while (!is.null(dev.list()))  dev.off()
 #
-# p_netdiv_mu <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color = ss)) +
+# p_netdiv_mu <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color  = Method)) +
 #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 #   ggplot2::theme_bw() +
 #   ggplot2::theme_classic() +
@@ -1001,7 +1023,7 @@ while (!is.null(dev.list()))  dev.off()
 # print(p_netdiv_mu)
 # while (!is.null(dev.list()))  dev.off()
 #
-# p_netdiv_gam <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color = ss)) +
+# p_netdiv_gam <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color  = Method)) +
 #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 #   ggplot2::theme_bw() +
 #   ggplot2::theme_classic() +
@@ -1019,7 +1041,7 @@ while (!is.null(dev.list()))  dev.off()
 # while (!is.null(dev.list()))  dev.off()
 #
 #
-# p_netdiv_laa <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color = ss)) +
+# p_netdiv_laa <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color  = Method)) +
 #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 #   ggplot2::theme_bw() +
 #   ggplot2::theme_classic() +
@@ -1038,7 +1060,7 @@ while (!is.null(dev.list()))  dev.off()
 #
 #
 # # plot ABC-nltt VS MLE VS MCMC
-# # p_netdiv_lac <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_div,color = ss)) +
+# # p_netdiv_lac <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_div,color  = Method)) +
 # #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 # #   ggplot2::theme_bw() +
 # #   ggplot2::theme_classic() +
@@ -1056,7 +1078,7 @@ while (!is.null(dev.list()))  dev.off()
 # # print(p_netdiv_lac)
 # # while (!is.null(dev.list()))  dev.off()
 # #
-# # p_netdiv_mu <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_div,color = ss)) +
+# # p_netdiv_mu <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_div,color  = Method)) +
 # #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 # #   ggplot2::theme_bw() +
 # #   ggplot2::theme_classic() +
@@ -1074,7 +1096,7 @@ while (!is.null(dev.list()))  dev.off()
 # # print(p_netdiv_mu)
 # # while (!is.null(dev.list()))  dev.off()
 # #
-# # p_netdiv_gam <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_div,color = ss)) +
+# # p_netdiv_gam <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_div,color  = Method)) +
 # #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 # #   ggplot2::theme_bw() +
 # #   ggplot2::theme_classic() +
@@ -1093,7 +1115,7 @@ while (!is.null(dev.list()))  dev.off()
 # # while (!is.null(dev.list()))  dev.off()
 # #
 # #
-# # p_netdiv_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_div,color = ss)) +
+# # p_netdiv_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_div,color  = Method)) +
 # #   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 # #   ggplot2::theme_bw() +
 # #   ggplot2::theme_classic() +

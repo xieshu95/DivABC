@@ -65,12 +65,20 @@ calc_ss_diff_daisie <- function(sim1, sim2, ss_set){
 
 
 calc_ss_diff_secsse <- function(sim1, sim2, ss_set){
-  if (ss_set == 0){ ## use all ss:
+  if (ss_set == 0){ # nltt + nltt1 + nltt2 + D
     ss <- calc_error_secsse(sim_1 = sim1,
                             sim_2 = sim2,
                             distance_method = "abs")
-  } else if(ss_set == 1) { # nltt
+  } else if(ss_set == 1) { # nltt + nltt1 + nltt2
     ss <- calc_error_secsse_nltt(sim_1 = sim1,
+                                 sim_2 = sim2,
+                                 distance_method = "abs")
+  } else if(ss_set == 2) { # nltt + D
+    ss <- calc_error_secsse_D_nltt(sim_1 = sim1,
+                                 sim_2 = sim2,
+                                 distance_method = "abs")
+  } else if(ss_set == 3) { # D
+    ss <- calc_error_secsse_D(sim_1 = sim1,
                                  sim_2 = sim2,
                                  distance_method = "abs")
   }
