@@ -274,10 +274,9 @@ calc_D <- function (sim) {
   trait = data.frame(sim$phy$tip.label,sim$obs_traits)
   colnames(trait) <- c("tips","trait_val")
   data <- caper::comparative.data(sim$phy, trait, tips)
-  PhyloD <- caper::phylo.d(data, binvar=trait_val,permut = 500)
+  PhyloD <- caper::phylo.d(data, binvar=trait_val,permut = 200)
   return(as.numeric(PhyloD$DEstimate))
 }
-
 
 
 #' Calculate summary statistic differences between simulated data and a specific
