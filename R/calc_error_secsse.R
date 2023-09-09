@@ -14,14 +14,14 @@ calc_error_secsse <- function(sim_1,
   phy2_s2<-ape::drop.tip(sim_2$phy,
                          tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
 
-  # ## mpd s1
-  # mpd1_s1  <- treestats::mean_pair_dist(phy1_s1) ## sim1 state1 mpd
-  # mpd2_s1  <- treestats::mean_pair_dist(phy2_s1) ## sim2 state1 mpd
-  # mpd_s1  <- abs(mpd1_s1  - mpd2_s1 )
-  #
-  # mpd1_s2 <- treestats::mean_pair_dist(phy1_s2)
-  # mpd2_s2 <- treestats::mean_pair_dist(phy2_s2)
-  # mpd_s2 <- abs(mpd1_s2 - mpd2_s2)
+  ## mpd s1
+  mpd1_s1  <- treestats::mean_pair_dist(phy1_s1) ## sim1 state1 mpd
+  mpd2_s1  <- treestats::mean_pair_dist(phy2_s1) ## sim2 state1 mpd
+  mpd_s1  <- abs(mpd1_s1  - mpd2_s1 )
+
+  mpd1_s2 <- treestats::mean_pair_dist(phy1_s2)
+  mpd2_s2 <- treestats::mean_pair_dist(phy2_s2)
+  mpd_s2 <- abs(mpd1_s2 - mpd2_s2)
   #
   # # # mntd_diff
   # mntd1_s1 <- treestats::mntd(phy1_s1)
@@ -33,9 +33,9 @@ calc_error_secsse <- function(sim_1,
   # mntd_s2 <- abs(mntd1_s2 - mntd2_s2)
 
   # D statistic
-  D1 <- calc_D(sim_1)
-  D2 <- calc_D(sim_2)
-  D <- abs (D1 - D2)
+  # D1 <- calc_D(sim_1)
+  # D2 <- calc_D(sim_2)
+  # D <- abs (D1 - D2)
 
   # tip ratio
   # num_state1_sim1 <- sum(sim_1$obs_traits == 1)
@@ -57,8 +57,8 @@ calc_error_secsse <- function(sim_1,
 
   # nLTT
   nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
-  nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
-  nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
+  # nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
+  # nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
 
   # spect_1 <- treestats::laplacian_spectrum(sim_1$phy)
   # spect_2 <- treestats::laplacian_spectrum(sim_2$phy)
@@ -67,13 +67,10 @@ calc_error_secsse <- function(sim_1,
 
   return(
     c(nltt,
-      nltt_s1,
-      nltt_s2,
-      # mpd_s1,
-      # mpd_s2,
-      # mntd_s1,
-      # mntd_s2,
-      D
+      # nltt_s1,
+      # nltt_s2,
+      mpd_s1,
+      mpd_s2
       )
   )
 }
@@ -85,40 +82,39 @@ calc_error_secsse_nltt <- function(sim_1,
                                    distance_method = "abs") {
 
   # drop tips and only keep tips with a single state(1/2)
-  phy1_s1<-ape::drop.tip(sim_1$phy,  ## phy1 with only state1 tips
-                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 2)])
-  phy1_s2<-ape::drop.tip(sim_1$phy,
-                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 1)])
-
-  phy2_s1<-ape::drop.tip(sim_2$phy,
-                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 2)])
-  phy2_s2<-ape::drop.tip(sim_2$phy,
-                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
+  # phy1_s1<-ape::drop.tip(sim_1$phy,  ## phy1 with only state1 tips
+  #                        tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 2)])
+  # phy1_s2<-ape::drop.tip(sim_1$phy,
+  #                        tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 1)])
+  #
+  # phy2_s1<-ape::drop.tip(sim_2$phy,
+  #                        tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 2)])
+  # phy2_s2<-ape::drop.tip(sim_2$phy,
+  #                        tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
 
 
   # nLTT
   nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
-  nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
-  nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
+  # nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
+  # nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
 
   # # D statistic
   # D1 <- calc_D(sim_1)
   # D2 <- calc_D(sim_2)
   # D <- abs (D1 - D2)
 
-  # # # tip ratio
-  # tip_ratio_sim1 <- min(sum(sim_1$obs_traits == 2),sum(sim_1$obs_traits == 1))/
-  #   max(sum(sim_1$obs_traits == 2),sum(sim_1$obs_traits == 1))
-  # tip_ratio_sim2 <- min(sum(sim_2$obs_traits == 2),sum(sim_2$obs_traits == 1))/
-  #   max(sum(sim_2$obs_traits == 2),sum(sim_2$obs_traits == 1))
-  #
-  # tip_ratio <- abs(tip_ratio_sim1 - tip_ratio_sim2)
+# # tip ratio
+tip_ratio_sim1 <- min(sum(sim_1$obs_traits == 2),sum(sim_1$obs_traits == 1))/
+  max(sum(sim_1$obs_traits == 2),sum(sim_1$obs_traits == 1))
+tip_ratio_sim2 <- min(sum(sim_2$obs_traits == 2),sum(sim_2$obs_traits == 1))/
+  max(sum(sim_2$obs_traits == 2),sum(sim_2$obs_traits == 1))
+
+tip_ratio <- abs(tip_ratio_sim1 - tip_ratio_sim2)
 
 
   return(
     c(nltt,
-      nltt_s1,
-      nltt_s2)
+      tip_ratio)
   )
 }
 
