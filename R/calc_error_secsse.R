@@ -15,22 +15,22 @@ calc_error_secsse <- function(sim_1,
                          tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
 
   ## mpd s1
-  mpd1_s1  <- treestats::mean_pair_dist(phy1_s1) ## sim1 state1 mpd
-  mpd2_s1  <- treestats::mean_pair_dist(phy2_s1) ## sim2 state1 mpd
-  mpd_s1  <- abs(mpd1_s1  - mpd2_s1 )
+  # mpd1_s1  <- treestats::mean_pair_dist(phy1_s1) ## sim1 state1 mpd
+  # mpd2_s1  <- treestats::mean_pair_dist(phy2_s1) ## sim2 state1 mpd
+  # mpd_s1  <- abs(mpd1_s1  - mpd2_s1 )
+  #
+  # mpd1_s2 <- treestats::mean_pair_dist(phy1_s2)
+  # mpd2_s2 <- treestats::mean_pair_dist(phy2_s2)
+  # mpd_s2 <- abs(mpd1_s2 - mpd2_s2)
+  #
+  # # mntd_diff
+  mntd1_s1 <- treestats::mntd(phy1_s1)
+  mntd2_s1 <- treestats::mntd(phy2_s1)
+  mntd_s1 <- abs(mntd1_s1 - mntd2_s1)
 
-  mpd1_s2 <- treestats::mean_pair_dist(phy1_s2)
-  mpd2_s2 <- treestats::mean_pair_dist(phy2_s2)
-  mpd_s2 <- abs(mpd1_s2 - mpd2_s2)
-  #
-  # # # mntd_diff
-  # mntd1_s1 <- treestats::mntd(phy1_s1)
-  # mntd2_s1 <- treestats::mntd(phy2_s1)
-  # mntd_s1 <- abs(mntd1_s1 - mntd2_s1)
-  #
-  # mntd1_s2 <- treestats::mntd(phy1_s2)
-  # mntd2_s2 <- treestats::mntd(phy2_s2)
-  # mntd_s2 <- abs(mntd1_s2 - mntd2_s2)
+  mntd1_s2 <- treestats::mntd(phy1_s2)
+  mntd2_s2 <- treestats::mntd(phy2_s2)
+  mntd_s2 <- abs(mntd1_s2 - mntd2_s2)
 
   # D statistic
   # D1 <- calc_D(sim_1)
@@ -65,12 +65,17 @@ calc_error_secsse <- function(sim_1,
   # spect <- abs(log(spect_1$principal_eigenvalue) -
   #                log(spect_2$principal_eigenvalue) )
 
+  # colless <- abs(treestats::colless(sim_1$phy) - treestats::colless(sim_2$phy))
+  # colless_s1 <- abs(treestats::colless(phy1_s1) - treestats::colless(phy2_s1))
+  # colless_s2 <- abs(treestats::colless(phy1_s2) - treestats::colless(phy2_s2))
+
+
   return(
     c(nltt,
       # nltt_s1,
       # nltt_s2,
-      mpd_s1,
-      mpd_s2
+      mntd_s1,
+      mntd_s2
       )
   )
 }
@@ -82,15 +87,15 @@ calc_error_secsse_nltt <- function(sim_1,
                                    distance_method = "abs") {
 
   # drop tips and only keep tips with a single state(1/2)
-  # phy1_s1<-ape::drop.tip(sim_1$phy,  ## phy1 with only state1 tips
-  #                        tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 2)])
-  # phy1_s2<-ape::drop.tip(sim_1$phy,
-  #                        tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 1)])
-  #
-  # phy2_s1<-ape::drop.tip(sim_2$phy,
-  #                        tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 2)])
-  # phy2_s2<-ape::drop.tip(sim_2$phy,
-  #                        tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
+  phy1_s1<-ape::drop.tip(sim_1$phy,  ## phy1 with only state1 tips
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 2)])
+  phy1_s2<-ape::drop.tip(sim_1$phy,
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 1)])
+
+  phy2_s1<-ape::drop.tip(sim_2$phy,
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 2)])
+  phy2_s2<-ape::drop.tip(sim_2$phy,
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
 
 
   # nLTT
@@ -103,18 +108,23 @@ calc_error_secsse_nltt <- function(sim_1,
   # D2 <- calc_D(sim_2)
   # D <- abs (D1 - D2)
 
-# # tip ratio
-tip_ratio_sim1 <- min(sum(sim_1$obs_traits == 2),sum(sim_1$obs_traits == 1))/
-  max(sum(sim_1$obs_traits == 2),sum(sim_1$obs_traits == 1))
-tip_ratio_sim2 <- min(sum(sim_2$obs_traits == 2),sum(sim_2$obs_traits == 1))/
-  max(sum(sim_2$obs_traits == 2),sum(sim_2$obs_traits == 1))
+# # # tip ratio
+# tip_ratio_sim1 <- min(sum(sim_1$obs_traits == 2),sum(sim_1$obs_traits == 1))/
+#   max(sum(sim_1$obs_traits == 2),sum(sim_1$obs_traits == 1))
+# tip_ratio_sim2 <- min(sum(sim_2$obs_traits == 2),sum(sim_2$obs_traits == 1))/
+#   max(sum(sim_2$obs_traits == 2),sum(sim_2$obs_traits == 1))
+#
+# tip_ratio <- abs(tip_ratio_sim1 - tip_ratio_sim2)
 
-tip_ratio <- abs(tip_ratio_sim1 - tip_ratio_sim2)
+  # colless <- abs(treestats::colless(sim_1$phy) - treestats::colless(sim_2$phy))
+  colless_s1 <- abs(treestats::colless(phy1_s1) - treestats::colless(phy2_s1))
+  colless_s2 <- abs(treestats::colless(phy1_s2) - treestats::colless(phy2_s2))
 
 
   return(
     c(nltt,
-      tip_ratio)
+      colless_s1,
+      colless_s2)
   )
 }
 
@@ -345,6 +355,12 @@ calc_ss_secsse <- function(sim) {
   # ## mean pairwise distance with state1
   # mpd_2 <- calc_mpd_trait(sim = sim,state_type = 2)
   # mntd_2 <- calc_mntd_trait(sim = sim,state_type = 2)
+
+  # colless <- treestats::colless(sim$phy)
+  # spect <- treestats::laplacian_spectrum(sim$phy)
+  # spect_log_median <- median(log(spect$eigenvalues))
+  # spect_prin <- log(spect$principal_eigenvalue)
+  # sackin <- treestats::sackin(sim$phy)
 
   return(
     list(state1 = num_state1,
