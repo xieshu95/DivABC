@@ -138,7 +138,7 @@ p_netdiv_all <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div,y 
   ggplot2::theme_bw() +
   ggplot2::theme_classic() +
   ggplot2::xlim(-1.5,1.5)+
-  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(whole_df_all$Method))))+
+  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(whole_df_all$Method))))+ ##!! keep the same order as legend
   # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
   ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
   ggplot2::theme(title = ggplot2::element_text(size = 16,colour = "black"),

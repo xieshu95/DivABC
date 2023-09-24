@@ -192,6 +192,7 @@ p_netdiv_all <-ggplot2::ggplot(data = ABC_df_all_4gene, aes(x = as.factor(genera
   ggplot2::theme_classic() +
   ggplot2::geom_boxplot(outlier.shape=NA)+ #outlier.shape=NA
   ggplot2::ylim(-2,2)+
+  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(ABC_df_all_4gene$ss))))+
   # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
   ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+  #"#FADC8D","orange",
   ggplot2::theme(title = ggplot2::element_text(size = 13),
@@ -216,6 +217,7 @@ p_lac <-ggplot2::ggplot(data = ABC_df_all_4gene, aes(x = as.factor(generation), 
   ggplot2::theme_classic() +
   ggplot2::geom_boxplot(outlier.shape=NA)+ #outlier.shape=NA
   ggplot2::ylim(-1,2)+
+  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(ABC_df_all_4gene$ss))))+
   # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
   ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
   ggplot2::theme(title = ggplot2::element_text(size = 13),
@@ -240,6 +242,7 @@ p_mu <-ggplot2::ggplot(data = ABC_df_all_4gene, aes(x = as.factor(generation), y
   ggplot2::theme_classic() +
   ggplot2::geom_boxplot(outlier.shape=NA)+ #outlier.shape=NA
   ggplot2::ylim(-0.5,2)+
+  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(ABC_df_all_4gene$ss))))+
   # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
   ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
   ggplot2::theme(title = ggplot2::element_text(size = 13),
@@ -264,6 +267,7 @@ p_gam <-ggplot2::ggplot(data = ABC_df_all_4gene, aes(x = as.factor(generation), 
   ggplot2::theme_classic() +
   ggplot2::geom_boxplot(outlier.shape=NA)+ #outlier.shape=NA
   ggplot2::ylim(-0.012,0.022)+
+  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(ABC_df_all_4gene$ss))))+
   # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
   ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
   ggplot2::theme(title = ggplot2::element_text(size = 13),
@@ -288,6 +292,7 @@ p_laa <-ggplot2::ggplot(data = ABC_df_all_4gene, aes(x = as.factor(generation), 
   ggplot2::theme_classic() +
   ggplot2::geom_boxplot(outlier.shape=NA)+ #outlier.shape=NA
   ggplot2::ylim(-1.2,2)+
+  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(ABC_df_all_4gene$ss))))+
   # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
   ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
   ggplot2::theme(title = ggplot2::element_text(size = 13),
@@ -315,7 +320,11 @@ iqr = function(z, lower = 0.025, upper = 0.975) {
     ymax = quantile(z, upper)
   )
 }
+
+library(gridExtra)
+library(grid)
 library(ggplot2)
+library(lattice)
 ABC_df_all_4gene<- ABC_df_all[which(ABC_df_all$generation <13),]
 ABC_df_all_4gene$ss <- factor(ABC_df_all_4gene$ss, levels = c("ABC All", "ABC Diversity", "ABC NLTT", "ABC Phylogenetic"))
 p_netdiv_all <-ggplot2::ggplot(data = ABC_df_all_4gene,mapping = aes(x = dnet_div,y = ss,color = ss)) +
@@ -325,6 +334,7 @@ p_netdiv_all <-ggplot2::ggplot(data = ABC_df_all_4gene,mapping = aes(x = dnet_di
   ggplot2::theme_bw() +
   ggplot2::theme_classic() +
   ggplot2::xlim(-2,2)+
+  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(ABC_df_all_4gene$ss))))+
   # ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
   ggplot2::scale_colour_manual("Method",values = c("brown4","orange","red2","#FADC8D","#8CC269","#4393C3"))+
   ggplot2::theme(title = ggplot2::element_text(size = 15),
@@ -340,9 +350,17 @@ p_netdiv_all <-ggplot2::ggplot(data = ABC_df_all_4gene,mapping = aes(x = dnet_di
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
+p <- p_netdiv_all +
+  ggplot2::theme(legend.position = "none")
+p <-grid.arrange(p,top=NULL, right='Iteration')
+legend <- cowplot::get_legend(
+  p_netdiv_all + theme(legend.box.margin = margin(0, 0, 0, 6))
+)
+p_netdiv_all <- cowplot::plot_grid(p,legend,rel_widths = c(3,0.4))
+
 
 tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/all_ss_drate_each_gene_netdiv_gene_all2.tiff"),
-     units="px", width=5000, height=3000,res = 300,compression="lzw")
+     units="px", width=6000, height=2800,res = 350,compression="lzw")
 print(p_netdiv_all)
 while (!is.null(dev.list()))  dev.off()
 
@@ -362,7 +380,7 @@ p_lac <-ggplot2::ggplot(data = ABC_df_all_4gene,mapping = aes(x = dlac,y = ss,co
                  legend.text = element_text(size = 12),
                  axis.text.x = ggplot2::element_text(size = 12,colour = "black"),
                  axis.text.y = ggplot2::element_blank()) +
-  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(ABC_df_all_4gene$Method))))+
+  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(ABC_df_all_4gene$ss))))+
   ggplot2::xlab(expression(Delta~lambda^c))+
   ggplot2::ylab("Method") +
   ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
@@ -371,8 +389,16 @@ p_lac <-ggplot2::ggplot(data = ABC_df_all_4gene,mapping = aes(x = dlac,y = ss,co
                                                             gam = as_labeller(gam_names, label_parsed),
                                                             laa = as_labeller(laa_names, label_parsed)))
 
+p <- p_lac +
+  ggplot2::theme(legend.position = "none")
+p <-grid.arrange(p,top=NULL, right='Iteration')
+legend <- cowplot::get_legend(
+  p_lac + theme(legend.box.margin = margin(0, 0, 0, 6))
+)
+p_lac <- cowplot::plot_grid(p,legend,rel_widths = c(3,0.4))
+
 tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/all_ss_drate_each_gene_lac.tiff"),
-     units="px", width=5000, height=3000,res = 300,compression="lzw")
+     units="px", width=6000, height=2800,res = 350,compression="lzw")
 print(p_lac)
 while (!is.null(dev.list()))  dev.off()
 
@@ -390,7 +416,7 @@ p_mu<-ggplot2::ggplot(data = ABC_df_all_4gene,mapping = aes(x = dmu,y = ss,color
                  legend.text = element_text(size = 12),
                  axis.text.x = ggplot2::element_text(size = 12,colour = "black"),
                  axis.text.y = ggplot2::element_blank()) +
-  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(ABC_df_all_4gene$Method))))+
+  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(ABC_df_all_4gene$ss))))+
   ggplot2::xlab(expression(Delta~mu))+
   ggplot2::ylab("Method") +
   ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
@@ -398,8 +424,17 @@ p_mu<-ggplot2::ggplot(data = ABC_df_all_4gene,mapping = aes(x = dmu,y = ss,color
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
+
+p <- p_mu +
+  ggplot2::theme(legend.position = "none")
+p <-grid.arrange(p,top=NULL, right='Iteration')
+legend <- cowplot::get_legend(
+  p_mu + theme(legend.box.margin = margin(0, 0, 0, 6))
+)
+p_mu <- cowplot::plot_grid(p,legend,rel_widths = c(3,0.4))
+
 tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/all_ss_drate_each_gene_mu.tiff"),
-     units="px", width=5000, height=3000,res = 300,compression="lzw")
+     units="px", width=6000, height=2800,res = 350,compression="lzw")
 print(p_mu)
 while (!is.null(dev.list()))  dev.off()
 
@@ -417,7 +452,7 @@ p_gam<-ggplot2::ggplot(data = ABC_df_all_4gene,mapping = aes(x = dgam,y = ss,col
                  legend.text = element_text(size = 12),
                  axis.text.x = ggplot2::element_text(size = 12,colour = "black"),
                  axis.text.y = ggplot2::element_blank()) +
-  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(ABC_df_all_4gene$Method))))+
+  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(ABC_df_all_4gene$ss))))+
   ggplot2::xlab(expression(Delta~gamma))+
   ggplot2::ylab("Method") +
   ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
@@ -425,8 +460,16 @@ p_gam<-ggplot2::ggplot(data = ABC_df_all_4gene,mapping = aes(x = dgam,y = ss,col
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
+p <- p_gam +
+  ggplot2::theme(legend.position = "none")
+p <-grid.arrange(p,top=NULL, right='Iteration')
+legend <- cowplot::get_legend(
+  p_gam + theme(legend.box.margin = margin(0, 0, 0, 6))
+)
+p_gam <- cowplot::plot_grid(p,legend,rel_widths = c(3,0.4))
+
 tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/all_ss_drate_each_gene_gam.tiff"),
-     units="px", width=5000, height=3000,res = 300,compression="lzw")
+     units="px", width=6000, height=2800,res = 350,compression="lzw")
 print(p_gam)
 while (!is.null(dev.list()))  dev.off()
 
@@ -444,7 +487,7 @@ p_laa<-ggplot2::ggplot(data = ABC_df_all_4gene,mapping = aes(x = dlaa,y = ss,col
                  legend.text = element_text(size = 12),
                  axis.text.x = ggplot2::element_text(size = 12,colour = "black"),
                  axis.text.y = ggplot2::element_blank()) +
-  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(ABC_df_all_4gene$Method))))+
+  ggplot2::scale_y_discrete(limits = rev(levels(as.factor(ABC_df_all_4gene$ss))))+
   ggplot2::xlab(expression(Delta~lambda^a))+
   ggplot2::ylab("Method") +
   ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
@@ -452,8 +495,15 @@ p_laa<-ggplot2::ggplot(data = ABC_df_all_4gene,mapping = aes(x = dlaa,y = ss,col
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
+p <- p_laa +
+  ggplot2::theme(legend.position = "none")
+p <-grid.arrange(p,top=NULL, right='Iteration')
+legend <- cowplot::get_legend(
+  p_laa + theme(legend.box.margin = margin(0, 0, 0, 6))
+)
+p_laa <- cowplot::plot_grid(p,legend,rel_widths = c(3,0.4))
 tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/all_ss_drate_each_gene_laa.tiff"),
-     units="px", width=5000, height=3000,res = 300,compression="lzw")
+     units="px", width=6000, height=2800,res = 350,compression="lzw")
 print(p_laa)
 while (!is.null(dev.list()))  dev.off()
 

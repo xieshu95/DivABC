@@ -287,7 +287,7 @@ for (num_ss in c(1)){
   ABC_median <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   df<-whole_df_MCMC
-  n <- 1001
+  n <- 2501 #1001
   MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   MLE_median <- whole_df_MLE

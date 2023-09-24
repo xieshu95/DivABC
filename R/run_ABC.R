@@ -114,7 +114,7 @@ run_ABC <- function(param_space_name,
     } else if (ss_set == 1){
       init_epsilon <- c(0.4,500,500)
     } else if (ss_set == 2){  # D+NLTT
-      init_epsilon <- c(0.4,0.4)
+      init_epsilon <- c(0.4) #0.4,0.4
     } else if (ss_set == 3){  # D+NLTT
       init_epsilon <- c(0.4)
     }

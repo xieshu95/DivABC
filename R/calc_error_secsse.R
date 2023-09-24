@@ -152,9 +152,9 @@ calc_error_secsse_D_nltt <- function(sim_1,
   # nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
 
   # D statistic
-  D1 <- calc_D(sim_1)
-  D2 <- calc_D(sim_2)
-  D <- abs (D1 - D2)
+  # D1 <- calc_D(sim_1)
+  # D2 <- calc_D(sim_2)
+  # D <- abs (D1 - D2)
 
   # # # tip ratio
   # tip_ratio_sim1 <- min(sum(sim_1$obs_traits == 2),sum(sim_1$obs_traits == 1))/
@@ -166,8 +166,7 @@ calc_error_secsse_D_nltt <- function(sim_1,
 
 
   return(
-    c(nltt,
-      D)
+    c(nltt)
   )
 }
 
