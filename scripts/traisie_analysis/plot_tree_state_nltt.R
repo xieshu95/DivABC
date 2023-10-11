@@ -22,7 +22,7 @@ plot_delta_stt <- function(
     main <- "Simulated Data"
   } else if (diversity_type == "delta"){
     type_data <- "Total"
-    main <- expression(Delta ~ "nLTT State 1") ##
+    main <- expression(Delta ~ "nLTT") ##
   }
   # Plot standard stt (start by opening empty canvas)
   suppressWarnings(
@@ -81,7 +81,7 @@ plot_delta_stt <- function(
       border = NA
     )
     graphics::lines(x1,y1,lwd = 2.2, col = "dark blue")
-    graphics::lines(x2,y2,lwd = 2.2, col = "#B10026")
+    graphics::lines(x2,y2,lwd = 1.2, col = "#B10026")
   }
   legend("topleft", c("Tree1", "Tree2"), col = c("blue3","red3" ), lty = 1)
 }
@@ -109,7 +109,7 @@ sim1_state1[[1]][[1]][["stt_all"]][,5] <-c(0,1,1,1)
 
 sim1_state1[[1]][[2]]$branching_times <- c(8,4)
 sim1_state1[[1]][[2]]$stac <-2
-DAISIE:::DAISIE_plot_sims(sim1_state2)
+DAISIE:::DAISIE_plot_sims(sim1_state1)
 
 sim1_state2 <- list()
 sim1_state2[[1]] <- sim1[[1]][1:3]
@@ -181,3 +181,61 @@ tiff(paste0("D:/Onedrive-shu/OneDrive/project 3/figures/nltt_state2.tiff"),
 p_s2 <- plot_delta_stt(8,plot2,plot4,diversity_type)
 print(p_s2)
 while (!is.null(dev.list()))  dev.off()
+
+## nltt for the whole tree1 and tree2
+set.seed(5)
+sim <- DAISIE::DAISIE_sim_cr (
+  time = 4,
+  M = 1000,
+  pars = c(0.2,0,Inf,0.0015,0),
+  replicates = 1,
+  divdepmodel = "CS",
+  sample_freq = Inf,
+  plot_sims = FALSE
+)
+
+sim1 <- list()
+sim1[[1]] <- sim[[1]][1:4]
+sim1[[1]][[1]][["stt_all"]]<- sim1[[1]][[1]][["stt_all"]][1:8,]
+sim1[[1]][[1]][["stt_all"]][,1] <-c(8,6,5,4,3,2,1,0)
+sim1[[1]][[1]][["stt_all"]][,2] <-c(0,1,2,3,2,1,0,0)
+sim1[[1]][[1]][["stt_all"]][,3] <-c(0,0,0,0,0,0,0,0)
+sim1[[1]][[1]][["stt_all"]][,4] <-c(0,0,0,0,2,4,6,6)
+sim1[[1]][[1]][["stt_all"]][,5] <-c(0,1,2,3,3,3,3,3)
+
+sim1[[1]][[2]]$branching_times <- c(8,6,3)
+sim1[[1]][[2]]$stac <-2
+sim1[[1]][[3]]$branching_times <- c(8,5,2)
+sim1[[1]][[3]]$stac <-2
+sim1[[1]][[4]]$branching_times <- c(8,4,1)
+sim1[[1]][[4]]$stac <-2
+
+sim2 <- list()
+sim2[[1]] <- sim[[1]][1:4]
+sim2[[1]][[1]][["stt_all"]]<- sim2[[1]][[1]][["stt_all"]][1:8,]
+sim2[[1]][[1]][["stt_all"]][,1] <-c(8,6,5,4,3,2,1,0)
+sim2[[1]][[1]][["stt_all"]][,2] <-c(0,1,2,3,2,1,0,0)
+sim2[[1]][[1]][["stt_all"]][,3] <-c(0,0,0,0,0,0,1,1)
+sim2[[1]][[1]][["stt_all"]][,4] <-c(0,0,0,0,2,4,5,5)
+sim2[[1]][[1]][["stt_all"]][,5] <-c(0,1,2,3,3,3,3,3)
+
+sim2[[1]][[2]]$branching_times <- c(8,6,2)
+sim2[[1]][[2]]$stac <-2
+sim2[[1]][[3]]$branching_times <- c(8,5,3,1)
+sim2[[1]][[3]]$stac <-2
+sim2[[1]][[4]]$branching_times <- c(8,4)
+sim2[[1]][[4]]$stac <-4
+
+plot1 = DAISIE:::DAISIE_convert_to_classic_plot(sim1)
+plot2 = DAISIE:::DAISIE_convert_to_classic_plot(sim2)
+
+
+diversity_type = "delta"
+p_s1 <- plot_delta_stt(8,plot1,plot2,diversity_type)
+
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 3/figures/nltt_all.tiff"),
+     units="px", width=3000, height=1800,res = 500,compression="lzw")
+p_s1 <- plot_delta_stt(8,plot1,plot2,diversity_type)
+print(p_s1)
+while (!is.null(dev.list()))  dev.off()
+

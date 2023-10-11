@@ -1,4 +1,4 @@
-# secsse  analysis "secsse_final"
+# secsse  analysis "D"
 # initial states
 load("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_sims_secsse_ABC_test.rda")
 init_state <- c()
@@ -14,11 +14,11 @@ init_state$init_obs[which(init_state$init_state == 3)] <-"1"
 
 
 # init_state for posteriors
-for (num_ss in c(1)){
+for (num_ss in c(2)){
   # formate results
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_ss_test.rda"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/obs_ss_test.rda"))
   ## ABC results
-  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/secsse_ABC_test")
+  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/secsse_ABC_test")
   files <- list.files(folder_path)
   param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
   init_1A <-c()
@@ -51,12 +51,12 @@ for (num_ss in c(1)){
 
 
   whole_df_init <- data.frame(param_data,init_state,
-                             # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
-                             init_1A,init_2A,init_1B,init_2B)
+                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
+                              init_1A,init_2A,init_1B,init_2B)
   whole_df_init$prob_s1 <- whole_df_init$init_1A + whole_df_init$init_1B
   whole_df_init$prob_s2 <- whole_df_init$init_2A + whole_df_init$init_2B
   whole_df_init <- data.frame(whole_df_init,ss[,1:4])
-  save(whole_df_init,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_init_prob_ss",num_ss,".RData"))
+  save(whole_df_init,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/whole_df_init_prob_ss",num_ss,".RData"))
 }
 
 n = 7
@@ -71,8 +71,8 @@ median(whole_df_init$prob_s1[i],na.rm = T)
 median(whole_df_init$prob_s2[i],na.rm = T)
 
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_init_test_ss",1,".RData"))
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/AMM_per_set_drate_test_ss",1,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/whole_df_init_test_ss",1,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/AMM_per_set_drate_test_ss",1,".RData"))
 
 whole_df_init1<- cbind(whole_df_init,AMM_all_df[,42:47])
 
@@ -80,11 +80,11 @@ whole_df_init1<- cbind(whole_df_init,AMM_all_df[,42:47])
 
 # 1. formate ABC results
 ## check new secsse ABC result
-for (num_ss in c(1)){
+for (num_ss in c(2)){
   # formate results
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_ss_test.rda"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/obs_ss_test.rda"))
   ## ABC results
-  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/secsse_ABC_test")
+  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/secsse_ABC_test")
   files <- list.files(folder_path)
   param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
   param_data2<-param_data[rep(seq_len(nrow(param_data)), each=500),] #500
@@ -144,7 +144,7 @@ for (num_ss in c(1)){
   whole_df_ABC <- data.frame(param_data2,n_iteration,
                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                              lam1_abc,lam2_abc,mu1_abc,mu2_abc,q12_abc,q21_abc)
-  save(whole_df_ABC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_ABC_test_ss",num_ss,".RData"))
+  save(whole_df_ABC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/whole_df_ABC_test_ss",num_ss,".RData"))
 
   # whole_df_ABC$dlam <- (whole_df_ABC$lam2-whole_df_ABC$lam1)/(whole_df_ABC$lam2+whole_df_ABC$lam1)
   # whole_df_ABC$dlam_ABC <- (whole_df_ABC$lam2_ABC-whole_df_ABC$lam1_ABC)/(whole_df_ABC$lam2_ABC+whole_df_ABC$lam1_ABC)
@@ -164,7 +164,7 @@ for (num_ss in c(1)){
   whole_df_ABC$ext_frac_ABC1 <- (whole_df_ABC$mu1_abc)/(whole_df_ABC$lam1_abc)
   whole_df_ABC$ext_frac_ABC2 <- (whole_df_ABC$mu2_abc)/(whole_df_ABC$lam2_abc)
   save(whole_df_ABC,file =
-         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/delta_whole_df_ABC_test_ss",num_ss,".RData"))
+         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/delta_whole_df_ABC_test_ss",num_ss,".RData"))
 
 
 }
@@ -175,7 +175,7 @@ for (num_ss in c(1)){
 # skip
 param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
 param_data3<-param_data[rep(seq_len(nrow(param_data)), each=1001),] #5001
-folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/secsse_MCMC_test")
+folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/secsse_MCMC_test")
 files <- list.files(folder_path)
 lam1_mcmc <- c()
 lam2_mcmc <- c()
@@ -211,7 +211,7 @@ whole_df_MCMC <- data.frame(param_data3,
                             mu1_mcmc,mu2_mcmc,
                             q12_mcmc,q21_mcmc)
 
-save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_MCMC_test.RData"))
+save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/whole_df_MCMC_test.RData"))
 
 # whole_df_MCMC$dlam <- (whole_df_MCMC$lam2-whole_df_MCMC$lam1)/(whole_df_MCMC$lam2+whole_df_MCMC$lam1)
 # whole_df_MCMC$dlam_mcmc <- (whole_df_MCMC$lam2_mcmc-whole_df_MCMC$lam1_mcmc)/(whole_df_MCMC$lam2_mcmc+whole_df_MCMC$lam1_mcmc)
@@ -230,13 +230,13 @@ whole_df_MCMC$ext_frac2 <- (whole_df_MCMC$mu2)/(whole_df_MCMC$lam2)
 whole_df_MCMC$ext_frac_MCMC1 <- (whole_df_MCMC$mu1_mcmc)/(whole_df_MCMC$lam1_mcmc)
 whole_df_MCMC$ext_frac_MCMC2 <- (whole_df_MCMC$mu2_mcmc)/(whole_df_MCMC$lam2_mcmc)
 
-save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/delta_whole_df_MCMC_test.RData"))
+save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/delta_whole_df_MCMC_test.RData"))
 
 # install.packages("bayesplot")
 library(bayesplot)
 # plot MCMC trace
 # load("G:/results/project 2/tip_info/round4/secsse_long_2/secsse_MCMC_long/secsse_MCMC_long_param_set_1_ss_1.RData")
-folder_path <-  paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/secsse_MCMC_test")
+folder_path <-  paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/secsse_MCMC_test")
 files <- list.files(folder_path)
 seq <- seq(1,5001,5)
 for(i in 1:350){
@@ -248,7 +248,7 @@ for(i in 1:350){
 
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/MCMC_trace/set_",i,".tiff"),
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/MCMC_trace/set_",i,".tiff"),
          units="px", width=2000, height=3000,res = 300,compression="lzw")
     b_mcmc <- coda::as.mcmc(output[seq,1:6])
     colnames(b_mcmc) <- c("Speciation 1","Speciation 2","Extinction 1","Extinction 2", "Transition 12","Transition 21")
@@ -267,19 +267,19 @@ for(i in 1:350){
 # 3. formate MLE results
 # skip
 param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_ss_test.rda"))
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/test_MLE_secsse.RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/obs_ss_test.rda"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/test_MLE_secsse.RData"))
 whole_df_MLE <- data.frame(param_data,MLE_all,ss[,1:4])
-save(whole_df_MLE,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_MLE.RData"))
+save(whole_df_MLE,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/whole_df_MLE.RData"))
 
 
 
 ## median
-for (num_ss in c(1)){
+for (num_ss in c(2)){
   # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_init_new/delta_whole_df_init_test.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/delta_whole_df_ABC_test_ss",num_ss,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/delta_whole_df_MCMC_test.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_MLE.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/delta_whole_df_ABC_test_ss",num_ss,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/delta_whole_df_MCMC_test.RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/whole_df_MLE.RData"))
 
   ## get number of iterations and mean values
   df <- whole_df_ABC
@@ -287,20 +287,20 @@ for (num_ss in c(1)){
   ABC_median <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   df<-whole_df_MCMC
-  n <- 2501 #1001
+  n <- 2501
   MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
   MLE_median <- whole_df_MLE
 
 
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_ss_test.rda"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/obs_ss_test.rda"))
   ## combine ABC MCMC MLE as "AMM"
   AMM_all_df <- cbind(ABC_median[1:21],
                       MCMC_median[,c(7:12,15,16,19,20)],
                       MLE_median[,c(7:12,20:23)])
-  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/AMM_per_set_test_ss",num_ss,".RData"))
+  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/AMM_per_set_test_ss",num_ss,".RData"))
 
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/AMM_per_set_test_ss",num_ss,".RData"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/AMM_per_set_test_ss",num_ss,".RData"))
   AMM_all_df$dlam1_abc <- AMM_all_df$lam1_abc - AMM_all_df$lam1
   AMM_all_df$dlam2_abc <- AMM_all_df$lam2_abc - AMM_all_df$lam2
   AMM_all_df$dmu1_abc <- AMM_all_df$mu1_abc - AMM_all_df$mu1
@@ -332,16 +332,16 @@ for (num_ss in c(1)){
   AMM_all_df$dnet_div_MLE1 <- AMM_all_df$net_div_MLE1-AMM_all_df$net_div1
   AMM_all_df$dnet_div_MLE2 <- AMM_all_df$net_div_MLE2-AMM_all_df$net_div2
 
-  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/AMM_per_set_drate_test_ss",num_ss,".RData"))
+  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/AMM_per_set_drate_test_ss",num_ss,".RData"))
 }
 
 
 
 ## run\
 library(ggplot2)
-for(num_ss in c(1)){
+for(num_ss in c(2)){
   for(i in 1:7){
-    load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/AMM_per_set_drate_test_ss",num_ss,".RData"))
+    load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/AMM_per_set_drate_test_ss",num_ss,".RData"))
     color_values <-c("ABC" = "#b81f25" ,"MCMC" = "#EFC000", "MLE" = "#4daf4a")
     AMM <- AMM_all_df[(i*50-49):(i*50),]
     p_lam1 <-ggplot2::ggplot(data = AMM) +
@@ -355,7 +355,7 @@ for(num_ss in c(1)){
                      axis.title.y = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
       ggplot2::xlab("Total species richness") +
-      ggplot2::ylab(expression(lambda[0]))+
+      ggplot2::ylab(expression(lambda[1]))+
       ggplot2::geom_hline(yintercept = AMM$lam1[1], linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
@@ -372,7 +372,7 @@ for(num_ss in c(1)){
                      axis.title.y = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
       ggplot2::xlab("Total species richness") +
-      ggplot2::ylab(expression(lambda[1]))+
+      ggplot2::ylab(expression(lambda[2]))+
       ggplot2::geom_hline(yintercept = AMM$lam2[1], linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
@@ -389,7 +389,7 @@ for(num_ss in c(1)){
                      axis.title.y = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
       ggplot2::xlab("Total species richness") +
-      ggplot2::ylab(expression(mu[0]))+
+      ggplot2::ylab(expression(mu[1]))+
       ggplot2::geom_hline(yintercept = AMM$mu1[1], linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
@@ -406,7 +406,7 @@ for(num_ss in c(1)){
                      axis.title.y = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
       ggplot2::xlab("Total species richness") +
-      ggplot2::ylab(expression(mu[1]))+
+      ggplot2::ylab(expression(mu[2]))+
       ggplot2::geom_hline(yintercept = AMM$mu2[1], linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
@@ -423,7 +423,7 @@ for(num_ss in c(1)){
                      axis.title.y = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
       ggplot2::xlab("Total species richness") +
-      ggplot2::ylab(expression(q["01"]))+
+      ggplot2::ylab(expression(q[12]))+
       ggplot2::geom_hline(yintercept = AMM$q12[1], linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
@@ -440,7 +440,7 @@ for(num_ss in c(1)){
                      axis.title.y = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
       ggplot2::xlab("Total species richness") +
-      ggplot2::ylab(expression(q["10"]))+
+      ggplot2::ylab(expression(q[21]))+
       ggplot2::geom_hline(yintercept = AMM$q21[1], linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
@@ -456,7 +456,7 @@ for(num_ss in c(1)){
       ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                      axis.title.y = ggplot2::element_text(size = 11),
                      text = ggplot2::element_text(size = 15)) +
-      ggplot2::ylab(expression("Net Diversification 0")) +
+      ggplot2::ylab(expression("Net Diversification 1")) +
       ggplot2::xlab("Total species richness")+
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
@@ -474,14 +474,14 @@ for(num_ss in c(1)){
       ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                      axis.title.y = ggplot2::element_text(size = 11),
                      text = ggplot2::element_text(size = 15)) +
-      ggplot2::ylab(expression("Net Diversification 1")) +
+      ggplot2::ylab(expression("Net Diversification 2")) +
       ggplot2::xlab("Total species richness")+
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
                                   labels = c("ABC", "MCMC", "MLE"))+
       ggplot2::geom_hline(yintercept = AMM$net_div2[1], linetype = "dashed", size = 0.5)
 
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/exact_rate_test",i,"_ss",num_ss,".tiff"),
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/exact_rate_test",i,"_ss",num_ss,".tiff"),
          units="px", width=5500, height=2000,res = 400,compression="lzw")
     params <- cowplot::plot_grid(
       p_lam1+ggplot2::theme(legend.position = "none"),
@@ -509,9 +509,9 @@ for(num_ss in c(1)){
 
 ## run\ drate
 library(ggplot2)
-for(num_ss in c(1)){
+for(num_ss in c(2)){
   for(i in 1:7){
-    load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/AMM_per_set_drate_test_ss",num_ss,".RData"))
+    load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/AMM_per_set_drate_test_ss",num_ss,".RData"))
     color_values <-c("ABC" = "#b81f25" ,"MCMC" = "#EFC000", "MLE" = "#4daf4a")
     AMM <- AMM_all_df[(i*50-49):(i*50),]
     p_lam1 <-ggplot2::ggplot(data = AMM) +
@@ -525,7 +525,7 @@ for(num_ss in c(1)){
                      axis.title.y = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
       ggplot2::xlab("Total species richness") +
-      ggplot2::ylab(expression(lambda[0]))+
+      ggplot2::ylab(expression(lambda[1]))+
       ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
@@ -542,7 +542,7 @@ for(num_ss in c(1)){
                      axis.title.y = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
       ggplot2::xlab("Total species richness") +
-      ggplot2::ylab(expression(lambda[1]))+
+      ggplot2::ylab(expression(lambda[2]))+
       ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
@@ -559,7 +559,7 @@ for(num_ss in c(1)){
                      axis.title.y = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
       ggplot2::xlab("Total species richness") +
-      ggplot2::ylab(expression(mu[0]))+
+      ggplot2::ylab(expression(mu[1]))+
       ggplot2::geom_hline(yintercept =0, linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
@@ -576,7 +576,7 @@ for(num_ss in c(1)){
                      axis.title.y = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
       ggplot2::xlab("Total species richness") +
-      ggplot2::ylab(expression(mu[1]))+
+      ggplot2::ylab(expression(mu[2]))+
       ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
@@ -593,7 +593,7 @@ for(num_ss in c(1)){
                      axis.title.y = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
       ggplot2::xlab("Total species richness") +
-      ggplot2::ylab(expression(q["01"]))+
+      ggplot2::ylab(expression(q[12]))+
       ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
@@ -610,7 +610,7 @@ for(num_ss in c(1)){
                      axis.title.y = ggplot2::element_text(size = 15),
                      text = ggplot2::element_text(size = 15)) +
       ggplot2::xlab("Total species richness") +
-      ggplot2::ylab(expression(q["10"]))+
+      ggplot2::ylab(expression(q[21]))+
       ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.3) +
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
@@ -626,7 +626,7 @@ for(num_ss in c(1)){
       ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                      axis.title.y = ggplot2::element_text(size = 11),
                      text = ggplot2::element_text(size = 15)) +
-      ggplot2::ylab(expression("Net Diversification 0")) +
+      ggplot2::ylab(expression("Net Diversification 1")) +
       ggplot2::xlab("Total species richness")+
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
@@ -644,14 +644,14 @@ for(num_ss in c(1)){
       ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                      axis.title.y = ggplot2::element_text(size = 11),
                      text = ggplot2::element_text(size = 15)) +
-      ggplot2::ylab(expression("Net Diversification 1")) +
+      ggplot2::ylab(expression("Net Diversification 2")) +
       ggplot2::xlab("Total species richness")+
       ggplot2::scale_color_manual(name = "Method",
                                   values = color_values,
                                   labels = c("ABC", "MCMC", "MLE"))+
       ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/drate_scen_treesize_",i,"_ss",num_ss,".tiff"),
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/drate_scen_treesize_",i,"_ss",num_ss,".tiff"),
          units="px", width=5500, height=2000,res = 400,compression="lzw")
 
     params <- cowplot::plot_grid(
@@ -679,9 +679,9 @@ for(num_ss in c(1)){
 
 
 ## net div
-# for(num_ss in c(1)) {
+# for(num_ss in c(2)) {
 #   for(i in 1:7){
-#     load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/AMM_per_set_drate_test_ss",num_ss,".RData"))
+#     load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/AMM_per_set_drate_test_ss",num_ss,".RData"))
 #     color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
 #     AMM <- AMM_all_df[(i*50-49):(i*50),]
 #     p_div1 <-ggplot2::ggplot(data = AMM) +
@@ -717,7 +717,7 @@ for(num_ss in c(1)){
 #                                   labels = c("ABC", "MCMC", "MLE"))+
 #       ggplot2::geom_hline(yintercept = AMM$net_div2[1], linetype = "dashed", size = 0.5)
 #
-#     tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/net_div_set",i,"_ss",num_ss,".tiff"),
+#     tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/net_div_set",i,"_ss",num_ss,".tiff"),
 #          units="px", width=2200, height=1000,res = 400,compression="lzw")
 #     param_estimates <- cowplot::plot_grid(
 #       p_div1,p_div2,
@@ -745,9 +745,9 @@ for(num_ss in c(1)){
 # tip_ratio vs drate
 # run
 library(ggplot2)
-for(num_ss in c(1)){
+for(num_ss in c(2)){
   for(i in 1:7){
-    load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/AMM_per_set_drate_test_ss",num_ss,".RData"))
+    load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/AMM_per_set_drate_test_ss",num_ss,".RData"))
     color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
     AMM <- AMM_all_df[(i*50-49):(i*50),]
     p_lam1 <-ggplot2::ggplot(data = AMM) +
@@ -846,7 +846,7 @@ for(num_ss in c(1)){
                                   values = color_values,
                                   labels = c("ABC", "MCMC", "MLE"))
 
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/tipratip_exact_rate_test",i,"_ss",num_ss,".tiff"),
+    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/tipratip_exact_rate_test",i,"_ss",num_ss,".tiff"),
          units="px", width=3000, height=1800,res = 380,compression="lzw")
     params <- cowplot::plot_grid(
       p_lam1+ggplot2::theme(legend.position = "none"),
@@ -874,7 +874,7 @@ for(num_ss in c(1)){
 
 #####
 library(coda)
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/secsse_MCMC_test"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/secsse_MCMC_test"
 files <- list.files(folder_path)
 param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
 
@@ -915,7 +915,7 @@ for(i in 1:350){
 whole_df_cor <- data.frame(param_data,
                            lam1_cor,lam2_cor,mu1_cor,mu2_cor,q12_cor,q21_cor)
 
-save(whole_df_cor,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_cor_lag1.RData"))
+save(whole_df_cor,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/whole_df_cor_lag1.RData"))
 
 plot(density(whole_df_cor[,7],na.rm = T))
 

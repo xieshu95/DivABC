@@ -8,7 +8,7 @@ for(i in 1:7){
   # 1. NLTTs + D
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/delta_whole_df_ABC_test_ss1.RData"))
   whole_df_ABC1 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC[(i*20000-19999):(i*20000),]
-  whole_df_ABC1$ss = "NLTTs+D"
+  whole_df_ABC1$ss = "nLTTs-D"
   whole_df_ABC1 = whole_df_ABC1[,-7]
   whole_df_ABC1$total <- rep(total, each = 500)
 
@@ -29,12 +29,12 @@ for(i in 1:7){
   df <- whole_df_ABC1
   n <- 500
   ABC_median1 <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
-  ABC_median1$ss = "NLTTs+D"
+  ABC_median1$ss = "nLTTs-D"
 
-  # 2. NLTTs
+  # 2. nLTTs
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTTs/delta_whole_df_ABC_test_ss1.RData"))
   whole_df_ABC2 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC2[(i*20000-19999):(i*20000),]
-  whole_df_ABC2$ss = "NLTTs"
+  whole_df_ABC2$ss = "nLTTs"
   whole_df_ABC2 = whole_df_ABC2[,-7]
   whole_df_ABC2$total <- rep(total, each = 500)
 
@@ -54,7 +54,7 @@ for(i in 1:7){
   df <- whole_df_ABC2
   n <- 500
   ABC_median2 <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
-  ABC_median2$ss = "NLTTs"
+  ABC_median2$ss = "nLTTs"
 
 
   # 3. D
@@ -86,7 +86,7 @@ for(i in 1:7){
   # 4. NLTT + D
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT_D/delta_whole_df_ABC_test_ss2.RData"))
   whole_df_ABC4 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC4[(i*20000-19999):(i*20000),]
-  whole_df_ABC4$ss = "NLTT+D"
+  whole_df_ABC4$ss = "nLTT-D"
   whole_df_ABC4 = whole_df_ABC4[,-7]
   whole_df_ABC4$total <- rep(total, each = 500)
 
@@ -106,12 +106,12 @@ for(i in 1:7){
   df <- whole_df_ABC4
   n <- 500
   ABC_median4 <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
-  ABC_median4$ss = "NLTT+D"
+  ABC_median4$ss = "nLTT-D"
 
   # 5. NLTT + mpd
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT_MPD/delta_whole_df_ABC_test_ss0.RData"))
   whole_df_ABC5 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC5[(i*20000-19999):(i*20000),]
-  whole_df_ABC5$ss = "NLTT+MPD"
+  whole_df_ABC5$ss = "nLTT-MPD"
   whole_df_ABC5 = whole_df_ABC5[,-7]
   whole_df_ABC5$total <- rep(total, each = 500)
 
@@ -131,12 +131,12 @@ for(i in 1:7){
   df <- whole_df_ABC5
   n <- 500
   ABC_median5 <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
-  ABC_median5$ss = "NLTT+MPD"
+  ABC_median5$ss = "nLTT-MPD"
 
   # 6. NLTT + mntd
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT_MNTD/delta_whole_df_ABC_test_ss0.RData"))
   whole_df_ABC6 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC6[(i*20000-19999):(i*20000),]
-  whole_df_ABC6$ss = "NLTT+MNTD"
+  whole_df_ABC6$ss = "nLTT-MNTD"
   whole_df_ABC6 = whole_df_ABC6[,-7]
   whole_df_ABC6$total <- rep(total, each = 500)
 
@@ -156,12 +156,12 @@ for(i in 1:7){
   df <- whole_df_ABC6
   n <- 500
   ABC_median6 <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
-  ABC_median6$ss = "NLTT+MNTD"
+  ABC_median6$ss = "nLTT-MNTD"
 
   # 7. NLTT + TIPRATIO
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT_ratio/delta_whole_df_ABC_test_ss1.RData"))
   whole_df_ABC7 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC7[(i*20000-19999):(i*20000),]
-  whole_df_ABC7$ss = "NLTT+ratio"
+  whole_df_ABC7$ss = "nLTT-ratio"
   whole_df_ABC7 = whole_df_ABC7[,-7]
   whole_df_ABC7$total <- rep(total, each = 500)
 
@@ -181,12 +181,12 @@ for(i in 1:7){
   df <- whole_df_ABC7
   n <- 500
   ABC_median7 <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
-  ABC_median7$ss = "NLTT+ratio"
+  ABC_median7$ss = "nLTT-ratio"
 
   # 8. NLTT + colless
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT_colless/delta_whole_df_ABC_test_ss1.RData"))
   whole_df_ABC8 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC8[(i*20000-19999):(i*20000),]
-  whole_df_ABC8$ss = "NLTT+colless"
+  whole_df_ABC8$ss = "nLTT-colless"
   whole_df_ABC8 = whole_df_ABC8[,-7]
   whole_df_ABC8$total <- rep(total, each = 500)
 
@@ -206,7 +206,33 @@ for(i in 1:7){
   df <- whole_df_ABC8
   n <- 500
   ABC_median8 <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
-  ABC_median8$ss = "NLTT+colless"
+  ABC_median8$ss = "nLTT-colless"
+
+
+  # 9. NLTT
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/delta_whole_df_ABC_test_ss2.RData"))
+  whole_df_ABC9 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC9[(i*20000-19999):(i*20000),]
+  whole_df_ABC9$ss = "nLTT"
+  whole_df_ABC9 = whole_df_ABC9[,-7]
+  whole_df_ABC9$total <- rep(total, each = 500)
+
+  # whole_df_ABC9 <- rbind(whole_df_ABC9_old,whole_df_ABC9_new) #whole_df_ABC9_20
+  whole_df_ABC9$dlam1 <- whole_df_ABC9$lam1_abc - whole_df_ABC9$lam1
+  whole_df_ABC9$dlam2 <- whole_df_ABC9$lam2_abc - whole_df_ABC9$lam2
+  whole_df_ABC9$dmu1 <- whole_df_ABC9$mu1_abc - whole_df_ABC9$mu1
+  whole_df_ABC9$dmu2 <- whole_df_ABC9$mu2_abc - whole_df_ABC9$mu2
+  whole_df_ABC9$dq12 <- whole_df_ABC9$q12_abc - whole_df_ABC9$q12
+  whole_df_ABC9$dq21 <- whole_df_ABC9$q21_abc - whole_df_ABC9$q21
+  whole_df_ABC9$dnet_div1 <- whole_df_ABC9$net_div_ABC1 - whole_df_ABC9$net_div1
+  whole_df_ABC9$dnet_div2 <- whole_df_ABC9$net_div_ABC2 - whole_df_ABC9$net_div2
+  whole_df_ABC9$dext_frac1 <- whole_df_ABC9$ext_frac_ABC1 - whole_df_ABC9$ext_frac1
+  whole_df_ABC9$dext_frac2 <- whole_df_ABC9$ext_frac_ABC2 - whole_df_ABC9$ext_frac2
+  whole_df_ABC9$rep <- rep(rep(1:50, each = 500), 1)
+
+  df <- whole_df_ABC9
+  n <- 500
+  ABC_median9 <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+  ABC_median9$ss = "nLTT"
 
   whole_df_all <- rbind(whole_df_ABC1[,c(1:6,13,14,17,18,21:33)],
                         whole_df_ABC2[,c(1:6,13,14,17,18,21:33)],
@@ -215,7 +241,8 @@ for(i in 1:7){
                         whole_df_ABC5[,c(1:6,13,14,17,18,21:33)],
                         whole_df_ABC6[,c(1:6,13,14,17,18,21:33)],
                         whole_df_ABC7[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_ABC8[,c(1:6,13,14,17,18,21:33)])
+                        whole_df_ABC8[,c(1:6,13,14,17,18,21:33)],
+                        whole_df_ABC9[,c(1:6,13,14,17,18,21:33)])
   save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/compare_ss/ABC_test",i,".RData"))
 
 
@@ -226,7 +253,8 @@ for(i in 1:7){
                       ABC_median5[,c(1:6,13,14,17,18,21:33)],
                       ABC_median6[,c(1:6,13,14,17,18,21:33)],
                       ABC_median7[,c(1:6,13,14,17,18,21:33)],
-                      ABC_median8[,c(1:6,13,14,17,18,21:33)])
+                      ABC_median8[,c(1:6,13,14,17,18,21:33)],
+                      ABC_median9[,c(1:6,13,14,17,18,21:33)])
 
   save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/compare_ss/ABC_median_test",i,".RData"))
 }
@@ -345,24 +373,16 @@ for(i in 1:7){
   whole_df_all <- rbind(whole_df_ABC1[,c(1:6,13,14,17,18,21:33)],
                         whole_df_ABC2[,c(1:6,13,14,17,18,21:33)],
                         whole_df_ABC3[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_ABC4[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_ABC5[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_ABC6[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_ABC7[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_ABC8[,c(1:6,13,14,17,18,21:33)])
-  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/compare_ss/ABC_test",i,".RData"))
+                        whole_df_ABC4[,c(1:6,13,14,17,18,21:33)])
+  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/compare_ss/D_test",i,".RData"))
 
 
   median_all <- rbind(ABC_median1[,c(1:6,13,14,17,18,21:33)],
                       ABC_median2[,c(1:6,13,14,17,18,21:33)],
                       ABC_median3[,c(1:6,13,14,17,18,21:33)],
-                      ABC_median4[,c(1:6,13,14,17,18,21:33)],
-                      ABC_median5[,c(1:6,13,14,17,18,21:33)],
-                      ABC_median6[,c(1:6,13,14,17,18,21:33)],
-                      ABC_median7[,c(1:6,13,14,17,18,21:33)],
-                      ABC_median8[,c(1:6,13,14,17,18,21:33)])
+                      ABC_median4[,c(1:6,13,14,17,18,21:33)])
 
-  save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/compare_ss/ABC_median_test",i,".RData"))
+  save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/compare_ss/D_median_test",i,".RData"))
 }
 
 

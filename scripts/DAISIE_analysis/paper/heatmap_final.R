@@ -1,4 +1,24 @@
 # heatmap for paper(DAISIE ABC)
+library(heatmaply)
+library(htmlwidgets)
+
+
+# heatmap(cormat)
+## paper
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/obs_ss_DI.RData")
+ss <- ss[,-c(1,6,11)]
+ss[,6] <- ss[,5] - ss[,7]
+colnames(ss) <- c("NLTT Total","NLTT Singleton-end", "NLTT Non-end","SD-CT",
+                  "N Total","N end","N Non-end","SD-CS")
+cormat <- round(cor(ss),2)
+
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/heatmap.tiff"),
+     units="px", width=3000, height=2000,res = 380,compression="lzw")
+heatmap <- corrplot(cormat,method = "circle",order = "FPC",tl.col = "brown", tl.srt = 15)
+print(heatmap)
+while (!is.null(dev.list()))  dev.off()
+
+
 calc_ss_no_ext <- function(sim,
                            replicates,
                            distance_method = "abs") {
@@ -161,25 +181,7 @@ saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/
 
 # label_names <- "Summary statistic"
 # ss_name <- c("NLTT Total","NLTT Singleton-end", "NLTT Non-end","SD-CT",
-#              "N Total","N end","N Non-end","SD-CS")
-library(heatmaply)
-library(htmlwidgets)
-
-
-# heatmap(cormat)
-## paper
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/obs_ss_DI.RData")
-ss <- ss[,-c(1,6,11)]
-ss[,6] <- ss[,5] - ss[,7]
-colnames(ss) <- c("NLTT Total","NLTT Singleton-end", "NLTT Non-end","SD-CT",
-                  "N Total","N end","N Non-end","SD-CS")
-cormat <- round(cor(ss),2)
-
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/heatmap.tiff"),
-     units="px", width=3000, height=2000,res = 380,compression="lzw")
-heatmap <- corrplot(cormat,method = "circle",order = "FPC",tl.col = "brown", tl.srt = 15)
-print(heatmap)
-while (!is.null(dev.list()))  dev.off()
+#              "N Total","N end","N Non-end","SD-CS"
 
 
 # tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space/heatmap_old2.tiff"),

@@ -317,4 +317,52 @@ ss_sd <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df)))
 n = 50
 ss_mean <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), mean)[-1]
 
+#####
+#secsse paper
+library(heatmaply)
+library(htmlwidgets)
+
+
+# heatmap(cormat)
+## paper
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_ss_test.rda"))
+# ss$tip_ratio = 1/ss$tip_ratio
+ss<- ss[,-c(6,10,13:17,23:25)]
+colnames(ss) <- c("S1","S2","Tree size","Tip ratio",
+                  "MPD","MPD1","MPD2",
+                  "MNTD","MNTD1","MNTD2",
+                  "D","NLTT","NLTT1","NLTT2","Colless")
+cormat <- round(cor(ss),2)
+
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/heatmap1_new.tiff"),
+     units="px", width=4000, height=3500,res = 350,compression="lzw")
+heatmap <- corrplot::corrplot(cormat,method = "circle",order = "AOE",tl.col = "brown", tl.srt = 30)
+print(heatmap)
+while (!is.null(dev.list()))  dev.off()
+
+# heatmap(cormat)
+## paper
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_ss_test.rda"))
+# ss$tip_ratio = 1/ss$tip_ratio
+ss<- ss[,-c(1,2,3,6,10,13:17,23:25)]
+colnames(ss) <- c("Tip ratio",
+                  "MPD","MPD1","MPD2",
+                  "MNTD","MNTD1","MNTD2",
+                  "D","NLTT","NLTT1","NLTT2","Colless")
+cormat <- round(cor(ss),2)
+
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/heatmap3_new.tiff"),
+     units="px", width=4000, height=3500,res = 350,compression="lzw")
+heatmap <- corrplot::corrplot(cormat,method = "circle",order = "hclust",tl.col = "brown", tl.srt = 30) #'arg' should be one of “original”, “AOE”, “FPC”, “hclust”, “alphabet”
+print(heatmap)
+while (!is.null(dev.list()))  dev.off()
+
+## mean
+
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_ss_test.rda"))
+# ss$tip_ratio = 1/ss$tip_ratio
+ss<- ss[,-c(6,10,13:17,23:25)]
+df <- ss
+n <- 50
+median <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 

@@ -14,7 +14,7 @@ iqr = function(z, lower = 0.1, upper = 0.9) {
 library(ggplot2)
 for(i in 1:7){
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_MLE.RData"))
-  whole_df_MLE <- whole_df_MLE[(i*50-49):(i*50),]
+  whole_df_MLE <- whole_df_MLE[(i*50-49):(i*50),][,1:23]
   total <- whole_df_MLE$tree_size
 
   ss = "ABC"
@@ -91,12 +91,14 @@ for(i in 1:7){
 
   whole_df_all <- rbind(whole_df_ABC[,c(1:6,13,14,17,18,21:33)],
                         whole_df_MCMC[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
+                        whole_df_MLE_old[,c(1:6,24,25,28,29,32:44)])
+  # whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
   save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_all_AMM_test",i,".RData"))
 
   median_all <- rbind(ABC_median[,c(1:6,13,14,17,18,21:33)],
                       MCMC_median[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
+                      whole_df_MLE_old[,c(1:6,24,25,28,29,32:44)])
+  # whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
 
   save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
 }
