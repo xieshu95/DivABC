@@ -1,5 +1,3 @@
-load("D:/Onedrive-shu/OneDrive/project 2/results/round4/adap_secsse_test3/test_ss_df_prior.RData")
-
 
 load("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/random_space_ss.RData")
 # install.packages("factoextra")

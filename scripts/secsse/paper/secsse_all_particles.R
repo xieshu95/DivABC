@@ -104,48 +104,6 @@ for(i in 1:7){
 }
 
 ## sum_stat each replicate
-iqr = function(z, lower = 0.05, upper = 0.95) {
-  data.frame(
-    y = median(z),
-    ymin = quantile(z, lower),
-    ymax = quantile(z, upper)
-  )
-}
-
-# lam1_names <- c(
-#   `0.1` = 'lambda[1]~"="~0.1',
-#   `0.2` = 'lambda[1]~"="~0.2',
-#   `0.3` = 'lambda[1]~"="~0.3'
-# )
-#
-# lam2_names <- c(
-#   `0.3` = 'lambda[2]~"="~0.3',
-#   `0.4` = 'lambda[2]~"="~0.4',
-#   `0.5` = 'lambda[2]~"="~0.5'
-# )
-#
-# mu1_names <- c(
-#   `0.05` = 'mu[1]~"="~0.05'
-# )
-#
-# mu1_names <- c(
-#   `0.01` = 'mu[1]~"="~0.05',
-#   `0.05` = 'mu[1]~"="~0.3',
-#   `0.1` = 'mu[1]~"="~0'
-# )
-#
-# gam_names <- c(
-#   `0.003` = 'gamma~"="~0.003',
-#   `0.009` = 'gamma~"="~0.009'
-# )
-#
-# laa_names <- c(
-#   `0.1` = 'lambda^a~"="~0.1',
-#   `1` = 'lambda^a~"="~1.0'
-# )
-
-
-
 for (i in 1:7){
   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_all_AMM_test",i,".RData"))
   p_netdiv1 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div1,y = ss,color = ss)) +

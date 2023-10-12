@@ -119,7 +119,7 @@ laa_names <- c(
   `1` = 'lambda^a~"="~1.0'
 )
 
-iqr = function(z, lower = 0.05, upper = 0.95) {
+iqr = function(z, lower = 0.025, upper = 0.975) {
   data.frame(
     y = mean(z),
     ymin = quantile(z, lower),

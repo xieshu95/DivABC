@@ -1,83 +1,4 @@
 # secsse  analysis "secsse_final"
-# initial states
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_sims_secsse_ABC_test.rda")
-init_state <- c()
-for (i in 1:350) {
-  init_state[i] <- obs_sim[[i]][[1]]$initialState
-}
-init_state <- as.data.frame(init_state)
-init_state$init_obs <- rep(NA,350)
-init_state$init_obs[which(init_state$init_state == 0)] <-"0"
-init_state$init_obs[which(init_state$init_state == 1)] <-"1"
-init_state$init_obs[which(init_state$init_state == 2)] <-"0"
-init_state$init_obs[which(init_state$init_state == 3)] <-"1"
-
-
-# init_state for posteriors
-for (num_ss in c(1)){
-  # formate results
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_ss_test.rda"))
-  ## ABC results
-  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/secsse_ABC_test")
-  files <- list.files(folder_path)
-  param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
-  init_1A <-c()
-  init_2A <-c()
-  init_1B <-c()
-  init_2B <-c()
-  for(i in 1:350){
-    file_to_load <- grep(paste0("secsse_ABC_test_param_set_",i,"_ss_",num_ss,".RData"),  #,"_rep",rep
-                         files,
-                         value = TRUE,
-                         fixed = TRUE)
-
-    # abc <- NULL; rm(abc) # nolint ; hack around global var
-    if (!identical(file_to_load, character())) {
-      load(file.path(folder_path, file_to_load))
-      num_iter <- output$n_iter
-      if(output$n_iter >= 2){
-        init_1A <-c(init_1A,output[["init_prob_list"]][[num_iter]][1])
-        init_2A <-c(init_2A,output[["init_prob_list"]][[num_iter]][2])
-        init_1B <-c(init_1B,output[["init_prob_list"]][[num_iter]][3])
-        init_2B <-c(init_2B,output[["init_prob_list"]][[num_iter]][4])
-      }
-    } else {
-      init_1A <-c(init_1A,NA)
-      init_2A <-c(init_2A,NA)
-      init_1B <-c(init_1B,NA)
-      init_2B <-c(init_2B,NA)
-    }
-  }
-
-
-  whole_df_init <- data.frame(param_data,init_state,
-                             # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
-                             init_1A,init_2A,init_1B,init_2B)
-  whole_df_init$prob_s1 <- whole_df_init$init_1A + whole_df_init$init_1B
-  whole_df_init$prob_s2 <- whole_df_init$init_2A + whole_df_init$init_2B
-  whole_df_init <- data.frame(whole_df_init,ss[,1:4])
-  save(whole_df_init,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_init_prob_ss",num_ss,".RData"))
-}
-
-n = 7
-i = (50*n-49):(50*n)
-(sum(whole_df_init$init_obs[i] == "1A") + sum(whole_df_init$init_obs[i] == "1B"))/50
-(sum(whole_df_init$init_obs[i] == "2A") + sum(whole_df_init$init_obs[i] == "2B"))/50
-
-plot(density(whole_df_init$prob_s1[i],na.rm = T))
-plot(density(whole_df_init$prob_s1[i],na.rm = T))
-
-median(whole_df_init$prob_s1[i],na.rm = T)
-median(whole_df_init$prob_s2[i],na.rm = T)
-
-
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_init_test_ss",1,".RData"))
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/AMM_per_set_drate_test_ss",1,".RData"))
-
-whole_df_init1<- cbind(whole_df_init,AMM_all_df[,42:47])
-
-
-
 # 1. formate ABC results
 ## check new secsse ABC result
 for (num_ss in c(1)){
@@ -677,71 +598,6 @@ for(num_ss in c(1)){
   }
 }
 
-
-## net div
-# for(num_ss in c(1)) {
-#   for(i in 1:7){
-#     load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/AMM_per_set_drate_test_ss",num_ss,".RData"))
-#     color_values <-c("ABC" = "red3","MCMC" = "green2", "MLE" = "yellow2")
-#     AMM <- AMM_all_df[(i*50-49):(i*50),]
-#     p_div1 <-ggplot2::ggplot(data = AMM) +
-#       ggplot2::theme_bw() +
-#       ggplot2::ylim(-0.1,1.5)+
-#       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(net_div_MLE1),color = "MLE")) +
-#       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(net_div_MCMC1),color = "MCMC"),shape = 17,alpha = 0.6) +
-#       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(net_div_ABC1),color = "ABC"),shape = 18) +
-#       ggplot2::theme_classic() +
-#       ggplot2::theme(title = ggplot2::element_text(size = 12),
-#                      text = ggplot2::element_text(size = 12)) +
-#       ggplot2::ylab(expression("Net Diversification State 1")) +
-#       ggplot2::xlab("Tree size")+
-#       ggplot2::scale_color_manual(name = "Method",
-#                                   values = color_values,
-#                                   labels = c("ABC", "MCMC", "MLE"))+
-#       ggplot2::geom_hline(yintercept = AMM$net_div1[1], linetype = "dashed", size = 0.5)
-#
-#
-#     p_div2 <-ggplot2::ggplot(data = AMM) +
-#       ggplot2::theme_bw() +
-#       ggplot2::ylim(-0.1,1.5)+
-#       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(net_div_MLE2),color = "MLE")) +
-#       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(net_div_MCMC2),color = "MCMC"),shape = 17,alpha = 0.6) +
-#       ggplot2::geom_point(ggplot2::aes(x = tree_size,y = abs(net_div_ABC2),color = "ABC"),shape = 18) +
-#       ggplot2::theme_classic() +
-#       ggplot2::theme(title = ggplot2::element_text(size = 12),
-#                      text = ggplot2::element_text(size = 12)) +
-#       ggplot2::ylab(expression("Net Diversification State 2")) +
-#       ggplot2::xlab("Tree size")+
-#       ggplot2::scale_color_manual(name = "Method",
-#                                   values = color_values,
-#                                   labels = c("ABC", "MCMC", "MLE"))+
-#       ggplot2::geom_hline(yintercept = AMM$net_div2[1], linetype = "dashed", size = 0.5)
-#
-#     tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/net_div_set",i,"_ss",num_ss,".tiff"),
-#          units="px", width=2200, height=1000,res = 400,compression="lzw")
-#     param_estimates <- cowplot::plot_grid(
-#       p_div1,p_div2,
-#       align = "hv", nrow = 1, ncol = 2
-#     )
-#     print(param_estimates)
-#
-#     params <- cowplot::plot_grid(
-#       p_div1+ggplot2::theme(legend.position = "none"),
-#       p_div2+ggplot2::theme(legend.position = "none"),
-#       align = "hv", nrow = 1, ncol = 2
-#     )
-#     legend <- cowplot::get_legend(
-#       p_div1 + theme(legend.box.margin = margin(0, 0, 0, 6))
-#     )
-#     param_estimates <- cowplot::plot_grid(params,legend,
-#                                           rel_widths = c(3,0.5)
-#     )
-#     print(param_estimates)
-#     while (!is.null(dev.list()))  dev.off()
-#   }
-# }
-
-
 # tip_ratio vs drate
 # run
 library(ggplot2)
@@ -869,67 +725,82 @@ for(num_ss in c(1)){
 }
 
 
+# initial states
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_sims_secsse_ABC_test.rda")
+init_state <- c()
+for (i in 1:350) {
+  init_state[i] <- obs_sim[[i]][[1]]$initialState
+}
+init_state <- as.data.frame(init_state)
+init_state$init_obs <- rep(NA,350)
+init_state$init_obs[which(init_state$init_state == 0)] <-"0"
+init_state$init_obs[which(init_state$init_state == 1)] <-"1"
+init_state$init_obs[which(init_state$init_state == 2)] <-"0"
+init_state$init_obs[which(init_state$init_state == 3)] <-"1"
 
 
+# init_state for posteriors
+for (num_ss in c(1)){
+  # formate results
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_ss_test.rda"))
+  ## ABC results
+  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/secsse_ABC_test")
+  files <- list.files(folder_path)
+  param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
+  init_1A <-c()
+  init_2A <-c()
+  init_1B <-c()
+  init_2B <-c()
+  for(i in 1:350){
+    file_to_load <- grep(paste0("secsse_ABC_test_param_set_",i,"_ss_",num_ss,".RData"),  #,"_rep",rep
+                         files,
+                         value = TRUE,
+                         fixed = TRUE)
 
-#####
-library(coda)
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/secsse_MCMC_test"
-files <- list.files(folder_path)
-param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
-
-
-lam1_cor <- c()
-lam2_cor <- c()
-mu1_cor <- c()
-mu2_cor <- c()
-q12_cor <- c()
-q21_cor <- c()
-
-seq <- seq(1,5001,2)
-for(i in 1:350){
-  file_to_load <- grep(paste0("secsse_MCMC_test_param_set_", i,"_ss_1.RData"), #"_rep",rep,
-                       files,
-                       value = TRUE,
-                       fixed = TRUE)
-
-  if (!identical(file_to_load, character())) {
-    load(file.path(folder_path, file_to_load))
-    lam1_cor <- c(lam1_cor,autocorr(coda::as.mcmc(output[seq,1]), lags = c(2), relative=TRUE))
-    lam2_cor <- c(lam2_cor,autocorr(coda::as.mcmc(output[seq,2]), lags = c(2), relative=TRUE))
-    mu1_cor <- c(mu1_cor,autocorr(coda::as.mcmc(output[seq,3]), lags = c(2), relative=TRUE))
-    mu2_cor <- c(mu2_cor,autocorr(coda::as.mcmc(output[seq,4]), lags = c(2), relative=TRUE))
-    q12_cor <- c(q12_cor,autocorr(coda::as.mcmc(output[seq,5]), lags = c(2), relative=TRUE))
-    q21_cor <- c(q21_cor,autocorr(coda::as.mcmc(output[seq,6]), lags = c(2), relative=TRUE))
-
-  } else {
-    lam1_cor <- c(lam1_cor,NA)
-    lam2_cor <- c(lam2_cor,NA)
-    mu1_cor <- c(mu1_cor,NA)
-    mu2_cor <- c(mu2_cor,NA)
-    q12_cor <- c(q12_cor,NA)
-    q21_cor <- c(q21_cor,NA)
+    # abc <- NULL; rm(abc) # nolint ; hack around global var
+    if (!identical(file_to_load, character())) {
+      load(file.path(folder_path, file_to_load))
+      num_iter <- output$n_iter
+      if(output$n_iter >= 2){
+        init_1A <-c(init_1A,output[["init_prob_list"]][[num_iter]][1])
+        init_2A <-c(init_2A,output[["init_prob_list"]][[num_iter]][2])
+        init_1B <-c(init_1B,output[["init_prob_list"]][[num_iter]][3])
+        init_2B <-c(init_2B,output[["init_prob_list"]][[num_iter]][4])
+      }
+    } else {
+      init_1A <-c(init_1A,NA)
+      init_2A <-c(init_2A,NA)
+      init_1B <-c(init_1B,NA)
+      init_2B <-c(init_2B,NA)
+    }
   }
+
+
+  whole_df_init <- data.frame(param_data,init_state,
+                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
+                              init_1A,init_2A,init_1B,init_2B)
+  whole_df_init$prob_s1 <- whole_df_init$init_1A + whole_df_init$init_1B
+  whole_df_init$prob_s2 <- whole_df_init$init_2A + whole_df_init$init_2B
+  whole_df_init <- data.frame(whole_df_init,ss[,1:4])
+  save(whole_df_init,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_init_prob_ss",num_ss,".RData"))
 }
 
-whole_df_cor <- data.frame(param_data,
-                           lam1_cor,lam2_cor,mu1_cor,mu2_cor,q12_cor,q21_cor)
+n = 7
+i = (50*n-49):(50*n)
+(sum(whole_df_init$init_obs[i] == "1A") + sum(whole_df_init$init_obs[i] == "1B"))/50
+(sum(whole_df_init$init_obs[i] == "2A") + sum(whole_df_init$init_obs[i] == "2B"))/50
 
-save(whole_df_cor,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_cor_lag1.RData"))
+plot(density(whole_df_init$prob_s1[i],na.rm = T))
+plot(density(whole_df_init$prob_s1[i],na.rm = T))
 
-plot(density(whole_df_cor[,7],na.rm = T))
+median(whole_df_init$prob_s1[i],na.rm = T)
+median(whole_df_init$prob_s2[i],na.rm = T)
 
-median(whole_df_cor[,7],na.rm = T)
-median(whole_df_cor[,8],na.rm = T)
-median(whole_df_cor[,9],na.rm = T)
-median(whole_df_cor[,10],na.rm = T)
-median(whole_df_cor[,11],na.rm = T)
-median(whole_df_cor[,12],na.rm = T)
 
-mean(whole_df_cor[,7],na.rm = T)
-mean(whole_df_cor[,8],na.rm = T)
-mean(whole_df_cor[,9],na.rm = T)
-mean(whole_df_cor[,10],na.rm = T)
-mean(whole_df_cor[,11],na.rm = T)
-mean(whole_df_cor[,12],na.rm = T)
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_init_test_ss",1,".RData"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/AMM_per_set_drate_test_ss",1,".RData"))
+
+whole_df_init1<- cbind(whole_df_init,AMM_all_df[,42:47])
+
+
 

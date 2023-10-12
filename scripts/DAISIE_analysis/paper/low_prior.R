@@ -165,25 +165,6 @@ for(i in 1:160){
 library(ggplot2)
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/obs_ss_long_with_pars_DI.RData"))
 
-# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/delta_whole_df_ABC_ss_set",0,".RData"))
-# whole_df_ABC$Method = "ABC All"
-# whole_df_ABC_s0 = whole_df_ABC
-# whole_df_ABC_s0$total <- rep(rep(pars_ss$total, each = 500), 1)
-# whole_df_ABC_s0$rep <- rep(rep(1:10, each = 500), 16)
-# whole_df_ABC_s0$set <- rep(1:16, each = 5000)
-# whole_df_ABC_s0$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
-# whole_df_ABC_s0$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
-#
-#
-#
-# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/delta_whole_df_ABC_ss_set",1,".RData"))
-# whole_df_ABC$Method = "ABC Phylogenetic"
-# whole_df_ABC_s1 = whole_df_ABC
-# whole_df_ABC_s1$total <- rep(rep(pars_ss$total, each = 500), 1)
-# whole_df_ABC_s1$rep <- rep(rep(1:10, each = 500), 16)
-# whole_df_ABC_s1$set <- rep(1:16, each = 5000)
-# whole_df_ABC_s1$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
-# whole_df_ABC_s1$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/delta_whole_df_ABC_ss_set",2,".RData"))
 whole_df_ABC$Method = "ABC Diversity"
@@ -281,88 +262,7 @@ laa_names <- c(
   `1` = 'lambda^a~"="~1.0'
 )
 
-
-# ## 1.only compare ABC-NEW AND ABC-OLD plot delta-rate for all the particles
-# p_netdiv_lac <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color  = Method)) +
-#   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
-#   ggplot2::theme_bw() +
-#   ggplot2::theme_classic() +
-#   ggplot2::ylim(-0.6,0.6)+
-#   ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
-#   ggplot2::scale_colour_manual("Method",values = c("red4","#FADC8D","#8CC269","#4393C3"))+
-#   ggplot2::theme(title = ggplot2::element_text(size = 12),
-#                  text = ggplot2::element_text(size = 12)) +
-#   ggplot2::xlab("Species richness") +
-#   ggplot2::ylab(expression(Delta~Net~diversification))+
-#   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
-#   facet_grid(lac~ mu,labeller = labeller(lac  = as_labeller(lac_names,  label_parsed),
-#                                          mu = as_labeller(mu_names, label_parsed)))
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/drate_ABC_netdiv_lac.tiff"),
-#      units="px", width=4000, height=2500,res = 300,compression="lzw")
-# print(p_netdiv_lac)
-# while (!is.null(dev.list()))  dev.off()
-#
-# p_netdiv_mu <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color  = Method)) +
-#   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
-#   ggplot2::theme_bw() +
-#   ggplot2::theme_classic() +
-#   ggplot2::ylim(-0.6,0.6)+
-#   ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
-#   ggplot2::scale_colour_manual("Method",values = c("red4","#FADC8D","#8CC269","#4393C3"))+
-#   ggplot2::theme(title = ggplot2::element_text(size = 12),
-#                  text = ggplot2::element_text(size = 12)) +
-#   ggplot2::xlab("Species richness") +
-#   ggplot2::ylab(expression(Delta~Net~diversification))+
-#   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
-#   facet_grid(. ~ mu, scales="free_y",
-#              labeller = label_bquote(.(as.expression(
-#                eval(parse(text = paste0('mu_names', '$`', mu, '`')))
-#              ))))
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/drate_ABC_netdiv_mu.tiff"),
-#      units="px", width=4000, height=2500,res = 300,compression="lzw")
-# print(p_netdiv_mu)
-# while (!is.null(dev.list()))  dev.off()
-#
-# p_netdiv_gam <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color  = Method)) +
-#   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
-#   ggplot2::theme_bw() +
-#   ggplot2::theme_classic() +
-#   ggplot2::ylim(-0.6,0.6)+
-#   ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
-#   ggplot2::scale_colour_manual("Method",values = c("red4","#FADC8D","#8CC269","#4393C3"))+
-#   ggplot2::theme(title = ggplot2::element_text(size = 12),
-#                  text = ggplot2::element_text(size = 12)) +
-#   ggplot2::xlab("Species richness") +
-#   ggplot2::ylab(expression(Delta~Net~diversification))+
-#   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
-#   facet_wrap(~ gam)
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/drate_ABC_netdiv_gam.tiff"),
-#      units="px", width=4000, height=2500,res = 300,compression="lzw")
-# print(p_netdiv_gam)
-# while (!is.null(dev.list()))  dev.off()
-#
-#
-# p_netdiv_laa <-ggplot2::ggplot(data = whole_df_ABC,mapping = aes(x = total,y = dnet_div,color  = Method)) +
-#   ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
-#   ggplot2::theme_bw() +
-#   ggplot2::theme_classic() +
-#   ggplot2::ylim(-0.6,0.6)+
-#   ggplot2::stat_smooth(method = "lm", se = T,alpha = 0.1)+
-#   ggplot2::scale_colour_manual("Method",values = c("red4","#FADC8D","#8CC269","#4393C3"))+
-#   ggplot2::theme(title = ggplot2::element_text(size = 12),
-#                  text = ggplot2::element_text(size = 12)) +
-#   ggplot2::xlab("Species richness") +
-#   ggplot2::ylab(expression(Delta~Net~diversification))+
-#   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
-#   facet_wrap(~ laa)
-# tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/drate_ABC_netdiv_laa.tiff"),
-#      units="px", width=4000, height=2500,res = 300,compression="lzw")
-# print(p_netdiv_laa)
-# while (!is.null(dev.list()))  dev.off()
-
-
-## 81 into 1 net div (combine 10 reps)
-iqr = function(z, lower = 0.05, upper = 0.95) {
+iqr = function(z, lower = 0.025, upper = 0.975) {
   data.frame(
     y = mean(z),
     ymin = quantile(z, lower),
@@ -372,10 +272,8 @@ iqr = function(z, lower = 0.05, upper = 0.95) {
 library(ggridges)
 library(ggplot2)
 library(viridis)
-# install.packages("hrbrthemes")
 library(hrbrthemes)
 p_netdiv_all <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div,y  = Method,color  = Method)) +
-  # ggplot2:: geom_jitter(position = position_jitter(height = 0.15, width = 0), alpha = .01,size  = 0.1) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   # geom_density_ridges_gradient(scale = 2, rel_min_height = 0.02,fill = "lightgrey") +
   # ggplot2::geom_violin()+ #outlier.shape = NA
