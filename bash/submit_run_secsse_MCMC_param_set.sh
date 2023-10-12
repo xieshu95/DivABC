@@ -8,7 +8,7 @@
 #SBATCH --partition=regular
 
 # Arguments to follow the Rscript are as follows:
-param_space_name=$1
+scenario=$1
 param_set=$2
 idparsopt_lam1=$3
 idparsopt_lam2=$4
@@ -18,7 +18,7 @@ idparsopt_q12=$7
 idparsopt_q21=$8
 
 ml R
-Rscript TraisieABC/scripts/run_MCMC_secsse_peregrine.R ${param_space_name} \
+Rscript TraisieABC/scripts/run_MCMC_secsse_peregrine.R ${scenario} \
                                                ${param_set} \
                                                ${idparsopt_lam1} \
                                                ${idparsopt_lam2} \

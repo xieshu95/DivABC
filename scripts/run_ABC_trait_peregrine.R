@@ -1,6 +1,6 @@
 args <- commandArgs(TRUE)
 
-param_space_name <- args[1]
+scenario <- args[1]
 param_set <- as.numeric(args[2])
 idparsopt_lac <- as.numeric(args[3])
 idparsopt_mu <- as.numeric(args[4])
@@ -22,7 +22,7 @@ metadata <- paste0("This is parameter set ", param_set)
 library(TraisieABC)
 
 run_ABC_TraiSIE(
-  param_space_name = args[1],
+  scenario = args[1],
   param_set = as.numeric(args[2]),
   idparsopt = as.numeric(idparsopt),
   save_output = save_output

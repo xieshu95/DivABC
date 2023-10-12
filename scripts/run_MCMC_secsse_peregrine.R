@@ -1,6 +1,6 @@
 args <- commandArgs(TRUE)
 
-param_space_name <- args[1]
+scenario <- args[1]
 param_set <- as.numeric(args[2])
 idparsopt_lam1 <- args[3]
 idparsopt_lam2 <- args[4]
@@ -18,7 +18,7 @@ metadata <- paste0("This is parameter set ", param_set)
 library(TraisieABC)
 
 run_MCMC_secsse(
-  param_space_name = args[1],
+  scenario = args[1],
   param_set = as.numeric(args[2]),
   idparsopt = as.numeric(idparsopt),
   save_output = save_output

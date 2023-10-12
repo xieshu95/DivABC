@@ -1,8 +1,8 @@
 # i = 1
 # load(paste0("G:/results/project 2/tip_info/round4/adap_secsse_test3_new2/obs_ss_test",i,".RData"))
 # for(test in 1:6){
-param_space_name <- paste0("secsse_ABC_test")
-param_space <- load_param_space(param_space_name = param_space_name)
+scenario <- paste0("secsse_ABC_test")
+param_space <- load_param_space(scenario = scenario)
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_ss_test.rda"))
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/test_MLE_secsse1.RData"))
 whole_df_MLE <- data.frame(param_space,MLE_all,ss[,1:4])
@@ -19,8 +19,8 @@ save(whole_df_MLE,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/roun
 ## secsse test MLE
 # library(ggplot2)
 # # for (i in c(1,5)){
-# param_space_name <- paste0("secsse_ABC_test")
-# param_space <- load_param_space(param_space_name = param_space_name)
+# scenario <- paste0("secsse_ABC_test")
+# param_space <- load_param_space(scenario = scenario)
 # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/obs_ss_test.rda"))
 # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/test_MLE_secsse1.RData"))
 # set <- rep(1:100,each = 1)

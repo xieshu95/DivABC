@@ -74,7 +74,7 @@ MCMC <- function(datalist,
     #     ((i - burnin) / thinning) == 4000){
     #   save_output(
     #     output = coda::as.mcmc(chain),
-    #     param_space_name = param_space_name,
+    #     scenario = scenario,
     #     param_set = param_set,
     #     ss_set = 1
     #   )

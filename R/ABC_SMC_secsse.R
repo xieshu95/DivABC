@@ -201,7 +201,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
                       ss_diff_list = ss_diff_list,
                       init_prob_list = init_prob_list,
                       init_state = init_state),
-        param_space_name = param_space_name,
+        scenario = scenario,
         param_set = param_set,
         ss_set = ss_set
       )

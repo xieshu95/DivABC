@@ -4,16 +4,16 @@
 #' @author Shu Xie
 #' @return tibble parameter space.
 #' @export
-load_param_space <- function(param_space_name) {
+load_param_space <- function(scenario) {
   # file_domain <-
   #   "https://raw.githubusercontent.com/xieshu95/TraisieABC/daisie/data/" # nolint
-  # file <- paste0(file_domain, param_space_name, ".csv")
+  # file <- paste0(file_domain, scenario, ".csv")
   # param_space <- readr::read_csv2(
   #   file = file
   # )
 
   loaded_name <- load(system.file(
-    "extdata", paste0(param_space_name, ".rda"), package = "TraisieABC")
+    "extdata", paste0(scenario, ".rda"), package = "TraisieABC")
   )
   assign("param_space", get(loaded_name))
   return(param_space)

@@ -1,11 +1,11 @@
-param_space_name = "secsse_ABC_long"
+scenario = "secsse_ABC_long"
 param_set = 7
 idparsopt = 1:6
 save_output = TRUE
 sim_model = "secsse"
 ss_set = 0
 
-b <- run_ABC(param_space_name,
+b <- run_ABC(scenario,
              param_set,
              idparsopt,
              "secsse",
@@ -29,7 +29,7 @@ idparsopt = as.numeric(idparsopt)
 fixpars = fixpars
 ss_set = ss_set
 
-param_space_name = "DAISIE_ABC_short"
+scenario = "DAISIE_ABC_short"
 param_set = 1
 idparsopt = 1:4
 save_output = TRUE
@@ -38,7 +38,7 @@ ss_set = 0
 pairwise_method = 2
 
 
-b <- run_ABC(param_space_name,
+b <- run_ABC(scenario,
              param_set,
              idparsopt,
              "DAISIE",
@@ -48,20 +48,20 @@ b <- run_ABC(param_space_name,
 
 
 
-param_space_name = "secsse_MCMC_long"
+scenario = "secsse_MCMC_long"
 param_set = 1
 idparsopt = 1:6
 save_output = FALSE
 sim_model = "secsse"
 ss_set = 1
-b <- run_MCMC_secsse(param_space_name,
+b <- run_MCMC_secsse(scenario,
                      param_set,
                      idparsopt,
                      save_output)
 
 
 
-# param_space_name = "DAISIE"
+# scenario = "DAISIE"
 # param_set = 1
 # idparsopt = 1:6
 # save_output = TRUE
@@ -69,17 +69,17 @@ b <- run_MCMC_secsse(param_space_name,
 # ss_set = 1
 
 param_space <- readr::read_csv2("data/secsse_ABC.csv")
-# param_space <- load_param_space(param_space_name = param_space_name)
+# param_space <- load_param_space(scenario = scenario)
 # param_space <- read.csv2(file = 'data/DAISIE_ABC.csv')
 # seed <- param_set ##as.integer(Sys.time()) %% 1000000L * param_set
 set.seed(42)
 
-message("Param space name: ", param_space_name)
+message("Param space name: ", scenario)
 message("Running param set: ", param_set)
 message("seed: ", seed)
 
 check_create_folders(
-  param_space_name = param_space_name,
+  scenario = scenario,
   save_output = save_output
 )
 message("sim_model: ", sim_model)
@@ -129,7 +129,7 @@ round(eps,5)
 
 set.seed(42)
 param_space <- readr::read_csv2("data/secsse_ABC.csv")
-# param_space <- load_param_space(param_space_name = param_space_name)
+# param_space <- load_param_space(scenario = scenario)
 obs_sim_pars <- param_space[param_set,]
 parameters <- as.numeric(obs_sim_pars)
 replicates = 1

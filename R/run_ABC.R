@@ -1,5 +1,5 @@
 #' Run ABC
-#' @param param_space_name A string with the parameter space to run. Can
+#' @param scenario A string with the parameter space to run. Can
 #'  be \code{"DAISIE_ABC"}, \code{"DAISIE_MCMC"},\code{"TraiSIE_ABC"}
 #' @param param_set A numeric of a specific line of parameter set in parameter space
 #' @param idparsopt A vector of positions of the parameters that be optimized.
@@ -9,7 +9,7 @@
 #' @return
 #' @export
 
-run_ABC <- function(param_space_name,
+run_ABC <- function(scenario,
                     param_set,
                     idparsopt,
                     sim_model = "DAISIE",
@@ -17,22 +17,22 @@ run_ABC <- function(param_space_name,
                     ss_set = 1){
 
   # param_space <- readr::read_csv2("data/secsse_ABC.csv")
-  param_space <- load_param_space(param_space_name = param_space_name)
+  param_space <- load_param_space(scenario = scenario)
   # param_space <- read.csv2(file = 'data/DAISIE_ABC.csv')
   seed <- as.integer(Sys.time()) %% 1000000L * param_set
   set.seed(param_set)
 
-  message("Param space name: ", param_space_name)
+  message("Param space name: ", scenario)
   message("Running param set: ", param_set)
   message("seed: ", seed)
 
   check_create_folders(
-    param_space_name = param_space_name,
+    scenario = scenario,
     save_output = save_output
   )
   message("sim_model: ", sim_model)
   obs_sim_pars <- param_space[param_set,]
-  obs_sim <- load_obs_sim(param_space_name = param_space_name)[[param_set]]
+  obs_sim <- load_obs_sim(scenario = scenario)[[param_set]]
 
   if (sim_model == "DAISIE") {
     sim_function <- get_DAISIE_sim
@@ -140,7 +140,7 @@ run_ABC <- function(param_space_name,
   if (save_output == TRUE) {
     save_output(
       output = abc,
-      param_space_name = param_space_name,
+      scenario = scenario,
       param_set = param_set,
       ss_set = ss_set
     )

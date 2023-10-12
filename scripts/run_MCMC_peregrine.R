@@ -1,6 +1,6 @@
 args <- commandArgs(TRUE)
 
-param_space_name <- args[1]
+scenario <- args[1]
 param_set <- as.numeric(args[2])
 idparsopt_lac <- args[3]
 idparsopt_mu <- args[4]
@@ -15,7 +15,7 @@ library(TraisieABC)
 library(DAISIE)
 
 run_MCMC_DAISIE(
-  param_space_name = args[1],
+  scenario = args[1],
   param_set = as.numeric(args[2]),
   idparsopt = as.numeric(idparsopt),
   save_output = save_output

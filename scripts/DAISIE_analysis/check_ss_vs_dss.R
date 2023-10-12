@@ -154,7 +154,7 @@ save(ss,file = "G:/results/project 2/tip_info/round4/no_ext_nltt/ss_seed_i.RData
 
 
 
-param_space_name = "DAISIE_ABC_short"
+scenario = "DAISIE_ABC_short"
 param_set = 1
 idparsopt = c(1,3)
 save_output = TRUE

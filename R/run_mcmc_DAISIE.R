@@ -4,26 +4,26 @@
 #' @return
 #' @export
 
-run_MCMC_DAISIE <- function(param_space_name,
+run_MCMC_DAISIE <- function(scenario,
                             param_set,
                             idparsopt,
                             save_output = TRUE){
 
-  param_space <- load_param_space(param_space_name = param_space_name)
+  param_space <- load_param_space(scenario = scenario)
   seed <- param_set
   set.seed(seed)
 
-  message("Param space name: ", param_space_name)
+  message("Param space name: ", scenario)
   message("Running param set: ", param_set)
   message("seed: ", seed)
 
   check_create_folders(
-    param_space_name = param_space_name,
+    scenario = scenario,
     save_output = save_output
   )
 
   obs_sim_pars <- param_space[param_set,]
-  obs_sim <- load_obs_sim(param_space_name = param_space_name)[[param_set]]
+  obs_sim <- load_obs_sim(scenario = scenario)[[param_set]]
 
   # obs_sim_pars_init <- obs_sim_pars + 0.0001
   initparsopt <- as.numeric(obs_sim_pars[c(1,2,3,4)])
@@ -48,7 +48,7 @@ run_MCMC_DAISIE <- function(param_space_name,
   if (save_output == TRUE) {
     save_output(
       output = mcmc,
-      param_space_name = param_space_name,
+      scenario = scenario,
       param_set = param_set,
       ss_set = 1
     )

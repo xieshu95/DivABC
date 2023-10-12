@@ -1,7 +1,7 @@
 # calculate MLE with different initials (10 replicates for each parameter set)
 library(TraisieABC)
-param_space_name <- "DAISIE_ABC_short_DI"
-param_space <- load_param_space(param_space_name = "DAISIE_ABC_short_DI")
+scenario <- "DAISIE_ABC_short_DI"
+param_space <- load_param_space(scenario = "DAISIE_ABC_short_DI")
 lac_MLE <- c()
 mu_MLE <- c()
 gam_MLE <- c()
@@ -17,7 +17,7 @@ for(i in 1:160) {
   message("set",i)
   set.seed(i)
   obs_sim_pars <- param_space[i,]
-  obs_sim <- load_obs_sim(param_space_name = param_space_name)[[i]]
+  obs_sim <- load_obs_sim(scenario = scenario)[[i]]
   rep <- 1
   while(rep < 2) {
     message("rep:", rep)

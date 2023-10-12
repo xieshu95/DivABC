@@ -187,7 +187,7 @@ ABC_SMC <- function( # nolint indeed a complex function
                       epsilon = epsilon,
                       obs_sim = obs_data,
                       ss_diff_list = ss_diff_list),
-        param_space_name = param_space_name,
+        scenario = scenario,
         param_set = param_set,
         ss_set = ss_set
       )
