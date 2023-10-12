@@ -5,7 +5,7 @@
 \title{Run ABC}
 \usage{
 run_ABC(
-  param_space_name,
+  scenario,
   param_set,
   idparsopt,
   sim_model = "DAISIE",
@@ -14,7 +14,7 @@ run_ABC(
 )
 }
 \arguments{
-\item{param_space_name}{A string with the parameter space to run. Can
+\item{scenario}{A string with the parameter space to run. Can
 be \code{"DAISIE_ABC"}, \code{"DAISIE_MCMC"},\code{"TraiSIE_ABC"}}
 
 \item{param_set}{A numeric of a specific line of parameter set in parameter space}

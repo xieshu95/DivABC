@@ -4,7 +4,7 @@
 \alias{load_obs_sim}
 \title{Loads the parameter space into the environment for simulations}
 \usage{
-load_obs_sim(param_space_name)
+load_obs_sim(scenario)
 }
 \value{
 list of observed data.

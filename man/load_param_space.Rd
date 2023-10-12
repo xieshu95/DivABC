@@ -4,7 +4,7 @@
 \alias{load_param_space}
 \title{Loads the parameter space into the environment for simulations}
 \usage{
-load_param_space(param_space_name)
+load_param_space(scenario)
 }
 \value{
 tibble parameter space.

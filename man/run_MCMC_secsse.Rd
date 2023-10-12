@@ -4,7 +4,7 @@
 \alias{run_MCMC_secsse}
 \title{Run mcmc}
 \usage{
-run_MCMC_secsse(param_space_name, param_set, idparsopt, save_output = TRUE)
+run_MCMC_secsse(scenario, param_set, idparsopt, save_output = TRUE)
 }
 \description{
 Run mcmc
