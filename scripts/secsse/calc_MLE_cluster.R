@@ -1,5 +1,5 @@
 library(TraisieABC)
-param_space <- param_data <- load_param_space(scenario = paste0("secsse_ABC_test"))
+param_data <- load_scenario(scenario = paste0("secsse_ABC_test"))
 lam1_MLE<- c()
 lam2_MLE <-c()
 mu1_MLE <- c()
@@ -35,7 +35,7 @@ create_ML_idpars <- function(traits,num_concealed_states) {
 for(i in 1:350) {
   message("set",i)
   set.seed(i)
-  obs_sim_pars <- param_space[i,]
+  obs_sim_pars <- param_data[i,]
   scenario <- "secsse_ABC_test"
   obs_sim <- load_obs_sim(scenario = scenario)[[i]]
   startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))

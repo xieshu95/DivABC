@@ -6,7 +6,7 @@ for (num_ss in c(1)){
   ## ABC results
   folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/secsse_ABC_test")
   files <- list.files(folder_path)
-  param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
+  param_data <- load_scenario(scenario = paste0("secsse_ABC_test"))
   param_data2<-param_data[rep(seq_len(nrow(param_data)), each=500),] #500
   lam1_abc <- c()
   lam2_abc <- c()
@@ -92,7 +92,7 @@ for (num_ss in c(1)){
 ######
 # 2. formate MCMC results (only plot the estimation points with ABC results)
 # skip
-param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
+param_data <- load_scenario(scenario = paste0("secsse_ABC_test"))
 param_data3<-param_data[rep(seq_len(nrow(param_data)), each=2501),] #2501
 folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/secsse_MCMC_test")
 files <- list.files(folder_path)
@@ -181,7 +181,7 @@ for(i in 1:350){
 
 # 3. formate MLE results
 # skip
-param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
+param_data <- load_scenario(scenario = paste0("secsse_ABC_test"))
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/obs_ss_test.rda"))
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/test_MLE_secsse.RData"))
 whole_df_MLE <- data.frame(param_data,MLE_all,ss[,1:4])

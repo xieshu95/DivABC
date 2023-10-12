@@ -9,7 +9,7 @@ run_MCMC_DAISIE <- function(scenario,
                             idparsopt,
                             save_output = TRUE){
 
-  param_space <- load_param_space(scenario = scenario)
+  param_space <- load_scenario(scenario = scenario)
   seed <- param_set
   set.seed(seed)
 

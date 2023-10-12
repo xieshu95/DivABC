@@ -17,7 +17,7 @@ run_ABC <- function(scenario,
                     ss_set = 1){
 
   # param_space <- readr::read_csv2("data/secsse_ABC.csv")
-  param_space <- load_param_space(scenario = scenario)
+  param_space <- load_scenario(scenario = scenario)
   # param_space <- read.csv2(file = 'data/DAISIE_ABC.csv')
   seed <- as.integer(Sys.time()) %% 1000000L * param_set
   set.seed(param_set)

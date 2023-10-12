@@ -88,8 +88,8 @@ calc_epsilon_init_secsse_test <- function(sim){
 }
 
 # for(test in c(2,3,4)) {
-param_space_name <- paste0("secsse_ABC_test")
-param_space <- load_param_space(param_space_name = param_space_name)
+scenario <- paste0("secsse_ABC_test")
+param_space <- load_scenario(scenario = scenario)
 ss <- c()
 obs_sim <- list()
 set.seed(100)
