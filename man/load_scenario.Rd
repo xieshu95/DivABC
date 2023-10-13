@@ -6,6 +6,10 @@
 \usage{
 load_scenario(scenario)
 }
+\arguments{
+\item{scenario}{A string of a scenario name which contains a series of
+parameter sets.}
+}
 \value{
 tibble parameter space in a certain scenario.
 }

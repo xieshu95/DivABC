@@ -1,30 +1,28 @@
-#' Calculates error metrics between two simulations
+#' Calculate summary statistic distances between two simulated trees
+#' when using phylogenetic statistics
 #'
-#' Calculates error in number of species and colonists, number of
-#' species-through-time, number of endemics-through-time and
-#' non-endemics-through-time.
+#' @inheritParams default_params_doc
 #'
-#' @return A list with five error metrics:
+#' @return A vector with five error metrics:
 #' \describe{
-#'   \item{\code{$spec_nltt_error}}{Numeric vector with the nltt error between
-#'     the two simulations.}
-#'   \item{\code{$num_spec_error}}{Numeric vector with the difference in the
-#'     number of species at the end of the simulation between the two
-#'     simulations.}
-#'   \item{\code{$num_col_error}}{Numeric vector with the difference in the
-#'     number of colonists at the end of the simulation between the two
-#'     simulations.}
-#'   \item{\code{$endemic_nltt_error}}{Numeric vector with the nltt error of the
-#'     endemic species between the two simulations.}
-#'   \item{\code{$nonendemic_nltt_error}}{Numeric vector with the nltt error of
-#'     the non-endemic species between the two simulations.}
+#'   \item{\code{$total_nltt}}{Numeric value of the the distance of nLTT of
+#'   total species.}
+#'   \item{\code{$singleton_nltt}}{Numeric value of the the distance of nLTT of
+#'   singleton-endemic species.}
+#'   \item{\code{$nonend_nltt}}{Numeric value of the the distance of nLTT of
+#'   non-endemic species.}
+#'   \item{\code{$clade_size}}{Numeric value of the the distance of clade size
+#'   standard deviation.}
+#'   \item{\code{$colon_time}}{Numeric value of the the distance of colonization
+#'   time standard deviation.}
 #' }
 #'
-# nltt
-calc_error_no_ext_nltt <- function(sim_1,
-                                   sim_2,
-                                   replicates,
-                                   distance_method) {
+#' @author Shu Xie
+#' @export
+calc_error_phylo <- function(sim_1,
+                            sim_2,
+                            replicates,
+                            distance_method) {
   # Spec error
   brt1 <- lapply(sim_1[[1]][-1],"[[", "branching_times")
   brt2 <- lapply(sim_2[[1]][-1],"[[", "branching_times")
@@ -132,11 +130,27 @@ calc_error_no_ext_nltt <- function(sim_1,
   )
 }
 
-# tips
-calc_error_no_ext_tips <- function(sim_1,
-                                   sim_2,
-                                   replicates,
-                                   distance_method) {
+#' Calculate summary statistic distances between two simulated trees
+#' when using diversity statistics
+#'
+#' @inheritParams default_params_doc
+#'
+#' @return A vector with five error metrics:
+#' \describe{
+#'   \item{\code{$num_total}}{Numeric value of the the distance of the number of
+#'   total species.}
+#'   \item{\code{$num_end}}{Numeric value of the the distance of the number of
+#'   endemic-endemic species.}
+#'   \item{\code{$num_nonend}}{Numeric value of the the distance of the number of
+#'   non-endemic species.}
+#' }
+#'
+#' @author Shu Xie
+#' @export
+calc_error_tips <- function(sim_1,
+                            sim_2,
+                            replicates,
+                            distance_method) {
 
   ## tip info
   stt_last_row_sim_1 <-
@@ -191,17 +205,40 @@ calc_error_no_ext_tips <- function(sim_1,
     c(num_total,
       num_end,
       num_nonend)
-    # clade_size)
-    # colon_time,)
-    # num_col_error
   )
 }
 
-# nltt + tips
-calc_error_no_ext_all <- function(sim_1,
-                                  sim_2,
-                                  replicates,
-                                  distance_method) {
+#' Calculate summary statistic distances between two simulated trees
+#' when using all eight statistics
+#'
+#' @inheritParams default_params_doc
+#'
+#' @return A vector with five error metrics:
+#' \describe{
+#'   \item{\code{$total_nltt}}{Numeric value of the the distance of nLTT of
+#'   total species.}
+#'   \item{\code{$singleton_nltt}}{Numeric value of the the distance of nLTT of
+#'   singleton-endemic species.}
+#'   \item{\code{$nonend_nltt}}{Numeric value of the the distance of nLTT of
+#'   non-endemic species.}
+#'   \item{\code{$clade_size}}{Numeric value of the the distance of clade size
+#'   standard deviation.}
+#'   \item{\code{$colon_time}}{Numeric value of the the distance of colonization
+#'   time standard deviation.}
+#'   \item{\code{$num_total}}{Numeric value of the the distance of the number of
+#'   total species.}
+#'   \item{\code{$num_end}}{Numeric value of the the distance of the number of
+#'   endemic-endemic species.}
+#'   \item{\code{$num_nonend}}{Numeric value of the the distance of the number of
+#'   non-endemic species.}
+#' }
+#'
+#' @author Shu Xie
+#' @export
+calc_error_all <- function(sim_1,
+                           sim_2,
+                           replicates,
+                           distance_method) {
   # Spec error
   brt1 <- lapply(sim_1[[1]][-1],"[[", "branching_times")
   brt2 <- lapply(sim_2[[1]][-1],"[[", "branching_times")
@@ -353,9 +390,96 @@ calc_error_no_ext_all <- function(sim_1,
   )
 }
 
-#' Get the NLTT dataframe from the branching times from each exist clade.
+#' Calculate summary statistic distances between two simulated trees
+#' when using nltt statistics
 #'
-#' @param sim A datalist of observed data with more than one replicate.
+#' @inheritParams default_params_doc
+#'
+#' @return A vector with five error metrics:
+#' \describe{
+#'   \item{\code{$total_nltt}}{Numeric value of the the distance of nLTT of
+#'   total species.}
+#'   \item{\code{$singleton_nltt}}{Numeric value of the the distance of nLTT of
+#'   singleton-endemic species.}
+#'   \item{\code{$nonend_nltt}}{Numeric value of the the distance of nLTT of
+#'   non-endemic species.}
+#' }
+#'
+#' @author Shu Xie
+#' @export
+calc_error_nltt <- function(sim_1,
+                             sim_2,
+                             replicates,
+                             distance_method) {
+  # Spec error
+  brt1 <- lapply(sim_1[[1]][-1],"[[", "branching_times")
+  brt2 <- lapply(sim_2[[1]][-1],"[[", "branching_times")
+
+  ltt_1 <- full_ltt(sim_1,brt1)
+  ltt_2 <- full_ltt(sim_2,brt2)
+
+  # total number species nltt error
+  total_nltt <- nLTT::nltt_diff_exact_extinct(
+    event_times = ltt_1$brt,
+    species_number = ltt_1$n_spec,
+    event_times2 = ltt_2$brt,
+    species_number2 = ltt_2$n_spec,
+    distance_method = distance_method,
+    time_unit = "ago",
+    normalize = FALSE
+  )
+
+
+  end_ltt_1 <- end_ltt(sim_1,brt1)
+  end_ltt_2 <- end_ltt(sim_2,brt2)
+
+  nonend_ltt_1 <- end_ltt_1$nonend_ltt
+  nonend_ltt_2 <- end_ltt_2$nonend_ltt
+  # total number species nltt error
+  if(nonend_ltt_1[1,1] == 0 && nonend_ltt_2[1,1] == 0) {
+    nonend_nltt  <- 0
+  } else {
+    nonend_nltt <- nLTT::nltt_diff_exact_extinct(
+      event_times = nonend_ltt_1$nonend_brt,
+      species_number = nonend_ltt_1$n_nonend,
+      event_times2 = nonend_ltt_2$nonend_brt,
+      species_number2 = nonend_ltt_2$n_nonend,
+      distance_method = distance_method,
+      time_unit = "ago",
+      normalize = FALSE
+    )}
+
+  singleton_ltt_1 <- end_ltt_1$singleton_ltt
+  singleton_ltt_2 <- end_ltt_2$singleton_ltt
+  # total number species nltt error
+  if(singleton_ltt_1[1,1] == 0 && singleton_ltt_2[1,1] == 0) {
+    singleton_nltt  <- 0
+  } else {
+    singleton_nltt <- nLTT::nltt_diff_exact_extinct(
+      event_times = singleton_ltt_1$singleton_brt,
+      species_number = singleton_ltt_1$n_singleton,
+      event_times2 = singleton_ltt_2$singleton_brt,
+      species_number2 = singleton_ltt_2$n_singleton,
+      distance_method = distance_method,
+      time_unit = "ago",
+      normalize = FALSE
+    )
+  }
+
+  return(
+    c(total_nltt,
+      singleton_nltt,
+      nonend_nltt
+    )
+  )
+}
+
+
+
+#' Calculate summary statistic distances between two simulated trees
+#' when using phylogenetic statistics
+#'
+#' @inheritParams default_params_doc
 #'
 #' @author Shu Xie
 #' @export
@@ -381,8 +505,7 @@ full_ltt <- function (sim,brt) {
 #' Get the number of clades through time from
 #' the colonization times from each exist clade.
 #'
-#' @param sim A datalist of observed data with more than one replicate.
-#'
+#' @inheritParams default_params_doc
 #' @author Shu Xie
 #' @export
 
@@ -396,7 +519,12 @@ clade_ltt <- function (sim,brt) {
   return(clade_ltt)
 }
 
-
+#' Get the number of clades through time from
+#' the colonization times from each exist clade.
+#'
+#' @inheritParams default_params_doc
+#' @author Shu Xie
+#' @export
 end_ltt <- function(sim,brt) {
   # brt <- lapply(sim[[1]][-1],"[[", "branching_times")
   stac <- unlist(lapply(sim[[1]][-1],"[[", "stac"))
@@ -439,7 +567,8 @@ end_ltt <- function(sim,brt) {
 }
 
 
-#' each clade as a metric
+#' pirewise comparison between two simulations among clades(keep the same
+#' number of clades)
 pairwise_sort_per_clade <- function(brts1, brts2){
   # clade_size_error <- c()
   nltt_error <- c()
@@ -462,107 +591,5 @@ pairwise_sort_per_clade <- function(brts1, brts2){
 }
 
 
-calc_error_no_ext_nltt2 <- function(sim_1,
-                                    sim_2,
-                                    replicates,
-                                    distance_method) {
-  # Spec error
-  brt1 <- lapply(sim_1[[1]][-1],"[[", "branching_times")
-  brt2 <- lapply(sim_2[[1]][-1],"[[", "branching_times")
-
-  ltt_1 <- full_ltt(sim_1,brt1)
-  ltt_2 <- full_ltt(sim_2,brt2)
-
-  # total number species nltt error
-  total_nltt <- nLTT::nltt_diff_exact_extinct(
-    event_times = ltt_1$brt,
-    species_number = ltt_1$n_spec,
-    event_times2 = ltt_2$brt,
-    species_number2 = ltt_2$n_spec,
-    distance_method = distance_method,
-    time_unit = "ago",
-    normalize = FALSE
-  )
-
-
-  # Clades number nltt error
-  # clade_ltt_1 <- clade_ltt(sim_1,brt1)
-  # clade_ltt_2 <- clade_ltt(sim_2,brt2)
-  #
-  # clade_nltt <- nLTT::nltt_diff_exact_extinct(
-  #   event_times = clade_ltt_1$colon_time,
-  #   species_number = clade_ltt_1$n_clade,
-  #   event_times2 = clade_ltt_2$colon_time,
-  #   species_number2 = clade_ltt_2$n_clade,
-  #   distance_method = distance_method,
-  #   time_unit = "ago",
-  #   normalize = FALSE
-  # )
-
-  # clade_size <- calc_clade_size_error(sim_1,sim_2)
-  # colon_time <- calc_colon_time_error(sim_1,sim_2)
-
-  ## nonendemic_nltt and singleton-endemic-nltt
-  end_ltt_1 <- end_ltt(sim_1,brt1)
-  end_ltt_2 <- end_ltt(sim_2,brt2)
-
-  nonend_ltt_1 <- end_ltt_1$nonend_ltt
-  nonend_ltt_2 <- end_ltt_2$nonend_ltt
-  # total number species nltt error
-  if(nonend_ltt_1[1,1] == 0 && nonend_ltt_2[1,1] == 0) {
-    nonend_nltt  <- 0
-  } else {
-    nonend_nltt <- nLTT::nltt_diff_exact_extinct(
-      event_times = nonend_ltt_1$nonend_brt,
-      species_number = nonend_ltt_1$n_nonend,
-      event_times2 = nonend_ltt_2$nonend_brt,
-      species_number2 = nonend_ltt_2$n_nonend,
-      distance_method = distance_method,
-      time_unit = "ago",
-      normalize = FALSE
-    )}
-
-  singleton_ltt_1 <- end_ltt_1$singleton_ltt
-  singleton_ltt_2 <- end_ltt_2$singleton_ltt
-  # total number species nltt error
-  if(singleton_ltt_1[1,1] == 0 && singleton_ltt_2[1,1] == 0) {
-    singleton_nltt  <- 0
-  } else {
-    singleton_nltt <- nLTT::nltt_diff_exact_extinct(
-      event_times = singleton_ltt_1$singleton_brt,
-      species_number = singleton_ltt_1$n_singleton,
-      event_times2 = singleton_ltt_2$singleton_brt,
-      species_number2 = singleton_ltt_2$n_singleton,
-      distance_method = distance_method,
-      time_unit = "ago",
-      normalize = FALSE
-    )
-  }
-
-  # multi_ltt_1 <- end_ltt_1$multi_ltt
-  # multi_ltt_2 <- end_ltt_2$multi_ltt
-  # # total number species nltt error
-  # if(multi_ltt_1[1,1] == 0 && multi_ltt_2[1,1] == 0) {
-  #   multi_nltt  <- 0
-  # } else {
-  #   multi_nltt <- nLTT::nltt_diff_exact_extinct(
-  #     event_times = multi_ltt_1$multi_brt,
-  #     species_number = multi_ltt_1$n_multi,
-  #     event_times2 = multi_ltt_2$multi_brt,
-  #     species_number2 = multi_ltt_2$n_multi,
-  #     distance_method = distance_method,
-  #     time_unit = "ago",
-  #     normalize = FALSE
-  #   )
-  # }
-
-  return(
-    c(# clade_nltt,
-      total_nltt,
-      singleton_nltt,
-      nonend_nltt
-      )
-  )
-}
 
 

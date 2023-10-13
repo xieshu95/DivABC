@@ -129,7 +129,7 @@ calc_ss <- function(sim,
 }
 
 calc_epsilon_init <- function(sim){
-  ss <- calc_ss_no_ext(sim[[1]],1)
+  ss <- calc_ss(sim[[1]],1)
   eps_init <- as.numeric(unlist(ss)) * 1
   return(eps_init)
 }
