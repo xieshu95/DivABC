@@ -9,18 +9,18 @@ library(ggplot2)
 #####
 ## lam
 i = 1
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 # whole_df_all1<-whole_df_all
 whole_df_all1<-median_all
 whole_df_all1$Scenario <- 1
 
 i = 2
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 whole_df_all2<-median_all
 whole_df_all2$Scenario <- 2
 
 i = 3
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 whole_df_all3<-median_all
 whole_df_all3$Scenario <- 3
 
@@ -200,7 +200,7 @@ p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/violin_median_lam.tiff"),
+tiff(paste0("NLTTs_D/violin_median_lam.tiff"),
      units="px", width=5000, height=6000,res = 400,compression="lzw")
 
 param_estimates_lam <- cowplot::plot_grid(
@@ -228,18 +228,18 @@ while (!is.null(dev.list()))  dev.off()
 ## mu
 
 i = 1
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 # whole_df_all1<-whole_df_all
 whole_df_all1<-median_all
 whole_df_all1$Scenario <- 1
 
 i = 4
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 whole_df_all2<-median_all
 whole_df_all2$Scenario <- 4
 
 i = 5
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 whole_df_all3<-median_all
 whole_df_all3$Scenario <- 5
 
@@ -406,7 +406,7 @@ p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/violin_median_mu.tiff"),
+tiff(paste0("NLTTs_D/violin_median_mu.tiff"),
      units="px", width=5000, height=6000,res = 400,compression="lzw")
 
 param_estimates_lam <- cowplot::plot_grid(
@@ -434,18 +434,18 @@ while (!is.null(dev.list()))  dev.off()
 
 ## q
 i = 1
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 # whole_df_all1<-whole_df_all
 whole_df_all1<-median_all
 whole_df_all1$Scenario <- 1
 
 i = 6
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 whole_df_all2<-median_all
 whole_df_all2$Scenario <- 6
 
 i = 7
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 whole_df_all3<-median_all
 whole_df_all3$Scenario <- 7
 
@@ -612,7 +612,7 @@ p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/violin_median_q.tiff"),
+tiff(paste0("NLTTs_D/violin_median_q.tiff"),
      units="px", width=5000, height=6000,res = 400,compression="lzw")
 
 param_estimates_lam <- cowplot::plot_grid(
@@ -637,7 +637,7 @@ while (!is.null(dev.list()))  dev.off()
 
 
 ## combine
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/violin_median_all2.tiff"),
+tiff(paste0("NLTTs_D/violin_median_all2.tiff"),
      units="px", width=5500, height=4800,res = 500,compression="lzw")
 param_estimates_all <- cowplot::plot_grid(
   param_estimates_lam+ggplot2::theme(legend.position = "none"),
@@ -666,18 +666,18 @@ library(ggplot2)
 
 ## lam
 i = 1
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 # whole_df_all1<-whole_df_all
 whole_df_all1<-median_all
 whole_df_all1$Scenario <- 1
 
 i = 2
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 whole_df_all2<-median_all
 whole_df_all2$Scenario <- 2
 
 i = 3
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 whole_df_all3<-median_all
 whole_df_all3$Scenario <- 3
 
@@ -759,7 +759,7 @@ p_net2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div2,
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/violin_median_netdiv_lam.tiff"),
+tiff(paste0("NLTTs_D/violin_median_netdiv_lam.tiff"),
      units="px", width=6000, height=3000,res = 400,compression="lzw")
 
 param_estimates_lam <- cowplot::plot_grid(
@@ -781,18 +781,18 @@ while (!is.null(dev.list()))  dev.off()
 #####
 ## mu
 i = 1
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 # whole_df_all1<-whole_df_all
 whole_df_all1<-median_all
 whole_df_all1$Scenario <- 1
 
 i = 4
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 whole_df_all2<-median_all
 whole_df_all2$Scenario <- 4
 
 i = 5
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 whole_df_all3<-median_all
 whole_df_all3$Scenario <- 5
 scen_names1 <- c(
@@ -865,7 +865,7 @@ p_net2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div2,
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/violin_median_netdiv_mu.tiff"),
+tiff(paste0("NLTTs_D/violin_median_netdiv_mu.tiff"),
      units="px", width=6000, height=3000,res = 400,compression="lzw")
 
 param_estimates_lam <- cowplot::plot_grid(
@@ -888,18 +888,18 @@ while (!is.null(dev.list()))  dev.off()
 
 ## q
 i = 1
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 # whole_df_all1<-whole_df_all
 whole_df_all1<-median_all
 whole_df_all1$Scenario <- 1
 
 i = 6
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 whole_df_all2<-median_all
 whole_df_all2$Scenario <- 6
 
 i = 7
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+load(paste0("NLTTs_D/median_AMM_test",i,".RData"))
 whole_df_all3<-median_all
 whole_df_all3$Scenario <- 7
 
@@ -967,7 +967,7 @@ p_net2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div2,
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/violin_median_netdiv_q.tiff"),
+tiff(paste0("NLTTs_D/violin_median_netdiv_q.tiff"),
      units="px", width=6000, height=3000,res = 400,compression="lzw")
 
 param_estimates_lam <- cowplot::plot_grid(
@@ -987,7 +987,7 @@ print(p3)
 while (!is.null(dev.list()))  dev.off()
 
 ## combine
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/violin_median_netdiv_all.tiff"),
+tiff(paste0("NLTTs_D/violin_median_netdiv_all.tiff"),
      units="px", width=7000, height=9000,res = 450,compression="lzw")
 param_estimates_all <- cowplot::plot_grid(
   p1+ggplot2::theme(legend.position = "none"),

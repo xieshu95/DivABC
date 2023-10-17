@@ -3,7 +3,7 @@
 library(ggplot2)
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/obs_ss_long_with_pars_DI.RData"))
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",0,".RData"))
+load(paste0("daisie_high_prior/delta_whole_df_ABC_ss_set",0,".RData"))
 whole_df_ABC$ss = "ABC All"
 whole_df_ABC_s0 = whole_df_ABC
 whole_df_ABC_s0$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -12,7 +12,7 @@ whole_df_ABC_s0$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s0$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",1,".RData"))
+load(paste0("daisie_high_prior/delta_whole_df_ABC_ss_set",1,".RData"))
 whole_df_ABC$ss = "ABC Phylogenetic"
 whole_df_ABC_s1 = whole_df_ABC
 whole_df_ABC_s1$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -20,7 +20,7 @@ whole_df_ABC_s1$rep <- rep(rep(1:10, each = 500), 16)
 whole_df_ABC_s1$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s1$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",2,".RData"))
+load(paste0("daisie_high_prior/delta_whole_df_ABC_ss_set",2,".RData"))
 whole_df_ABC$ss = "ABC Diversity"
 whole_df_ABC_s2 = whole_df_ABC
 whole_df_ABC_s2$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -28,7 +28,7 @@ whole_df_ABC_s2$rep <- rep(rep(1:10, each = 500), 16)
 whole_df_ABC_s2$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s2$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",3,".RData"))
+load(paste0("daisie_high_prior/delta_whole_df_ABC_ss_set",3,".RData"))
 whole_df_ABC$ss = "ABC NLTT"
 whole_df_ABC_s3 = whole_df_ABC
 whole_df_ABC_s3$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -50,7 +50,7 @@ whole_df_ABC$dext_frac <- whole_df_ABC$ext_frac_ABC - whole_df_ABC$ext_frac
 # whole_df_ABC$total <- rep(rep(pars_ss$total, each = 400), 1) # 400,5
 
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_MCMC.RData"))
+load(paste0("daisie_high_prior/delta_whole_df_MCMC.RData"))
 whole_df_MCMC$ss = "MCMC"
 whole_df_MCMC$total <- rep(rep(pars_ss$total, each = 2501), 1)
 whole_df_MCMC$rep <- rep(rep(1:10, each = 2501), 16)
@@ -63,7 +63,7 @@ whole_df_MCMC$dlaa <- whole_df_MCMC$laa_mcmc - whole_df_MCMC$laa
 whole_df_MCMC$dnet_div <- whole_df_MCMC$net_div_mcmc - whole_df_MCMC$net_div
 whole_df_MCMC$dext_frac <- whole_df_MCMC$ext_frac_MCMC - whole_df_MCMC$ext_frac
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/whole_df_MLE_DI.RData")
+load("daisie_high_prior/whole_df_MLE_DI.RData")
 whole_df_MLE$ss = "MLE"
 whole_df_MLE$total <- rep(rep(pars_ss$total, each = 1), 1)
 whole_df_MLE$rep <- rep(rep(1:10, each = 1), 16)
@@ -114,7 +114,7 @@ p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total/num_clade
 #                                                gam = as_labeller(gam_names, label_parsed),
 #                                                laa = as_labeller(laa_names, label_parsed)))
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/drate_netdiv_per_clade.tiff"),
+tiff(paste0("daisie_high_prior/drate_netdiv_per_clade.tiff"),
      units="px", width=4000, height=2000,res = 350,compression="lzw")
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
@@ -183,7 +183,7 @@ p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total/num_clade,y 
   ggplot2::ylab(expression(Delta~lambda^a))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/drate_all_rates_per_clade.tiff"),
+tiff(paste0("daisie_high_prior/drate_all_rates_per_clade.tiff"),
      units="px", width=5500, height=2500,res = 300,compression="lzw")
 params <- cowplot::plot_grid(
   p_lac+ggplot2::theme(legend.position = "none"),
@@ -225,7 +225,7 @@ p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = largest_clade,y
 #                                                gam = as_labeller(gam_names, label_parsed),
 #                                                laa = as_labeller(laa_names, label_parsed)))
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/drate_netdiv_largest.tiff"),
+tiff(paste0("daisie_high_prior/drate_netdiv_largest.tiff"),
      units="px", width=4000, height=2000,res = 350,compression="lzw")
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
@@ -297,7 +297,7 @@ p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = largest_clade,y = 
   ggplot2::ylab(expression(Delta~lambda^a))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/drate_all_rates_largest.tiff"),
+tiff(paste0("daisie_high_prior/drate_all_rates_largest.tiff"),
      units="px", width=5500, height=2500,res = 300,compression="lzw")
 params <- cowplot::plot_grid(
   p_lac+ggplot2::theme(legend.position = "none"),
@@ -336,7 +336,7 @@ p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = num_clade,y = d
 #                                                gam = as_labeller(gam_names, label_parsed),
 #                                                laa = as_labeller(laa_names, label_parsed)))
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/drate_netdiv_numclade.tiff"),
+tiff(paste0("daisie_high_prior/drate_netdiv_numclade.tiff"),
      units="px", width=4000, height=2000,res = 350,compression="lzw")
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
@@ -405,7 +405,7 @@ p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = num_clade,y = dlaa
   ggplot2::ylab(expression(Delta~lambda^a))+
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/drate_all_rates_numclade.tiff"),
+tiff(paste0("daisie_high_prior/drate_all_rates_numclade.tiff"),
      units="px", width=5500, height=2500,res = 300,compression="lzw")
 params <- cowplot::plot_grid(
   p_lac+ggplot2::theme(legend.position = "none"),

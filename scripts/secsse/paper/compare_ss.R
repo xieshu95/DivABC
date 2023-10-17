@@ -1,12 +1,12 @@
 ## combine  all ss combinations
 library(ggplot2)
 for(i in 1:7){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_MLE.RData"))
+  load(paste0("NLTTs_D/whole_df_MLE.RData"))
   whole_df_MLE <- whole_df_MLE[(i*50-49):(i*50),]
   total <- whole_df_MLE$tree_size
 
   # 1. NLTTs + D
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/delta_whole_df_ABC_test_ss1.RData"))
+  load(paste0("NLTTs_D/delta_whole_df_ABC_test_ss1.RData"))
   whole_df_ABC1 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC[(i*20000-19999):(i*20000),]
   whole_df_ABC1$ss = "nLTTs-D"
   whole_df_ABC1 = whole_df_ABC1[,-7]
@@ -32,7 +32,7 @@ for(i in 1:7){
   ABC_median1$ss = "nLTTs-D"
 
   # 2. nLTTs
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTTs/delta_whole_df_ABC_test_ss1.RData"))
+  load(paste0("NLTTs/delta_whole_df_ABC_test_ss1.RData"))
   whole_df_ABC2 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC2[(i*20000-19999):(i*20000),]
   whole_df_ABC2$ss = "nLTTs"
   whole_df_ABC2 = whole_df_ABC2[,-7]
@@ -58,7 +58,7 @@ for(i in 1:7){
 
 
   # 3. D
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/D/delta_whole_df_ABC_test_ss3.RData"))
+  load(paste0("D/delta_whole_df_ABC_test_ss3.RData"))
   whole_df_ABC3 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC3[(i*20000-19999):(i*20000),]
   whole_df_ABC3$ss = "D"
   whole_df_ABC3 = whole_df_ABC3[,-7]
@@ -84,7 +84,7 @@ for(i in 1:7){
 
 
   # 4. NLTT + D
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT_D/delta_whole_df_ABC_test_ss2.RData"))
+  load(paste0("NLTT_D/delta_whole_df_ABC_test_ss2.RData"))
   whole_df_ABC4 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC4[(i*20000-19999):(i*20000),]
   whole_df_ABC4$ss = "nLTT-D"
   whole_df_ABC4 = whole_df_ABC4[,-7]
@@ -109,7 +109,7 @@ for(i in 1:7){
   ABC_median4$ss = "nLTT-D"
 
   # 5. NLTT + mpd
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT_MPD/delta_whole_df_ABC_test_ss0.RData"))
+  load(paste0("NLTT_MPD/delta_whole_df_ABC_test_ss0.RData"))
   whole_df_ABC5 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC5[(i*20000-19999):(i*20000),]
   whole_df_ABC5$ss = "nLTT-MPD"
   whole_df_ABC5 = whole_df_ABC5[,-7]
@@ -134,7 +134,7 @@ for(i in 1:7){
   ABC_median5$ss = "nLTT-MPD"
 
   # 6. NLTT + mntd
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT_MNTD/delta_whole_df_ABC_test_ss0.RData"))
+  load(paste0("NLTT_MNTD/delta_whole_df_ABC_test_ss0.RData"))
   whole_df_ABC6 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC6[(i*20000-19999):(i*20000),]
   whole_df_ABC6$ss = "nLTT-MNTD"
   whole_df_ABC6 = whole_df_ABC6[,-7]
@@ -159,7 +159,7 @@ for(i in 1:7){
   ABC_median6$ss = "nLTT-MNTD"
 
   # 7. NLTT + TIPRATIO
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT_ratio/delta_whole_df_ABC_test_ss1.RData"))
+  load(paste0("NLTT_ratio/delta_whole_df_ABC_test_ss1.RData"))
   whole_df_ABC7 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC7[(i*20000-19999):(i*20000),]
   whole_df_ABC7$ss = "nLTT-ratio"
   whole_df_ABC7 = whole_df_ABC7[,-7]
@@ -184,7 +184,7 @@ for(i in 1:7){
   ABC_median7$ss = "nLTT-ratio"
 
   # 8. NLTT + colless
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT_colless/delta_whole_df_ABC_test_ss1.RData"))
+  load(paste0("NLTT_colless/delta_whole_df_ABC_test_ss1.RData"))
   whole_df_ABC8 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC8[(i*20000-19999):(i*20000),]
   whole_df_ABC8$ss = "nLTT-colless"
   whole_df_ABC8 = whole_df_ABC8[,-7]
@@ -210,7 +210,7 @@ for(i in 1:7){
 
 
   # 9. NLTT
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT/delta_whole_df_ABC_test_ss2.RData"))
+  load(paste0("NLTT/delta_whole_df_ABC_test_ss2.RData"))
   whole_df_ABC9 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC9[(i*20000-19999):(i*20000),]
   whole_df_ABC9$ss = "nLTT"
   whole_df_ABC9 = whole_df_ABC9[,-7]
@@ -243,7 +243,7 @@ for(i in 1:7){
                         whole_df_ABC7[,c(1:6,13,14,17,18,21:33)],
                         whole_df_ABC8[,c(1:6,13,14,17,18,21:33)],
                         whole_df_ABC9[,c(1:6,13,14,17,18,21:33)])
-  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/compare_ss/ABC_test",i,".RData"))
+  save(whole_df_all, file = paste0("compare_ss/ABC_test",i,".RData"))
 
 
   median_all <- rbind(ABC_median1[,c(1:6,13,14,17,18,21:33)],
@@ -256,19 +256,19 @@ for(i in 1:7){
                       ABC_median8[,c(1:6,13,14,17,18,21:33)],
                       ABC_median9[,c(1:6,13,14,17,18,21:33)])
 
-  save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/compare_ss/ABC_median_test",i,".RData"))
+  save(median_all, file = paste0("compare_ss/ABC_median_test",i,".RData"))
 }
 
 
 ### D VS NLTT+D VS NLTTS VS NLTTS+D
 library(ggplot2)
 for(i in 1:7){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_MLE.RData"))
+  load(paste0("NLTTs_D/whole_df_MLE.RData"))
   whole_df_MLE <- whole_df_MLE[(i*50-49):(i*50),]
   total <- whole_df_MLE$tree_size
 
   # 1. NLTTs + D
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/delta_whole_df_ABC_test_ss1.RData"))
+  load(paste0("NLTTs_D/delta_whole_df_ABC_test_ss1.RData"))
   whole_df_ABC1 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC[(i*20000-19999):(i*20000),]
   whole_df_ABC1$ss = "NLTTs+D"
   whole_df_ABC1 = whole_df_ABC1[,-7]
@@ -294,7 +294,7 @@ for(i in 1:7){
   ABC_median1$ss = "NLTTs+D"
 
   # 2. NLTTs
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTTs/delta_whole_df_ABC_test_ss1.RData"))
+  load(paste0("NLTTs/delta_whole_df_ABC_test_ss1.RData"))
   whole_df_ABC2 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC2[(i*20000-19999):(i*20000),]
   whole_df_ABC2$ss = "NLTTs"
   whole_df_ABC2 = whole_df_ABC2[,-7]
@@ -320,7 +320,7 @@ for(i in 1:7){
 
 
   # 3. D
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/D/delta_whole_df_ABC_test_ss3.RData"))
+  load(paste0("D/delta_whole_df_ABC_test_ss3.RData"))
   whole_df_ABC3 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC3[(i*20000-19999):(i*20000),]
   whole_df_ABC3$ss = "D"
   whole_df_ABC3 = whole_df_ABC3[,-7]
@@ -346,7 +346,7 @@ for(i in 1:7){
 
 
   # 4. NLTT + D
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTT_D/delta_whole_df_ABC_test_ss2.RData"))
+  load(paste0("NLTT_D/delta_whole_df_ABC_test_ss2.RData"))
   whole_df_ABC4 <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC4[(i*20000-19999):(i*20000),]
   whole_df_ABC4$ss = "NLTT+D"
   whole_df_ABC4 = whole_df_ABC4[,-7]
@@ -374,7 +374,7 @@ for(i in 1:7){
                         whole_df_ABC2[,c(1:6,13,14,17,18,21:33)],
                         whole_df_ABC3[,c(1:6,13,14,17,18,21:33)],
                         whole_df_ABC4[,c(1:6,13,14,17,18,21:33)])
-  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/compare_ss/D_test",i,".RData"))
+  save(whole_df_all, file = paste0("compare_ss/D_test",i,".RData"))
 
 
   median_all <- rbind(ABC_median1[,c(1:6,13,14,17,18,21:33)],
@@ -382,7 +382,7 @@ for(i in 1:7){
                       ABC_median3[,c(1:6,13,14,17,18,21:33)],
                       ABC_median4[,c(1:6,13,14,17,18,21:33)])
 
-  save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/compare_ss/D_median_test",i,".RData"))
+  save(median_all, file = paste0("compare_ss/D_median_test",i,".RData"))
 }
 
 

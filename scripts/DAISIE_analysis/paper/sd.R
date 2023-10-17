@@ -1,8 +1,8 @@
 ### sd
 library(ggplot2)
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/obs_ss_long_with_pars_DI.RData"))
+load(paste0("daisie_high_prior/obs_ss_long_with_pars_DI.RData"))
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",0,".RData"))
+load(paste0("daisie_high_prior/DI/delta_whole_df_ABC_ss_set",0,".RData"))
 whole_df_ABC$Method = "ABC All"
 whole_df_ABC_s0 = whole_df_ABC
 whole_df_ABC_s0$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -11,7 +11,7 @@ whole_df_ABC_s0$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s0$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",1,".RData"))
+load(paste0("daisie_high_prior/DI/delta_whole_df_ABC_ss_set",1,".RData"))
 whole_df_ABC$Method = "ABC Phylogenetic"
 whole_df_ABC_s1 = whole_df_ABC
 whole_df_ABC_s1$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -19,7 +19,7 @@ whole_df_ABC_s1$rep <- rep(rep(1:10, each = 500), 16)
 whole_df_ABC_s1$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s1$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",2,".RData"))
+load(paste0("daisie_high_prior/DI/delta_whole_df_ABC_ss_set",2,".RData"))
 whole_df_ABC$Method = "ABC Diversity"
 whole_df_ABC_s2 = whole_df_ABC
 whole_df_ABC_s2$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -27,7 +27,7 @@ whole_df_ABC_s2$rep <- rep(rep(1:10, each = 500), 16)
 whole_df_ABC_s2$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s2$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",3,".RData"))
+load(paste0("daisie_high_prior/DI/delta_whole_df_ABC_ss_set",3,".RData"))
 whole_df_ABC$Method = "ABC NLTT"
 whole_df_ABC_s3 = whole_df_ABC
 whole_df_ABC_s3$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -55,7 +55,7 @@ ABC_sd <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df)
 ABC_sd$Method <- rep(c("ABC All","ABC Phylogenetic","ABC Diversity","ABC NLTT"),each = 160)
 
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_MCMC.RData"))
+load(paste0("daisie_high_prior/DI/delta_whole_df_MCMC.RData"))
 whole_df_MCMC$Method = "MCMC"
 whole_df_MCMC$total <- rep(rep(pars_ss$total, each = 2501), 1)
 whole_df_MCMC$rep <- rep(rep(1:10, each = 2501), 16)
@@ -124,7 +124,7 @@ p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total/num_clade
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
   facet_grid(~ Method)
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/average_largest_netdiv_sd.tiff"),
+tiff(paste0("daisie_high_prior/average_largest_netdiv_sd.tiff"),
      units="px", width=4000, height=2000,res = 350,compression="lzw")
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
@@ -148,7 +148,7 @@ p_netdiv <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = num_clade,y = t
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)+
   facet_grid(~ Method)
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/richness_numclade_sd.tiff"),
+tiff(paste0("daisie_high_prior/richness_numclade_sd.tiff"),
      units="px", width=4000, height=2000,res = 350,compression="lzw")
 print(p_netdiv)
 while (!is.null(dev.list()))  dev.off()
@@ -216,7 +216,7 @@ p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlaa, co
   facet_grid(~ Method)
 
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/facet_total_drate_sd.tiff"),
+tiff(paste0("daisie_high_prior/facet_total_drate_sd.tiff"),
      units="px", width=6500, height=3000,res = 350,compression="lzw")
 params <- cowplot::plot_grid(
   p_lac+ggplot2::theme(legend.position = "none"),
@@ -296,7 +296,7 @@ p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = num_clade,y = dlaa
   facet_grid(~ Method)
 
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/facet_numclade_drate_sd.tiff"),
+tiff(paste0("daisie_high_prior/facet_numclade_drate_sd.tiff"),
      units="px", width=6500, height=3000,res = 350,compression="lzw")
 params <- cowplot::plot_grid(
   p_lac+ggplot2::theme(legend.position = "none"),
@@ -376,7 +376,7 @@ p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = largest_clade,y = 
   facet_grid(~ Method)
 
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/facet_largest_drate_sd.tiff"),
+tiff(paste0("daisie_high_prior/facet_largest_drate_sd.tiff"),
      units="px", width=6500, height=3000,res = 350,compression="lzw")
 params <- cowplot::plot_grid(
   p_lac+ggplot2::theme(legend.position = "none"),
@@ -456,7 +456,7 @@ p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total/num_clade,y 
   facet_grid(~ Method)
 
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/facet_ave_drate_sd.tiff"),
+tiff(paste0("daisie_high_prior/facet_ave_drate_sd.tiff"),
      units="px", width=6500, height=3000,res = 350,compression="lzw")
 params <- cowplot::plot_grid(
   p_lac+ggplot2::theme(legend.position = "none"),
@@ -537,7 +537,7 @@ p_laa <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = num_clade,y = dlaa
   facet_grid(gam~ Method,labeller = labeller(gam = as_labeller(gam_names, label_parsed)))
 
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/facet_numclade_drate_sd_gam.tiff"),
+tiff(paste0("daisie_high_prior/facet_numclade_drate_sd_gam.tiff"),
      units="px", width=6500, height=3000,res = 350,compression="lzw")
 params <- cowplot::plot_grid(
   p_lac+ggplot2::theme(legend.position = "none"),

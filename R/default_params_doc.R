@@ -28,10 +28,20 @@
 #'
 #'
 default_params_doc <- function(
-  sim1,
-  sim2,
+  sim,
+  sim_1,
+  sim_2,
+  brt,
+  scenario,
+  param_set,
+  parameter,
   replicates,
-  obs_rep
+  distance_method,
+  weights,
+  particles,
+  current,
+  sigma,
+  prior_density_function
 ) {
   # Nothing
 }

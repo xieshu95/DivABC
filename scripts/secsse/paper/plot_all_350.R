@@ -2,7 +2,7 @@
 library(ggplot2)
 for(num_ss in c(1)){
   for(i in c(1)){
-    load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/AMM_per_set_drate_test_ss",num_ss,".RData"))
+    load(paste0("NLTTs_D/AMM_per_set_drate_test_ss",num_ss,".RData"))
     color_values <-c("ABC" = "#b81f25" ,"MCMC" = "#EFC000", "MLE" = "#4daf4a")
     # AMM <- AMM_all_df[(i*50-49):(i*50),]
     AMM <- AMM_all_df
@@ -167,10 +167,10 @@ for(num_ss in c(1)){
                                   labels = c("ABC", "MCMC", "MLE"))+
       ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-    # tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/drate_scen_",i,"_ss",num_ss,".tiff"),
+    # tiff(paste0("NLTTs_D/drate_scen_",i,"_ss",num_ss,".tiff"),
     #      units="px", width=5500, height=2000,res = 400,compression="lzw")
 
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/drate_treesize_all350.tiff"),
+    tiff(paste0("NLTTs_D/drate_treesize_all350.tiff"),
          units="px", width=5000, height=6500,res = 500,compression="lzw")
     params <- cowplot::plot_grid(
       p_lam1+ggplot2::theme(legend.position = "none"),
@@ -198,7 +198,7 @@ for(num_ss in c(1)){
 
 for(num_ss in c(1)){
   for(i in c(1)){
-    load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/AMM_per_set_drate_test_ss",num_ss,".RData"))
+    load(paste0("NLTTs_D/AMM_per_set_drate_test_ss",num_ss,".RData"))
     color_values <-c("ABC" = "#b81f25" ,"MCMC" = "#EFC000", "MLE" = "#4daf4a")
     # AMM <- AMM_all_df[(i*50-49):(i*50),]
     AMM <- AMM_all_df
@@ -363,10 +363,10 @@ for(num_ss in c(1)){
                                   labels = c("ABC", "MCMC", "MLE"))+
       ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-    # tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/drate_scen_",i,"_ss",num_ss,".tiff"),
+    # tiff(paste0("NLTTs_D/drate_scen_",i,"_ss",num_ss,".tiff"),
     #      units="px", width=5500, height=2000,res = 400,compression="lzw")
 
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/drate_tipratio_all350.tiff"),
+    tiff(paste0("NLTTs_D/drate_tipratio_all350.tiff"),
          units="px", width=5000, height=6500,res = 500,compression="lzw")
     params <- cowplot::plot_grid(
       p_lam1+ggplot2::theme(legend.position = "none"),
@@ -394,7 +394,7 @@ for(num_ss in c(1)){
 ###
 for(num_ss in c(1)){
   for(i in c(1)){
-    load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/AMM_per_set_drate_test_ss",num_ss,".RData"))
+    load(paste0("NLTTs_D/AMM_per_set_drate_test_ss",num_ss,".RData"))
     color_values <-c("ABC" = "#b81f25" ,"MCMC" = "#EFC000", "MLE" = "#4daf4a")
     AMM <- AMM_all_df[(i*50-49):(i*50),]
     # AMM <- AMM_all_df
@@ -535,10 +535,10 @@ for(num_ss in c(1)){
                                   labels = c("ABC", "MCMC", "MLE"))+
       ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
-    # tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/drate_scen_",i,"_ss",num_ss,".tiff"),
+    # tiff(paste0("NLTTs_D/drate_scen_",i,"_ss",num_ss,".tiff"),
     #      units="px", width=5500, height=2000,res = 400,compression="lzw")
 
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/drate_ratio_all350.tiff"),
+    tiff(paste0("NLTTs_D/drate_ratio_all350.tiff"),
          units="px", width=5000, height=6500,res = 500,compression="lzw")
     params <- cowplot::plot_grid(
       p_lam1+ggplot2::theme(legend.position = "none"),

@@ -2,9 +2,9 @@
 #####
 library(ggplot2)
 # formate results
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/obs_ss_long_with_pars_DI.RData"))
+load(paste0("daisie_low_prior/obs_ss_long_with_pars_DI.RData"))
 ## ABC results
-folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/DAISIE_ABC_short_DI")
+folder_path <- paste0("daisie_low_prior/DAISIE_ABC_short_DI")
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
 param_data2<-param_data[rep(seq_len(nrow(param_data)), each=500),] #500
@@ -55,7 +55,7 @@ for(n in c(2,3)){ # 1,2,6,7,20
                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                              lac_abc,mu_abc,gam_abc,laa_abc)
   save(whole_df_ABC,
-       file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/whole_df_ABC_ss_set",n,".RData"))
+       file = paste0("daisie_low_prior/whole_df_ABC_ss_set",n,".RData"))
 
   whole_df_ABC$net_div <- (whole_df_ABC$lac-whole_df_ABC$mu)
   whole_df_ABC$net_div_ABC <- (whole_df_ABC$lac_abc-whole_df_ABC$mu_abc)
@@ -63,13 +63,13 @@ for(n in c(2,3)){ # 1,2,6,7,20
   whole_df_ABC$ext_frac <- (whole_df_ABC$mu)/(whole_df_ABC$lac)
   whole_df_ABC$ext_frac_ABC <- (whole_df_ABC$mu_abc)/(whole_df_ABC$lac_abc)
   save(whole_df_ABC,file =
-         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/delta_whole_df_ABC_ss_set",n,".RData"))
+         paste0("daisie_low_prior/delta_whole_df_ABC_ss_set",n,".RData"))
 
 }
 
 # 2. formate MCMC results (only plot the etimation points with ABC results)
 # skip
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/DAISIE_MCMC_short_DI"
+folder_path <- "daisie_low_prior/DAISIE_MCMC_short_DI"
 files <- list.files(folder_path)
 param_data <- readr::read_csv2("data/DAISIE_MCMC_short_DI.csv")
 param_data <- param_data[1:160,]
@@ -106,7 +106,7 @@ for(i in 1:160){
 whole_df_MCMC <- data.frame(param_data3,
                             lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc)
 
-save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/whole_df_MCMC.RData"))
+save(whole_df_MCMC,file = paste0("daisie_low_prior/whole_df_MCMC.RData"))
 
 whole_df_MCMC$net_div <- (whole_df_MCMC$lac-whole_df_MCMC$mu)
 whole_df_MCMC$net_div_mcmc <- (whole_df_MCMC$lac_mcmc - whole_df_MCMC$mu_mcmc)
@@ -115,16 +115,16 @@ whole_df_MCMC$ext_frac <- (whole_df_MCMC$mu)/(whole_df_MCMC$lac)
 whole_df_MCMC$ext_frac_MCMC <- (whole_df_MCMC$mu_mcmc)/(whole_df_MCMC$lac_mcmc)
 
 save(whole_df_MCMC,
-     file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/delta_whole_df_MCMC.RData"))
+     file = paste0("daisie_low_prior/delta_whole_df_MCMC.RData"))
 #
 
 # ######
 # 3. MLE
-# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/whole_df_MLE.RData"))
+# load(paste0("daisie_low_prior/whole_df_MLE.RData"))
 
 # MLE_DI directly load MLE results from cluster
 param_data <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/MLE_DI.RData")
+load("daisie_low_prior/MLE_DI.RData")
 whole_df_MLE <- data.frame(param_data,MLE_all[1:4])
 
 whole_df_MLE$net_div <- (whole_df_MLE$lac-whole_df_MLE$mu)
@@ -132,12 +132,12 @@ whole_df_MLE$net_div_MLE <- (whole_df_MLE$lac_MLE-whole_df_MLE$mu_MLE)
 
 whole_df_MLE$ext_frac <- (whole_df_MLE$mu)/(whole_df_MLE$lac)
 whole_df_MLE$ext_frac_MLE <- (whole_df_MLE$mu_MLE)/(whole_df_MLE$lac_MLE)
-save(whole_df_MLE,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/whole_df_MLE_DI.RData")
+save(whole_df_MLE,file = "daisie_low_prior/whole_df_MLE_DI.RData")
 
 #####
 # plot MCMC trace
 #skip
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/DAISIE_MCMC_short_DI"
+folder_path <- "daisie_low_prior/DAISIE_MCMC_short_DI"
 files <- list.files(folder_path)
 for(i in 1:160){
   # param_set = (param_num-1)*5 + i
@@ -148,7 +148,7 @@ for(i in 1:160){
 
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/MCMC_trace_short/set_",i,".tiff"),
+    tiff(paste0("daisie_low_prior/MCMC_trace_short/set_",i,".tiff"),
          units="px", width=2000, height=4000,res = 400,compression="lzw")
     b_mcmc <- coda::as.mcmc(output[,1:4])
     plot_mcmc <- plot(b_mcmc)
@@ -163,10 +163,10 @@ for(i in 1:160){
 # 81 all particles comparsion
 ## plot all particles (ABC-new vs ABC-old vs MCMC VS MLE)
 library(ggplot2)
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/obs_ss_long_with_pars_DI.RData"))
+load(paste0("daisie_low_prior/obs_ss_long_with_pars_DI.RData"))
 
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/delta_whole_df_ABC_ss_set",2,".RData"))
+load(paste0("daisie_low_prior/delta_whole_df_ABC_ss_set",2,".RData"))
 whole_df_ABC$Method = "ABC Diversity"
 whole_df_ABC_s2 = whole_df_ABC
 whole_df_ABC_s2$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -175,7 +175,7 @@ whole_df_ABC_s2$set <- rep(1:16, each = 5000)
 whole_df_ABC_s2$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s2$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/delta_whole_df_ABC_ss_set",3,".RData"))
+load(paste0("daisie_low_prior/delta_whole_df_ABC_ss_set",3,".RData"))
 whole_df_ABC$Method = "ABC NLTT"
 whole_df_ABC_s3 = whole_df_ABC
 whole_df_ABC_s3$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -202,7 +202,7 @@ ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow
 ABC_median$Method <- rep(c("ABC Diversity","ABC NLTT"),each = 160) #
 
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/delta_whole_df_MCMC.RData"))
+load(paste0("daisie_low_prior/delta_whole_df_MCMC.RData"))
 whole_df_MCMC$Method = "MCMC"
 whole_df_MCMC$total <- rep(rep(pars_ss$total, each = 2501), 1)
 whole_df_MCMC$rep <- rep(rep(1:10, each = 2501), 16)
@@ -221,7 +221,7 @@ n <- 2501
 MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space6/DI/whole_df_MLE_DI.RData")
+load("daisie_new_space6/DI/whole_df_MLE_DI.RData")
 whole_df_MLE$Method = "MLE"
 whole_df_MLE$total <- rep(rep(pars_ss$total, each = 1), 1)
 whole_df_MLE$rep <- rep(rep(1:10, each = 1), 16)
@@ -293,7 +293,7 @@ p_netdiv_all <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div,y 
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/paper/drate_net_div.tiff"),
+tiff(paste0("daisie_low_prior/paper/drate_net_div.tiff"),
      units="px", width=4000, height=2500,res = 300,compression="lzw")
 print(p_netdiv_all)
 while (!is.null(dev.list()))  dev.off()
@@ -390,7 +390,7 @@ p_laa<-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dlaa,y  = Method,co
                                                  mu = as_labeller(mu_names, label_parsed),
                                                  gam = as_labeller(gam_names, label_parsed),
                                                  laa = as_labeller(laa_names, label_parsed)))
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_low_prior/DI/paper/drate_combine2_2.tiff"),
+tiff(paste0("daisie_low_prior/paper/drate_combine2_2.tiff"),
      units="px", width=5600, height=4500,res = 310,compression="lzw")
 param_estimates <- cowplot::plot_grid(
   p_lac+ggplot2::theme(legend.position = "none"),

@@ -1,8 +1,8 @@
 ## cowplot
 library(ggplot2)
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/obs_ss_long_with_pars_DI.RData"))
+load(paste0("daisie_high_prior/obs_ss_long_with_pars_DI.RData"))
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",0,".RData"))
+load(paste0("daisie_high_prior/delta_whole_df_ABC_ss_set",0,".RData"))
 whole_df_ABC$Method = "ABC All"
 whole_df_ABC_s0 = whole_df_ABC
 whole_df_ABC_s0$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -13,7 +13,7 @@ whole_df_ABC_s0$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
 
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",1,".RData"))
+load(paste0("daisie_high_prior/delta_whole_df_ABC_ss_set",1,".RData"))
 whole_df_ABC$Method = "ABC Phylogenetic"
 whole_df_ABC_s1 = whole_df_ABC
 whole_df_ABC_s1$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -22,7 +22,7 @@ whole_df_ABC_s1$set <- rep(1:16, each = 5000)
 whole_df_ABC_s1$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s1$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",2,".RData"))
+load(paste0("daisie_high_prior/delta_whole_df_ABC_ss_set",2,".RData"))
 whole_df_ABC$Method = "ABC Diversity"
 whole_df_ABC_s2 = whole_df_ABC
 whole_df_ABC_s2$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -31,7 +31,7 @@ whole_df_ABC_s2$set <- rep(1:16, each = 5000)
 whole_df_ABC_s2$num_clade <- rep(rep(pars_ss$num.clade, each = 500), 1)
 whole_df_ABC_s2$largest_clade <- rep(rep(pars_ss$largest.clade, each = 500), 1)
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_ABC_ss_set",3,".RData"))
+load(paste0("daisie_high_prior/delta_whole_df_ABC_ss_set",3,".RData"))
 whole_df_ABC$Method = "ABC NLTT"
 whole_df_ABC_s3 = whole_df_ABC
 whole_df_ABC_s3$total <- rep(rep(pars_ss$total, each = 500), 1)
@@ -60,12 +60,12 @@ ABC_median <-aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow
 ABC_median$Method <- rep(c("ABC All","ABC Phylogenetic","ABC Diversity","ABC NLTT"),each = 160) #,
 
 save(whole_df_ABC,file =
-       paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/comb_ss_ABC.RData"))
+       paste0("daisie_high_prior/comb_ss_ABC.RData"))
 save(ABC_median,file =
-       paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/comb_ss_ABC_median.RData"))
+       paste0("daisie_high_prior/comb_ss_ABC_median.RData"))
 
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/delta_whole_df_MCMC.RData"))
+load(paste0("daisie_high_prior/delta_whole_df_MCMC.RData"))
 whole_df_MCMC$Method = "MCMC"
 whole_df_MCMC$total <- rep(rep(pars_ss$total, each = 2501), 1)
 whole_df_MCMC$rep <- rep(rep(1:10, each = 2501), 16)
@@ -84,11 +84,11 @@ n <- 2501
 MCMC_median <- aggregate(df, list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
 
 save(whole_df_MCMC,file =
-       paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/comb_ss_MCMC.RData"))
+       paste0("daisie_high_prior/comb_ss_MCMC.RData"))
 save(MCMC_median,file =
-       paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/comb_ss_MCMC_median.RData"))
+       paste0("daisie_high_prior/comb_ss_MCMC_median.RData"))
 
-load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space6/DI/whole_df_MLE_DI.RData")
+load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space6/whole_df_MLE_DI.RData")
 whole_df_MLE$Method = "MLE"
 whole_df_MLE$total <- rep(rep(pars_ss$total, each = 1), 1)
 whole_df_MLE$rep <- rep(rep(1:10, each = 1), 16)
@@ -103,7 +103,7 @@ whole_df_MLE$dnet_div <- whole_df_MLE$net_div_MLE - whole_df_MLE$net_div
 whole_df_MLE$dext_frac <- whole_df_MLE$ext_frac_MLE - whole_df_MLE$ext_frac
 
 save(whole_df_MLE,file =
-       paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/comb_ss_MLE.RData"))
+       paste0("daisie_high_prior/comb_ss_MLE.RData"))
 
 whole_df_all <- rbind(ABC_median[,c(1:5,10,12,14:25)],
                       MCMC_median[,c(1:5,10,12,14:25)],
@@ -132,12 +132,12 @@ laa_names <- c(
 
 
 library(ggplot2)
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/comb_ss_ABC.RData"))
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/comb_ss_MCMC.RData"))
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/comb_ss_MLE.RData"))
+load(paste0("daisie_high_prior/comb_ss_ABC.RData"))
+load(paste0("daisie_high_prior/comb_ss_MCMC.RData"))
+load(paste0("daisie_high_prior/comb_ss_MLE.RData"))
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/comb_ss_ABC_median.RData"))
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/comb_ss_MCMC_median.RData"))
+load(paste0("daisie_high_prior/comb_ss_ABC_median.RData"))
+load(paste0("daisie_high_prior/comb_ss_MCMC_median.RData"))
 
 
 # for(i in 1:16){
@@ -387,7 +387,7 @@ load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_end
     scale_shape_manual(values=c(15,19,23,17))
 
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_endemic/DI/paper/cowplot_median2.tiff"),
+  tiff(paste0("daisie_high_prior/paper/cowplot_median2.tiff"),
        units="px", width=5000, height=3500,res = 400,compression="lzw")
   legend_all <- cowplot::get_legend(
     get_legend + theme(legend.box.margin = margin(0, 0, 0, 6))

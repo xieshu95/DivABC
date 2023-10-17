@@ -1,10 +1,10 @@
-# 1. formate ABC results  analyze secsse_7
+# 1. formate ABC results  analyze NLTT
 ## check new secsse ABC result
 for (num_ss in c(1)){
   # formate results
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/obs_ss_test.rda"))
+  load(paste0("NLTT/obs_ss_test.rda"))
   ## ABC results
-  folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/secsse_ABC_test")
+  folder_path <- paste0("NLTT/secsse_ABC_test")
   files <- list.files(folder_path)
   param_data <- load_scenario(scenario = paste0("secsse_ABC_test"))
   param_data2<-param_data[rep(seq_len(nrow(param_data)), each=500),] #500
@@ -64,7 +64,7 @@ for (num_ss in c(1)){
   whole_df_ABC <- data.frame(param_data2,n_iteration,
                              # lac_mcmc,mu_mcmc,gam_mcmc,laa_mcmc,n_iter
                              lam1_abc,lam2_abc,mu1_abc,mu2_abc,q12_abc,q21_abc)
-  save(whole_df_ABC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/whole_df_ABC_test_ss",num_ss,".RData"))
+  save(whole_df_ABC,file = paste0("NLTT/whole_df_ABC_test_ss",num_ss,".RData"))
 
   # whole_df_ABC$dlam <- (whole_df_ABC$lam2-whole_df_ABC$lam1)/(whole_df_ABC$lam2+whole_df_ABC$lam1)
   # whole_df_ABC$dlam_ABC <- (whole_df_ABC$lam2_ABC-whole_df_ABC$lam1_ABC)/(whole_df_ABC$lam2_ABC+whole_df_ABC$lam1_ABC)
@@ -84,7 +84,7 @@ for (num_ss in c(1)){
   whole_df_ABC$ext_frac_ABC1 <- (whole_df_ABC$mu1_abc)/(whole_df_ABC$lam1_abc)
   whole_df_ABC$ext_frac_ABC2 <- (whole_df_ABC$mu2_abc)/(whole_df_ABC$lam2_abc)
   save(whole_df_ABC,file =
-         paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/delta_whole_df_ABC_test_ss",num_ss,".RData"))
+         paste0("NLTT/delta_whole_df_ABC_test_ss",num_ss,".RData"))
 
 }
 
@@ -94,7 +94,7 @@ for (num_ss in c(1)){
 # skip
 param_data <- load_scenario(scenario = paste0("secsse_ABC_test"))
 param_data3<-param_data[rep(seq_len(nrow(param_data)), each=2501),] #2501
-folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/secsse_MCMC_test")
+folder_path <- paste0("NLTT/secsse_MCMC_test")
 files <- list.files(folder_path)
 lam1_mcmc <- c()
 lam2_mcmc <- c()
@@ -130,7 +130,7 @@ whole_df_MCMC <- data.frame(param_data3,
                             mu1_mcmc,mu2_mcmc,
                             q12_mcmc,q21_mcmc)
 
-save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/whole_df_MCMC_test.RData"))
+save(whole_df_MCMC,file = paste0("NLTT/whole_df_MCMC_test.RData"))
 
 # whole_df_MCMC$dlam <- (whole_df_MCMC$lam2-whole_df_MCMC$lam1)/(whole_df_MCMC$lam2+whole_df_MCMC$lam1)
 # whole_df_MCMC$dlam_mcmc <- (whole_df_MCMC$lam2_mcmc-whole_df_MCMC$lam1_mcmc)/(whole_df_MCMC$lam2_mcmc+whole_df_MCMC$lam1_mcmc)
@@ -149,13 +149,13 @@ whole_df_MCMC$ext_frac2 <- (whole_df_MCMC$mu2)/(whole_df_MCMC$lam2)
 whole_df_MCMC$ext_frac_MCMC1 <- (whole_df_MCMC$mu1_mcmc)/(whole_df_MCMC$lam1_mcmc)
 whole_df_MCMC$ext_frac_MCMC2 <- (whole_df_MCMC$mu2_mcmc)/(whole_df_MCMC$lam2_mcmc)
 
-save(whole_df_MCMC,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/delta_whole_df_MCMC_test.RData"))
+save(whole_df_MCMC,file = paste0("NLTT/delta_whole_df_MCMC_test.RData"))
 
 # install.packages("bayesplot")
 library(bayesplot)
 # plot MCMC trace
 # load("G:/results/project 2/tip_info/round4/secsse_long_2/secsse_MCMC_long/secsse_MCMC_long_param_set_1_ss_1.RData")
-folder_path <-  paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/secsse_MCMC_test")
+folder_path <-  paste0("NLTT/secsse_MCMC_test")
 files <- list.files(folder_path)
 for(i in 1:350){
   # param_set = (param_num-1)*5 + i
@@ -166,7 +166,7 @@ for(i in 1:350){
 
   if (!identical(file_to_load, character())) {
     load(file.path(folder_path, file_to_load))
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/MCMC_trace/set_",i,".tiff"),
+    tiff(paste0("NLTT/MCMC_trace/set_",i,".tiff"),
          units="px", width=2000, height=3000,res = 300,compression="lzw")
     b_mcmc <- coda::as.mcmc(output[,1:6])
     colnames(b_mcmc) <- c("Speciation 1","Speciation 2","Extinction 1","Extinction 2", "Transition 12","Transition 21")
@@ -182,19 +182,19 @@ for(i in 1:350){
 # 3. formate MLE results
 # skip
 param_data <- load_scenario(scenario = paste0("secsse_ABC_test"))
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/obs_ss_test.rda"))
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/test_MLE_secsse.RData"))
+load(paste0("NLTT/obs_ss_test.rda"))
+load(paste0("NLTT/test_MLE_secsse.RData"))
 whole_df_MLE <- data.frame(param_data,MLE_all,ss[,1:4])
-save(whole_df_MLE,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/whole_df_MLE.RData"))
+save(whole_df_MLE,file = paste0("NLTT/whole_df_MLE.RData"))
 
 
 
 ## median
 for (num_ss in c(1)){
-  # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_init_new/delta_whole_df_init_test.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/delta_whole_df_ABC_test_ss",num_ss,".RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/delta_whole_df_MCMC_test.RData"))
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/whole_df_MLE.RData"))
+  # load(paste0("secsse_cpp_init_new/delta_whole_df_init_test.RData"))
+  load(paste0("NLTT/delta_whole_df_ABC_test_ss",num_ss,".RData"))
+  load(paste0("NLTT/delta_whole_df_MCMC_test.RData"))
+  load(paste0("NLTT/whole_df_MLE.RData"))
 
   ## get number of iterations and mean values
   df <- whole_df_ABC
@@ -208,14 +208,14 @@ for (num_ss in c(1)){
   MLE_median <- whole_df_MLE
 
 
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/obs_ss_test.rda"))
+  load(paste0("NLTT/obs_ss_test.rda"))
   ## combine ABC MCMC MLE as "AMM"
   AMM_all_df <- cbind(ABC_median[1:21],
                       MCMC_median[,c(7:12,15,16,19,20)],
                       MLE_median[,c(7:12,20:23)])
-  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/AMM_per_set_test_ss",num_ss,".RData"))
+  save(AMM_all_df,file = paste0("NLTT/AMM_per_set_test_ss",num_ss,".RData"))
 
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/AMM_per_set_test_ss",num_ss,".RData"))
+  load(paste0("NLTT/AMM_per_set_test_ss",num_ss,".RData"))
   AMM_all_df$dlam1_abc <- AMM_all_df$lam1_abc - AMM_all_df$lam1
   AMM_all_df$dlam2_abc <- AMM_all_df$lam2_abc - AMM_all_df$lam2
   AMM_all_df$dmu1_abc <- AMM_all_df$mu1_abc - AMM_all_df$mu1
@@ -250,7 +250,7 @@ for (num_ss in c(1)){
   AMM_all_df$dnet_div_MLE1 <- AMM_all_df$net_div_MLE1-AMM_all_df$net_div1
   AMM_all_df$dnet_div_MLE2 <- AMM_all_df$net_div_MLE2-AMM_all_df$net_div2
 
-  save(AMM_all_df,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/AMM_per_set_drate_test_ss",num_ss,".RData"))
+  save(AMM_all_df,file = paste0("NLTT/AMM_per_set_drate_test_ss",num_ss,".RData"))
 }
 
 
@@ -259,7 +259,7 @@ for (num_ss in c(1)){
 library(ggplot2)
 for(num_ss in c(1)){
   for(i in 1:7){
-    load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/AMM_per_set_drate_test_ss",num_ss,".RData"))
+    load(paste0("NLTT/AMM_per_set_drate_test_ss",num_ss,".RData"))
     color_values <-c("ABC" = "#b81f25" ,"MCMC" = "#EFC000", "MLE" = "#4daf4a")
     AMM <- AMM_all_df[(i*50-49):(i*50),]
     p_lam1 <-ggplot2::ggplot(data = AMM) +
@@ -399,7 +399,7 @@ for(num_ss in c(1)){
                                   labels = c("ABC", "MCMC", "MLE"))+
       ggplot2::geom_hline(yintercept = AMM$net_div2[1], linetype = "dashed", size = 0.5)
 
-    tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/exact_rate_test",i,"_ss",num_ss,".tiff"),
+    tiff(paste0("NLTT/exact_rate_test",i,"_ss",num_ss,".tiff"),
          units="px", width=5500, height=2000,res = 400,compression="lzw")
     params <- cowplot::plot_grid(
       p_lam1+ggplot2::theme(legend.position = "none"),
@@ -429,12 +429,12 @@ for(num_ss in c(1)){
 ## plot each rep
 library(ggplot2)
 for(i in 1:7){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/whole_df_MLE.RData"))
+  load(paste0("NLTT/whole_df_MLE.RData"))
   whole_df_MLE <- whole_df_MLE[(i*50-49):(i*50),]
   total <- whole_df_MLE$tree_size
 
   ss = "ABC"
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/delta_whole_df_ABC_test_ss1.RData"))
+  load(paste0("NLTT/delta_whole_df_ABC_test_ss1.RData"))
   whole_df_ABC <- whole_df_ABC[(i*25000-24999):(i*25000),] ## whole_df_ABC[(i*20000-19999):(i*20000),]
   whole_df_ABC$ss = "ABC"
   whole_df_ABC = whole_df_ABC[,-7]
@@ -459,7 +459,7 @@ for(i in 1:7){
   ABC_median <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
   ABC_median$ss = "ABC"
 
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/delta_whole_df_MCMC_test.RData"))
+  load(paste0("NLTT/delta_whole_df_MCMC_test.RData"))
   whole_df_MCMC <- whole_df_MCMC[(i*50050-50049):(i*50050),]
   whole_df_MCMC$ss = "MCMC"
   whole_df_MCMC$total <- rep(total, each = 1001) #2001
@@ -508,13 +508,13 @@ for(i in 1:7){
   whole_df_all <- rbind(whole_df_ABC[,c(1:6,13,14,17,18,21:33)],
                         whole_df_MCMC[,c(1:6,13,14,17,18,21:33)],
                         whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
-  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/whole_df_all_AMM_test",i,".RData"))
+  save(whole_df_all, file = paste0("NLTT/whole_df_all_AMM_test",i,".RData"))
 
   median_all <- rbind(ABC_median[,c(1:6,13,14,17,18,21:33)],
                       MCMC_median[,c(1:6,13,14,17,18,21:33)],
                       whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
 
-  save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_7/median_AMM_test",i,".RData"))
+  save(median_all, file = paste0("NLTT/median_AMM_test",i,".RData"))
 
 
 }

@@ -13,12 +13,12 @@ iqr = function(z, lower = 0.1, upper = 0.9) {
 
 library(ggplot2)
 for(i in 1:7){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_MLE.RData"))
+  load(paste0("NLTTs_D/whole_df_MLE.RData"))
   whole_df_MLE <- whole_df_MLE[(i*50-49):(i*50),][,1:23]
   total <- whole_df_MLE$tree_size
 
   ss = "ABC"
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/delta_whole_df_ABC_test_ss1.RData"))
+  load(paste0("NLTTs_D/delta_whole_df_ABC_test_ss1.RData"))
   whole_df_ABC <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC$ss = "ABC"
   whole_df_ABC = whole_df_ABC[,-7]
@@ -44,7 +44,7 @@ for(i in 1:7){
   ABC_median$ss = "ABC"
 
 
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/delta_whole_df_MCMC_test.RData"))
+  load(paste0("NLTTs_D/delta_whole_df_MCMC_test.RData"))
   whole_df_MCMC <- whole_df_MCMC[(i*125050-125049):(i*125050),]
   whole_df_MCMC$ss = "MCMC"
   whole_df_MCMC$total <- rep(total, each = 2501) #2001
@@ -93,19 +93,19 @@ for(i in 1:7){
                         whole_df_MCMC[,c(1:6,13,14,17,18,21:33)],
                         whole_df_MLE_old[,c(1:6,24,25,28,29,32:44)])
   # whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
-  save(whole_df_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_all_AMM_test",i,".RData"))
+  save(whole_df_all, file = paste0("NLTTs_D/whole_df_all_AMM_test",i,".RData"))
 
   median_all <- rbind(ABC_median[,c(1:6,13,14,17,18,21:33)],
                       MCMC_median[,c(1:6,13,14,17,18,21:33)],
                       whole_df_MLE_old[,c(1:6,24,25,28,29,32:44)])
   # whole_df_MLE[,c(1:6,30,31,34,35,38,39,24:29,40:44)])
 
-  save(median_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/median_AMM_test",i,".RData"))
+  save(median_all, file = paste0("NLTTs_D/median_AMM_test",i,".RData"))
 }
 
 ## sum_stat each replicate
 for (i in 1:7){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_all_AMM_test",i,".RData"))
+  load(paste0("NLTTs_D/whole_df_all_AMM_test",i,".RData"))
   p_netdiv1 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = dnet_div1,y = ss,color = ss)) +
     ggplot2::stat_summary(fun.data = iqr,alpha = 1) +
     # geom_density_ridges_gradient(scale = 2, rel_min_height = 0.005) +
@@ -121,7 +121,7 @@ for (i in 1:7){
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_net_div1_scen",i,".tiff"),
+  tiff(paste0("NLTTs_D/each_rep_plots/drate_net_div1_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_netdiv1)
   while (!is.null(dev.list()))  dev.off()
@@ -142,7 +142,7 @@ for (i in 1:7){
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_net_div2_scen",i,".tiff"),
+  tiff(paste0("NLTTs_D/each_rep_plots/drate_net_div2_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_netdiv2)
   while (!is.null(dev.list()))  dev.off()
@@ -164,7 +164,7 @@ for (i in 1:7){
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_lam1_scen",i,".tiff"),
+  tiff(paste0("NLTTs_D/each_rep_plots/drate_lam1_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_lam1)
   while (!is.null(dev.list()))  dev.off()
@@ -185,7 +185,7 @@ for (i in 1:7){
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_lam2_scen",i,".tiff"),
+  tiff(paste0("NLTTs_D/each_rep_plots/drate_lam2_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_lam2)
   while (!is.null(dev.list()))  dev.off()
@@ -205,7 +205,7 @@ for (i in 1:7){
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_mu1_scen",i,".tiff"),
+  tiff(paste0("NLTTs_D/each_rep_plots/drate_mu1_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_mu1)
   while (!is.null(dev.list()))  dev.off()
@@ -225,7 +225,7 @@ for (i in 1:7){
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_mu2_scen",i,".tiff"),
+  tiff(paste0("NLTTs_D/each_rep_plots/drate_mu2_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_mu2)
   while (!is.null(dev.list()))  dev.off()
@@ -246,7 +246,7 @@ for (i in 1:7){
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_q12_scen",i,".tiff"),
+  tiff(paste0("NLTTs_D/each_rep_plots/drate_q12_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_q12)
   while (!is.null(dev.list()))  dev.off()
@@ -267,7 +267,7 @@ for (i in 1:7){
     ggplot2::ylab("Method") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed", size = 0.5)+
     facet_wrap(~ rep,ncol = 10)
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/each_rep_plots/drate_q21_scen",i,".tiff"),
+  tiff(paste0("NLTTs_D/each_rep_plots/drate_q21_scen",i,".tiff"),
        units="px", width=5000, height=3000,res = 320,compression="lzw")
   print(p_q21)
   while (!is.null(dev.list()))  dev.off()
@@ -286,7 +286,7 @@ iqr = function(z, lower = 0.1, upper = 0.9) {
 }
 
 for(test in 1:7){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_all_AMM_test",test,".RData"))
+  load(paste0("NLTTs_D/whole_df_all_AMM_test",test,".RData"))
   p_netdiv1 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dnet_div1,color = ss,shape = ss)) +
     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
     ggplot2::theme_bw() +
@@ -404,7 +404,7 @@ for(test in 1:7){
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 
 
-  tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/drate_all_rates_test",test,".tiff"),
+  tiff(paste0("NLTTs_D/drate_all_rates_test",test,".tiff"),
        units="px", width=5000, height=2000,res = 350,compression="lzw")
   params <- cowplot::plot_grid(
     p_lam1+ggplot2::theme(legend.position = "none"),
@@ -430,7 +430,7 @@ for(test in 1:7){
 
 
 # for(test in c(5)){
-#   load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/whole_df_all_AMM_test",test,".RData"))
+#   load(paste0("NLTTs_D/whole_df_all_AMM_test",test,".RData"))
 #   p_lam1 <-ggplot2::ggplot(data = whole_df_all,mapping = aes(x = total,y = dlam1,color = ss,shape = ss)) +
 #     ggplot2::stat_summary(fun.data = iqr,alpha = 0.6) +
 #     ggplot2::theme_bw() +
@@ -511,7 +511,7 @@ for(test in 1:7){
 #     ggplot2::ylab(expression(Delta~q[21]))+
 #     ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.5)
 #
-#   tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/drate_all_rates_test",test,".tiff"),
+#   tiff(paste0("NLTTs_D/drate_all_rates_test",test,".tiff"),
 #        units="px", width=5500, height=2000,res = 400,compression="lzw")
 #   params <- cowplot::plot_grid(
 #     p_lam1+ggplot2::theme(legend.position = "none"),
