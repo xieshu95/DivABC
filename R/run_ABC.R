@@ -52,24 +52,6 @@ run_ABC <- function(scenario,
       init_epsilon <- c(100,20,20)
     }
 
-    abc <- ABC_SMC (
-      obs_data = obs_sim,
-      sim_function = sim_function,
-      calc_ss_function = calc_ss_function,
-      init_epsilon_values = init_epsilon,
-      prior_generating_function = prior_generating_function,
-      prior_density_function = prior_density_function,
-      number_of_particles = 500,
-      sigma = 0.2,
-      stop_rate = 0.001,
-      replicates = 1,
-      num_iterations = 12,
-      K = as.numeric(obs_sim_pars$K),
-      idparsopt = as.numeric(idparsopt),
-      fixpars = fixpars,
-      ss_set = ss_set
-    )
-
   } else if (sim_model == "TraiSIE") {
     sim_function <- get_TraiSIE_sim
     calc_ss_function <- calc_ss_diff_traisie
@@ -83,24 +65,6 @@ run_ABC <- function(scenario,
     } else {
       init_epsilon <- init_epsilon_all[-ss_set]
     }
-    abc <- ABC_SMC (
-      obs_data = obs_sim,
-      sim_function = sim_function,
-      calc_ss_function = calc_ss_function,
-      init_epsilon_values = init_epsilon,
-      prior_generating_function = prior_generating_function,
-      prior_density_function = prior_density_function,
-      number_of_particles = 500,
-      sigma = 0.1,
-      stop_rate = 0.002,
-      replicates = 1,
-      num_iterations = 15,
-      K = as.numeric(obs_sim_pars$K),
-      idparsopt = as.numeric(idparsopt),
-      fixpars = fixpars,
-      ss_set = ss_set
-    )
-
   } else if (sim_model == "secsse") {
     sim_function <- get_secsse_sim
     calc_ss_function <- calc_ss_diff_secsse
@@ -118,25 +82,25 @@ run_ABC <- function(scenario,
     } else if (ss_set == 3){  # D+NLTT
       init_epsilon <- c(0.4)
     }
-    abc <- ABC_SMC_secsse (
-      obs_data = obs_sim,
-      sim_function = sim_function,
-      calc_ss_function = calc_ss_function,
-      init_epsilon_values = init_epsilon,
-      prior_generating_function = prior_generating_function,
-      prior_density_function = prior_density_function,
-      number_of_particles = 500,
-      sigma = 0.2,
-      stop_rate = 0.002,
-      replicates = 1,
-      num_iterations = 20,
-      K = as.numeric(obs_sim_pars$K),
-      idparsopt = as.numeric(idparsopt),
-      fixpars = fixpars,
-      ss_set = ss_set
-    )
   }
 
+  abc <- ABC_SMC(
+    obs_data = obs_sim,
+    sim_function = sim_function,
+    calc_ss_function = calc_ss_function,
+    init_epsilon_values = init_epsilon,
+    prior_generating_function = prior_generating_function,
+    prior_density_function = prior_density_function,
+    number_of_particles = 500,
+    sigma = 0.2,
+    stop_rate = 0.002,
+    replicates = 1,
+    num_iterations = 20,
+    K = as.numeric(obs_sim_pars$K),
+    idparsopt = as.numeric(idparsopt),
+    fixpars = fixpars,
+    ss_set = ss_set
+  )
   if (save_output == TRUE) {
     save_output(
       output = abc,

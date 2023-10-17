@@ -7,7 +7,7 @@
 #' @export
 
 
-ABC_SMC <- function( # nolint indeed a complex function
+ABC_SMC <- function(
   obs_data,
   sim_function,
   calc_ss_function,
@@ -22,7 +22,7 @@ ABC_SMC <- function( # nolint indeed a complex function
   K,
   idparsopt,
   fixpars,
-  ss_set = 1
+  ss_set = 1 ## default = 1
 ) {
   #just to get the number of parameters to be estimated.
   parameters <- prior_generating_function(fixpars,idparsopt)
@@ -97,16 +97,6 @@ ABC_SMC <- function( # nolint indeed a complex function
 
 
         accept <- TRUE
-
-        # for daisie
-        if(sum(tail(new_sim[[1]][[1]][[1]]$stt_all, n=1)[2:4]) > 600){
-          accept <- FALSE
-        }
-
-        # if(length(obs_data[[1]][[1]]) != length(new_sim[[1]][[1]])) {
-        #   accept <- FALSE
-        # }
-
         #calculate the summary statistics for the simulated tree
         if (accept) {
           df_stats <- calc_ss_function (sim1 = obs_data[[1]],
@@ -123,7 +113,6 @@ ABC_SMC <- function( # nolint indeed a complex function
             }
           }
         }
-
 
         if (accept) {
           number_accepted <- number_accepted + 1
@@ -150,7 +139,6 @@ ABC_SMC <- function( # nolint indeed a complex function
           }
         }
       }
-
 
       #convergence if the acceptance rate gets too low
       tried <- tried + 1

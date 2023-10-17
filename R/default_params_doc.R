@@ -24,11 +24,7 @@
 #' @param prior_density_function Function to calculate the prior probability.
 #'
 #'
-#'
-#'
 #' @author Shu Xie
-#'
-#'
 #'
 #'
 default_params_doc <- function(
