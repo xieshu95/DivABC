@@ -15,5 +15,5 @@ This package can achieve the simulation, maximum likelihood estimation (MLE) and
 DivABC can be installed from GitHub by running the following code:
 ``` r
 install.packages("remotes")
-remotes::install_github("xieshu95/TraisieABC")
+remotes::install_github("xieshu95/DivABC")
 ```
