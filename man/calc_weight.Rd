@@ -31,6 +31,3 @@ A numeric as the estimated weight
 \description{
 Calculate weight of each particle
 }
-\author{
-Shu Xie
-}

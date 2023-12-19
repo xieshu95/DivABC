@@ -1,16 +1,9 @@
 #' Calculate weight of each particle
 #'
-#' @param weights A vector of weights
-#' @param particles A list of parameter combinations
-#' @param current A vector of current parameter combination to determine the
-#'                weight.
-#' @param sigma Standard deviation of the pertubation.
-#' @param prior_density_function Function to calculate the prior probability.
+#' @inheritParams default_params_doc
 #'
 #' @return A numeric as the estimated weight
-#' @author Shu Xie
 #' @export
-
 
 calc_weight <- function(weights, particles,
                         current, sigma, prior_density_function,idparsopt) {

@@ -70,7 +70,7 @@ get_TraiSIE_sim <- function(parameters, K, replicates){
 #' @author Shu Xie
 #' @export
 
-get_secsse_sim_create_obs <- function(parameters, K, replicates){
+get_secsse_sim_create_obs <- function(parameters, pool_init_states, replicates){
   idparlist <- secsse::cla_id_paramPos(traits = c(1,2),
                                        num_concealed_states = 2)
   idparlist$lambdas[1,] <- rep(c(parameters[1], parameters[2]),2)
@@ -87,28 +87,38 @@ get_secsse_sim_create_obs <- function(parameters, K, replicates){
   speciesTraits <- c(initialState,initialState)
 
   sim <- list()
-  suppressWarnings(
-    for (j in seq_len(replicates)) {
-      save <- 0
-      while(save < 1){
-        sim[[j]] <- secsse_sim(timeSimul = 18,
-                                     states = states,
-                                     lambdas = lambdas,
-                                     mus = idparlist$mus,
-                                     qs = q,
-                                     speciesTraits = speciesTraits,
-                                     maxSpec = 400)  ## maximum 600 species
-        if(length(sim[[j]]$examTraits) > 20 && ## at least 50 species
-           length(sim[[j]]$examTraits) < 400 &&
-           length(unique(sim[[j]]$examTraits)) == 2){
+  for (j in seq_len(replicates)) {
+    save <- 0
+    while(save < 1){
+      skip <- FALSE
+      tryCatch(sim[[j]] <- secsse::secsse_sim(
+        lambdas = lambdas,
+        mus = idparlist$mus,
+        qs = q,
+        crown_age = 20,
+        pool_init_states = pool_init_states,
+        maxSpec = 500,
+        conditioning = "none",
+        non_extinction = TRUE,
+        verbose = FALSE,
+        max_tries = 1e3
+      ), error=function(e) {
+        # print("Error: undefined columns selected")
+        skip <<- TRUE
+      })
+      if(skip == FALSE){
+        if(length(sim[[j]]$obs_traits) > 2 && ## at least 2 species
+           length(sim[[j]]$obs_traits) < 500 &&
+           length(unique(sim[[j]]$obs_traits)) == 2){
           save = 1
         }
       }
-
     }
-  )
+
+  }
   return(sim)
 }
+
 
 #' Simulation fucntion to create simulated data as observed data in ABC.
 #'
@@ -119,7 +129,7 @@ get_secsse_sim_create_obs <- function(parameters, K, replicates){
 #' @author Shu Xie
 #' @export
 
-get_secsse_sim <- function(parameters, K, replicates){
+get_secsse_sim <- function(parameters, pool_init_states, replicates){
   idparlist <- secsse::cla_id_paramPos(traits = c(1,2),
                                        num_concealed_states = 2)
   idparlist$lambdas[1,] <- rep(c(parameters[1], parameters[2]),2)
@@ -136,22 +146,30 @@ get_secsse_sim <- function(parameters, K, replicates){
   speciesTraits <- c(initialState,initialState)
 
   sim <- list()
-  suppressWarnings(
-    suppressMessages(
-      for (j in seq_len(replicates)) {
-        sim[[j]] <- secsse_sim(timeSimul = 18,
-                                       states = states,
-                                       lambdas = lambdas,
-                                       mus = idparlist$mus,
-                                       qs = q,
-                                       speciesTraits = speciesTraits,
-                                       maxSpec = 400)
+  for (j in seq_len(replicates)) {
+    save <- 0
+    while(save < 1){
+      skip <- FALSE
+      tryCatch(sim[[j]] <- secsse::secsse_sim(
+        lambdas = lambdas,
+        mus = idparlist$mus,
+        qs = q,
+        crown_age = 20,
+        pool_init_states = pool_init_states,
+        maxSpec = 500,
+        conditioning = "none",
+        non_extinction = TRUE,
+        verbose = FALSE,
+        max_tries = 1e3
+      ), error=function(e) {
+        # print("Error: undefined columns selected")
+        skip <<- TRUE
+      })
+      if(skip == FALSE){
+        save = 1
       }
-    )
-  )
+    }
+  }
   return(sim)
 }
 
-# dimnames(q)[1:2]<-list(states)
-# idparlist$Q <- q
-# idparlist
