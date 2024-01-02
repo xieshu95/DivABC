@@ -8,7 +8,7 @@
 #SBATCH --partition=gelifes
 
 # Arguments to follow the Rscript are as follows:
-param_space_name=${1}
+scenario=${1}
 param_set=${2}
 idparsopt_lac1=${3}
 idparsopt_lac2=${4}
@@ -21,7 +21,7 @@ ss_set=${10}
 
 
 ml R
-Rscript TraisieABC/scripts/run_ABC_secsse_peregrine.R ${param_space_name} \
+Rscript TraisieABC/scripts/run_ABC_secsse_peregrine.R ${scenario} \
                                                ${param_set} \
                                                ${idparsopt_lac1} \
                                                ${idparsopt_lac2} \

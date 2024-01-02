@@ -4,7 +4,7 @@
 \alias{calc_log_prior_DAISIE}
 \title{Calculates the log prior density}
 \usage{
-calc_log_prior_DAISIE(params)
+calc_log_prior_DAISIE(params, idparsopt)
 }
 \value{
 a numeric represents the log prior density

@@ -7,7 +7,7 @@
 #' @export
 
 
-ABC_SMC <- function( # nolint indeed a complex function
+ABC_SMC <- function(
   obs_data,
   sim_function,
   calc_ss_function,
@@ -22,7 +22,7 @@ ABC_SMC <- function( # nolint indeed a complex function
   K,
   idparsopt,
   fixpars,
-  ss_set = 1
+  ss_set = 1 ## default = 1
 ) {
   #just to get the number of parameters to be estimated.
   parameters <- prior_generating_function(fixpars,idparsopt)
@@ -56,7 +56,7 @@ ABC_SMC <- function( # nolint indeed a complex function
     print_frequency <- 20
     tried <- 0
     number_accepted <- 0
-    sigma_temp <- sigma * exp(-0.1 * (i - 1))
+    sigma_temp <- sigma * exp(-0.2 * (i - 1))
 
     #replace all vectors
     if (i > 1) {
@@ -84,7 +84,8 @@ ABC_SMC <- function( # nolint indeed a complex function
           parameters[p_index] <- previous_params[[index]][p_index]
         }
           parameters[idparsopt] <- exp(log(parameters[idparsopt]) +
-                                         stats::rnorm(1, 0, sigma_temp))
+                                         stats::rnorm(length(idparsopt),
+                                                      0, sigma_temp))
       }
 
       #reject if outside the prior
@@ -96,16 +97,6 @@ ABC_SMC <- function( # nolint indeed a complex function
 
 
         accept <- TRUE
-        # for secsse
-        if ("phy" %in% names(new_sim[[1]])) {
-          if (length(new_sim[[1]]$examTraits) < 20 ||
-              length(new_sim[[1]]$examTraits) >= 400 ||
-              length(unique(new_sim[[1]]$examTraits)) < 2 ||
-              sum(new_sim[[1]]$examTraits == 1) < 2 ||
-              sum(new_sim[[1]]$examTraits == 2) < 2) {
-            accept <- FALSE
-          }
-        }
         #calculate the summary statistics for the simulated tree
         if (accept) {
           df_stats <- calc_ss_function (sim1 = obs_data[[1]],
@@ -122,7 +113,6 @@ ABC_SMC <- function( # nolint indeed a complex function
             }
           }
         }
-
 
         if (accept) {
           number_accepted <- number_accepted + 1
@@ -150,7 +140,6 @@ ABC_SMC <- function( # nolint indeed a complex function
         }
       }
 
-
       #convergence if the acceptance rate gets too low
       tried <- tried + 1
       if (tried > (1 / stop_rate) & n_iter > 4) {
@@ -164,12 +153,7 @@ ABC_SMC <- function( # nolint indeed a complex function
 
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7) #0.5
-      # if("phy" %in% names(obs_data[[1]])){
-      #   epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.65) #0.5
-      # } else {
-      #   epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.55) #0.5
-      # }
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.5)
     }
     ABC <- c()
     for (k in seq_along(new_params)) {
@@ -192,7 +176,7 @@ ABC_SMC <- function( # nolint indeed a complex function
                       epsilon = epsilon,
                       obs_sim = obs_data,
                       ss_diff_list = ss_diff_list),
-        param_space_name = param_space_name,
+        scenario = scenario,
         param_set = param_set,
         ss_set = ss_set
       )

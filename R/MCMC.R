@@ -26,8 +26,8 @@ MCMC <- function(datalist,
     }
   }
   # pre-compute current posterior probability
-  log_lik <- log_lik_function(parameters, datalist, idparsopt)
-  log_prior <- log_prior_function(parameters)
+  log_lik <- log_lik_function(parameters, datalist)
+  log_prior <- log_prior_function(parameters, idparsopt)
 
   cat("\nGenerating Chain\n")
   cat("0--------25--------50--------75--------100\n")
@@ -43,8 +43,8 @@ MCMC <- function(datalist,
                                               sigma))
     # calculate the Hastings ratio
     hr            <- 0
-    new_log_lik <- log_lik_function(parameters, datalist, idparsopt)
-    new_log_prior <- log_prior_function(parameters)
+    new_log_lik <- log_lik_function(parameters, datalist)
+    new_log_prior <- log_prior_function(parameters, idparsopt)
 
     # message("pars", c(round(parameters,5),new_log_lik))
     #accept or reject
@@ -69,6 +69,16 @@ MCMC <- function(datalist,
         # chain[(i - burnin) / thinning + 1, ] <- parameters
       }
     }
+
+    # if (((i - burnin) / thinning) == 3000 ||
+    #     ((i - burnin) / thinning) == 4000){
+    #   save_output(
+    #     output = coda::as.mcmc(chain),
+    #     scenario = scenario,
+    #     param_set = param_set,
+    #     ss_set = 1
+    #   )
+    # }
   }
   cat("\nFinished MCMC.\n")
   #return a mcmc object, used by coda to plot

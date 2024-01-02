@@ -4,7 +4,7 @@
 \alias{calc_log_lik_secsse}
 \title{Calculates the log likelihood of secsse model}
 \usage{
-calc_log_lik_secsse(params, datalist, idparsopt)
+calc_log_lik_secsse(params, datalist)
 }
 \value{
 a numeric represents the log likelihood
