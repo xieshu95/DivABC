@@ -13,7 +13,7 @@ calc_ss_secsse_test <- function(sim) {
 
   # K statistic
   K <- adiv::K(sim$phy,
-               trait = sim$obs_traits,
+               trait = as.numeric(sim$obs_traits),
                nrep = 1000, alter = c("two-sided"))
   K <- K$obs
 
@@ -87,13 +87,13 @@ calc_epsilon_init_secsse_test <- function(sim){
   return(eps_init)
 }
 
-# for(test in c(2,3,4)) {
+ # for(test in c(2,3,4)) {
 param_space_name <- paste0("secsse_ABC_test")
 param_space <- load_param_space(param_space_name = param_space_name)
 ss <- c()
 obs_sim <- list()
-set.seed(100)
-init_state <- rep(c(rep("1A",25),rep("2A",25)),7)
+set.seed(500)
+init_state <- rep(c(rep("1",25),rep("2",25)),7)
 for(i in 1:350){
   message("set: ", i)
   obs_sim_pars <- param_space[i,]
@@ -112,12 +112,18 @@ colnames(ss) <- c("state1","state2","tree_size","tip_ratio",
                   "spect_log_median","spect_prin","sackin")
 ss<-data.frame(ss)
 # colnames(ss) <- c("state1","state2","tree_size","tip_ratio")
-save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_sep_state/obs_ss_test.rda"))
-save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_sep_state/obs_sims_secsse_ABC_test.rda"))
-save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_sep_state/obs_sims_secsse_MCMC_test.rda"))
+save(ss,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/obs_ss_test4.rda"))
+save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/obs_sims_secsse_ABC_test4.rda"))
+save(obs_sim,file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/obs_sims_secsse_MCMC_test4.rda"))
 
-sum(ss[,3]<400)
+
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/obs_ss_test.rda"))
+# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTTs_D/obs_ss_test.rda"))
+
+sum(ss[,3]<500)
+sum(ss[,3]>200)
 plot(hist(ss[,3], breaks = 200))
+plot(density(ss[,3]))
 
 
 plot(hist(ss[1:50,3], breaks = 200))
@@ -155,10 +161,10 @@ plot(hist(ss[301:350,3], breaks = 200))
 library(heatmaply)
 library(htmlwidgets)
 for(test in 1:4){
-  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_new_space/obs_ss_test",test,".rda"))
+  load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/obs_ss_test",test,".rda"))
   p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
                                         ylab = "Summary statistics", k_col = 2, k_row = 2)
-  saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_cpp_new_space/ss_heatmap/heatmap_ss_test_",test,".html"))
+  saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/heatmap_ss_test_",test,".html"))
 
 }
 
@@ -325,7 +331,8 @@ library(htmlwidgets)
 
 # heatmap(cormat)
 ## paper
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_ss_test.rda"))
+# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTTs_D/obs_ss_test.rda"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/obs_ss_test.rda"))
 # ss$tip_ratio = 1/ss$tip_ratio
 ss<- ss[,-c(6,10,13:17,23:25)]
 colnames(ss) <- c("S1","S2","Tree size","Tip ratio",
@@ -334,7 +341,7 @@ colnames(ss) <- c("S1","S2","Tree size","Tip ratio",
                   "D","NLTT","NLTT1","NLTT2","Colless")
 cormat <- round(cor(ss),2)
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/heatmap1_new.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/heatmap_new.tiff"),
      units="px", width=4000, height=3500,res = 350,compression="lzw")
 heatmap <- corrplot::corrplot(cormat,method = "circle",order = "AOE",tl.col = "brown", tl.srt = 30)
 print(heatmap)
@@ -342,7 +349,8 @@ while (!is.null(dev.list()))  dev.off()
 
 # heatmap(cormat)
 ## paper
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_ss_test.rda"))
+# load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTTs_D/obs_ss_test.rda"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/obs_ss_test.rda"))
 # ss$tip_ratio = 1/ss$tip_ratio
 ss<- ss[,-c(1,2,3,6,10,13:17,23:25)]
 colnames(ss) <- c("Tip ratio",
@@ -351,7 +359,7 @@ colnames(ss) <- c("Tip ratio",
                   "D","NLTT","NLTT1","NLTT2","Colless")
 cormat <- round(cor(ss),2)
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/heatmap3_new.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/heatmap.tiff"),
      units="px", width=4000, height=3500,res = 350,compression="lzw")
 heatmap <- corrplot::corrplot(cormat,method = "circle",order = "hclust",tl.col = "brown", tl.srt = 30) #'arg' should be one of “original”, “AOE”, “FPC”, “hclust”, “alphabet”
 print(heatmap)
@@ -359,7 +367,7 @@ while (!is.null(dev.list()))  dev.off()
 
 ## mean
 
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_final/obs_ss_test.rda"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTTs_D/obs_ss_test.rda"))
 # ss$tip_ratio = 1/ss$tip_ratio
 ss<- ss[,-c(6,10,13:17,23:25)]
 df <- ss

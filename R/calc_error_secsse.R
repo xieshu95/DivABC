@@ -24,18 +24,18 @@ calc_error_secsse <- function(sim_1,
   # mpd_s2 <- abs(mpd1_s2 - mpd2_s2)
   #
   # # mntd_diff
-  mntd1_s1 <- treestats::mntd(phy1_s1)
-  mntd2_s1 <- treestats::mntd(phy2_s1)
-  mntd_s1 <- abs(mntd1_s1 - mntd2_s1)
-
-  mntd1_s2 <- treestats::mntd(phy1_s2)
-  mntd2_s2 <- treestats::mntd(phy2_s2)
-  mntd_s2 <- abs(mntd1_s2 - mntd2_s2)
+  # mntd1_s1 <- treestats::mntd(phy1_s1)
+  # mntd2_s1 <- treestats::mntd(phy2_s1)
+  # mntd_s1 <- abs(mntd1_s1 - mntd2_s1)
+  #
+  # mntd1_s2 <- treestats::mntd(phy1_s2)
+  # mntd2_s2 <- treestats::mntd(phy2_s2)
+  # mntd_s2 <- abs(mntd1_s2 - mntd2_s2)
 
   # D statistic
-  # D1 <- calc_D(sim_1)
-  # D2 <- calc_D(sim_2)
-  # D <- abs (D1 - D2)
+  D1 <- calc_D(sim_1)
+  D2 <- calc_D(sim_2)
+  D <- abs (D1 - D2)
 
   # tip ratio
   # num_state1_sim1 <- sum(sim_1$obs_traits == 1)
@@ -57,8 +57,8 @@ calc_error_secsse <- function(sim_1,
 
   # nLTT
   nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
-  # nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
-  # nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
+  nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
+  nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
 
   # spect_1 <- treestats::laplacian_spectrum(sim_1$phy)
   # spect_2 <- treestats::laplacian_spectrum(sim_2$phy)
@@ -72,17 +72,16 @@ calc_error_secsse <- function(sim_1,
 
   return(
     c(nltt,
-      # nltt_s1,
-      # nltt_s2,
-      mntd_s1,
-      mntd_s2
+      nltt_s1,
+      nltt_s2,
+      D
       )
   )
 }
 
 
 ##
-calc_error_secsse_nltt <- function(sim_1,
+calc_error_secsse_nltts <- function(sim_1,
                                    sim_2,
                                    distance_method = "abs") {
 
@@ -100,8 +99,8 @@ calc_error_secsse_nltt <- function(sim_1,
 
   # nLTT
   nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
-  # nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
-  # nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
+  nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
+  nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
 
   # # D statistic
   # D1 <- calc_D(sim_1)
@@ -117,14 +116,14 @@ calc_error_secsse_nltt <- function(sim_1,
 # tip_ratio <- abs(tip_ratio_sim1 - tip_ratio_sim2)
 
   # colless <- abs(treestats::colless(sim_1$phy) - treestats::colless(sim_2$phy))
-  colless_s1 <- abs(treestats::colless(phy1_s1) - treestats::colless(phy2_s1))
-  colless_s2 <- abs(treestats::colless(phy1_s2) - treestats::colless(phy2_s2))
+  # colless_s1 <- abs(treestats::colless(phy1_s1) - treestats::colless(phy2_s1))
+  # colless_s2 <- abs(treestats::colless(phy1_s2) - treestats::colless(phy2_s2))
 
 
   return(
     c(nltt,
-      colless_s1,
-      colless_s2)
+      nltt_s1,
+      nltt_s2)
   )
 }
 
@@ -152,9 +151,9 @@ calc_error_secsse_D_nltt <- function(sim_1,
   # nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
 
   # D statistic
-  # D1 <- calc_D(sim_1)
-  # D2 <- calc_D(sim_2)
-  # D <- abs (D1 - D2)
+  D1 <- calc_D(sim_1)
+  D2 <- calc_D(sim_2)
+  D <- abs (D1 - D2)
 
   # # # tip ratio
   # tip_ratio_sim1 <- min(sum(sim_1$obs_traits == 2),sum(sim_1$obs_traits == 1))/
@@ -166,7 +165,8 @@ calc_error_secsse_D_nltt <- function(sim_1,
 
 
   return(
-    c(nltt)
+    c(nltt,
+      D)
   )
 }
 
