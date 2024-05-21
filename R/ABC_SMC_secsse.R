@@ -43,7 +43,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
   sim_list <- list()
   ss_diff_list <- list()
   init_prob_list <- list()
-  init_prob_list[[1]] <- c(0.25,0.25,0.25,0.25)
+  init_prob_list[[1]] <- c(0.5,0.5)
 
   #convergence is expected within 50 iterations
   #usually convergence occurs within 20 iterations
@@ -97,7 +97,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
       #reject if outside the prior
       if (prior_density_function(parameters,idparsopt) > 0) {
         #simulate a new tree, given the proposed parameters
-        pool_init_states <- sample(c("1A","2A","1B","2B"), size = 1, prob = init_prob)
+        pool_init_states <- sample(c("1","2"), size = 1, prob = init_prob)
         new_sim <- sim_function(parameters = parameters,
                                 pool_init_states = pool_init_states,
                                 replicates = replicates)
@@ -108,8 +108,8 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
         # for secsse
 
         if ("phy" %in% names(new_sim[[1]])) {
-          if (length(new_sim[[1]]$obs_traits) < 10 ||
-              length(new_sim[[1]]$obs_traits) >= 500 ||
+          if (length(new_sim[[1]]$obs_traits) < 5 ||
+              length(new_sim[[1]]$obs_traits) >= 1200 ||
               length(unique(new_sim[[1]]$obs_traits)) < 2 ||
               sum(new_sim[[1]]$obs_traits == 1) < 2 ||
               sum(new_sim[[1]]$obs_traits == 2) < 2) {
@@ -172,11 +172,11 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
       }
     }
 
-    init_prob_list[[i + 1]] <- c(sum(init_state == 0),sum(init_state == 1),
-                                 sum(init_state == 2),sum(init_state == 3))/length(init_state)
+    init_prob_list[[i + 1]] <- c(sum(init_state == "1A") + sum(init_state == "1B"),
+                                 sum(init_state == "2A") + sum(init_state == "2B"))/length(init_state)
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.35)
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.5)
     }
     ABC <- c()
     for (k in seq_along(new_params)) {
