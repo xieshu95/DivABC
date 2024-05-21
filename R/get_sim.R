@@ -71,47 +71,51 @@ get_TraiSIE_sim <- function(parameters, K, replicates){
 #' @export
 
 get_secsse_sim_create_obs <- function(parameters, pool_init_states, replicates){
-  idparlist <- secsse::cla_id_paramPos(traits = c(1,2),
-                                       num_concealed_states = 2)
-  idparlist$lambdas[1,] <- rep(c(parameters[1], parameters[2]),2)
-  idparlist$mus[1:4]<- rep(c(parameters[3], parameters[4]),2)
-  masterBlock <- matrix(c(parameters[6], parameters[5]),
-                        ncol=2,nrow=2,byrow=TRUE)
-  diag(masterBlock) <- NA
-  q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)
-  q[1,3]<- q[2,4] <- q[3,1] <- q[4,2] <- 0
+  states <- c("1", "2")
+  spec_matrix <- c("1", "1", "1", 1)
+  spec_matrix <- rbind(spec_matrix, c("2", "2", "2", 2))
+  lambda_list <- secsse::create_lambda_list(state_names = states,
+                                            num_concealed_states = 2,
+                                            transition_matrix = spec_matrix,
+                                            model = "ETD")
+  mu_vector <- secsse::create_mu_vector(state_names = states,
+                                        num_concealed_states = 2,
+                                        model = "ETD",
+                                        lambda_list = lambda_list)
 
-  lambdas <- secsse::prepare_full_lambdas(c(1,2),2,idparlist$lambdas)
-  states <- names(idparlist$mus)
-  initialState<- sample(states,1)
-  speciesTraits <- c(initialState,initialState)
+  shift_matrix <- c("1", "2", 5)
+  shift_matrix <- rbind(shift_matrix, c("2", "1", 6))
 
+  q_matrix <- secsse::create_q_matrix(state_names = states,
+                                      num_concealed_states = 2,
+                                      shift_matrix = shift_matrix,
+                                      diff.conceal = TRUE)
+  pars <- c(parameters,0,0)
+  lambdas <- secsse::fill_in(lambda_list, pars)
+  mus <- secsse::fill_in(mu_vector, pars)
+  q <- secsse::fill_in(q_matrix, pars)
   sim <- list()
   for (j in seq_len(replicates)) {
     save <- 0
     while(save < 1){
-      skip <- FALSE
-      tryCatch(sim[[j]] <- secsse::secsse_sim(
+      sim[[j]] <- secsse::secsse_sim(
         lambdas = lambdas,
-        mus = idparlist$mus,
+        mus = mus,
         qs = q,
-        crown_age = 20,
+        crown_age = 10, #12
+        num_concealed_states = 2,
         pool_init_states = pool_init_states,
-        maxSpec = 500,
-        conditioning = "none",
-        non_extinction = TRUE,
-        verbose = FALSE,
-        max_tries = 1e3
-      ), error=function(e) {
-        # print("Error: undefined columns selected")
-        skip <<- TRUE
-      })
-      if(skip == FALSE){
-        if(length(sim[[j]]$obs_traits) > 2 && ## at least 2 species
-           length(sim[[j]]$obs_traits) < 500 &&
-           length(unique(sim[[j]]$obs_traits)) == 2){
-          save = 1
-        }
+        max_spec = 800,
+        min_spec = 10,
+        conditioning = "obs_states",
+        start_at_crown = FALSE)
+
+      if(length(sim[[j]]$obs_traits) > 10 && ## at least 2 species
+         length(sim[[j]]$obs_traits) < 800 &&
+         length(unique(sim[[j]]$obs_traits)) == 2 &&
+         sum(sim[[j]]$obs_traits == 1) > 1 &&
+         sum(sim[[j]]$obs_traits == 2) > 1){
+        save = 1
       }
     }
 
@@ -130,20 +134,29 @@ get_secsse_sim_create_obs <- function(parameters, pool_init_states, replicates){
 #' @export
 
 get_secsse_sim <- function(parameters, pool_init_states, replicates){
-  idparlist <- secsse::cla_id_paramPos(traits = c(1,2),
-                                       num_concealed_states = 2)
-  idparlist$lambdas[1,] <- rep(c(parameters[1], parameters[2]),2)
-  idparlist$mus[1:4]<- rep(c(parameters[3], parameters[4]),2)
-  masterBlock <- matrix(c(parameters[6], parameters[5]),
-                        ncol=2,nrow=2,byrow=TRUE)
-  diag(masterBlock) <- NA
-  q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)
-  q[1,3]<- q[2,4] <- q[3,1] <- q[4,2] <- 0
+  states <- c("1", "2")
+  spec_matrix <- c("1", "1", "1", 1)
+  spec_matrix <- rbind(spec_matrix, c("2", "2", "2", 2))
+  lambda_list <- secsse::create_lambda_list(state_names = states,
+                                            num_concealed_states = 2,
+                                            transition_matrix = spec_matrix,
+                                            model = "ETD")
+  mu_vector <- secsse::create_mu_vector(state_names = states,
+                                        num_concealed_states = 2,
+                                        model = "ETD",
+                                        lambda_list = lambda_list)
 
-  lambdas <- secsse::prepare_full_lambdas(c(1,2),2,idparlist$lambdas)
-  states <- names(idparlist$mus)
-  initialState<- sample(states,1)
-  speciesTraits <- c(initialState,initialState)
+  shift_matrix <- c("1", "2", 5)
+  shift_matrix <- rbind(shift_matrix, c("2", "1", 6))
+
+  q_matrix <- secsse::create_q_matrix(state_names = states,
+                                      num_concealed_states = 2,
+                                      shift_matrix = shift_matrix,
+                                      diff.conceal = TRUE)
+  pars <- c(parameters,0,0)
+  lambdas <- secsse::fill_in(lambda_list, pars)
+  mus <- secsse::fill_in(mu_vector, pars)
+  q <- secsse::fill_in(q_matrix, pars)
 
   sim <- list()
   for (j in seq_len(replicates)) {
@@ -152,15 +165,15 @@ get_secsse_sim <- function(parameters, pool_init_states, replicates){
       skip <- FALSE
       tryCatch(sim[[j]] <- secsse::secsse_sim(
         lambdas = lambdas,
-        mus = idparlist$mus,
+        mus = mus,
         qs = q,
-        crown_age = 20,
+        crown_age = 10,
+        num_concealed_states = 2,
         pool_init_states = pool_init_states,
-        maxSpec = 500,
-        conditioning = "none",
-        non_extinction = TRUE,
-        verbose = FALSE,
-        max_tries = 1e3
+        max_spec = 1200,
+        min_spec = 2,
+        conditioning = "obs_states",
+        start_at_crown = FALSE
       ), error=function(e) {
         # print("Error: undefined columns selected")
         skip <<- TRUE
