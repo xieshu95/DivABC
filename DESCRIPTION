@@ -23,8 +23,7 @@ Imports:
     DAISIE (>= 4.1.1),
     nLTT,
     readr,
-    testit,
-    RPANDA
+    testit
 Remotes:
     rsetienne/DAISIE,
     thijsjanzen/nltt,
