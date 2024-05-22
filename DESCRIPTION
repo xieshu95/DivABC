@@ -26,7 +26,7 @@ Imports:
     testit,
     RPANDA
 Remotes:
-    rsetienne/DAISIE@trait_dep,
+    rsetienne/DAISIE,
     thijsjanzen/nltt,
     thijsjanzen/treestats,
     rsetienne/secsse
