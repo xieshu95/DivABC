@@ -101,4 +101,4 @@ for(i in 1:350) {
 MLE_all <- data.frame(lam1_MLE,lam2_MLE,mu1_MLE,mu2_MLE,q12_MLE,q21_MLE,max_ll,
                       init_lam1,init_lam2,init_mu1,init_mu2,init_q12,init_q21)
 # save(MLE_all, file = paste0("/home4/p290559/results/test1_MLE_secsse",seed_mle,".RData"))
-save(MLE_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/secsse_latest/test_MLE_secsse1.RData"))
+save(MLE_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/secsse/nltts_D/test_MLE_secsse.RData"))
