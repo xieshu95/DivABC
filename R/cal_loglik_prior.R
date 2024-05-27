@@ -51,19 +51,21 @@ calc_log_lik_secsse <- function(params, datalist) {
   pars[[3]][] <- q
   skip <- FALSE
 
-  library()
-  tryCatch(suppressWarnings({
-    log_lik <- secsse::secsse_loglik(
-      parameter = pars,
-      phy = datalist$phy,
-      traits = datalist$obs_traits,
-      num_concealed_states = 2,
-      sampling_fraction = c(1,1),
-      cond = "proper_cond"
-    )}), error=function(e) {
-    # print("Optimization has not converged. Try again with different initial values.")
-    skip <<- TRUE
+  suppressWarnings({
+    tryCatch(
+      log_lik <- secsse::secsse_loglik(
+        parameter = pars,
+        phy = datalist$phy,
+        traits = datalist$obs_traits,
+        num_concealed_states = 2,
+        sampling_fraction = c(1,1),
+        cond = "proper_cond"
+      ), error=function(e) {
+        # print("Optimization has not converged. Try again with different initial values.")
+        skip <<- TRUE
+      })
   })
+
   if(skip == TRUE){
     log_lik <- -Inf
   }
