@@ -41,8 +41,7 @@ run_MCMC_secsse <- function(param_space_name,
   }
   # initparsopt <- as.numeric(whole_df_MLE[param_set,7:12])
 
-  mcmc <- suppressWarnings({
-    MCMC(datalist = obs_sim[[1]],
+  mcmc <- MCMC(datalist = obs_sim[[1]],
                       log_lik_function = calc_log_lik_secsse,
                       log_prior_function = calc_log_prior_secsse,
                       parameters = as.numeric(initparsopt),
@@ -51,7 +50,6 @@ run_MCMC_secsse <- function(param_space_name,
                       thinning = 1, #100
                       sigma = 0.5,
                       idparsopt = idparsopt)
-  })
 
   if (save_output == TRUE) {
     save_output(
