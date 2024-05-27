@@ -40,6 +40,7 @@ run_MCMC_secsse <- function(param_space_name,
                           stats::rnorm(1, 0, 0.0001))+ 0.00001
   }
   # initparsopt <- as.numeric(whole_df_MLE[param_set,7:12])
+  options(warn=-1)
   mcmc <- MCMC(datalist = obs_sim[[1]],
                       log_lik_function = calc_log_lik_secsse,
                       log_prior_function = calc_log_prior_secsse,
