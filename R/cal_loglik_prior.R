@@ -51,7 +51,7 @@ calc_log_lik_secsse <- function(params, datalist) {
   pars[[3]][] <- q
   skip <- FALSE
 
-  tryCatch(knitr::suppressWarnings(
+  tryCatch(suppressWarnings(
     log_lik <- secsse::secsse_loglik(
       parameter = pars,
       phy = datalist$phy,
