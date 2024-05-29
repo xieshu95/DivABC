@@ -24,14 +24,12 @@ run_MCMC_secsse <- function(param_space_name,
 
   obs_sim_pars <- param_space[param_set,]
   obs_sim <- load_obs_sim(param_space_name = param_space_name)[[param_set]]
-  # obs_sim_pars_init <- obs_sim_pars + 0.0001
-  # test <- readr::parse_number(param_space_name)
-  # load(paste0("/home/p286026/TraisieABC/scripts/loglik_test/whole_df_MLE",test,".RData"))
-  startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))
+  # startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))
 
-  initparsopt <- c(startingpoint$lambda0,startingpoint$lambda0,
-                   startingpoint$mu0,startingpoint$mu0,
-                   0.1,0.1)
+  # initparsopt <- c(startingpoint$lambda0,startingpoint$lambda0,
+  #                  startingpoint$mu0,startingpoint$mu0,
+  #                  0.1,0.1)
+  initparsopt <- obs_sim_pars
   seed_mcmc <-as.integer(Sys.time()) %% 1000000L * param_set
   set.seed(seed_mcmc)
   message("seed_mcmc: ", seed_mcmc)
@@ -45,9 +43,9 @@ run_MCMC_secsse <- function(param_space_name,
                       log_lik_function = calc_log_lik_secsse,
                       log_prior_function = calc_log_prior_secsse,
                       parameters = as.numeric(initparsopt),
-                      iterations = 1000000, ##1000,000
-                      burnin = 100000, #100,000
-                      thinning = 100, #100
+                      iterations = 1000, ##1000,000
+                      burnin = 100, #100,000
+                      thinning = 1, #100
                       sigma = 0.5,
                       idparsopt = idparsopt)
 
