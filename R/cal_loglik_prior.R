@@ -49,9 +49,9 @@ calc_log_lik_secsse <- function(params, datalist) {
   q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)
   q[1,3]<- q[2,4] <- q[3,1] <- q[4,2] <- 0
   pars[[3]][] <- q
-  skip <- FALSE
-  options(warn = -1)
-  suppressWarnings(
+  # skip <- FALSE
+  # options(warn = -1)
+  suppressMessages(
     log_lik <- secsse::secsse_loglik(
     parameter = pars,
     phy = datalist$phy,
