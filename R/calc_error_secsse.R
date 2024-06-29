@@ -244,7 +244,7 @@ calc_error_secsse_mpd_nltt <- function(sim_1,
   # num_state1 <- abs(num_state1_sim1 - num_state1_sim2)
   # num_state2 <- abs(num_state2_sim1 - num_state2_sim2)
 
-  nLTT
+  # nLTT
   nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
   # nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
   # nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
