@@ -81,7 +81,24 @@ calc_ss_diff_secsse <- function(sim1, sim2, ss_set){
     ss <- calc_error_secsse_D(sim_1 = sim1,
                                  sim_2 = sim2,
                                  distance_method = "abs")
+  } else if(ss_set == 4) { # mpd1 + mpd2 + D
+    ss <- calc_error_secsse_mpd_D(sim_1 = sim1,
+                              sim_2 = sim2,
+                              distance_method = "abs")
+  } else if(ss_set == 5) { # mntd1 + mntd2 + D
+    ss <- calc_error_secsse_mntd_D(sim_1 = sim1,
+                              sim_2 = sim2,
+                              distance_method = "abs")
+  } else if(ss_set == 6) { # colless1 + colless2 + D
+    ss <- calc_error_secsse_colless_D(sim_1 = sim1,
+                              sim_2 = sim2,
+                              distance_method = "abs")
+  } else if(ss_set == 7) { # mpd1 + mpd2 + nltt
+    ss <- calc_error_secsse_mpd_nltt(sim_1 = sim1,
+                                      sim_2 = sim2,
+                                      distance_method = "abs")
   }
+
   ss_diff <- as.numeric(ss)
   return(ss_diff)
 }

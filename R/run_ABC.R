@@ -117,6 +117,14 @@ run_ABC <- function(param_space_name,
       init_epsilon <- c(1,1) #0.4,0.4
     } else if (ss_set == 3){  # D
       init_epsilon <- c(1)
+    } else if (ss_set == 4){  # mpd1 + mpd2 + D
+      init_epsilon <- c(5,5,1)
+    } else if (ss_set == 5){  # mntd1 + mntd2 + D
+      init_epsilon <- c(5,5,1)
+    } else if (ss_set == 6){  # colless1 + colless2 + D
+      init_epsilon <- c(100,100,1)
+    } else if (ss_set == 7){  # mpd1 + mpd2 + nltt
+      init_epsilon <- c(5,5,1)
     }
     abc <- ABC_SMC_secsse (
       obs_data = obs_sim,
