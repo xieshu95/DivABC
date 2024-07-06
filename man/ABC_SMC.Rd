@@ -2,7 +2,7 @@
 % Please edit documentation in R/ABC_SMC.R
 \name{ABC_SMC}
 \alias{ABC_SMC}
-\title{Using ABC approach on DAISIE to estimate CES rates.}
+\title{ABC approach to estimate parameters in diversification models.}
 \usage{
 ABC_SMC(
   obs_data,
@@ -14,14 +14,41 @@ ABC_SMC(
   number_of_particles = 1000,
   sigma = 0.05,
   stop_rate = 0.001,
-  replicates = 1,
   num_iterations,
-  K,
   idparsopt,
-  fixpars,
+  pars,
   ss_set = 1
 )
 }
+\arguments{
+\item{obs_data}{A list of simulation output as observation.}
+
+\item{sim_function}{A function to simulate data.}
+
+\item{calc_ss_function}{A function to calculate summary statistic distance
+between simulated and observed data.}
+
+\item{init_epsilon_values}{A vector of initial epsilon values.}
+
+\item{prior_generating_function}{Function to generate parameters from the
+prior distribution.}
+
+\item{prior_density_function}{Function to calculate the prior probability.}
+
+\item{number_of_particles}{The number of particles in each iteration.}
+
+\item{sigma}{Standard deviation of the perturbance distribution.}
+
+\item{stop_rate}{A numeric value which is the boundary to stop the algorithm.}
+
+\item{num_iterations}{The maximum number of iterations.}
+
+\item{idparsopt}{The id of the parameters that need to be inferred, the others
+are fixed.}
+
+\item{ss_set}{A numeric indicates which set of summary statistics that
+are used to calculate the distance.}
+}
 \description{
-Using ABC approach on DAISIE to estimate CES rates.
+ABC approach to estimate parameters in diversification models.
 }

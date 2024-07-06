@@ -4,12 +4,24 @@
 \alias{default_params_doc}
 \title{Default parameter documentation}
 \usage{
-default_params_doc(sim1, sim2, replicates, obs_rep)
+default_params_doc(
+  sim,
+  sim_1,
+  sim_2,
+  brt,
+  scenario,
+  param_set,
+  parameter,
+  replicates,
+  distance_method,
+  weights,
+  particles,
+  current,
+  sigma,
+  prior_density_function
+)
 }
 \arguments{
-\item{replicates}{A numeric for the number of replicates for the
-simulations.}
-
 \item{sim}{A list of simulated data from DAISIE or BiSSE or TraiSIE model.}
 
 \item{sim_1}{A list of observed data from DAISIE or BiSSE or TraiSIE model.}
@@ -29,6 +41,9 @@ run, as found in the file named in \code{param_space}.}
 \cr \code{pars1[2]} corresponds to mu (extinction rate)
 \cr \code{pars1[3]} corresponds to gamma (immigration rate)
 \cr \code{pars1[4]} corresponds to lambda^a (anagenesis rate).}
+
+\item{replicates}{A numeric for the number of replicates for the
+simulations.}
 
 \item{distance_method}{The method of calculating nLTT statistics, choose from
 absolute distance or squared distance.}

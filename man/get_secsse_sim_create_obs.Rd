@@ -4,7 +4,7 @@
 \alias{get_secsse_sim_create_obs}
 \title{Simulation fucntion to create simulated data as observed data in ABC.}
 \usage{
-get_secsse_sim_create_obs(parameters, pool_init_states, replicates)
+get_secsse_sim_create_obs(parameters, pool_init_states, replicates = 1)
 }
 \arguments{
 \item{parameters}{A vector for CES rates.}

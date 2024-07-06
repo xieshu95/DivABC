@@ -81,7 +81,7 @@ run_ABC <- function(param_space_name,
       stop_rate = 0.002,
       num_iterations = 15,
       idparsopt = as.numeric(idparsopt),
-      fixpars = as.numeric(obs_sim_pars[c(1:10)]),
+      pars = as.numeric(obs_sim_pars[c(1:10)]),
       ss_set = ss_set
     )
 
@@ -131,3 +131,4 @@ run_ABC <- function(param_space_name,
     return(abc)
   }
 }
+

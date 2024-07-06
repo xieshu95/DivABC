@@ -16,7 +16,6 @@
 #'   \item{\code{$colon_time_sd}}
 #' }
 #' @author Shu Xie
-#' @export
 calc_ss <- function(sim,
                     replicates,
                     distance_method = "abs") {

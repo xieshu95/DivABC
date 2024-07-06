@@ -20,9 +20,9 @@
 #' @author Shu Xie
 #' @export
 calc_error_phylo <- function(sim_1,
-                            sim_2,
-                            replicates,
-                            distance_method) {
+                             sim_2,
+                             replicates = 1,
+                             distance_method = "abs") {
   # Spec error
   brt1 <- lapply(sim_1[[1]][-1],"[[", "branching_times")
   brt2 <- lapply(sim_2[[1]][-1],"[[", "branching_times")
@@ -408,9 +408,9 @@ calc_error_all <- function(sim_1,
 #' @author Shu Xie
 #' @export
 calc_error_nltt <- function(sim_1,
-                             sim_2,
-                             replicates,
-                             distance_method) {
+                            sim_2,
+                            replicates = 1,
+                            distance_method = "abs") {
   # Spec error
   brt1 <- lapply(sim_1[[1]][-1],"[[", "branching_times")
   brt2 <- lapply(sim_2[[1]][-1],"[[", "branching_times")
@@ -430,6 +430,24 @@ calc_error_nltt <- function(sim_1,
   )
 
 
+  # Clades number nltt error
+  # clade_ltt_1 <- clade_ltt(sim_1,brt1)
+  # clade_ltt_2 <- clade_ltt(sim_2,brt2)
+  #
+  # clade_nltt <- nLTT::nltt_diff_exact_extinct(
+  #   event_times = clade_ltt_1$colon_time,
+  #   species_number = clade_ltt_1$n_clade,
+  #   event_times2 = clade_ltt_2$colon_time,
+  #   species_number2 = clade_ltt_2$n_clade,
+  #   distance_method = distance_method,
+  #   time_unit = "ago",
+  #   normalize = FALSE
+  # )
+
+  # clade_size <- calc_clade_size_error(sim_1,sim_2)
+  # colon_time <- calc_colon_time_error(sim_1,sim_2)
+
+  ## nonendemic_nltt and singleton-endemic-nltt
   end_ltt_1 <- end_ltt(sim_1,brt1)
   end_ltt_2 <- end_ltt(sim_2,brt2)
 
@@ -465,6 +483,23 @@ calc_error_nltt <- function(sim_1,
       normalize = FALSE
     )
   }
+
+  # multi_ltt_1 <- end_ltt_1$multi_ltt
+  # multi_ltt_2 <- end_ltt_2$multi_ltt
+  # # total number species nltt error
+  # if(multi_ltt_1[1,1] == 0 && multi_ltt_2[1,1] == 0) {
+  #   multi_nltt  <- 0
+  # } else {
+  #   multi_nltt <- nLTT::nltt_diff_exact_extinct(
+  #     event_times = multi_ltt_1$multi_brt,
+  #     species_number = multi_ltt_1$n_multi,
+  #     event_times2 = multi_ltt_2$multi_brt,
+  #     species_number2 = multi_ltt_2$n_multi,
+  #     distance_method = distance_method,
+  #     time_unit = "ago",
+  #     normalize = FALSE
+  #   )
+  # }
 
   return(
     c(total_nltt,
