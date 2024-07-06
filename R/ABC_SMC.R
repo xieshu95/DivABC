@@ -1,11 +1,21 @@
-#' Using ABC approach on DAISIE to estimate CES rates.
+#' ABC approach to estimate parameters in diversification models.
 #'
-#' @param
-#'
-#' @return
-#' @author
-#' @export
-
+#' @param obs_data A list of simulation output as observation.
+#' @param sim_function A function to simulate data.
+#' @param calc_ss_function A function to calculate summary statistic distance
+#'  between simulated and observed data.
+#' @param init_epsilon_values A vector of initial epsilon values.
+#' @param prior_generating_function Function to generate parameters from the
+#'  prior distribution.
+#' @param prior_density_function Function to calculate the prior probability.
+#' @param number_of_particles The number of particles in each iteration.
+#' @param sigma Standard deviation of the perturbance distribution.
+#' @param stop_rate A numeric value which is the boundary to stop the algorithm.
+#' @param num_iterations The maximum number of iterations.
+#' @param idparsopt The id of the parameters that need to be inferred, the others
+#'  are fixed.
+#' @param ss_set A numeric indicates which set of summary statistics that
+#'  are used to calculate the distance.
 
 ABC_SMC <- function( # nolint indeed a complex function
   obs_data,
@@ -17,15 +27,13 @@ ABC_SMC <- function( # nolint indeed a complex function
   number_of_particles = 1000,
   sigma = 0.05,
   stop_rate = 1e-3,
-  replicates = 1,  ## simulation replicates for each parameter set
   num_iterations,
-  K,
   idparsopt,
-  fixpars,
+  pars,
   ss_set = 1
 ) {
   #just to get the number of parameters to be estimated.
-  parameters <- prior_generating_function(fixpars,idparsopt)
+  parameters <- prior_generating_function(pars,idparsopt)
 
   #generate a matrix with epsilon values
   #we assume that the SMC algorithm converges within 50 iterations
@@ -73,7 +81,7 @@ ABC_SMC <- function( # nolint indeed a complex function
     while (number_accepted < number_of_particles) {
       #in this initial step, generate parameters from the prior
       if (i == 1) {
-        parameters <- prior_generating_function(fixpars,idparsopt)
+        parameters <- prior_generating_function(pars,idparsopt)
       } else {
         #if not in the initial step, generate parameters
         #from the weighted previous distribution:
@@ -91,21 +99,10 @@ ABC_SMC <- function( # nolint indeed a complex function
       #reject if outside the prior
       if (prior_density_function(parameters,idparsopt) > 0) {
         #simulate a new tree, given the proposed parameters
-        new_sim <- sim_function(parameters = parameters,
-                                K = K,
-                                replicates = replicates)
+        new_sim <- sim_function(parameters = parameters)
 
 
         accept <- TRUE
-
-        # for daisie
-        if(sum(tail(new_sim[[1]][[1]][[1]]$stt_all, n=1)[2:4]) > 600){
-          accept <- FALSE
-        }
-
-        # if(length(obs_data[[1]][[1]]) != length(new_sim[[1]][[1]])) {
-        #   accept <- FALSE
-        # }
 
         #calculate the summary statistics for the simulated tree
         if (accept) {
@@ -117,9 +114,6 @@ ABC_SMC <- function( # nolint indeed a complex function
           for (k in seq_along(df_stats)) {
             if (as.numeric(df_stats[k]) > epsilon[i, k]) {
               accept <- FALSE
-              #the first step always accepts
-              # if (i == 1) accept <- TRUE
-              # break
             }
           }
         }

@@ -17,9 +17,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
   number_of_particles = 1000,
   sigma = 0.05,
   stop_rate = 1e-3,
-  replicates = 1,  ## simulation replicates for each parameter set
   num_iterations,
-  K,
   idparsopt,
   fixpars,
   ss_set = 1
@@ -99,8 +97,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
         #simulate a new tree, given the proposed parameters
         pool_init_states <- sample(c("1","2"), size = 1, prob = init_prob)
         new_sim <- sim_function(parameters = parameters,
-                                pool_init_states = pool_init_states,
-                                replicates = replicates)
+                                pool_init_states = pool_init_states)
 
 
         accept <- TRUE
@@ -109,7 +106,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
 
         if ("phy" %in% names(new_sim[[1]])) {
           if (length(new_sim[[1]]$obs_traits) < 5 ||
-              length(new_sim[[1]]$obs_traits) >= 1200 ||
+              length(new_sim[[1]]$obs_traits) >= 2000 ||
               length(unique(new_sim[[1]]$obs_traits)) < 2 ||
               sum(new_sim[[1]]$obs_traits == 1) < 2 ||
               sum(new_sim[[1]]$obs_traits == 2) < 2) {
@@ -126,9 +123,6 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
           for (k in seq_along(df_stats)) {
             if (as.numeric(df_stats[k]) > epsilon[i, k]) {
               accept <- FALSE
-              #the first step always accepts
-              # if (i == 1) accept <- TRUE
-              # break
             }
           }
         }
