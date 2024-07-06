@@ -17,7 +17,7 @@
 #' @param ss_set A numeric indicates which set of summary statistics that
 #'  are used to calculate the distance.
 
-ABC_SMC <- function( # nolint indeed a complex function
+ABC_SMC <- function(
   obs_data,
   sim_function,
   calc_ss_function,
@@ -118,7 +118,6 @@ ABC_SMC <- function( # nolint indeed a complex function
           }
         }
 
-
         if (accept) {
           number_accepted <- number_accepted + 1
           new_params[[number_accepted]] <- parameters
@@ -145,10 +144,10 @@ ABC_SMC <- function( # nolint indeed a complex function
         }
       }
 
-
       #convergence if the acceptance rate gets too low
       tried <- tried + 1
       if (tried > (1 / stop_rate) & n_iter > 4) {
+
         if ((number_accepted / tried) < stop_rate) {
           stoprate_reached <- TRUE
           break

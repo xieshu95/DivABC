@@ -37,66 +37,49 @@ calc_ss_diff_traisie <- function(sim1, sim2, ss_set){
 # }
 
 calc_ss_diff_daisie <- function(sim1, sim2, ss_set){
-  if (ss_set == 0){ ## use all ss: nltt+tips 10ss
-    ss <- calc_error_no_ext_all(sim_1 = sim1,   ##calc_error
-                            sim_2 = sim2,
-                            replicates = 1,
-                            distance_method = "abs")
-  } else if(ss_set == 1) { # nltt
-    ss <- calc_error_no_ext_nltt(sim_1 = sim1,   ##calc_error
-                                sim_2 = sim2,
-                                replicates = 1,
-                                distance_method = "abs")
+  if (ss_set == 0){ ## all
+    ss <- calc_error_all(sim_1 = sim1,
+                         sim_2 = sim2)
+  } else if(ss_set == 1) { # phylogenetic
+    ss <- calc_error_phylo(sim_1 = sim1,
+                           sim_2 = sim2)
   } else if (ss_set == 2){ # tips
-    ss <- calc_error_no_ext_tips(sim_1 = sim1,   ##calc_error
-                                 sim_2 = sim2,
-                                 replicates = 1,
-                                 distance_method = "abs")
-  } else if (ss_set == 3){ # nltt+cssd
-    ss <- calc_error_no_ext_nltt2(sim_1 = sim1,   ##calc_error
-                                 sim_2 = sim2,
-                                 replicates = 1,
-                                 distance_method = "abs")
+    ss <- calc_error_tips(sim_1 = sim1,
+                          sim_2 = sim2)
+  } else if (ss_set == 3){ # nltt
+    ss <- calc_error_nltt(sim_1 = sim1,
+                          sim_2 = sim2)
   }
   ss_diff <- as.numeric(ss)
 
   return(ss_diff)
 }
 
-
 calc_ss_diff_secsse <- function(sim1, sim2, ss_set){
   if (ss_set == 0){ # nltt + nltt1 + nltt2 + D
     ss <- calc_error_secsse(sim_1 = sim1,
-                            sim_2 = sim2,
-                            distance_method = "abs")
+                            sim_2 = sim2)
   } else if(ss_set == 1) { # nltt + nltt1 + nltt2
     ss <- calc_error_secsse_nltts(sim_1 = sim1,
-                                 sim_2 = sim2,
-                                 distance_method = "abs")
+                                 sim_2 = sim2)
   } else if(ss_set == 2) { # nltt + D
     ss <- calc_error_secsse_D_nltt(sim_1 = sim1,
-                                 sim_2 = sim2,
-                                 distance_method = "abs")
+                                 sim_2 = sim2)
   } else if(ss_set == 3) { # D
     ss <- calc_error_secsse_D(sim_1 = sim1,
-                                 sim_2 = sim2,
-                                 distance_method = "abs")
+                                 sim_2 = sim2)
   } else if(ss_set == 4) { # mpd1 + mpd2 + D
     ss <- calc_error_secsse_mpd_D(sim_1 = sim1,
-                              sim_2 = sim2,
-                              distance_method = "abs")
+                              sim_2 = sim2)
   } else if(ss_set == 5) { # mntd1 + mntd2 + D
     ss <- calc_error_secsse_mntd_D(sim_1 = sim1,
-                              sim_2 = sim2,
-                              distance_method = "abs")
+                              sim_2 = sim2)
   } else if(ss_set == 6) { # colless1 + colless2 + D
     ss <- calc_error_secsse_colless_D(sim_1 = sim1,
-                              sim_2 = sim2,
-                              distance_method = "abs")
+                              sim_2 = sim2)
   } else if(ss_set == 7) { # mpd1 + mpd2 + nltt
     ss <- calc_error_secsse_mpd_nltt(sim_1 = sim1,
-                                      sim_2 = sim2,
-                                      distance_method = "abs")
+                                      sim_2 = sim2)
   }
 
   ss_diff <- as.numeric(ss)
@@ -159,7 +142,7 @@ calc_ss_diff_secsse <- function(sim1, sim2, ss_set){
 #   return(epsilon_init)
 # }
 calc_epsilon_init <- function(sim){
-  ss <- calc_ss_no_ext(sim[[1]],1)
+  ss <- calc_ss(sim[[1]],1)
   eps_init <- as.numeric(unlist(ss)) * 1
   return(eps_init)
 }
