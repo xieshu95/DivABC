@@ -5,22 +5,22 @@
 prior_dens_secsse <- function(pars,idparsopt) {
   if(1 %in% idparsopt){
     # dens_lam1 <- stats::dexp(pars[1],2.5)
-    dens_lam1 <- stats::dunif(pars[1],0,1)
+    dens_lam1 <- stats::dunif(pars[1],0,2)
   } else {
     dens_lam1 <- 1
   }
   if(2 %in% idparsopt){
-    dens_lam2 <- stats::dunif(pars[2],0,1)
+    dens_lam2 <- stats::dunif(pars[2],0,2)
   } else {
     dens_lam2 <- 1
   }
   if(3 %in% idparsopt){
-    dens_mu1 <- stats::dunif(pars[3],0,1)
+    dens_mu1 <- stats::dunif(pars[3],0,2)
   } else {
     dens_mu1 <- 1
   }
   if(4 %in% idparsopt){
-    dens_mu2 <- stats::dunif(pars[4],0,1)
+    dens_mu2 <- stats::dunif(pars[4],0,2)
   } else {
     dens_mu2 <- 1
   }
@@ -44,22 +44,22 @@ prior_dens_secsse <- function(pars,idparsopt) {
 #' @export
 prior_gen_secsse <- function(pars,idparsopt){
   if(1 %in% idparsopt){
-    lam1 <- stats::runif(1,0,1)
+    lam1 <- stats::runif(1,0,2)
   } else {
     lam1 <- pars[1]
   }
   if(2 %in% idparsopt){
-    lam2 <- stats::runif(1,0,1)
+    lam2 <- stats::runif(1,0,2)
   } else {
     lam2 <- pars[2]
   }
   if(3 %in% idparsopt){
-    mu1 <- stats::runif(1,0,1)
+    mu1 <- stats::runif(1,0,2)
   } else {
     mu1 <- pars[3]
   }
   if(4 %in% idparsopt){
-    mu2 <- stats::runif(1,0,1)
+    mu2 <- stats::runif(1,0,2)
   } else {
     mu2 <- pars[4]
   }

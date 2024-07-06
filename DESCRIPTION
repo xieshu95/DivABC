@@ -23,10 +23,9 @@ Imports:
     DAISIE (>= 4.1.1),
     nLTT,
     readr,
-    testit,
-    RPANDA
+    testit
 Remotes:
-    rsetienne/DAISIE@trait_dep,
+    rsetienne/DAISIE,
     thijsjanzen/nltt,
     thijsjanzen/treestats,
     rsetienne/secsse

@@ -49,21 +49,28 @@ calc_log_lik_secsse <- function(params, datalist) {
   q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)
   q[1,3]<- q[2,4] <- q[3,1] <- q[4,2] <- 0
   pars[[3]][] <- q
-  skip <- FALSE
-  tryCatch(log_lik <- secsse::secsse_loglik(
+  # skip <- FALSE
+  # options(warn = -1)
+  suppressMessages(
+    log_lik <- secsse::secsse_loglik(
     parameter = pars,
     phy = datalist$phy,
     traits = datalist$obs_traits,
     num_concealed_states = 2,
     sampling_fraction = c(1,1),
-    cond = "proper_cond"
-  ), error=function(e) {
-    print("Optimization has not converged. Try again with different initial values.")
-    skip <<- TRUE
-  })
-  if(skip == TRUE){
-    log_lik <- -Inf
-  }
+    cond = "proper_cond")
+  )
+
+  # tryCatch(knitr::suppressWarnings(
+  #
+  # ), error=function(e) {
+  #   # print("Optimization has not converged. Try again with different initial values.")
+  #   skip <<- TRUE
+  # })
+
+  # if(skip == TRUE){
+  #   log_lik <- -Inf
+  # }
   return(log_lik)
 }
 

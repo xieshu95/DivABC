@@ -23,12 +23,8 @@ run_MCMC_secsse <- function(scenario,
   )
 
   obs_sim_pars <- param_space[param_set,]
-  obs_sim <- load_obs_sim(scenario = scenario)[[param_set]]
-  startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))
-
-  initparsopt <- c(startingpoint$lambda0,startingpoint$lambda0,
-                   startingpoint$mu0,startingpoint$mu0,
-                   0.1,0.1)
+  obs_sim <- load_obs_sim(param_space_name = param_space_name)[[param_set]]
+  initparsopt <- obs_sim_pars
   seed_mcmc <-as.integer(Sys.time()) %% 1000000L * param_set
   set.seed(seed_mcmc)
   message("seed_mcmc: ", seed_mcmc)
@@ -36,7 +32,7 @@ run_MCMC_secsse <- function(scenario,
     initparsopt[n]<-exp(log(initparsopt[n]) +
                           stats::rnorm(1, 0, 0.0001))+ 0.00001
   }
-  # initparsopt <- as.numeric(whole_df_MLE[param_set,7:12])
+
   mcmc <- MCMC(datalist = obs_sim[[1]],
                       log_lik_function = calc_log_lik_secsse,
                       log_prior_function = calc_log_prior_secsse,
@@ -44,7 +40,7 @@ run_MCMC_secsse <- function(scenario,
                       iterations = 1000000, ##1000,000
                       burnin = 100000, #100,000
                       thinning = 100, #100
-                      sigma = 0.3,
+                      sigma = 0.5,
                       idparsopt = idparsopt)
 
   if (save_output == TRUE) {
@@ -59,7 +55,3 @@ run_MCMC_secsse <- function(scenario,
   }
 }
 
-
-# a <- mcmc_init(idparsopt = idparsopt,obs_sim_pars = obs_sim_pars1)
-# obs_sim_pars
-# a

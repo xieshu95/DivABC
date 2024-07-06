@@ -1,23 +1,13 @@
-#' ABC approach to estimate parameters in diversification models.
+#' Using ABC approach on DAISIE to estimate CES rates.
 #'
-#' @param obs_data A list of simulation output as observation.
-#' @param sim_function A function to simulate data.
-#' @param calc_ss_function A function to calculate summary statistic distance
-#'  between simulated and observed data.
-#' @param init_epsilon_values A vector of initial epsilon values.
-#' @param prior_generating_function Function to generate parameters from the
-#'  prior distribution.
-#' @param prior_density_function Function to calculate the prior probability.
-#' @param number_of_particles The number of particles in each iteration.
-#' @param sigma Standard deviation of the perturbance distribution.
-#' @param stop_rate A numeric value which is the boundary to stop the algorithm.
-#' @param num_iterations The maximum number of iterations.
-#' @param idparsopt The id of the parameters that need to be inferred, the others
-#'  are fixed.
-#' @param ss_set A numeric indicates which set of summary statistics that
-#'  are used to calculate the distance.
+#' @param
+#'
+#' @return
+#' @author
+#' @export
 
-ABC_SMC <- function(
+
+ABC_SMC_secsse <- function( # nolint indeed a complex function
   obs_data,
   sim_function,
   calc_ss_function,
@@ -29,11 +19,11 @@ ABC_SMC <- function(
   stop_rate = 1e-3,
   num_iterations,
   idparsopt,
-  pars,
+  fixpars,
   ss_set = 1
 ) {
   #just to get the number of parameters to be estimated.
-  parameters <- prior_generating_function(pars,idparsopt)
+  parameters <- prior_generating_function(fixpars,idparsopt)
 
   #generate a matrix with epsilon values
   #we assume that the SMC algorithm converges within 50 iterations
@@ -50,6 +40,8 @@ ABC_SMC <- function(
   ABC_list <- list()
   sim_list <- list()
   ss_diff_list <- list()
+  init_prob_list <- list()
+  init_prob_list[[1]] <- c(0.5,0.5)
 
   #convergence is expected within 50 iterations
   #usually convergence occurs within 20 iterations
@@ -64,7 +56,7 @@ ABC_SMC <- function(
     print_frequency <- 20
     tried <- 0
     number_accepted <- 0
-    sigma_temp <- sigma * exp(-0.2 * (i - 1))
+    sigma_temp <- sigma * exp(-0.1 * (i - 1))
 
     #replace all vectors
     if (i > 1) {
@@ -78,10 +70,14 @@ ABC_SMC <- function(
     stoprate_reached <- FALSE
     # ss_logic <- c()
 
+    # for secsse
+    init_prob <- init_prob_list[[i]]
+    init_state <- c()
+
     while (number_accepted < number_of_particles) {
       #in this initial step, generate parameters from the prior
       if (i == 1) {
-        parameters <- prior_generating_function(pars,idparsopt)
+        parameters <- prior_generating_function(fixpars,idparsopt)
       } else {
         #if not in the initial step, generate parameters
         #from the weighted previous distribution:
@@ -91,24 +87,37 @@ ABC_SMC <- function(
         for (p_index in seq_along(parameters)) {
           parameters[p_index] <- previous_params[[index]][p_index]
         }
-          parameters[idparsopt] <- exp(log(parameters[idparsopt]) +
-                                         stats::rnorm(length(idparsopt),
-                                                      0, sigma_temp))
+        parameters[idparsopt] <- exp(log(parameters[idparsopt]) +
+                                       stats::rnorm(length(idparsopt),
+                                                    0, sigma_temp))
       }
 
       #reject if outside the prior
       if (prior_density_function(parameters,idparsopt) > 0) {
         #simulate a new tree, given the proposed parameters
-        new_sim <- sim_function(parameters = parameters)
+        pool_init_states <- sample(c("1","2"), size = 1, prob = init_prob)
+        new_sim <- sim_function(parameters = parameters,
+                                pool_init_states = pool_init_states)
 
 
         accept <- TRUE
 
+        # for secsse
+
+        if ("phy" %in% names(new_sim[[1]])) {
+          if (length(new_sim[[1]]$obs_traits) < 5 ||
+              length(new_sim[[1]]$obs_traits) >= 2000 ||
+              length(unique(new_sim[[1]]$obs_traits)) < 2 ||
+              sum(new_sim[[1]]$obs_traits == 1) < 2 ||
+              sum(new_sim[[1]]$obs_traits == 2) < 2) {
+            accept <- FALSE
+          }
+        }
         #calculate the summary statistics for the simulated tree
         if (accept) {
           df_stats <- calc_ss_function (sim1 = obs_data[[1]],
-                                    sim2 = new_sim[[1]],
-                                    ss_set = ss_set)
+                                        sim2 = new_sim[[1]],
+                                        ss_set = ss_set)
 
           # #check if the summary statistics are sufficiently
           for (k in seq_along(df_stats)) {
@@ -118,12 +127,14 @@ ABC_SMC <- function(
           }
         }
 
+
         if (accept) {
           number_accepted <- number_accepted + 1
           new_params[[number_accepted]] <- parameters
           sim_list[[number_accepted]] <- new_sim[[1]]
           accepted_weight <- 1
           ss_diff <- rbind(ss_diff,df_stats)
+          init_state[number_accepted] <- new_sim[[1]]$initialState
 
           #calculate the weight
           if (i > 1) {
@@ -144,10 +155,10 @@ ABC_SMC <- function(
         }
       }
 
+
       #convergence if the acceptance rate gets too low
       tried <- tried + 1
       if (tried > (1 / stop_rate) & n_iter > 4) {
-
         if ((number_accepted / tried) < stop_rate) {
           stoprate_reached <- TRUE
           break
@@ -155,6 +166,8 @@ ABC_SMC <- function(
       }
     }
 
+    init_prob_list[[i + 1]] <- c(sum(init_state == "1A") + sum(init_state == "1B"),
+                                 sum(init_state == "2A") + sum(init_state == "2B"))/length(init_state)
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
       epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.5)
@@ -179,8 +192,10 @@ ABC_SMC <- function(
                       n_iter = n_iter,
                       epsilon = epsilon,
                       obs_sim = obs_data,
-                      ss_diff_list = ss_diff_list),
-        scenario = scenario,
+                      ss_diff_list = ss_diff_list,
+                      init_prob_list = init_prob_list,
+                      init_state = init_state),
+        param_space_name = param_space_name,
         param_set = param_set,
         ss_set = ss_set
       )
@@ -193,6 +208,8 @@ ABC_SMC <- function(
                  n_iter = n_iter,
                  epsilon = epsilon,
                  obs_sim = obs_data,
-                 ss_diff_list = ss_diff_list)
+                 ss_diff_list = ss_diff_list,
+                 init_prob_list = init_prob_list,
+                 init_state = init_state)
   return(output)
 }
