@@ -5,7 +5,7 @@
 \title{Calculate summary statistic distances between two simulated trees
 when using diversity statistics}
 \usage{
-calc_error_tips(sim_1, sim_2, replicates, distance_method)
+calc_error_tips(sim_1, sim_2, replicates = 1, distance_method = "abs")
 }
 \arguments{
 \item{sim_1}{A list of observed data from DAISIE or BiSSE or TraiSIE model.}
