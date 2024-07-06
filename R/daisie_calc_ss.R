@@ -16,10 +16,9 @@
 #'   \item{\code{$colon_time_sd}}
 #' }
 #' @author Shu Xie
-#' @export
-calc_ss_no_ext <- function(sim,
-                             replicates,
-                             distance_method = "abs") {
+calc_ss <- function(sim,
+                    replicates,
+                    distance_method = "abs") {
 
   # Spec error
   ltt <- full_ltt(sim)
@@ -68,20 +67,20 @@ calc_ss_no_ext <- function(sim,
   end_ltt <- end_ltt(sim)
   nonend_ltt <- end_ltt$nonend_ltt
   singleton_ltt <- end_ltt$singleton_ltt
- if(nonend_ltt[1,1] == 0) {
-   nonend_nltt <- 0
- } else {
-   sim_0 <- rep(0,length(nonend_ltt$nonend_brt))
-   nonend_nltt <- nLTT::nltt_diff_exact_extinct(
-     event_times = nonend_ltt$nonend_brt,
-     species_number = nonend_ltt$n_nonend,
-     event_times2 = nonend_ltt$nonend_brt,
-     species_number2 = sim_0,
-     distance_method = distance_method,
-     time_unit = "ago",
-     normalize = FALSE
-   )
- }
+  if(nonend_ltt[1,1] == 0) {
+    nonend_nltt <- 0
+  } else {
+    sim_0 <- rep(0,length(nonend_ltt$nonend_brt))
+    nonend_nltt <- nLTT::nltt_diff_exact_extinct(
+      event_times = nonend_ltt$nonend_brt,
+      species_number = nonend_ltt$n_nonend,
+      event_times2 = nonend_ltt$nonend_brt,
+      species_number2 = sim_0,
+      distance_method = distance_method,
+      time_unit = "ago",
+      normalize = FALSE
+    )
+  }
 
   if(singleton_ltt[1,1] == 0) {
     singleton_nltt <- 0
@@ -107,18 +106,18 @@ calc_ss_no_ext <- function(sim,
   largest_clade_sim <- max(sapply(cla_length_sim,length))
 
   return(
-  list(total_nltt = total_nltt,
-       clade_nltt = clade_nltt,
-       num_singleton = num_singleton,
-       num_multi = num_multi,
-       num_nonend = num_nonend,
-       num_col_sim = num_col_sim,
-       clade_size = clade_size_sd,
-       colon_time = colon_time_sd,
-       num_total = num_total,
-       nonend_nltt = nonend_nltt,
-       singleton_nltt = singleton_nltt,
-       largest_clade_sim = largest_clade_sim)
+    list(total_nltt = total_nltt,
+         clade_nltt = clade_nltt,
+         num_singleton = num_singleton,
+         num_multi = num_multi,
+         num_nonend = num_nonend,
+         num_col_sim = num_col_sim,
+         clade_size = clade_size_sd,
+         colon_time = colon_time_sd,
+         num_total = num_total,
+         nonend_nltt = nonend_nltt,
+         singleton_nltt = singleton_nltt,
+         largest_clade_sim = largest_clade_sim)
   )
 }
 
