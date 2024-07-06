@@ -4,21 +4,60 @@
 \alias{default_params_doc}
 \title{Default parameter documentation}
 \usage{
-default_params_doc(sim1, sim2, replicates, obs_rep)
+default_params_doc(
+  sim,
+  sim_1,
+  sim_2,
+  brt,
+  scenario,
+  param_set,
+  parameter,
+  replicates,
+  distance_method,
+  weights,
+  particles,
+  current,
+  sigma,
+  prior_density_function
+)
 }
 \arguments{
-\item{sim1}{A datalist which used to create observed data.}
+\item{sim}{A list of simulated data from DAISIE or BiSSE or TraiSIE model.}
 
-\item{sim2}{A datalist simulated using DAISIE simulation model.}
+\item{sim_1}{A list of observed data from DAISIE or BiSSE or TraiSIE model.}
 
-\item{replicates}{A numeric for the number of replicates used for calculating summary
-statistics.}
+\item{sim_2}{A list of simulated data from DAISIE or BiSSE or TraiSIE model.}
 
-\item{obs_rep}{A numeric which means a specific replicate of observed data
-used to calculate difference of summary statistics.}
-}
-\value{
-Nothing
+\item{brt}{A list of vectors containing the branching times in each clade.}
+
+\item{scenario}{A string of a scenario name which contains a series of
+parameter sets.}
+
+\item{param_set}{A numeric with the line corresponding to parameter set to
+run, as found in the file named in \code{param_space}.}
+
+\item{parameter}{A numeric vector of the parameters for generating simulations.
+\cr \cr \code{pars1[1]} corresponds to lambda^c (cladogenesis rate)
+\cr \code{pars1[2]} corresponds to mu (extinction rate)
+\cr \code{pars1[3]} corresponds to gamma (immigration rate)
+\cr \code{pars1[4]} corresponds to lambda^a (anagenesis rate).}
+
+\item{replicates}{A numeric for the number of replicates for the
+simulations.}
+
+\item{distance_method}{The method of calculating nLTT statistics, choose from
+absolute distance or squared distance.}
+
+\item{weights}{A vector of weights}
+
+\item{particles}{A list of parameter combinations}
+
+\item{current}{A vector of current parameter combination to determine the
+weight.}
+
+\item{sigma}{Standard deviation of the pertubation.}
+
+\item{prior_density_function}{Function to calculate the prior probability.}
 }
 \description{
 Default parameter documentation
@@ -26,4 +65,3 @@ Default parameter documentation
 \author{
 Shu Xie
 }
-\keyword{internal}

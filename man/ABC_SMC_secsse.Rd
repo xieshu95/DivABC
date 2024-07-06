@@ -14,9 +14,7 @@ ABC_SMC_secsse(
   number_of_particles = 1000,
   sigma = 0.05,
   stop_rate = 0.001,
-  replicates = 1,
   num_iterations,
-  K,
   idparsopt,
   fixpars,
   ss_set = 1
