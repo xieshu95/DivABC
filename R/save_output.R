@@ -1,10 +1,10 @@
 save_output <- function(output,
-                        scenario,
+                        param_space_name,
                         param_set,
                         ss_set){
 
   output_file_name <- create_output_file_name(
-    scenario = scenario,
+    param_space_name = param_space_name,
     param_set = param_set,
     ss_set = ss_set
   )
@@ -12,7 +12,7 @@ save_output <- function(output,
   output_folder <- file.path(
     getwd(),
     "results",
-    scenario
+    param_space_name
   )
   output_file_path <- file.path(output_folder, output_file_name)
 
@@ -34,12 +34,12 @@ save_output <- function(output,
 }
 
 
-create_output_file_name <- function(scenario,
+create_output_file_name <- function(param_space_name,
                                     param_set,
                                     ss_set) {
 
   output_file_name <- paste0(
-    scenario,
+    param_space_name,
     "_param_set_",
     param_set,
     "_ss_",
@@ -52,7 +52,7 @@ create_output_file_name <- function(scenario,
 }
 
 
-check_create_folders <- function(scenario,
+check_create_folders <- function(param_space_name,
                                  save_output) {
 
   if (!save_output) {
@@ -63,7 +63,7 @@ check_create_folders <- function(scenario,
   output_folder <- file.path(
     getwd(),
     "results",
-    scenario
+    param_space_name
   )
 
   if (!dir.exists(output_folder)) {

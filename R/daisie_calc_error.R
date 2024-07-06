@@ -149,8 +149,8 @@ calc_error_phylo <- function(sim_1,
 #' @export
 calc_error_tips <- function(sim_1,
                             sim_2,
-                            replicates,
-                            distance_method) {
+                            replicates = 1,
+                            distance_method = "abs") {
 
   ## tip info
   stt_last_row_sim_1 <-
@@ -237,8 +237,8 @@ calc_error_tips <- function(sim_1,
 #' @export
 calc_error_all <- function(sim_1,
                            sim_2,
-                           replicates,
-                           distance_method) {
+                           replicates = 1,
+                           distance_method = "abs") {
   # Spec error
   brt1 <- lapply(sim_1[[1]][-1],"[[", "branching_times")
   brt2 <- lapply(sim_2[[1]][-1],"[[", "branching_times")
