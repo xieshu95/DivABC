@@ -45,6 +45,55 @@ write.csv2(
 )
 
 
+
+lam1<- stats::runif(100,0.2,0.8)
+lam2<- stats::runif(100,0.2,0.8)
+mu1 <- rep(0.05,100)
+mu2 <- rep(0.05,100)
+q12 <- rep(0.05,100)
+q21 <- rep(0.05,100)
+secsse_ABC_lam <- cbind(lam1,lam2,mu1,mu2,q12,q21)
+
+lam1<- rep(0.6,100)
+lam2<- rep(0.6,100)
+mu1 <- stats::runif(100,0.01,0.2)
+mu2 <- stats::runif(100,0.01,0.2)
+q12 <- rep(0.05,100)
+q21 <- rep(0.05,100)
+secsse_ABC_mu <- cbind(lam1,lam2,mu1,mu2,q12,q21)
+
+lam1<- rep(0.6,100)
+lam2<- rep(0.6,100)
+mu1 <- rep(0.05,100)
+mu2 <- rep(0.05,100)
+q12 <- stats::runif(100,0.01,0.2)
+q21 <- stats::runif(100,0.01,0.2)
+secsse_ABC_q <- cbind(lam1,lam2,mu1,mu2,q12,q21)
+
+secsse_ABC_test <- rbind(secsse_ABC_lam,secsse_ABC_mu,secsse_ABC_q)
+rownames(secsse_ABC_test) <- 1:nrow(secsse_ABC_test)
+secsse_MCMC_test = secsse_ABC_test
+save(secsse_ABC_test, file = "inst/extdata/secsse_ABC_test.rda")
+save(secsse_MCMC_test, file = "inst/extdata/secsse_MCMC_test.rda")
+
+
+write.csv2(
+  secsse_ABC_test,
+  "data/secsse_ABC_test.csv",
+  row.names = FALSE
+)
+
+
+write.csv2(
+  secsse_MCMC_test,
+  "data/secsse_MCMC_test.csv",
+  row.names = FALSE
+)
+
+
+
+
+
 # secsse_ABC_test1 <- secsse_ABC[rep(1, 100), ]
 # rownames(secsse_ABC_test1) <- 1:nrow(secsse_ABC_test1)
 # save(secsse_ABC_test1, file = "inst/extdata/secsse_ABC_test1.rda")
