@@ -106,7 +106,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
 
         if ("phy" %in% names(new_sim[[1]])) {
           if (length(new_sim[[1]]$obs_traits) < 5 ||
-              length(new_sim[[1]]$obs_traits) >= 1500 ||
+              length(new_sim[[1]]$obs_traits) >= 1200 ||
               length(unique(new_sim[[1]]$obs_traits)) < 2 ||
               sum(new_sim[[1]]$obs_traits == 1) < 2 ||
               sum(new_sim[[1]]$obs_traits == 2) < 2) {
