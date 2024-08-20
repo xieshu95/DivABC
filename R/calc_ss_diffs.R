@@ -61,25 +61,28 @@ calc_ss_diff_secsse <- function(sim1, sim2, ss_set){
                             sim_2 = sim2)
   } else if(ss_set == 1) { # nltt + nltt1 + nltt2
     ss <- calc_error_secsse_nltts(sim_1 = sim1,
-                                 sim_2 = sim2)
+                                  sim_2 = sim2)
   } else if(ss_set == 2) { # nltt + D
     ss <- calc_error_secsse_D_nltt(sim_1 = sim1,
-                                 sim_2 = sim2)
+                                   sim_2 = sim2)
   } else if(ss_set == 3) { # D
     ss <- calc_error_secsse_D(sim_1 = sim1,
-                                 sim_2 = sim2)
+                              sim_2 = sim2)
   } else if(ss_set == 4) { # mpd1 + mpd2 + D
     ss <- calc_error_secsse_mpd_D(sim_1 = sim1,
-                              sim_2 = sim2)
+                                  sim_2 = sim2)
   } else if(ss_set == 5) { # mntd1 + mntd2 + D
     ss <- calc_error_secsse_mntd_D(sim_1 = sim1,
-                              sim_2 = sim2)
+                                   sim_2 = sim2)
   } else if(ss_set == 6) { # colless1 + colless2 + D
     ss <- calc_error_secsse_colless_D(sim_1 = sim1,
-                              sim_2 = sim2)
+                                      sim_2 = sim2)
   } else if(ss_set == 7) { # mpd1 + mpd2 + nltt
     ss <- calc_error_secsse_mpd_nltt(sim_1 = sim1,
-                                      sim_2 = sim2)
+                                     sim_2 = sim2)
+  } else if(ss_set == 8) { # nltt + nltt1 + nltt2 + D + num1 + num2
+    ss <- calc_error_secsse_num(sim_1 = sim1,
+                                sim_2 = sim2)
   }
 
   ss_diff <- as.numeric(ss)
