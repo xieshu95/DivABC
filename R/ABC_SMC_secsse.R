@@ -27,7 +27,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
 
   #generate a matrix with epsilon values
   #we assume that the SMC algorithm converges within 50 iterations
-  epsilon <- matrix(nrow = 20, ncol = length(init_epsilon_values))
+  epsilon <- matrix(nrow = 50, ncol = length(init_epsilon_values))
   epsilon[1,] <- init_epsilon_values
 
   #store weights
@@ -170,7 +170,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
                                  sum(init_state == "2A") + sum(init_state == "2B"))/length(init_state)
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.5)
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.8)
     }
     ABC <- c()
     for (k in seq_along(new_params)) {
