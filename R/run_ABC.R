@@ -104,7 +104,18 @@ run_ABC <- function(param_space_name,
       init_epsilon <- c(5,5,1)
     } else if (ss_set == 8){  # nltt + nltt1 + nltt2 + D + num1 + num2
       init_epsilon <- c(1,1,1,1,200,200)
+    } else if (ss_set == 9){  # nltt
+      init_epsilon <- c(1)
+    } else if (ss_set == 10){  # mntd1 + mntd2 + nltt
+      init_epsilon <- c(5,5,1)
+    } else if (ss_set == 11){  # colless1 + colless2 + nltt
+      init_epsilon <- c(300,300,1)
+    } else if (ss_set == 12){  # tip-ratio + nltt
+      init_epsilon <- c(1,1)
     }
+
+
+
     abc <- ABC_SMC_secsse (
       obs_data = obs_sim,
       sim_function <- get_secsse_sim,

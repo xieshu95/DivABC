@@ -83,7 +83,20 @@ calc_ss_diff_secsse <- function(sim1, sim2, ss_set){
   } else if(ss_set == 8) { # nltt + nltt1 + nltt2 + D + num1 + num2
     ss <- calc_error_secsse_num(sim_1 = sim1,
                                 sim_2 = sim2)
+  } else if(ss_set == 9) { # nltt
+    ss <- calc_error_secsse_nltt(sim_1 = sim1,
+                                sim_2 = sim2)
+  } else if(ss_set == 10) { # mntd1 + mntd2 + nltt
+    ss <- calc_error_secsse_mntd_nltt(sim_1 = sim1,
+                                sim_2 = sim2)
+  } else if(ss_set == 11) { # colless1 + colless2 + nltt
+    ss <- calc_error_secsse_colless_nltt(sim_1 = sim1,
+                                sim_2 = sim2)
+  } else if(ss_set == 12) { # tip-ratio + nltt
+    ss <- calc_error_secsse_ratio_nltt(sim_1 = sim1,
+                                sim_2 = sim2)
   }
+
 
   ss_diff <- as.numeric(ss)
   return(ss_diff)
