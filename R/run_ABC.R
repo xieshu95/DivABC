@@ -113,7 +113,7 @@ run_ABC <- function(param_space_name,
       number_of_particles = 500,
       sigma = 0.2,
       stop_rate = 0.0005,
-      num_iterations = 20,
+      num_iterations = 30,
       idparsopt = as.numeric(idparsopt),
       fixpars = as.numeric(obs_sim_pars[1:6]),
       ss_set = ss_set
