@@ -348,20 +348,31 @@ print(heatmap)
 while (!is.null(dev.list()))  dev.off()
 
 # heatmap(cormat)
-## paper
+## paper！！！
 # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/secsse/NLTTs_D/obs_ss_test.rda"))
-load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/obs_ss_test.rda"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/secsse/ss0_nltts_D/obs_ss_test.rda"))
 # ss$tip_ratio = 1/ss$tip_ratio
 ss<- ss[,-c(1,2,3,6,10,13:17,23:25)]
 colnames(ss) <- c("Tip ratio",
-                  "MPD","MPD1","MPD2",
-                  "MNTD","MNTD1","MNTD2",
-                  "D","NLTT","NLTT1","NLTT2","Colless")
+                  "MPD","MPD0","MPD1",
+                  "MNTD","MNTD0","MNTD1",
+                  "D","NLTT","NLTT0","NLTT1","Colless")
 cormat <- round(cor(ss),2)
 
-tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/heatmap.tiff"),
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/secsse/ss0_nltts_D/heatmap3.tiff"),
      units="px", width=4000, height=3500,res = 350,compression="lzw")
-heatmap <- corrplot::corrplot(cormat,method = "circle",order = "hclust",tl.col = "brown", tl.srt = 30) #'arg' should be one of “original”, “AOE”, “FPC”, “hclust”, “alphabet”
+heatmap <- corrplot::corrplot(cormat,method = "circle",order = "AOE",tl.col = "brown", tl.srt = 30,type = 'lower',diag = FALSE) #'arg' should be one of “original”, “AOE”, “FPC”, “hclust”, “alphabet”
+print(heatmap)
+while (!is.null(dev.list()))  dev.off()
+
+# 完整heatmap
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/secsse/ss0_nltts_D/obs_ss_test.rda"))
+# ss$tip_ratio = 1/ss$tip_ratio
+cormat <- round(cor(ss),2)
+
+tiff(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/secsse/ss0_nltts_D/heatmap2.tiff"),
+     units="px", width=4000, height=3500,res = 350,compression="lzw")
+heatmap <- corrplot::corrplot(cormat,method = "circle",order = "AOE",tl.col = "brown", tl.srt = 30) #'arg' should be one of “original”, “AOE”, “FPC”, “hclust”, “alphabet”
 print(heatmap)
 while (!is.null(dev.list()))  dev.off()
 
