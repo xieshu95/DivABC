@@ -246,3 +246,47 @@ secsse_sim <- function(timeSimul,
               speciesTraits = speciesTraits,
               examTraits = examTraits))
 }
+
+
+#' In preparation for likelihood calculation, it orders trait data according
+#' the tree tips
+#' @title Data checking and trait sorting
+#' @param traitinfo data frame where first column has species ids and the second
+#' one is the trait associated information.
+#' @param phy phy phylogenetic tree of class phylo, ultrametric, fully-resolved,
+#' rooted and with branch lengths.
+#' @return Vector of traits
+#' @examples
+#' # Some data we have prepared
+#' data(traitinfo)
+#' data('phylo_Vign')
+#' traits <- sortingtraits(traitinfo,phylo_Vign)
+#' @export
+sortingtraits <- function(traitinfo, phy) {
+  traitinfo <- as.matrix(traitinfo)
+  if (length(phy$tip.label) != nrow(traitinfo)) {
+    stop("Number of species in the tree must be the same as in the trait file")
+  }
+
+  if (identical(as.character(sort(phy$tip.label)), as.character(sort(traitinfo[, 1]))) == FALSE) {
+    mismatch <- match(as.character(sort(traitinfo[, 1])), as.character(sort(phy$tip.label)))
+    mismatched <- (sort(traitinfo[, 1]))[which(is.na(mismatch))]
+    stop(cat("Mismatch on tip labels and taxa names, check the species:", mismatched))
+  }
+
+  traitinfo <- traitinfo[match(phy$tip.label, traitinfo[, 1]), ]
+  traitinfo[, 1] == phy$tip.label
+
+  if (ncol(traitinfo) == 2) {
+    traits <- as.numeric(traitinfo[, 2])
+  }
+
+  if (ncol(traitinfo) > 2) {
+    traits <- NULL
+    for (i in 1:(ncol(traitinfo) - 1)) {
+      traits <- cbind(traits, as.numeric(traitinfo[, 1 + i]))
+    }
+  }
+  return(traits)
+}
+
