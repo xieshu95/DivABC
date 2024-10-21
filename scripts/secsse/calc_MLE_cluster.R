@@ -1,4 +1,4 @@
-library(TraisieABC)
+library(DivABC)
 param_space <- param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
 lam1_MLE<- c()
 lam2_MLE <-c()
