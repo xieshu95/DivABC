@@ -8,4 +8,4 @@
 #SBATCH --partition=gelifes
 
 module load R
-Rscript TraisieABC/scripts/loglik_test/MLE_init_with_MCMC.R
+Rscript DivABC/scripts/loglik_test/MLE_init_with_MCMC.R

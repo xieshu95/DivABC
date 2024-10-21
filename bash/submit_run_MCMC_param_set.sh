@@ -16,7 +16,7 @@ idparsopt_gam=$5
 idparsopt_laa=$6
 
 ml R
-Rscript TraisieABC/scripts/run_MCMC_peregrine.R ${param_space_name} \
+Rscript DivABC/scripts/run_MCMC_peregrine.R ${param_space_name} \
                                                ${param_set} \
                                                ${idparsopt_lac} \
                                                ${idparsopt_mu} \

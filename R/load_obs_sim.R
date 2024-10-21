@@ -11,7 +11,7 @@ load_obs_sim <- function(param_space_name) {
   # obs_sim <- readRDS(url(file))
 
   loaded_name <- load(system.file(
-    "extdata", paste0("obs_sims_",param_space_name, ".rda"), package = "TraisieABC")
+    "extdata", paste0("obs_sims_",param_space_name, ".rda"), package = "DivABC")
   )
   assign("obs_sim", get(loaded_name))
   return(obs_sim)
