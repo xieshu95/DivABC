@@ -17,12 +17,12 @@ idparsopt_mu=$3
 idparsopt_gam=$4
 idparsopt_laa=$5
 
-for_length=`wc -l TraisieABC/data/${param_space_name}.csv | cut -f1 -d' '`
+for_length=`wc -l DivABC/data/${param_space_name}.csv | cut -f1 -d' '`
 for_length=$(( ${for_length} - 1 ))
 
 for (( param_set = 1; param_set <= $for_length; param_set++ ))
 do
-sbatch TraisieABC/bash/submit_run_MCMC_param_set.sh ${param_space_name} \
+sbatch DivABC/bash/submit_run_MCMC_param_set.sh ${param_space_name} \
                                                    ${param_set} \
                                                    ${idparsopt_lac} \
                                                    ${idparsopt_mu} \

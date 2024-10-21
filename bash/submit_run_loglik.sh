@@ -8,4 +8,4 @@
 #SBATCH --partition=regular
 
 module load R
-Rscript TraisieABC/scripts/loglik_test/run_loglik_cluster.R
+Rscript DivABC/scripts/loglik_test/run_loglik_cluster.R

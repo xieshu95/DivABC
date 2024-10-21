@@ -25,7 +25,7 @@ ss_set=${14}
 
 
 ml R
-Rscript TraisieABC/scripts/run_ABC_peregrine.R ${param_space_name} \
+Rscript DivABC/scripts/run_ABC_peregrine.R ${param_space_name} \
                                                ${param_set} \
                                                ${idparsopt_lac} \
                                                ${idparsopt_mu} \

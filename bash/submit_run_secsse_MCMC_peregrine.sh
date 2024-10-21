@@ -10,7 +10,7 @@
 
 # Start script
 ml R
-Rscript -e "remotes::install_github('xieshu95/TraisieABC@daisie')"
+Rscript -e "remotes::install_github('xieshu95/DivABC@daisie')"
 
 param_space_name=$1
 idparsopt_lam1=$2
@@ -20,12 +20,12 @@ idparsopt_mu2=$5
 idparsopt_q12=$6
 idparsopt_q21=$7
 
-for_length=`wc -l TraisieABC/data/${param_space_name}.csv | cut -f1 -d' '`
+for_length=`wc -l DivABC/data/${param_space_name}.csv | cut -f1 -d' '`
 for_length=$(( ${for_length} - 1 ))
 
 for (( param_set = 1; param_set <= $for_length; param_set++ ))
 do
-sbatch TraisieABC/bash/submit_run_secsse_MCMC_param_set.sh ${param_space_name} \
+sbatch DivABC/bash/submit_run_secsse_MCMC_param_set.sh ${param_space_name} \
                                                    ${param_set} \
                                                    ${idparsopt_lam1} \
                                                    ${idparsopt_lam2} \
