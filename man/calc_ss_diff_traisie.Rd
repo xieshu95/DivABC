@@ -15,16 +15,6 @@ calc_ss_diff_traisie(sim1, sim2, ss_set)
 \item{replicates}{The number of replicates used for calculating summary
 statistics.}
 }
-\value{
-A list with numeric vectors of diff statistics for:
-\itemize{
-  \item{\code{$spec_nltt_error}}
-  \item{\code{$num_spec_error}}
-  \item{\code{$num_col_error}}
-  \item{\code{$endemic_nltt_error}}
-  \item{\code{$nonendemic_nltt_error}}
-}
-}
 \description{
 Calculate summary statistic differences between simulated data and a specific
 replicate of (simulated) observed data.
