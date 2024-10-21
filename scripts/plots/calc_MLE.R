@@ -1,5 +1,5 @@
 ##### calculate MLE for each parameter set and combine as a dataframe
-param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
+param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_DD.csv")
 lac_MLE <- c()
 mu_MLE <- c()
 gam_MLE <- c()
@@ -218,7 +218,7 @@ save(whole_df_MLE,file = "G:/results/project 2/tip_info/round2/MLE_single/whole_
 
 
 ##### MLE for all parameters
-param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
+param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_DD.csv")
 lac_MLE<- c()
 mu_MLE <-c()
 gam_MLE <- c()

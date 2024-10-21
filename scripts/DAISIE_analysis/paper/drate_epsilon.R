@@ -1,14 +1,14 @@
 # heatmap all paticles (drate vs epsilon)
 library(ggplot2)
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space/DAISIE_ABC_short_DI"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space/DAISIE_ABC_DI"
 files <- list.files(folder_path)
-param_data <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+param_data <- readr::read_csv2("data/DAISIE_ABC_DI.csv")
 for(n in c(0)){ # 1,2
   ss_diff <- c()
   n_iter <-c()
   n_iteration <- c()
   for(i in 1:160){
-    file_to_load <- grep(paste0("DAISIE_ABC_short_DI_param_set_", i,"_ss_",n,".RData"),  #,"_rep",rep
+    file_to_load <- grep(paste0("DAISIE_ABC_DI_param_set_", i,"_ss_",n,".RData"),  #,"_rep",rep
                          files,
                          value = TRUE,
                          fixed = TRUE)

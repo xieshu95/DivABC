@@ -344,9 +344,9 @@ while (!is.null(dev.list()))  dev.off()
 
 
 library(ggplot2)
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space3/DI/DAISIE_ABC_short_DI"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space3/DI/DAISIE_ABC_DI"
 files <- list.files(folder_path)
-param_data <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+param_data <- readr::read_csv2("data/DAISIE_ABC_DI.csv")
 for(n in c(2)){
   ABC_df<-c()
   generation <-c()
@@ -355,7 +355,7 @@ for(n in c(2)){
   for(set in 1:160){
     message("set", set)
     true_rates <- param_data[set,]
-    file_to_load <- grep(paste0("DAISIE_ABC_short_DI_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
+    file_to_load <- grep(paste0("DAISIE_ABC_DI_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
                          files,
                          value = TRUE,
                          fixed = TRUE)

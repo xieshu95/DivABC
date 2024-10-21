@@ -1,7 +1,7 @@
 ### decide the parameter space and check the relationships between dss and ss
 
 ## calculate the MLE of each set
-param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
+param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_DD.csv")
 lac_MLE<- c()
 mu_MLE <-c()
 gam_MLE <- c()
@@ -72,7 +72,7 @@ load("G:/results/project 2/tip_info/round4/no_ext_nltt/num_spec.RData")
 num1 = num
 load("G:/results/project 2/tip_info/round4/no_ext_nltt/num_spec_seed42.RData")
 
-param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
+param_space <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_DD.csv")
 dss1<-c()
 dss2<-c()
 dss3<-c()
@@ -154,7 +154,7 @@ save(ss,file = "G:/results/project 2/tip_info/round4/no_ext_nltt/ss_seed_i.RData
 
 
 
-param_space_name = "DAISIE_ABC_short"
+param_space_name = "DAISIE_ABC_DD"
 param_set = 1
 idparsopt = c(1,3)
 save_output = TRUE

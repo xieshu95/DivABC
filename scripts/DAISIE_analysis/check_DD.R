@@ -4,9 +4,9 @@ library(ggplot2)
 # formate results
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/obs_ss_long_with_pars.RData"))
 ## ABC results
-folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/DAISIE_ABC_short")
+folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/DAISIE_ABC_DD")
 files <- list.files(folder_path)
-param_data <- readr::read_csv2("data/DAISIE_ABC_short.csv")
+param_data <- readr::read_csv2("data/DAISIE_ABC_DD.csv")
 param_data2<-param_data[rep(seq_len(nrow(param_data)), each=400),] #500
 
 # 1. formate ABC results
@@ -18,7 +18,7 @@ for(n in c(0,1,2)){ # 1,2,6,7,20
   n_iter <-c()
   n_iteration <- c()
   for(i in 1:81){
-    file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", i,"_ss_",n,".RData"),  #,"_rep",rep
+    file_to_load <- grep(paste0("DAISIE_ABC_DD_param_set_", i,"_ss_",n,".RData"),  #,"_rep",rep
                          files,
                          value = TRUE,
                          fixed = TRUE)
@@ -70,9 +70,9 @@ for(n in c(0,1,2)){ # 1,2,6,7,20
 # ######
 # 2. formate MCMC results (only plot the etimation points with ABC results)
 # skip
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/DAISIE_MCMC_short"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/DAISIE_MCMC_DD"
 files <- list.files(folder_path)
-param_data <- readr::read_csv2("data/DAISIE_ABC_short.csv")
+param_data <- readr::read_csv2("data/DAISIE_ABC_DD.csv")
 param_data <- param_data[1:81,]
 param_data3<-param_data[rep(seq_len(nrow(param_data)), each=1001),] #2001/400
 
@@ -82,7 +82,7 @@ gam_mcmc <- c()
 laa_mcmc <- c()
 
 for(i in 1:81){
-  file_to_load <- grep(paste0("DAISIE_MCMC_short_param_set_", i,"_ss_1.RData"), #"_rep",rep,
+  file_to_load <- grep(paste0("DAISIE_MCMC_DD_param_set_", i,"_ss_1.RData"), #"_rep",rep,
                        files,
                        value = TRUE,
                        fixed = TRUE)
@@ -122,7 +122,7 @@ save(whole_df_MCMC,
 # load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/whole_df_MLE.RData"))
 #
 # # # MLE_DI directly load MLE results from cluster
-# # param_data <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+# # param_data <- readr::read_csv2("data/DAISIE_ABC_DI.csv")
 # # load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/MLE_DI.RData")
 # # whole_df_MLE <- data.frame(param_data,MLE_all[1:4])
 # #
@@ -136,11 +136,11 @@ save(whole_df_MCMC,
 # #####
 # # plot MCMC trace
 # #skip
-# folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/DAISIE_MCMC_short"
+# folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/DAISIE_MCMC_DD"
 # files <- list.files(folder_path)
 # for(i in 1:81){
 #   # param_set = (param_num-1)*5 + i
-#   file_to_load <- grep(paste0("DAISIE_MCMC_short_param_set_", i,"_ss_1.RData"), #"_rep",rep,
+#   file_to_load <- grep(paste0("DAISIE_MCMC_DD_param_set_", i,"_ss_1.RData"), #"_rep",rep,
 #                        files,
 #                        value = TRUE,
 #                        fixed = TRUE)
@@ -627,14 +627,14 @@ save(whole_df_MCMC,
 # #####
 # # 8. plot the epsilon through generation
 # library(ggplot2)
-# param_data <- readr::read_csv2("data/DAISIE_ABC_short.csv")
+# param_data <- readr::read_csv2("data/DAISIE_ABC_DD.csv")
 #
-# folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/DAISIE_ABC_short1"
+# folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/DAISIE_ABC_DD1"
 # files <- list.files(folder_path)
 # for(n in c(0,1,2,5,6,7,20)){
 #   for(set in 1:81){
 #     message("set", set)
-#     file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
+#     file_to_load <- grep(paste0("DAISIE_ABC_DD_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
 #                          files,
 #                          value = TRUE,
 #                          fixed = TRUE)
@@ -710,14 +710,14 @@ save(whole_df_MCMC,
 # #####
 # # 9. plot rate estimations through generation
 # library(ggplot2)
-# folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/DAISIE_ABC_short1"
+# folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/DAISIE_ABC_DD1"
 # files <- list.files(folder_path)
-# param_data <- readr::read_csv2("data/DAISIE_ABC_short.csv")
+# param_data <- readr::read_csv2("data/DAISIE_ABC_DD.csv")
 # for(n in c(0,1,2,6,7,20)){
 #   for(set in 1:81){
 #     message("set", set)
 #     true_rates <- param_data[set,]
-#     file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
+#     file_to_load <- grep(paste0("DAISIE_ABC_DD_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
 #                          files,
 #                          value = TRUE,
 #                          fixed = TRUE)
@@ -1542,9 +1542,9 @@ while (!is.null(dev.list()))  dev.off()
 
 
 library(ggplot2)
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/DAISIE_ABC_short"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check2/DD/DAISIE_ABC_DD"
 files <- list.files(folder_path)
-param_data <- readr::read_csv2("data/DAISIE_ABC_short.csv")
+param_data <- readr::read_csv2("data/DAISIE_ABC_DD.csv")
 for(n in c(0,1,2)){
   ABC_df<-c()
   generation <-c()
@@ -1552,7 +1552,7 @@ for(n in c(0,1,2)){
   for(set in 1:81){
     message("set", set)
     true_rates <- param_data[set,]
-    file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
+    file_to_load <- grep(paste0("DAISIE_ABC_DD_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
                          files,
                          value = TRUE,
                          fixed = TRUE)

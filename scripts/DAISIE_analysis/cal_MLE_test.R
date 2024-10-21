@@ -1,7 +1,7 @@
 # calculate MLE with different initials (10 replicates for each parameter set)
 library(DivABC)
 param_space <- readr::read_csv2("data/DAISIE_ABC_test1.csv")
-# param_space <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+# param_space <- readr::read_csv2("data/DAISIE_ABC_DI.csv")
 lac_MLE <- c()
 mu_MLE <- c()
 gam_MLE <- c()
@@ -72,7 +72,7 @@ MLE_all <- data.frame(lac_MLE, mu_MLE, gam_MLE, laa_MLE,
 save(MLE_all, file = paste0("results/MLE_test1.RData"))
 
 param_space <- readr::read_csv2("data/DAISIE_ABC_test2.csv")
-# param_space <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+# param_space <- readr::read_csv2("data/DAISIE_ABC_DI.csv")
 lac_MLE <- c()
 mu_MLE <- c()
 gam_MLE <- c()
@@ -143,7 +143,7 @@ MLE_all <- data.frame(lac_MLE, mu_MLE, gam_MLE, laa_MLE,
 save(MLE_all, file = paste0("results/MLE_test2.RData"))
 
 param_space <- readr::read_csv2("data/DAISIE_ABC_test3.csv")
-# param_space <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+# param_space <- readr::read_csv2("data/DAISIE_ABC_DI.csv")
 lac_MLE <- c()
 mu_MLE <- c()
 gam_MLE <- c()
@@ -215,7 +215,7 @@ save(MLE_all, file = paste0("results/MLE_test3.RData"))
 
 #
 param_space <- readr::read_csv2("data/DAISIE_ABC_test4.csv")
-# param_space <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+# param_space <- readr::read_csv2("data/DAISIE_ABC_DI.csv")
 lac_MLE <- c()
 mu_MLE <- c()
 gam_MLE <- c()

@@ -1,7 +1,7 @@
 # calculate MLE with different initials (10 replicates for each parameter set)
 library(DivABC)
-param_space_name <- "DAISIE_ABC_short_DI"
-param_space <- load_param_space(param_space_name = "DAISIE_ABC_short_DI")
+param_space_name <- "DAISIE_ABC_DI"
+param_space <- load_param_space(param_space_name = "DAISIE_ABC_DI")
 lac_MLE <- c()
 mu_MLE <- c()
 gam_MLE <- c()

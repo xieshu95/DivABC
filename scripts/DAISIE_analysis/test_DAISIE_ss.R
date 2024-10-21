@@ -169,7 +169,7 @@ p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
 saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/adap_daisie_unif1/heatmap_ss.html"))
 
 ## for DI SPACE
-param_space <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+param_space <- readr::read_csv2("data/DAISIE_ABC_DI.csv")
 ss <- c()
 for(i in 1:81){
   set.seed(i)

@@ -156,7 +156,7 @@ p_heatmap <- heatmaply::heatmaply_cor(x = cor(ss), xlab = "Summary statistics",
 saveWidget(p_heatmap, paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_test/heatmap_ss_random.html"))
 
 ## for space
-param_space <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+param_space <- readr::read_csv2("data/DAISIE_ABC_DI.csv")
 param_space <- readr::read_csv2("data/DAISIE_ABC_short.csv")
 ss <- c()
 obs_sim <- list()
@@ -280,8 +280,8 @@ while (!is.null(dev.list()))  dev.off()
 density(stats::rexp(1000,5))
 
 
-obs_sims_DAISIE_ABC_short_DI<-readRDS("data/obs_sims_DAISIE_ABC_short_DI.rds")
-save(obs_sims_DAISIE_ABC_short_DI,file = "inst/extdata/obs_sims_DAISIE_ABC_short_DI.rda")
+obs_sims_DAISIE_ABC_DI<-readRDS("data/obs_sims_DAISIE_ABC_DI.rds")
+save(obs_sims_DAISIE_ABC_DI,file = "inst/extdata/obs_sims_DAISIE_ABC_DI.rda")
 
 obs_sims_DAISIE_MCMC_short_DI<-readRDS("data/obs_sims_DAISIE_MCMC_short_DI.rds")
 save(obs_sims_DAISIE_MCMC_short_DI,file = "inst/extdata/obs_sims_DAISIE_MCMC_short_DI.rda")

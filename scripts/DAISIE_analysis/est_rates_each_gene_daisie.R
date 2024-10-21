@@ -2,7 +2,7 @@
 library(ggplot2)
 folder_path <- "G:/results/project 2/tip_info/round4/DAISIE_new_test/DAISIE_ABC_short"
 files <- list.files(folder_path)
-param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
+param_data <- readr::read_csv2("G:/R/DivABC/data/DAISIE_ABC_DD.csv")
 for(n in c(20,21,22)){
   for(set in 1:27){
     message("set", set)

@@ -4,9 +4,9 @@ library(ggplot2)
 # formate results
 load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space5/obs_ss_long_with_pars_DI.RData"))
 ## ABC results
-folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space5/DI/DAISIE_ABC_short_DI")
+folder_path <- paste0("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space5/DI/DAISIE_ABC_DI")
 files <- list.files(folder_path)
-param_data <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+param_data <- readr::read_csv2("data/DAISIE_ABC_DI.csv")
 param_data2<-param_data[rep(seq_len(nrow(param_data)), each=500),] #500
 
 # 1. formate ABC results
@@ -18,7 +18,7 @@ for(n in c(1,2)){ # 1,2,6,7,20
   n_iter <-c()
   n_iteration <- c()
   for(i in 1:160){
-    file_to_load <- grep(paste0("DAISIE_ABC_short_DI_param_set_", i,"_ss_",n,".RData"),  #,"_rep",rep
+    file_to_load <- grep(paste0("DAISIE_ABC_DI_param_set_", i,"_ss_",n,".RData"),  #,"_rep",rep
                          files,
                          value = TRUE,
                          fixed = TRUE)
@@ -999,9 +999,9 @@ while (!is.null(dev.list()))  dev.off()
 #####
 # combine all generations into one
 library(ggplot2)
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space5/DI/DAISIE_ABC_short_DI"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space5/DI/DAISIE_ABC_DI"
 files <- list.files(folder_path)
-param_data <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
+param_data <- readr::read_csv2("data/DAISIE_ABC_DI.csv")
 for(n in c(0,1,2)){
   ABC_df<-c()
   generation <-c()
@@ -1010,7 +1010,7 @@ for(n in c(0,1,2)){
   for(set in 1:160){
     message("set", set)
     true_rates <- param_data[set,]
-    file_to_load <- grep(paste0("DAISIE_ABC_short_DI_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
+    file_to_load <- grep(paste0("DAISIE_ABC_DI_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
                          files,
                          value = TRUE,
                          fixed = TRUE)
@@ -1201,7 +1201,7 @@ for(n in c(0)){ # 1,2,6,7,20
   n_iter <-c()
   n_iteration <- c()
   for(i in 1:81){
-    file_to_load <- grep(paste0("DAISIE_ABC_short_DI_param_set_", i,"_ss_",n,".RData"),  #,"_rep",rep
+    file_to_load <- grep(paste0("DAISIE_ABC_DI_param_set_", i,"_ss_",n,".RData"),  #,"_rep",rep
                          files,
                          value = TRUE,
                          fixed = TRUE)

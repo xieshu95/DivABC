@@ -1,14 +1,14 @@
 #####
 ## plot the d(ss) for each generation
 library(ggplot2)
-param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
+param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_DD.csv")
 
-folder_path <- "G:/results/project 2/tip_info/round4/DAISIE_new_test/DAISIE_ABC_short"
+folder_path <- "G:/results/project 2/tip_info/round4/DAISIE_new_test/DAISIE_ABC_DD"
 files <- list.files(folder_path)
 for(n in c(20,21,22)){
   for(set in 1:27){
     message("set", set)
-    file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
+    file_to_load <- grep(paste0("DAISIE_ABC_DD_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
                          files,
                          value = TRUE,
                          fixed = TRUE)
@@ -103,15 +103,15 @@ for(n in c(20,21,22)){
 
 ## plot the d(ss) for each generation
 library(ggplot2)
-param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_short.csv")
-folder_path <- "G:/results/project 2/tip_info/round4/DAISIE_new_test/DAISIE_ABC_short"
+param_data <- readr::read_csv2("G:/R/Traisie-ABC/data/DAISIE_ABC_DD.csv")
+folder_path <- "G:/results/project 2/tip_info/round4/DAISIE_new_test/DAISIE_ABC_DD"
 files <- list.files(folder_path)
 for(set in 1:27){
   message("set", set)
   ss_dist1<-c()
   ss_dist2<-c()
   ss_dist3<-c()
-  file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", set,"_ss_20.RData"),  #,"_rep",rep
+  file_to_load <- grep(paste0("DAISIE_ABC_DD_param_set_", set,"_ss_20.RData"),  #,"_rep",rep
                        files,
                        value = TRUE,
                        fixed = TRUE)
@@ -135,7 +135,7 @@ for(set in 1:27){
     ss_dist1 <- NA
   }
 
-  file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", set,"_ss_20.RData"),  #,"_rep",rep
+  file_to_load <- grep(paste0("DAISIE_ABC_DD_param_set_", set,"_ss_20.RData"),  #,"_rep",rep
                        files,
                        value = TRUE,
                        fixed = TRUE)
@@ -159,7 +159,7 @@ for(set in 1:27){
     ss_dist2 <- NA
   }
 
-  file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", set,"_ss_20.RData"),  #,"_rep",rep
+  file_to_load <- grep(paste0("DAISIE_ABC_DD_param_set_", set,"_ss_20.RData"),  #,"_rep",rep
                        files,
                        value = TRUE,
                        fixed = TRUE)
@@ -239,7 +239,7 @@ for(set in 1:27){
 ##### for old version
 ## plot the d(ss) for each generation
 library(ggplot2)
-folder_path <- "G:/results/project 2/tip_info/round4/adap_daisie/DAISIE_ABC_short"
+folder_path <- "G:/results/project 2/tip_info/round4/adap_daisie/DAISIE_ABC_DD"
 files <- list.files(folder_path)
 epsilon_matix <- matrix(NA,81,7)
 colnames(epsilon_matix) <- c("Nltt","Cltt","Anagenesis","Cladogenesis",
@@ -251,7 +251,7 @@ for(i in 1:81){
   #   rep <- i%%5
   # }
   # param_set = (param_num-1)*5 + i
-  file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", i,"_ss_0.RData"),  #,"_rep",rep
+  file_to_load <- grep(paste0("DAISIE_ABC_DD_param_set_", i,"_ss_0.RData"),  #,"_rep",rep
                        files,
                        value = TRUE,
                        fixed = TRUE)

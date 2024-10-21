@@ -134,31 +134,7 @@ calc_epsilon_init <- function(sim){
   return(eps_init)
 }
 
-# param_space <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
-# param_space <- readr::read_csv2("data/DAISIE_ABC_short.csv")
-# ss <- c()
-# obs_sim <- list()
-# set.seed(10)
-# for(i in 1:160){
-#   message("set: ", i)
-#   obs_sim_pars <- param_space[i,]
-#   obs_sim[[i]] <- get_DAISIE_sim(parameters = c(obs_sim_pars$lac,
-#                                                 obs_sim_pars$mu,
-#                                                 obs_sim_pars$gam,
-#                                                 obs_sim_pars$laa),
-#                                  K = as.numeric(obs_sim_pars$K),  # as.numeric(obs_sim_pars$K)  Inf
-#                                  replicates = 1)
-#   init_epsilon <- calc_epsilon_init(sim = obs_sim[[i]])
-#   ss <- rbind(ss,init_epsilon)
-# }
-#
-#
-# colnames(ss) <- c("clade-nltt","total-nltt","singleton-nltt","nonend-nltt","ctsd",
-#                   "num-clade","total","singleton","nonend","scsd","largest-clade")
-# rownames(ss) <- 1:160
-# save(ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space2/obs_ss_DD.RData")
-#
-# load("D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie/daisie_new_space2/obs_ss_DD.RData")
+
 
 ## new heatmap code
 library(heatmaply)

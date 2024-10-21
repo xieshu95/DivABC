@@ -94,21 +94,7 @@ calc_ss_diff_secsse <- function(sim1, sim2, ss_set){
 #' @author Shu Xie
 #' @return
 #' @export
-# calc_epsilon_init <- function(sim,ss_set){
-#   ss_diff_pairs <- c()
-#   replicates <- length(sim)
-#   for (i in 1:(replicates-1)){
-#     for (j in (i + 1):replicates){
-#       ss_diff <- calc_ss_diff(sim1 = sim[[i]],
-#                               sim2 = sim[[j]],
-#                               ss_set = ss_set)
-#       ss_diff_pairs <- data.frame(rbind(ss_diff_pairs,ss_diff))
-#     }
-#   }
-#   ss_diff_pairs_median <- apply(ss_diff_pairs,2,mean)
-#   epsilon_init <- 8*ss_diff_pairs_median ##9 for DAISIE
-#   return(epsilon_init)
-# }
+
 calc_epsilon_init <- function(sim){
   ss <- calc_ss(sim[[1]],1)
   eps_init <- as.numeric(unlist(ss)) * 1

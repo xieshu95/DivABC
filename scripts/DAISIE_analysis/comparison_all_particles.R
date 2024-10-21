@@ -304,9 +304,9 @@ while (!is.null(dev.list()))  dev.off()
 
 # 9. (all 81 paramsets into one) plot rate estimations through generation
 library(ggplot2)
-folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check/DD/DAISIE_ABC_short"
+folder_path <- "D:/Onedrive-shu/OneDrive/project 2/results/round5/daisie_ss_check/DD/DAISIE_ABC_DD"
 files <- list.files(folder_path)
-param_data <- readr::read_csv2("data/DAISIE_ABC_short.csv")
+param_data <- readr::read_csv2("data/DAISIE_ABC_DD.csv")
 for(n in c(0,1,2)){
   ABC_df<-c()
   generation <-c()
@@ -314,7 +314,7 @@ for(n in c(0,1,2)){
   for(set in 1:81){
     message("set", set)
     true_rates <- param_data[set,]
-    file_to_load <- grep(paste0("DAISIE_ABC_short_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
+    file_to_load <- grep(paste0("DAISIE_ABC_DD_param_set_", set,"_ss_",n,".RData"),  #,"_rep",rep
                          files,
                          value = TRUE,
                          fixed = TRUE)
