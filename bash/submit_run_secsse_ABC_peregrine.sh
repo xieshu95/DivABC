@@ -7,14 +7,14 @@
 #SBATCH --mem=1GB
 #SBATCH --partition=regular
 
-# git clone https://github.com/xieshu95/TraisieABC
-# sbatch TraisieABC/bash/submit_run_ABC_peregrine.sh secsse_ABC 1 1 1 1 1 1 secsse
+# git clone https://github.com/xieshu95/DivABC
+# sbatch DivABC/bash/submit_run_ABC_peregrine.sh secsse_ABC 1 1 1 1 1 1 secsse
 
 
 
 # Start script
 ml R
-Rscript -e "remotes::install_github('xieshu95/TraisieABC@daisie')"
+Rscript -e "remotes::install_github('xieshu95/DivABC@daisie')"
 
 param_space_name=${1}
 idparsopt_lac1=${2}
@@ -26,12 +26,12 @@ idparsopt_trans21=${7}
 sim_model=${8}
 ss_set=${9}
 
-for_length=`wc -l TraisieABC/data/${param_space_name}.csv | cut -f1 -d' '`
+for_length=`wc -l DivABC/data/${param_space_name}.csv | cut -f1 -d' '`
 for_length=$(( ${for_length} - 1 ))
 
 for (( param_set = 1; param_set <= $for_length; param_set++ ))
 do
-sbatch TraisieABC/bash/submit_run_secsse_ABC_param_set.sh ${param_space_name} \
+sbatch DivABC/bash/submit_run_secsse_ABC_param_set.sh ${param_space_name} \
                                                    ${param_set} \
                                                    ${idparsopt_lac1} \
                                                    ${idparsopt_lac2} \

@@ -30,12 +30,12 @@ idparsopt_trans2=${11}
 sim_model=${12}
 ss_set=${13}
 
-for_length=`wc -l TraisieABC/data/${param_space_name}.csv | cut -f1 -d' '`
+for_length=`wc -l DivABC/data/${param_space_name}.csv | cut -f1 -d' '`
 for_length=$(( ${for_length} - 1 ))
 
 for (( param_set = 1; param_set <= $for_length; param_set++ ))
 do
-sbatch TraisieABC/bash/submit_run_ABC_param_set.sh ${param_space_name} \
+sbatch DivABC/bash/submit_run_ABC_param_set.sh ${param_space_name} \
                                                    ${param_set} \
                                                    ${idparsopt_lac} \
                                                    ${idparsopt_mu} \

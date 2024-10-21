@@ -1,5 +1,5 @@
 # calculate MLE with different initials (10 replicates for each parameter set)
-library(TraisieABC)
+library(DivABC)
 param_space <- readr::read_csv2("data/DAISIE_ABC_test1.csv")
 # param_space <- readr::read_csv2("data/DAISIE_ABC_short_DI.csv")
 lac_MLE <- c()

@@ -3,7 +3,7 @@ library(tidyverse)
 library(ape)
 library(DAISIE)
 
-trees <- read.tree("D:/R/TraisieABC/scripts/DAISIE_analysis/paper/trees.txt")
+trees <- read.tree("D:/R/DivABC/scripts/DAISIE_analysis/paper/trees.txt")
 names(trees) <- c( "A","B", "C", "D", "E", "F")
 DAISIE_plot_input(trees, age = 10, tcols = c(4.5, 9, 8.5, 5.5, 7, 8.5))
 p <- DAISIE_plot_input(
@@ -44,7 +44,7 @@ if (!requireNamespace('tibble', quietly = TRUE)) {
 
 ### tree2
 ## tips: single clade use the same as tcols, clades with multiple endemics use a higher value
-trees <- read.tree("D:/R/TraisieABC/scripts/DAISIE_analysis/paper/trees2.txt")
+trees <- read.tree("D:/R/DivABC/scripts/DAISIE_analysis/paper/trees2.txt")
 names(trees) <- c( "A","B", "C", "D", "E")
 DAISIE_plot_input(trees, age = 5, tcols = c(1.2, 0.3, 1.4, 2.7, 4.5))
 p <- DAISIE_plot_input(
@@ -97,7 +97,7 @@ while (!is.null(dev.list()))  dev.off()
 
 ## tree 3 (7 clades)
 ## tips: single clade use the same as tcols, clades with multiple endemics use a higher value
-trees <- read.tree("D:/R/TraisieABC/scripts/DAISIE_analysis/paper/trees3.txt")
+trees <- read.tree("D:/R/DivABC/scripts/DAISIE_analysis/paper/trees3.txt")
 names(trees) <- c( "A","B", "C", "D", "E","F","G")
 DAISIE_plot_input(trees, age = 5, tcols = c(0.3, 0.8, 1.7, 2.7, 2.0, 4.2, 4.5))
 p <- DAISIE_plot_input(
