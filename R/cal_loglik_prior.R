@@ -3,38 +3,7 @@
 #' @return a numeric represents the posterior probability
 #' @export
 
-# DI model
-calc_log_lik_DAISIE <- function(params, datalist) {
-  log_lik <- DAISIE::DAISIE_loglik_all(
-    pars1 = as.numeric(c(params[1],params[2],Inf,params[3],params[4])),
-    pars2 = c(100, 0, 0, 0),
-    datalist = datalist,
-    methode = "lsodes"
-  )
-  return(log_lik)
-}
-
-# DD model
-# calc_log_lik_DAISIE <- function(params, datalist,idparsopt) {
-#   log_lik <- DAISIE::DAISIE_loglik_all(
-#     pars1 = as.numeric(c(params[1],params[2],50,params[3],params[4])),
-#     pars2 = c(100, 11, 1, 0),
-#     datalist = datalist,
-#     methode = "lsodes"
-#   )
-#   return(log_lik)
-# }
-
-#' Calculates the log prior density
-#'
-#' @return a numeric represents the log prior density
-#' @export
-calc_log_prior_DAISIE <- function(params,idparsopt) {
-  log_prior <- sum(log(params)) + log(prior_dens(params, idparsopt))
-  return(log_prior)
-}
-
-#' Calculates the log likelihood of secsse model
+#' Calculates the log likelihood of sse model
 #'
 #' @return a numeric represents the log likelihood
 #' @export
@@ -49,8 +18,6 @@ calc_log_lik_secsse <- function(params, datalist) {
   q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)
   q[1,3]<- q[2,4] <- q[3,1] <- q[4,2] <- 0
   pars[[3]][] <- q
-  # skip <- FALSE
-  # options(warn = -1)
   suppressMessages(
     log_lik <- secsse::secsse_loglik(
     parameter = pars,
@@ -60,17 +27,6 @@ calc_log_lik_secsse <- function(params, datalist) {
     sampling_fraction = c(1,1),
     cond = "proper_cond")
   )
-
-  # tryCatch(knitr::suppressWarnings(
-  #
-  # ), error=function(e) {
-  #   # print("Optimization has not converged. Try again with different initial values.")
-  #   skip <<- TRUE
-  # })
-
-  # if(skip == TRUE){
-  #   log_lik <- -Inf
-  # }
   return(log_lik)
 }
 

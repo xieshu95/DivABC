@@ -104,7 +104,7 @@ get_secsse_sim_create_obs <- function(parameters, pool_init_states, replicates =
         lambdas = lambdas,
         mus = mus,
         qs = q,
-        crown_age = 10, #12
+        crown_age = 10, 
         num_concealed_states = 2,
         pool_init_states = pool_init_states,
         max_spec = 1000,
@@ -112,7 +112,7 @@ get_secsse_sim_create_obs <- function(parameters, pool_init_states, replicates =
         conditioning = "obs_states",
         start_at_crown = FALSE)
 
-      if(length(sim[[j]]$obs_traits) > 10 && ## at least 2 species
+      if(length(sim[[j]]$obs_traits) > 2 && ## at least 2 species
          length(sim[[j]]$obs_traits) < 1000 &&
          length(unique(sim[[j]]$obs_traits)) == 2 &&
          sum(sim[[j]]$obs_traits == 1) > 1 &&
@@ -172,7 +172,7 @@ get_secsse_sim <- function(parameters, pool_init_states, replicates = 1){
         crown_age = 10,
         num_concealed_states = 2,
         pool_init_states = pool_init_states,
-        max_spec = 1200,
+        max_spec = 2000,
         min_spec = 2,
         conditioning = "obs_states",
         start_at_crown = FALSE

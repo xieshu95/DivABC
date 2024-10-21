@@ -18,7 +18,6 @@ run_ABC <- function(param_space_name,
 
   # param_space <- readr::read_csv2("data/secsse_ABC.csv")
   param_space <- load_param_space(param_space_name = param_space_name)
-  # param_space <- read.csv2(file = 'data/DAISIE_ABC.csv')
   seed <- as.integer(Sys.time()) %% 1000000L * param_set
   set.seed(param_set)
 
@@ -91,7 +90,7 @@ run_ABC <- function(param_space_name,
     } else if (ss_set == 1){ # nltt + nltt1 + nltt2
       init_epsilon <- c(1,1,1)
     } else if (ss_set == 2){  # nltt + D
-      init_epsilon <- c(1,1) #0.4,0.4
+      init_epsilon <- c(1,1)
     } else if (ss_set == 3){  # D
       init_epsilon <- c(1)
     } else if (ss_set == 4){  # mpd1 + mpd2 + D
@@ -109,7 +108,7 @@ run_ABC <- function(param_space_name,
     } else if (ss_set == 10){  # mntd1 + mntd2 + nltt
       init_epsilon <- c(5,5,1)
     } else if (ss_set == 11){  # colless1 + colless2 + nltt
-      init_epsilon <- c(300,300,1)
+      init_epsilon <- c(100,100,1)
     } else if (ss_set == 12){  # tip-ratio + nltt
       init_epsilon <- c(1,1)
     }
@@ -125,8 +124,8 @@ run_ABC <- function(param_space_name,
       init_epsilon_values = init_epsilon,
       number_of_particles = 500,
       sigma = 0.2,
-      stop_rate = 0.0002,
-      num_iterations = 30,
+      stop_rate = 0.001,
+      num_iterations = 50,
       idparsopt = as.numeric(idparsopt),
       fixpars = as.numeric(obs_sim_pars[1:6]),
       ss_set = ss_set

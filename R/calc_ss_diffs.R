@@ -6,14 +6,6 @@
 #' @param replicates The number of replicates used for calculating summary
 #'   statistics.
 #'
-#' @return A list with numeric vectors of diff statistics for:
-#' \itemize{
-#'   \item{\code{$spec_nltt_error}}
-#'   \item{\code{$num_spec_error}}
-#'   \item{\code{$num_col_error}}
-#'   \item{\code{$endemic_nltt_error}}
-#'   \item{\code{$nonendemic_nltt_error}}
-#' }
 #' @author Shu Xie
 #' @export
 
@@ -26,15 +18,6 @@ calc_ss_diff_traisie <- function(sim1, sim2, ss_set){
   return(ss_diff)
 }
 
-# calc_ss_diff_daisie <- function(sim1, sim2, ss_set){
-#   ss <- calc_error_no_ext(sim_1 = sim1,   ##calc_error
-#                           sim_2 = sim2,
-#                           replicates = 1,
-#                           distance_method = "abs")
-#   ss_diff <- select_ss_DAISIE(ss,ss_set)
-#
-#   return(ss_diff)
-# }
 
 calc_ss_diff_daisie <- function(sim1, sim2, ss_set){
   if (ss_set == 0){ ## all
@@ -61,10 +44,10 @@ calc_ss_diff_secsse <- function(sim1, sim2, ss_set){
                             sim_2 = sim2)
   } else if(ss_set == 1) { # nltt + nltt1 + nltt2
     ss <- calc_error_secsse_nltts(sim_1 = sim1,
-                                  sim_2 = sim2)
+                                 sim_2 = sim2)
   } else if(ss_set == 2) { # nltt + D
     ss <- calc_error_secsse_D_nltt(sim_1 = sim1,
-                                   sim_2 = sim2)
+                                 sim_2 = sim2)
   } else if(ss_set == 3) { # D
     ss <- calc_error_secsse_D(sim_1 = sim1,
                               sim_2 = sim2)
@@ -103,38 +86,7 @@ calc_ss_diff_secsse <- function(sim1, sim2, ss_set){
 }
 
 
-# all ss for DAISIE
-# spec_nltt_error = spec_nltt_error,
-# ana_endemic_nltt_error = ana_endemic_nltt_error,
-# clado_endemic_nltt_error = clado_endemic_nltt_error,
-# nonendemic_nltt_error = nonendemic_nltt_error,
-# num_spec_error = num_spec_error,
-# ana_endemic_error = ana_endemic_error,
-# clado_endemic_error = clado_endemic_error,
-# nonendemic_error = nonendemic_error,
-# num_col_error = num_col_error
 
-
-
-
-
-# all ss trait:
-# s$spec_nltt_error_state1,
-# s$spec_nltt_error_state2,
-# s$endemic_nltt_error_state1,
-# s$endemic_nltt_error_state2,
-# s$nonendemic_nltt_error_state1,
-# s$nonendemic_nltt_error_state2,
-# s$num_spec_error_state1,
-# s$num_spec_error_state2,
-# s$endemic_error_state1,
-# s$endemic_error_state2,
-# s$nonendemic_error_state1,
-# s$nonendemic_error_state2,
-# s$num_col_error,
-# s$tip_ratio_error,
-# clade_size_error,
-# colon_time_error
 
 
 #' calculate the initial epsilon

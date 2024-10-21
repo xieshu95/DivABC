@@ -46,7 +46,6 @@ MCMC <- function(datalist,
     new_log_lik <- log_lik_function(parameters, datalist)
     new_log_prior <- log_prior_function(parameters, idparsopt)
 
-    # message("pars", c(round(parameters,5),new_log_lik))
     #accept or reject
     if (is.finite(new_log_lik) &&
         is.finite(new_log_prior) &&
@@ -66,19 +65,8 @@ MCMC <- function(datalist,
       }
       if ((i - burnin) %% thinning == 0) {
         chain[(i - burnin) / thinning + 1, ] <- c(parameters,log_lik,log_prior)
-        # chain[(i - burnin) / thinning + 1, ] <- parameters
       }
     }
-
-    # if (((i - burnin) / thinning) == 3000 ||
-    #     ((i - burnin) / thinning) == 4000){
-    #   save_output(
-    #     output = coda::as.mcmc(chain),
-    #     param_space_name = param_space_name,
-    #     param_set = param_set,
-    #     ss_set = 1
-    #   )
-    # }
   }
   cat("\nFinished MCMC.\n")
   #return a mcmc object, used by coda to plot
