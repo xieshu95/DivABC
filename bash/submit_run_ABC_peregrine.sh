@@ -8,15 +8,17 @@
 #SBATCH --partition=regular
 
 
-# git clone  https://github.com/xieshu95/TraisieABC.git
-# sbatch TraisieABC/bash/submit_run_ABC_peregrine.sh DAISIE_ABC 1 0 0 0 0 0 0 0 0 0 DAISIE
-# sbatch TraisieABC/bash/submit_run_ABC_peregrine.sh Traisie_ABC 1 0 0 0 1 0 0 0 0 0 TraiSIE
+# git clone  https://github.com/xieshu95/DivABC.git
+# sbatch DivABC/bash/submit_run_ABC_peregrine.sh DAISIE_ABC 1 0 0 0 0 0 0 0 0 0 DAISIE
+# sbatch DivABC/bash/submit_run_ABC_peregrine.sh Traisie_ABC 1 0 0 0 1 0 0 0 0 0 TraiSIE
 
 # Start script
 ml R
-Rscript -e "remotes::install_github('xieshu95/TraisieABC')"
 
-scenario=${1}
+Rscript -e "remotes::install_github('xieshu95/DivABC')"
+
+
+param_space_name=${1}
 idparsopt_lac=${2}
 idparsopt_mu=${3}
 idparsopt_gam=${4}
@@ -30,12 +32,12 @@ idparsopt_trans2=${11}
 sim_model=${12}
 ss_set=${13}
 
-for_length=`wc -l TraisieABC/data/${scenario}.csv | cut -f1 -d' '`
+for_length=`wc -l DivABC/data/${param_space_name}.csv | cut -f1 -d' '`
 for_length=$(( ${for_length} - 1 ))
 
 for (( param_set = 1; param_set <= $for_length; param_set++ ))
 do
-sbatch TraisieABC/bash/submit_run_ABC_param_set.sh ${scenario} \
+sbatch DivABC/bash/submit_run_ABC_param_set.sh ${param_space_name} \
                                                    ${param_set} \
                                                    ${idparsopt_lac} \
                                                    ${idparsopt_mu} \

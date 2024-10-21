@@ -19,7 +19,7 @@ idparsopt <- which(idparsopt_all == 1)
 save_output <- TRUE
 metadata <- paste0("This is parameter set ", param_set)
 
-library(TraisieABC)
+library(DivABC)
 
 run_ABC_TraiSIE(
   param_space_name = args[1],

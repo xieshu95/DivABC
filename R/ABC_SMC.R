@@ -180,7 +180,7 @@ ABC_SMC <- function(
                       epsilon = epsilon,
                       obs_sim = obs_data,
                       ss_diff_list = ss_diff_list),
-        scenario = scenario,
+        param_space_name = param_space_name,
         param_set = param_set,
         ss_set = ss_set
       )

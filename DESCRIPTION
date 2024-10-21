@@ -1,4 +1,4 @@
-Package: TraisieABC
+Package: DivABC
 Title: An ABC approach to estimate DAISIE/TRAISIE parameters
 Version: 1.0.0
 Date: 2021-01-01
@@ -29,7 +29,7 @@ Remotes:
     thijsjanzen/nltt,
     thijsjanzen/treestats,
     rsetienne/secsse
-URL: https://github.com/xieshu95/Traisie-ABC
-BugReports: https://github.com/xieshu95/Traisie-ABC/issues
+URL: https://github.com/xieshu95/DivABC
+BugReports: https://github.com/xieshu95/DivABC/issues
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr

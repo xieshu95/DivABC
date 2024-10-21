@@ -76,4 +76,3 @@ prior_gen_secsse <- function(pars,idparsopt){
   return(as.numeric(c(lam1,lam2,mu1,mu2,q12,q21)))
 }
 
-# plot(density(rexp(1000,3)))

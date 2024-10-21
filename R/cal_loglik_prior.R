@@ -14,16 +14,6 @@ calc_log_lik_DAISIE <- function(params, datalist) {
   return(log_lik)
 }
 
-# DD model
-# calc_log_lik_DAISIE <- function(params, datalist,idparsopt) {
-#   log_lik <- DAISIE::DAISIE_loglik_all(
-#     pars1 = as.numeric(c(params[1],params[2],50,params[3],params[4])),
-#     pars2 = c(100, 11, 1, 0),
-#     datalist = datalist,
-#     methode = "lsodes"
-#   )
-#   return(log_lik)
-# }
 
 #' Calculates the log prior density
 #'
@@ -53,24 +43,14 @@ calc_log_lik_secsse <- function(params, datalist) {
   # options(warn = -1)
   suppressMessages(
     log_lik <- secsse::secsse_loglik(
-    parameter = pars,
-    phy = datalist$phy,
-    traits = datalist$obs_traits,
-    num_concealed_states = 2,
-    sampling_fraction = c(1,1),
-    cond = "proper_cond")
+      parameter = pars,
+      phy = datalist$phy,
+      traits = datalist$obs_traits,
+      num_concealed_states = 2,
+      sampling_fraction = c(1,1),
+      cond = "proper_cond")
   )
 
-  # tryCatch(knitr::suppressWarnings(
-  #
-  # ), error=function(e) {
-  #   # print("Optimization has not converged. Try again with different initial values.")
-  #   skip <<- TRUE
-  # })
-
-  # if(skip == TRUE){
-  #   log_lik <- -Inf
-  # }
   return(log_lik)
 }
 

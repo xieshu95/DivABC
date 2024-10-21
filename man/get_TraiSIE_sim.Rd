@@ -4,7 +4,7 @@
 \alias{get_TraiSIE_sim}
 \title{Simulation fucntion to create simulated data as observed data in ABC.}
 \usage{
-get_TraiSIE_sim(parameters, K, replicates)
+get_TraiSIE_sim(parameters, K = Inf, replicates = 1)
 }
 \arguments{
 \item{parameters}{A vector for CES rates.}

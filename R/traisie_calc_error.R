@@ -72,7 +72,6 @@ calc_error_trait <- function(sim_1,
   }
 
 
-
   stt_last_row_sim_2 <-
     length(sim_2[[1]][[1]]$stt_two_states[, "present"])
   num_singleton_sim_2_state1 <-

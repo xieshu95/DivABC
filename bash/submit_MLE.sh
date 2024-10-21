@@ -8,4 +8,4 @@
 #SBATCH --partition=regular
 
 module load R
-Rscript TraisieABC/scripts/DAISIE_analysis/calc_MLE.R
+Rscript DivABC/scripts/DAISIE_analysis/calc_MLE.R

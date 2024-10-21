@@ -6,14 +6,6 @@
 #' @param replicates The number of replicates used for calculating summary
 #'   statistics.
 #'
-#' @return A list with numeric vectors of diff statistics for:
-#' \itemize{
-#'   \item{\code{$spec_nltt_error}}
-#'   \item{\code{$num_spec_error}}
-#'   \item{\code{$num_col_error}}
-#'   \item{\code{$endemic_nltt_error}}
-#'   \item{\code{$nonendemic_nltt_error}}
-#' }
 #' @author Shu Xie
 #' @export
 
@@ -28,67 +20,66 @@ calc_ss_diff_traisie <- function(sim1, sim2, ss_set){
 
 
 calc_ss_diff_daisie <- function(sim1, sim2, ss_set){
-  if (ss_set == 0){ ## use all ss: nltt+tips 10ss
-    ss <- calc_error_all(sim_1 = sim1,   ##calc_error
-                            sim_2 = sim2,
-                            replicates = 1,
-                            distance_method = "abs")
-  } else if(ss_set == 1) { # nltt+cssd
-    ss <- calc_error_phylo(sim_1 = sim1,   ##calc_error
-                                sim_2 = sim2,
-                                replicates = 1,
-                                distance_method = "abs")
+  if (ss_set == 0){ ## all
+    ss <- calc_error_all(sim_1 = sim1,
+                         sim_2 = sim2)
+  } else if(ss_set == 1) { # phylogenetic
+    ss <- calc_error_phylo(sim_1 = sim1,
+                           sim_2 = sim2)
   } else if (ss_set == 2){ # tips
-    ss <- calc_error_tips(sim_1 = sim1,   ##calc_error
-                                 sim_2 = sim2,
-                                 replicates = 1,
-                                 distance_method = "abs")
+    ss <- calc_error_tips(sim_1 = sim1,
+                          sim_2 = sim2)
   } else if (ss_set == 3){ # nltt
-    ss <- calc_error_nltt(sim_1 = sim1,   ##calc_error
-                                 sim_2 = sim2,
-                                 replicates = 1,
-                                 distance_method = "abs")
+    ss <- calc_error_nltt(sim_1 = sim1,
+                          sim_2 = sim2)
   }
   ss_diff <- as.numeric(ss)
 
   return(ss_diff)
 }
-
 
 calc_ss_diff_secsse <- function(sim1, sim2, ss_set){
   if (ss_set == 0){ # nltt + nltt1 + nltt2 + D
     ss <- calc_error_secsse(sim_1 = sim1,
-                            sim_2 = sim2,
-                            distance_method = "abs")
+                            sim_2 = sim2)
   } else if(ss_set == 1) { # nltt + nltt1 + nltt2
     ss <- calc_error_secsse_nltts(sim_1 = sim1,
-                                 sim_2 = sim2,
-                                 distance_method = "abs")
+                                 sim_2 = sim2)
   } else if(ss_set == 2) { # nltt + D
     ss <- calc_error_secsse_D_nltt(sim_1 = sim1,
-                                 sim_2 = sim2,
-                                 distance_method = "abs")
+                                 sim_2 = sim2)
   } else if(ss_set == 3) { # D
     ss <- calc_error_secsse_D(sim_1 = sim1,
-                                 sim_2 = sim2,
-                                 distance_method = "abs")
+                              sim_2 = sim2)
   } else if(ss_set == 4) { # mpd1 + mpd2 + D
     ss <- calc_error_secsse_mpd_D(sim_1 = sim1,
-                              sim_2 = sim2,
-                              distance_method = "abs")
+                                  sim_2 = sim2)
   } else if(ss_set == 5) { # mntd1 + mntd2 + D
     ss <- calc_error_secsse_mntd_D(sim_1 = sim1,
-                              sim_2 = sim2,
-                              distance_method = "abs")
+                                   sim_2 = sim2)
   } else if(ss_set == 6) { # colless1 + colless2 + D
     ss <- calc_error_secsse_colless_D(sim_1 = sim1,
-                              sim_2 = sim2,
-                              distance_method = "abs")
+                                      sim_2 = sim2)
   } else if(ss_set == 7) { # mpd1 + mpd2 + nltt
     ss <- calc_error_secsse_mpd_nltt(sim_1 = sim1,
-                                      sim_2 = sim2,
-                                      distance_method = "abs")
+                                     sim_2 = sim2)
+  } else if(ss_set == 8) { # nltt + nltt1 + nltt2 + D + num1 + num2
+    ss <- calc_error_secsse_num(sim_1 = sim1,
+                                sim_2 = sim2)
+  } else if(ss_set == 9) { # nltt
+    ss <- calc_error_secsse_nltt(sim_1 = sim1,
+                                sim_2 = sim2)
+  } else if(ss_set == 10) { # mntd1 + mntd2 + nltt
+    ss <- calc_error_secsse_mntd_nltt(sim_1 = sim1,
+                                sim_2 = sim2)
+  } else if(ss_set == 11) { # colless1 + colless2 + nltt
+    ss <- calc_error_secsse_colless_nltt(sim_1 = sim1,
+                                sim_2 = sim2)
+  } else if(ss_set == 12) { # tip-ratio + nltt
+    ss <- calc_error_secsse_ratio_nltt(sim_1 = sim1,
+                                sim_2 = sim2)
   }
+
 
   ss_diff <- as.numeric(ss)
   return(ss_diff)
@@ -96,24 +87,6 @@ calc_ss_diff_secsse <- function(sim1, sim2, ss_set){
 
 
 
-
-# all ss trait:
-# s$spec_nltt_error_state1,
-# s$spec_nltt_error_state2,
-# s$endemic_nltt_error_state1,
-# s$endemic_nltt_error_state2,
-# s$nonendemic_nltt_error_state1,
-# s$nonendemic_nltt_error_state2,
-# s$num_spec_error_state1,
-# s$num_spec_error_state2,
-# s$endemic_error_state1,
-# s$endemic_error_state2,
-# s$nonendemic_error_state1,
-# s$nonendemic_error_state2,
-# s$num_col_error,
-# s$tip_ratio_error,
-# clade_size_error,
-# colon_time_error
 
 
 #' calculate the initial epsilon
@@ -121,6 +94,7 @@ calc_ss_diff_secsse <- function(sim1, sim2, ss_set){
 #' @author Shu Xie
 #' @return
 #' @export
+
 calc_epsilon_init <- function(sim){
   ss <- calc_ss(sim[[1]],1)
   eps_init <- as.numeric(unlist(ss)) * 1
