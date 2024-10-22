@@ -1,4 +1,4 @@
-#' Simulation fucntion to create simulated data as observed data in ABC.
+#' Simulation function to create simulated data as observed data in ABC.
 #'
 #' @param parameters A vector for CES rates.
 #' @param K Carrying capacity, Inf for diverdity-independent models.
