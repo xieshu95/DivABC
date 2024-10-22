@@ -182,21 +182,21 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
     if (stoprate_reached) {
       break
     }
-    if(n_iter >= 3) {
-      save_output(
-        output = list(sim_list = sim_list,
-                      ABC = ABC_list,
-                      n_iter = n_iter,
-                      epsilon = epsilon,
-                      obs_sim = obs_data,
-                      ss_diff_list = ss_diff_list,
-                      init_prob_list = init_prob_list,
-                      init_state = init_state),
-        param_space_name = param_space_name,
-        param_set = param_set,
-        ss_set = ss_set
-      )
-    }
+    # if(n_iter >= 3) {
+    #   save_output(
+    #     output = list(sim_list = sim_list,
+    #                   ABC = ABC_list,
+    #                   n_iter = n_iter,
+    #                   epsilon = epsilon,
+    #                   obs_sim = obs_data,
+    #                   ss_diff_list = ss_diff_list,
+    #                   init_prob_list = init_prob_list,
+    #                   init_state = init_state),
+    #     param_space_name = param_space_name,
+    #     param_set = param_set,
+    #     ss_set = ss_set
+    #   )
+    # }
   }
   message("tried times: ", tried)
 
