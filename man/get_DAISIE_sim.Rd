@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_sim.R
 \name{get_DAISIE_sim}
 \alias{get_DAISIE_sim}
-\title{Simulation fucntion to create simulated data as observed data in ABC.}
+\title{Simulation function to create simulated data as observed data in ABC.}
 \usage{
 get_DAISIE_sim(parameters, K = Inf, replicates = 1)
 }
@@ -17,7 +17,7 @@ get_DAISIE_sim(parameters, K = Inf, replicates = 1)
 A list contains simulated islands
 }
 \description{
-Simulation fucntion to create simulated data as observed data in ABC.
+Simulation function to create simulated data as observed data in ABC.
 }
 \author{
 Shu Xie
