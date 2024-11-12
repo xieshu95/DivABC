@@ -1,6 +1,6 @@
 
 ### use less parameter sets to try
-K <- c(50)
+K <- c(20,50)
 
 lac <- c(0.4,0.7)
 mu <- c(0,0.3)
@@ -44,3 +44,19 @@ save(DAISIE_ABC_DI, file = "inst/extdata/DAISIE_ABC_DI.rda")
 
 DAISIE_MCMC_DI = DAISIE_ABC_DI
 save(DAISIE_MCMC_DI, file = "inst/extdata/DAISIE_MCMC_DI.rda")
+
+## sampled parameter space
+K <- Inf
+lac <- stats::runif(300,0,1)
+mu <- stats::runif(300,0,0.5)
+gam <- stats::runif(300,0,0.01)
+laa <- stats::runif(300,0,1)
+
+DAISIE_ABC_DI <- data.frame(lac,mu,gam,laa,K)
+
+save(DAISIE_ABC_DI, file = "inst/extdata/DAISIE_ABC_conti_DI.rda")
+
+
+DAISIE_MCMC_DI = DAISIE_ABC_DI
+save(DAISIE_MCMC_DI, file = "inst/extdata/DAISIE_MCMC_conti_DI.rda")
+
