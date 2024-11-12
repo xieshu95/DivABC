@@ -104,6 +104,10 @@ ABC_SMC <- function(
 
         accept <- TRUE
 
+        if(sum(tail(new_sim[[1]][[1]][[1]]$stt_all, n=1)[2:4]) > 600 && sum(tail(new_sim[[1]][[1]][[1]]$stt_all, n=1)[2:4]) < 5){
+          accept <- FALSE
+        }
+
         #calculate the summary statistics for the simulated tree
         if (accept) {
           df_stats <- calc_ss_function (sim1 = obs_data[[1]],
@@ -172,19 +176,19 @@ ABC_SMC <- function(
     if (stoprate_reached) {
       break
     }
-    # if(n_iter >= 3) {
-    #   save_output(
-    #     output = list(sim_list = sim_list,
-    #                   ABC = ABC_list,
-    #                   n_iter = n_iter,
-    #                   epsilon = epsilon,
-    #                   obs_sim = obs_data,
-    #                   ss_diff_list = ss_diff_list),
-    #     param_space_name = param_space_name,
-    #     param_set = param_set,
-    #     ss_set = ss_set
-    #   )
-    # }
+    if(n_iter >= 3) {
+      save_output(
+        output = list(sim_list = sim_list,
+                      ABC = ABC_list,
+                      n_iter = n_iter,
+                      epsilon = epsilon,
+                      obs_sim = obs_data,
+                      ss_diff_list = ss_diff_list),
+        param_space_name = param_space_name,
+        param_set = param_set,
+        ss_set = ss_set
+      )
+    }
   }
   message("tried times: ", tried)
 

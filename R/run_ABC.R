@@ -12,7 +12,7 @@
 run_ABC <- function(param_space_name,
                     param_set,
                     idparsopt,
-                    sim_model = "DAISIE",
+                    sim_model,
                     save_output = TRUE,
                     ss_set = 1){
 
@@ -33,30 +33,58 @@ run_ABC <- function(param_space_name,
   obs_sim_pars <- param_space[param_set,]
   obs_sim <- load_obs_sim(param_space_name = param_space_name)[[param_set]]
 
-  if (sim_model == "DAISIE") {
+  if (sim_model == "DAISIE_DI") {
     if(ss_set == 0){ # all
-      init_epsilon <- c(150,50,50,20,20,150,50,50)
+      init_epsilon <- c(200,50,50,50,50,200,50,50)
     } else if (ss_set == 1){  # phylogenetic-- nltt+sd
-      init_epsilon <- c(150,30,30,20,20)
+      init_epsilon <- c(200,50,50,50,50)
     } else if (ss_set == 2){  # tip
-      init_epsilon <- c(150,50,50)
+      init_epsilon <- c(200,50,50)
     } else if (ss_set == 3){  #nltt
-      init_epsilon <- c(100,20,20)
+      init_epsilon <- c(200,50,50)
     }
 
     abc <- ABC_SMC (
       obs_data = obs_sim,
-      sim_function <- get_DAISIE_sim,
+      sim_function <- get_DAISIE_sim_DI,
       calc_ss_function <- calc_ss_diff_daisie,
       init_epsilon_values = init_epsilon,
-      prior_generating_function <- prior_gen,
-      prior_density_function <- prior_dens,
+      prior_generating_function <- prior_gen_DI,
+      prior_density_function <- prior_dens_DI,
       number_of_particles = 500,
       sigma = 0.2,
       stop_rate = 0.001,
       num_iterations = 20,
       idparsopt = as.numeric(idparsopt),
       pars = as.numeric(obs_sim_pars[1:4]),
+      ss_set = ss_set
+    )
+
+  } else if (sim_model == "DAISIE_DD") {
+
+    if(ss_set == 0){ # all
+      init_epsilon <- c(500,200,200,200,200,500,200,200)
+    } else if (ss_set == 1){  # phylogenetic-- nltt+sd
+      init_epsilon <- c(500,200,200,200,200)
+    } else if (ss_set == 2){  # tip
+      init_epsilon <- c(500,200,200)
+    } else if (ss_set == 3){  #nltt
+      init_epsilon <- c(500,200,200)
+    }
+
+    abc <- ABC_SMC (
+      obs_data = obs_sim,
+      sim_function <- get_DAISIE_sim_DD,
+      calc_ss_function <- calc_ss_diff_daisie,
+      init_epsilon_values = init_epsilon,
+      prior_generating_function <- prior_gen_DD,
+      prior_density_function <- prior_dens_DD,
+      number_of_particles = 10,
+      sigma = 0.2,
+      stop_rate = 0.0005,
+      num_iterations = 3,
+      idparsopt = as.numeric(idparsopt),
+      pars = as.numeric(obs_sim_pars[1:5]),
       ss_set = ss_set
     )
 

@@ -9,15 +9,14 @@
 #' @export
 
 
-get_DAISIE_sim <- function(parameters,
-                           K = Inf,
+get_DAISIE_sim_DI <- function(parameters,
                            replicates = 1){
   sim <- list()
   for (j in seq_len(replicates)) {
     sim[[j]] <- DAISIE::DAISIE_sim_cr(
       time = 5,
       M = 1000,
-      pars = as.numeric(c(parameters[1],parameters[2],K,parameters[3],parameters[4])),
+      pars = as.numeric(c(parameters[1],parameters[2],Inf,parameters[3],parameters[4])),
       replicates = 1,
       nonoceanic_pars = c(0, 0),
       sample_freq  = Inf,
@@ -29,6 +28,34 @@ get_DAISIE_sim <- function(parameters,
   return(sim)
 }
 
+get_DAISIE_sim_DD <- function(parameters,
+                           replicates = 1){
+  sim <- list()
+  for (j in seq_len(replicates)) {
+    save <- 0
+    while(save < 1){
+      skip <- FALSE
+      tryCatch(sim[[j]] <- DAISIE::DAISIE_sim_cr(
+        time = 5,
+        M = 1000,
+        pars = as.numeric(c(parameters[1],parameters[2],parameters[5],parameters[3],parameters[4])),
+        replicates = 1,
+        nonoceanic_pars = c(0, 0),
+        sample_freq  = Inf,
+        plot_sims = FALSE,
+        verbose = FALSE,
+        cond = 1
+      ), error=function(e) {
+        # print("Error: undefined columns selected")
+        skip <<- TRUE
+      })
+      if(skip == FALSE){
+        save = 1
+      }
+    }
+  }
+  return(sim)
+}
 
 #' Simulation fucntion to create simulated data as observed data in ABC.
 #'
@@ -39,13 +66,13 @@ get_DAISIE_sim <- function(parameters,
 #' @return A list contains simulated islands
 #' @author Shu Xie
 #' @export
-get_TraiSIE_sim <- function(parameters, K = Inf, replicates = 1){
+get_TraiSIE_sim <- function(parameters, replicates = 1){
   sim <- list()
   for (j in seq_len(replicates)) {
     sim[[j]] <- DAISIE::DAISIE_sim_trait_dep( ##TRAISIERCPP
       time = 4,
       M = 500,
-      pars = c(parameters[1],parameters[2],K,parameters[3],parameters[4]),
+      pars = c(parameters[1],parameters[2],Inf,parameters[3],parameters[4]),
       replicates = 1,
       sample_freq  = Inf,
       plot_sims = FALSE,
