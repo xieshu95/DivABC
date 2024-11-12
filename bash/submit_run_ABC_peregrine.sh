@@ -9,8 +9,9 @@
 
 
 # git clone -b daisie  https://github.com/xieshu95/DivABC.git
-# sbatch DivABC/bash/submit_run_ABC_peregrine.sh DAISIE_ABC_short_DI 1 1 1 1 0 0 0 0 0 0 DAISIE 1
-# sbatch DivABC/bash/submit_run_ABC_peregrine.sh DAISIE_ABC_short_DD 1 1 1 1 0 0 0 0 0 0 DAISIE 3
+# sbatch DivABC/bash/submit_run_ABC_peregrine.sh DAISIE_ABC_DI 1 1 1 1 0 0 0 0 0 0 0 0 DAISIE 1
+# sbatch DivABC/bash/submit_run_ABC_peregrine.sh DAISIE_ABC_DD 1 1 1 1 0 0 0 0 0 0 0 0 DAISIE 3
+# sbatch DivABC/bash/submit_run_ABC_param_set.sh DAISIE_ABC_DD 1 1 1 1 1 1 0 0 0 0 0 0 0 DAISIE_DD 3
 # sbatch DivABC/bash/submit_run_ABC_peregrine.sh Traisie_ABC 1 0 0 0 1 0 0 0 0 0 TraiSIE
 # sbatch DivABC/bash/submit_run_secsse_ABC_peregrine.sh secsse_ABC_test 1 1 1 1 1 1 secsse 0
 # sbatch DivABC/bash/submit_run_secsse_MCMC_param_set.sh secsse_MCMC_test 1 1 1 1 1 1 1
