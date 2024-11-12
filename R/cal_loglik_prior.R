@@ -4,10 +4,21 @@
 #' @export
 
 # DI model
-calc_log_lik_DAISIE <- function(params, datalist) {
+calc_log_lik_DAISIE_DI <- function(params, datalist) {
   log_lik <- DAISIE::DAISIE_loglik_all(
     pars1 = as.numeric(c(params[1],params[2],Inf,params[3],params[4])),
-    pars2 = c(100, 0, 0, 0),
+    pars2 = c(100, 0, 1, 0),
+    datalist = datalist,
+    methode = "lsodes"
+  )
+  return(log_lik)
+}
+
+# DD model
+calc_log_lik_DAISIE_DD <- function(params, datalist) {
+  log_lik <- DAISIE::DAISIE_loglik_all(
+    pars1 = as.numeric(c(params[1],params[2],params[5],params[3],params[4])),
+    pars2 = c(100, 11, 1, 1),
     datalist = datalist,
     methode = "lsodes"
   )
@@ -19,11 +30,15 @@ calc_log_lik_DAISIE <- function(params, datalist) {
 #'
 #' @return a numeric represents the log prior density
 #' @export
-calc_log_prior_DAISIE <- function(params,idparsopt) {
-  log_prior <- sum(log(params)) + log(prior_dens(params, idparsopt))
+calc_log_prior_DAISIE_DI <- function(params,idparsopt) {
+  log_prior <- sum(log(params)) + log(prior_dens_DI(params, idparsopt))
   return(log_prior)
 }
 
+calc_log_prior_DAISIE_DD <- function(params,idparsopt) {
+  log_prior <- sum(log(params)) + log(prior_dens_DD(params, idparsopt))
+  return(log_prior)
+}
 #' Calculates the log likelihood of secsse model
 #'
 #' @return a numeric represents the log likelihood

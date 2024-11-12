@@ -25,7 +25,6 @@ run_MCMC_DAISIE <- function(param_space_name,
   obs_sim_pars <- param_space[param_set,]
   obs_sim <- load_obs_sim(param_space_name = param_space_name)[[param_set]]
 
-  # obs_sim_pars_init <- obs_sim_pars + 0.0001
   initparsopt <- as.numeric(obs_sim_pars[c(1,2,3,4)])
   seed_mcmc <-as.integer(Sys.time()) %% 1000000L * sample(1:10,1)
   set.seed(seed_mcmc)
@@ -36,8 +35,8 @@ run_MCMC_DAISIE <- function(param_space_name,
   }
   message("initial pars:", initparsopt)
   mcmc <- MCMC(datalist = obs_sim[[1]][[1]],
-               log_lik_function = calc_log_lik_DAISIE,
-               log_prior_function = calc_log_prior_DAISIE,
+               log_lik_function = calc_log_lik_DAISIE_DD,
+               log_prior_function = calc_log_prior_DAISIE_DD,
                parameters = as.numeric(initparsopt),
                iterations = 1000000,
                burnin = 100000,
