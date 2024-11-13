@@ -12,9 +12,15 @@
 # sbatch DivABC/bash/submit_run_ABC_peregrine.sh DAISIE_ABC_DI 1 1 1 1 0 0 0 0 0 0 0 0 DAISIE_DI 1
 # sbatch DivABC/bash/submit_run_ABC_peregrine.sh DAISIE_ABC_DD 1 1 1 1 1 0 0 0 0 0 0 0 DAISIE_DD 3
 # sbatch DivABC/bash/submit_run_ABC_param_set.sh DAISIE_ABC_DD 1 1 1 1 1 1 0 0 0 0 0 0 0 DAISIE_DD 3
+# sbatch DivABC/bash/submit_run_MCMC_param_set.sh DAISIE_MCMC_DI 1 1 1 1 1 0 DI
+# sbatch DivABC/bash/submit_run_MCMC_peregrine.sh DAISIE_MCMC_DI 1 1 1 1 0 DI
+# sbatch DivABC/bash/submit_run_MCMC_param_set.sh DAISIE_MCMC_DD 1 1 1 1 1 1 DD
+# sbatch DivABC/bash/submit_run_MCMC_peregrine.sh DAISIE_MCMC_DD 1 1 1 1 1 DD
+
 # sbatch DivABC/bash/submit_run_ABC_peregrine.sh Traisie_ABC 1 0 0 0 1 0 0 0 0 0 TraiSIE
 # sbatch DivABC/bash/submit_run_secsse_ABC_peregrine.sh secsse_ABC_test 1 1 1 1 1 1 secsse 0
 # sbatch DivABC/bash/submit_run_secsse_MCMC_param_set.sh secsse_MCMC_test 1 1 1 1 1 1 1
+
 
 # Start script
 ml R
