@@ -163,4 +163,8 @@ rownames(ss) <- 1:300
 ss<-data.frame(ss)
 save(ss,file = "inst/extdata/obs_ss_DAISIE_ABC_DI_conti.RData")
 
+load("D:/R/DivABC/inst/extdata/DAISIE_ABC_DI_conti.rda")
+write.csv2(DAISIE_ABC_DI,paste0("D:/R/DivABC/data/DAISIE_ABC_DI_conti.csv"))
+load("D:/R/DivABC/inst/extdata/DAISIE_MCMC_DI_conti.rda")
+write.csv2(DAISIE_MCMC_DI,paste0("D:/R/DivABC/data/DAISIE_MCMC_DI_conti.csv"))
 
