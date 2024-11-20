@@ -35,13 +35,13 @@ run_ABC <- function(param_space_name,
 
   if (sim_model == "DAISIE_DI") {
     if(ss_set == 0){ # all
-      init_epsilon <- c(200,50,50,50,50,200,50,50)
+      init_epsilon <- c(800,200,200,200,200,800,200,200)
     } else if (ss_set == 1){  # phylogenetic-- nltt+sd
-      init_epsilon <- c(200,50,50,50,50)
+      init_epsilon <- c(800,200,200,200,200)
     } else if (ss_set == 2){  # tip
-      init_epsilon <- c(200,50,50)
+      init_epsilon <- c(800,200,200)
     } else if (ss_set == 3){  #nltt
-      init_epsilon <- c(200,50,50)
+      init_epsilon <- c(800,200,200)
     }
 
     abc <- ABC_SMC (
@@ -53,7 +53,7 @@ run_ABC <- function(param_space_name,
       prior_density_function <- prior_dens_DI,
       number_of_particles = 500,
       sigma = 0.2,
-      stop_rate = 0.001,
+      stop_rate = 0.0005,
       num_iterations = 20,
       idparsopt = as.numeric(idparsopt),
       pars = as.numeric(obs_sim_pars[1:4]),
@@ -63,13 +63,13 @@ run_ABC <- function(param_space_name,
   } else if (sim_model == "DAISIE_DD") {
 
     if(ss_set == 0){ # all
-      init_epsilon <- c(800,400,400,400,400,800,400,400)
+      init_epsilon <- c(800,200,200,200,200,800,200,200)
     } else if (ss_set == 1){  # phylogenetic-- nltt+sd
-      init_epsilon <- c(800,400,400,400,400)
+      init_epsilon <- c(800,200,200,200,200)
     } else if (ss_set == 2){  # tip
-      init_epsilon <- c(800,400,400)
+      init_epsilon <- c(800,200,200)
     } else if (ss_set == 3){  #nltt
-      init_epsilon <- c(800,400,400)
+      init_epsilon <- c(800,200,200)
     }
 
     abc <- ABC_SMC (
