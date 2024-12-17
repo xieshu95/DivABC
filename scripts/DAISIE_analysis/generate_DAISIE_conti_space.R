@@ -164,9 +164,9 @@ ss<-data.frame(ss)
 save(ss,file = "inst/extdata/obs_ss_DAISIE_ABC_DI_conti.RData")
 
 load("D:/R/DivABC/inst/extdata/DAISIE_ABC_DI_conti.rda")
-write.csv2(DAISIE_ABC_DI,paste0("D:/R/DivABC/data/DAISIE_ABC_DI_conti.csv"))
+write_csv2(DAISIE_ABC_DI,paste0("D:/R/DivABC/data/DAISIE_ABC_DI_conti.csv"))
 load("D:/R/DivABC/inst/extdata/DAISIE_MCMC_DI_conti.rda")
-write.csv2(DAISIE_MCMC_DI,paste0("D:/R/DivABC/data/DAISIE_MCMC_DI_conti.csv"))
+write_csv2(DAISIE_MCMC_DI,paste0("D:/R/DivABC/data/DAISIE_MCMC_DI_conti.csv"))
 
 ## DD model
 calc_ss_no_ext <- function(sim,
@@ -333,7 +333,10 @@ ss<-data.frame(ss)
 save(ss,file = "inst/extdata/obs_ss_DAISIE_ABC_DD_conti.RData")
 
 load("D:/R/DivABC/inst/extdata/DAISIE_ABC_DD_conti.rda")
-write.csv2(DAISIE_ABC_DD,paste0("D:/R/DivABC/data/DAISIE_ABC_DD_conti.csv"))
+write_csv2(DAISIE_ABC_DD,paste0("D:/R/DivABC/data/DAISIE_ABC_DD_conti.csv"))
 load("D:/R/DivABC/inst/extdata/DAISIE_MCMC_DD_conti.rda")
-write.csv2(DAISIE_MCMC_DD,paste0("D:/R/DivABC/data/DAISIE_MCMC_DD_conti.csv"))
+write_csv2(DAISIE_MCMC_DD,paste0("D:/R/DivABC/data/DAISIE_MCMC_DD_conti.csv"))
 
+
+# load("D:/R/DivABC/inst/extdata/DAISIE_ABC_DD.rda")
+# write_csv2(DAISIE_ABC_DD,paste0("D:/R/DivABC/data/DAISIE_ABC_DD.csv"))
