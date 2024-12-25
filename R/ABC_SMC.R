@@ -161,7 +161,7 @@ ABC_SMC <- function(
 
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.5)
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.4)
     }
     ABC <- c()
     for (k in seq_along(new_params)) {
