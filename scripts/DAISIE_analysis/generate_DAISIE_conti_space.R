@@ -338,5 +338,16 @@ load("D:/R/DivABC/inst/extdata/DAISIE_MCMC_DD_conti.rda")
 write_csv2(DAISIE_MCMC_DD,paste0("D:/R/DivABC/data/DAISIE_MCMC_DD_conti.csv"))
 
 
+
 # load("D:/R/DivABC/inst/extdata/DAISIE_ABC_DD.rda")
 # write_csv2(DAISIE_ABC_DD,paste0("D:/R/DivABC/data/DAISIE_ABC_DD.csv"))
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/daisie conti/DD/obs_ss_DAISIE_ABC_DD_conti.RData"))
+param_data <- readr::read_csv2("data/DAISIE_ABC_DD_conti.csv")
+pars_ss<-data.frame(param_data,ss)
+save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/daisie conti/DD/obs_ss_DD_conti_pars.RData")
+
+
+load(paste0("D:/Onedrive-shu/OneDrive/project 2/results/daisie conti/DI/obs_ss_DAISIE_ABC_DI_conti.RData"))
+param_data <- readr::read_csv2("data/DAISIE_ABC_DI_conti.csv")
+pars_ss<-data.frame(param_data,ss)
+save(pars_ss,file = "D:/Onedrive-shu/OneDrive/project 2/results/daisie conti/DI/obs_ss_DI_conti_pars.RData")
