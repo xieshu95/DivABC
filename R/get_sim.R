@@ -227,7 +227,7 @@ get_bisse_sim <- function(parameters, pool_init_states, replicates = 1){
 #' @author Shu Xie
 #' @export
 
-get_musse_sim_create_obs <- function(parameters, pool_init_states = NA, replicates = 1){
+get_musse_sim_create_obs <- function(parameters, pool_init_states, replicates = 1){
 
   focal_matrix <-
     secsse::create_default_lambda_transition_matrix(state_names = c("1", "2", "3"),
@@ -295,31 +295,33 @@ get_musse_sim_create_obs <- function(parameters, pool_init_states = NA, replicat
 #' @author Shu Xie
 #' @export
 
-get_secsse_sim <- function(parameters, pool_init_states, replicates = 1){
-  states <- c("1", "2")
-  spec_matrix <- c("1", "1", "1", 1)
-  spec_matrix <- rbind(spec_matrix, c("2", "2", "2", 2))
-  lambda_list <- secsse::create_lambda_list(state_names = states,
-                                            num_concealed_states = 2,
-                                            transition_matrix = spec_matrix,
-                                            model = "ETD")
-  mu_vector <- secsse::create_mu_vector(state_names = states,
-                                        num_concealed_states = 2,
-                                        model = "ETD",
-                                        lambda_list = lambda_list)
+get_musse_sim <- function(parameters, pool_init_states, replicates = 1){
+  focal_matrix <-
+    secsse::create_default_lambda_transition_matrix(state_names = c("1", "2", "3"),
+                                                    model = "ETD")
+  # and the ETD model:
+  lambda_list_ETD <- secsse::create_lambda_list(state_names = c("1", "2", "3"),
+                                                num_concealed_states = 3,
+                                                transition_matrix = focal_matrix,
+                                                model = "ETD")
+  # and now the mu vector
+  mus_ETD <- secsse::create_mu_vector(state_names = c("1", "2", "3"),
+                                      num_concealed_states = 3,
+                                      model = "ETD",
+                                      lambda_list = lambda_list_ETD)
 
-  shift_matrix <- c("1", "2", 5)
-  shift_matrix <- rbind(shift_matrix, c("2", "1", 6))
+  t_ETD <- secsse::create_default_shift_matrix(state_names = c("1", "2", "3"),
+                                               num_concealed_states = 3,
+                                               mu_vector = mus_ETD)
+  q_ETD <- secsse::create_q_matrix(state_names = c("1", "2", "3"),
+                                   num_concealed_states = 3,
+                                   shift_matrix = t_ETD,
+                                   diff.conceal = TRUE)
 
-  q_matrix <- secsse::create_q_matrix(state_names = states,
-                                      num_concealed_states = 2,
-                                      shift_matrix = shift_matrix,
-                                      diff.conceal = TRUE)
-  pars <- c(parameters,0,0)
-  lambdas <- secsse::fill_in(lambda_list, pars)
-  mus <- secsse::fill_in(mu_vector, pars)
-  q <- secsse::fill_in(q_matrix, pars)
-
+  pars <- c(parameters,0,0,0,0,0,0)
+  lambdas <- secsse::fill_in(lambda_list_ETD, pars)
+  mus <- secsse::fill_in(mus_ETD, pars)
+  q <- secsse::fill_in(q_ETD, pars)
   sim <- list()
   for (j in seq_len(replicates)) {
     save <- 0
@@ -330,10 +332,10 @@ get_secsse_sim <- function(parameters, pool_init_states, replicates = 1){
         mus = mus,
         qs = q,
         crown_age = 10,
-        num_concealed_states = 2,
+        num_concealed_states = 3,
         pool_init_states = pool_init_states,
-        max_spec = 2000,
-        min_spec = 2,
+        max_spec = 1000,
+        min_spec = 10,
         conditioning = "obs_states",
         start_at_crown = FALSE
       ), error=function(e) {

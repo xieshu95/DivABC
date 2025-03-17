@@ -4,7 +4,7 @@
 \alias{get_musse_sim_create_obs}
 \title{Simulation fucntion to create MuSSE simualtions as observed data}
 \usage{
-get_musse_sim_create_obs(parameters, pool_init_states = NA, replicates = 1)
+get_musse_sim_create_obs(parameters, pool_init_states, replicates = 1)
 }
 \arguments{
 \item{parameters}{A vector for CES rates.}
