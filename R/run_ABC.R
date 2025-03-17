@@ -145,7 +145,7 @@ run_ABC <- function(param_space_name,
 
     abc <- ABC_SMC_secsse (
       obs_data = obs_sim,
-      sim_function <- get_secsse_sim,
+      sim_function <- get_bisse_sim,
       calc_ss_function <- calc_ss_diff_secsse,
       prior_generating_function <- prior_gen_secsse,
       prior_density_function <- prior_dens_secsse,

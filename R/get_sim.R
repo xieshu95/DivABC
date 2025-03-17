@@ -1,4 +1,4 @@
-#' Simulation function to create simulated data as observed data in ABC.
+#' Simulation function to create DAISIE simulations
 #'
 #' @param parameters A vector for CES rates.
 #' @param K Carrying capacity, Inf for diverdity-independent models.
@@ -90,7 +90,7 @@ get_TraiSIE_sim <- function(parameters, replicates = 1){
   return(sim)
 }
 
-#' Simulation fucntion to create simulated data as observed data in ABC.
+#' Simulation fucntion to create BiSSE simualtions as observed data
 #'
 #' @param parameters A vector for CES rates.
 #' @param replicates The number of replicates(islands) for secsse simulation.
@@ -99,7 +99,7 @@ get_TraiSIE_sim <- function(parameters, replicates = 1){
 #' @author Shu Xie
 #' @export
 
-get_secsse_sim_create_obs <- function(parameters, pool_init_states, replicates = 1){
+get_bisse_sim_create_obs <- function(parameters, pool_init_states, replicates = 1){
   states <- c("1", "2")
   spec_matrix <- c("1", "1", "1", 1)
   spec_matrix <- rbind(spec_matrix, c("2", "2", "2", 2))
@@ -153,7 +153,140 @@ get_secsse_sim_create_obs <- function(parameters, pool_init_states, replicates =
 }
 
 
-#' Simulation fucntion to create simulated data as observed data in ABC.
+#' Simulation fucntion to create simulations in ABC.
+#'
+#' @param parameters A vector for CES rates.
+#' @param replicates The number of replicates(islands) for secsse simulation.
+#'
+#' @return A list contains simulated islands
+#' @author Shu Xie
+#' @export
+
+get_bisse_sim <- function(parameters, pool_init_states, replicates = 1){
+  states <- c("1", "2")
+  spec_matrix <- c("1", "1", "1", 1)
+  spec_matrix <- rbind(spec_matrix, c("2", "2", "2", 2))
+  lambda_list <- secsse::create_lambda_list(state_names = states,
+                                            num_concealed_states = 2,
+                                            transition_matrix = spec_matrix,
+                                            model = "ETD")
+  mu_vector <- secsse::create_mu_vector(state_names = states,
+                                        num_concealed_states = 2,
+                                        model = "ETD",
+                                        lambda_list = lambda_list)
+
+  shift_matrix <- c("1", "2", 5)
+  shift_matrix <- rbind(shift_matrix, c("2", "1", 6))
+
+  q_matrix <- secsse::create_q_matrix(state_names = states,
+                                      num_concealed_states = 2,
+                                      shift_matrix = shift_matrix,
+                                      diff.conceal = TRUE)
+  pars <- c(parameters,0,0)
+  lambdas <- secsse::fill_in(lambda_list, pars)
+  mus <- secsse::fill_in(mu_vector, pars)
+  q <- secsse::fill_in(q_matrix, pars)
+
+  sim <- list()
+  for (j in seq_len(replicates)) {
+    save <- 0
+    while(save < 1){
+      skip <- FALSE
+      tryCatch(sim[[j]] <- secsse::secsse_sim(
+        lambdas = lambdas,
+        mus = mus,
+        qs = q,
+        crown_age = 10,
+        num_concealed_states = 2,
+        pool_init_states = pool_init_states,
+        max_spec = 2000,
+        min_spec = 2,
+        conditioning = "obs_states",
+        start_at_crown = FALSE
+      ), error=function(e) {
+        # print("Error: undefined columns selected")
+        skip <<- TRUE
+      })
+      if(skip == FALSE){
+        save = 1
+      }
+    }
+  }
+  return(sim)
+}
+
+
+
+
+#' Simulation fucntion to create MuSSE simualtions as observed data
+#'
+#' @param parameters A vector for CES rates.
+#' @param replicates The number of replicates(islands) for secsse simulation.
+#'
+#' @return A list contains simulated islands
+#' @author Shu Xie
+#' @export
+
+get_musse_sim_create_obs <- function(parameters, pool_init_states = NA, replicates = 1){
+
+  focal_matrix <-
+    secsse::create_default_lambda_transition_matrix(state_names = c("1", "2", "3"),
+                                                    model = "ETD")
+  # and the ETD model:
+  lambda_list_ETD <- secsse::create_lambda_list(state_names = c("1", "2", "3"),
+                                                num_concealed_states = 3,
+                                                transition_matrix = focal_matrix,
+                                                model = "ETD")
+  # and now the mu vector
+  mus_ETD <- secsse::create_mu_vector(state_names = c("1", "2", "3"),
+                                      num_concealed_states = 3,
+                                      model = "ETD",
+                                      lambda_list = lambda_list_ETD)
+
+  t_ETD <- secsse::create_default_shift_matrix(state_names = c("1", "2", "3"),
+                                               num_concealed_states = 3,
+                                               mu_vector = mus_ETD)
+  q_ETD <- secsse::create_q_matrix(state_names = c("1", "2", "3"),
+                                   num_concealed_states = 3,
+                                   shift_matrix = t_ETD,
+                                   diff.conceal = TRUE)
+
+  pars <- c(parameters,0,0,0,0,0,0)
+  lambdas <- secsse::fill_in(lambda_list_ETD, pars)
+  mus <- secsse::fill_in(mus_ETD, pars)
+  q <- secsse::fill_in(q_ETD, pars)
+  sim <- list()
+  for (j in seq_len(replicates)) {
+    save <- 0
+    while(save < 1){
+      sim[[j]] <- secsse::secsse_sim(
+        lambdas = lambdas,
+        mus = mus,
+        qs = q,
+        crown_age = 10,
+        num_concealed_states = 3,
+        pool_init_states = pool_init_states,
+        max_spec = 800,
+        min_spec = 100,
+        conditioning = "obs_states",
+        start_at_crown = FALSE)
+
+      if(length(sim[[j]]$obs_traits) > 100 && ## at least 2 species
+         length(sim[[j]]$obs_traits) < 800 &&
+         length(unique(sim[[j]]$obs_traits)) == 3 &&
+         sum(sim[[j]]$obs_traits == 1) > 10 &&
+         sum(sim[[j]]$obs_traits == 2) > 10 &&
+         sum(sim[[j]]$obs_traits == 3) > 10){
+        save = 1
+      }
+    }
+
+  }
+  return(sim)
+}
+
+
+#' Simulation fucntion to create simulations in ABC.
 #'
 #' @param parameters A vector for CES rates.
 #' @param replicates The number of replicates(islands) for secsse simulation.
@@ -214,4 +347,3 @@ get_secsse_sim <- function(parameters, pool_init_states, replicates = 1){
   }
   return(sim)
 }
-
