@@ -25,7 +25,7 @@ for_length=$(( ${for_length} - 1 ))
 
 for (( param_set = 1; param_set <= $for_length; param_set++ ))
 do
-sbatch DivABC/bash/submit_run_secsse_MCMC_param_set.sh ${param_space_name} \
+sbatch DivABC/bash/submit_run_bisse_MCMC_param_set.sh ${param_space_name} \
                                                    ${param_set} \
                                                    ${idparsopt_lam1} \
                                                    ${idparsopt_lam2} \

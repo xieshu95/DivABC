@@ -1,6 +1,6 @@
 #' Calculates error metrics between two simulations
 #' NLTTs_D
-calc_error_secsse <- function(sim_1,
+calc_error_bisse <- function(sim_1,
                               sim_2,
                               distance_method = "abs") {
 
@@ -39,7 +39,7 @@ calc_error_secsse <- function(sim_1,
 }
 
 # NLTTS+D+NUM
-calc_error_secsse_num <- function(sim_1,
+calc_error_bisse_num <- function(sim_1,
                               sim_2,
                               distance_method = "abs") {
 
@@ -82,7 +82,7 @@ calc_error_secsse_num <- function(sim_1,
 
 
 ## NLTTs
-calc_error_secsse_nltts <- function(sim_1,
+calc_error_bisse_nltts <- function(sim_1,
                                    sim_2,
                                    distance_method = "abs") {
 
@@ -112,7 +112,7 @@ calc_error_secsse_nltts <- function(sim_1,
 
 
 ## nltt_D
-calc_error_secsse_D_nltt <- function(sim_1,
+calc_error_bisse_D_nltt <- function(sim_1,
                                    sim_2,
                                    distance_method = "abs") {
   # nLTT
@@ -131,7 +131,7 @@ calc_error_secsse_D_nltt <- function(sim_1,
 
 
 ## D
-calc_error_secsse_D <- function(sim_1,
+calc_error_bisse_D <- function(sim_1,
                                      sim_2,
                                      distance_method = "abs") {
 
@@ -146,7 +146,7 @@ calc_error_secsse_D <- function(sim_1,
 }
 
 ## nltt
-calc_error_secsse_nltt <- function(sim_1,
+calc_error_bisse_nltt <- function(sim_1,
                                 sim_2,
                                 distance_method = "abs") {
 
@@ -160,7 +160,7 @@ calc_error_secsse_nltt <- function(sim_1,
 
 
 # MPDs_D
-calc_error_secsse_mpd_D <- function(sim_1,
+calc_error_bisse_mpd_D <- function(sim_1,
                               sim_2,
                               distance_method = "abs") {
 
@@ -198,7 +198,7 @@ calc_error_secsse_mpd_D <- function(sim_1,
 }
 
 # MNTDs_D
-calc_error_secsse_mntd_D <- function(sim_1,
+calc_error_bisse_mntd_D <- function(sim_1,
                               sim_2,
                               distance_method = "abs") {
 
@@ -237,7 +237,7 @@ calc_error_secsse_mntd_D <- function(sim_1,
 }
 
 # colless_D
-calc_error_secsse_colless_D <- function(sim_1,
+calc_error_bisse_colless_D <- function(sim_1,
                               sim_2,
                               distance_method = "abs") {
 
@@ -271,7 +271,7 @@ calc_error_secsse_colless_D <- function(sim_1,
 }
 
 # MPDs_nltt
-calc_error_secsse_mpd_nltt <- function(sim_1,
+calc_error_bisse_mpd_nltt <- function(sim_1,
                                        sim_2,
                                        distance_method = "abs") {
 
@@ -307,7 +307,7 @@ calc_error_secsse_mpd_nltt <- function(sim_1,
 }
 
 #' mntd_nltt
-calc_error_secsse_mntd_nltt <- function(sim_1,
+calc_error_bisse_mntd_nltt <- function(sim_1,
                                         sim_2,
                                         distance_method = "abs") {
 
@@ -343,7 +343,7 @@ calc_error_secsse_mntd_nltt <- function(sim_1,
 
 
 # colless_nltt
-calc_error_secsse_colless_nltt <- function(sim_1,
+calc_error_bisse_colless_nltt <- function(sim_1,
                                         sim_2,
                                         distance_method = "abs") {
 
@@ -378,7 +378,7 @@ calc_error_secsse_colless_nltt <- function(sim_1,
 
 
 #' tip ratio-nltt
-calc_error_secsse_ratio_nltt <- function(sim_1,
+calc_error_bisse_ratio_nltt <- function(sim_1,
                               sim_2,
                               distance_method = "abs") {
 
@@ -420,7 +420,7 @@ create_trait_matrix <- function(sim) {
   dimnames(trait_matrix)[1:2]<-list(sim$phy$tip.label)
   return(trait_matrix)
 }
-## input is secsse simulation with phy and traits
+## input is bisse simulation with phy and traits
 # state_type = 0 means distance between species with different states
 # state_type = 1 means distance between species with both state 1
 # state_type = 2 means distance between species with both state 2
@@ -495,8 +495,24 @@ calc_D <- function (sim) {
   trait = data.frame(sim$phy$tip.label,sim$obs_traits)
   colnames(trait) <- c("tips","trait_val")
   data <- caper::comparative.data(sim$phy, trait, tips)
-  PhyloD <- caper::phylo.d(data, binvar=trait_val,permut = 200)
+  PhyloD <- caper::phylo.d(data, binvar=trait_val,permut = 1000)
   return(as.numeric(PhyloD$DEstimate))
+}
+
+sim <- get_bisse_sim(parameters  =  c(0.6,0.6,0.05,0.05,0.1,0.1),
+                          pool_init_states = c("1","2"))[[1]]
+
+calc_Delta <- function (sim) {
+  Delta <- delta(as.numeric(sim$obs_traits),sim$phy, lambda0 = 0.1,se = 0.5,sim = 1000,thin = 1,burn = 100)
+  return(as.numeric(Delta))
+}
+
+# phylogenetic signal M
+calc_M <- function (sim) {
+  trait_df <- data.frame(B1 =as.factor(sim$obs_traits), row.names = sim$phy$tip.label)
+  trait_dist <- phylosignalDB::gower_dist(x = trait_df,type = list(factor = 1))
+  phyloM <- phylosignal_M(trait_dist, phy = sim$phy, reps = 99)
+  return(as.numeric(phyloM$stat))
 }
 
 
@@ -520,7 +536,7 @@ calc_D <- function (sim) {
 #' @author Shu Xie
 #' @export
 
-calc_ss_secsse <- function(sim) {
+calc_ss_bisse <- function(sim) {
 
   # # mpd_all
   # mpd_all <- calc_mpd_trait(sim = sim,state_type = 3)

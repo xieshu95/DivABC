@@ -16,7 +16,7 @@ run_ABC <- function(param_space_name,
                     save_output = TRUE,
                     ss_set = 1){
 
-  # param_space <- readr::read_csv2("data/secsse_ABC.csv")
+  # param_space <- readr::read_csv2("data/bisse_ABC.csv")
   param_space <- load_param_space(param_space_name = param_space_name)
   seed <- as.integer(Sys.time()) %% 1000000L * param_set
   set.seed(param_set)
@@ -112,7 +112,7 @@ run_ABC <- function(param_space_name,
       ss_set = ss_set
     )
 
-  } else if (sim_model == "secsse") {
+  } else if (sim_model == "bisse") {
     if(ss_set == 0){ # nltt + nltt1 + nltt2 + D
       init_epsilon <- c(1,1,1,1)
     } else if (ss_set == 1){ # nltt + nltt1 + nltt2
@@ -143,12 +143,12 @@ run_ABC <- function(param_space_name,
 
 
 
-    abc <- ABC_SMC_secsse (
+    abc <- ABC_SMC_bisse (
       obs_data = obs_sim,
       sim_function <- get_bisse_sim,
-      calc_ss_function <- calc_ss_diff_secsse,
-      prior_generating_function <- prior_gen_secsse,
-      prior_density_function <- prior_dens_secsse,
+      calc_ss_function <- calc_ss_diff_bisse,
+      prior_generating_function <- prior_gen_bisse,
+      prior_density_function <- prior_dens_bisse,
       init_epsilon_values = init_epsilon,
       number_of_particles = 500,
       sigma = 0.2,

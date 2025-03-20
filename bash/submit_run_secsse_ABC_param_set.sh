@@ -21,7 +21,7 @@ ss_set=${10}
 
 
 ml R
-Rscript DivABC/scripts/run_ABC_secsse_peregrine.R ${param_space_name} \
+Rscript DivABC/scripts/run_ABC_bisse_peregrine.R ${param_space_name} \
                                                ${param_set} \
                                                ${idparsopt_lac1} \
                                                ${idparsopt_lac2} \

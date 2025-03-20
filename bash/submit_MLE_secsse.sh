@@ -8,4 +8,4 @@
 #SBATCH --partition=regular
 
 module load R
-Rscript DivABC/scripts/secsse/calc_MLE_cluster.R
+Rscript DivABC/scripts/bisse/calc_MLE_cluster.R

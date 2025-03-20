@@ -7,7 +7,7 @@
 #' @export
 
 
-ABC_SMC_secsse <- function( # nolint indeed a complex function
+ABC_SMC_bisse <- function( # nolint indeed a complex function
   obs_data,
   sim_function,
   calc_ss_function,
@@ -69,7 +69,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
 
     stoprate_reached <- FALSE
 
-    # for secsse
+    # for bisse
     init_prob <- init_prob_list[[i]]
     init_state <- c()
 
@@ -101,7 +101,7 @@ ABC_SMC_secsse <- function( # nolint indeed a complex function
 
         accept <- TRUE
 
-        # for secsse
+        # for bisse
 
         if ("phy" %in% names(new_sim[[1]])) {
           if (length(unique(new_sim[[1]]$obs_traits)) < 2 ||

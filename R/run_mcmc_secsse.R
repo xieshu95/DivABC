@@ -4,7 +4,7 @@
 #' @return
 #' @export
 
-run_MCMC_secsse <- function(param_space_name,
+run_MCMC_bisse <- function(param_space_name,
                             param_set,
                             idparsopt,
                             save_output = TRUE){
@@ -35,8 +35,8 @@ run_MCMC_secsse <- function(param_space_name,
 
 
   mcmc <- MCMC(datalist = obs_sim[[1]],
-                      log_lik_function = calc_log_lik_secsse,
-                      log_prior_function = calc_log_prior_secsse,
+                      log_lik_function = calc_log_lik_bisse,
+                      log_prior_function = calc_log_prior_bisse,
                       parameters = as.numeric(initparsopt),
                       iterations = 1000000,
                       burnin = 100000,
