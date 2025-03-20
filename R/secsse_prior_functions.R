@@ -136,12 +136,12 @@ prior_dens_musse <- function(pars,idparsopt) {
   if(11 %in% idparsopt){
     dens_q31 <- stats::dunif(pars[11],0,1)
   } else {
-    dens_q12 <- 1
+    dens_q31 <- 1
   }
   if(12 %in% idparsopt){
     dens_q32 <- stats::dunif(pars[12],0,1)
   } else {
-    dens_q21 <- 1
+    dens_q32 <- 1
   }
   return(dens_lam1 * dens_lam2 * dens_lam2 *
            dens_mu1 * dens_mu2 * dens_mu2 *
