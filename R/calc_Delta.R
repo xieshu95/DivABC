@@ -182,7 +182,7 @@ rtrait <- function(tree,R,nstates) {
 #trait: trait vector
 delta <- function(trait, tree,lambda0,se,sim,thin,burn) {
 
-  ar <- ace(trait,tree,type="discret",method="ML",model="ARD")$lik.anc
+  ar <- ape::ace(trait,tree,type="discret",method="ML",model="ARD")$lik.anc
 
   # deletes the complex part whenever it pops up
   if (class(ar[1,1]) == "complex"){
