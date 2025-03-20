@@ -499,19 +499,19 @@ calc_D <- function (sim) {
   return(as.numeric(PhyloD$DEstimate))
 }
 
-sim <- get_bisse_sim(parameters  =  c(0.6,0.6,0.05,0.05,0.1,0.1),
-                          pool_init_states = c("1","2"))[[1]]
+# sim <- get_bisse_sim(parameters  =  c(0.6,0.6,0.05,0.05,0.1,0.1),
+#                           pool_init_states = c("1","2"))[[1]]
 
 calc_Delta <- function (sim) {
-  Delta <- delta(as.numeric(sim$obs_traits),sim$phy, lambda0 = 0.1,se = 0.5,sim = 1000,thin = 1,burn = 100)
-  return(as.numeric(Delta))
+  Delta <- delta(as.numeric(sim$obs_traits),sim$phy, lambda0 = 0.5,se = 0.5,sim = 1000,thin = 10,burn = 100)
+  return(as.numeric(log(Delta+1)))
 }
 
 # phylogenetic signal M
 calc_M <- function (sim) {
   trait_df <- data.frame(B1 =as.factor(sim$obs_traits), row.names = sim$phy$tip.label)
   trait_dist <- phylosignalDB::gower_dist(x = trait_df,type = list(factor = 1))
-  phyloM <- phylosignal_M(trait_dist, phy = sim$phy, reps = 99)
+  phyloM <- phylosignalDB::phylosignal_M(trait_dist, phy = sim$phy, reps = 10)
   return(as.numeric(phyloM$stat))
 }
 
@@ -616,4 +616,85 @@ calc_ss_bisse <- function(sim) {
     # nltt = nltt)
   )
 }
+
+# nltts + Delta
+calc_error_bisse_Delta <- function(sim_1,
+                             sim_2,
+                             distance_method = "abs") {
+
+  # drop tips and only keep tips with a single state(1/2)
+  phy1_s1<-ape::drop.tip(sim_1$phy,  ## phy1 with only state1 tips
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 2)])
+  phy1_s2<-ape::drop.tip(sim_1$phy,
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 1)])
+
+  phy2_s1<-ape::drop.tip(sim_2$phy,
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 2)])
+  phy2_s2<-ape::drop.tip(sim_2$phy,
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
+
+  # D statistic
+  Delta1 <- calc_Delta(sim_1)
+  Delta2 <- calc_Delta(sim_2)
+  Delta <- abs (Delta1 - Delta2)
+
+  # nLTT
+  nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
+  nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
+  nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
+
+  # spect_1 <- treestats::laplacian_spectrum(sim_1$phy)
+  # spect_2 <- treestats::laplacian_spectrum(sim_2$phy)
+  # spect <- abs(log(spect_1$principal_eigenvalue) -
+  #                log(spect_2$principal_eigenvalue) )
+  return(
+    c(nltt,
+      nltt_s1,
+      nltt_s2,
+      Delta
+    )
+  )
+}
+
+
+# nltts + phylosignal M
+calc_error_bisse_M <- function(sim_1,
+                             sim_2,
+                             distance_method = "abs") {
+
+  # drop tips and only keep tips with a single state(1/2)
+  phy1_s1<-ape::drop.tip(sim_1$phy,  ## phy1 with only state1 tips
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 2)])
+  phy1_s2<-ape::drop.tip(sim_1$phy,
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 1)])
+
+  phy2_s1<-ape::drop.tip(sim_2$phy,
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 2)])
+  phy2_s2<-ape::drop.tip(sim_2$phy,
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
+
+  # M statistic
+  M1 <- calc_M(sim_1)
+  M2 <- calc_M(sim_2)
+  M <- abs (M1 - M2)
+
+  # nLTT
+  nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
+  nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
+  nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
+
+  # spect_1 <- treestats::laplacian_spectrum(sim_1$phy)
+  # spect_2 <- treestats::laplacian_spectrum(sim_2$phy)
+  # spect <- abs(log(spect_1$principal_eigenvalue) -
+  #                log(spect_2$principal_eigenvalue) )
+  return(
+    c(nltt,
+      nltt_s1,
+      nltt_s2,
+      M
+    )
+  )
+}
+
+
 

@@ -78,7 +78,14 @@ calc_ss_diff_bisse <- function(sim1, sim2, ss_set){
   } else if(ss_set == 12) { # tip-ratio + nltt
     ss <- calc_error_bisse_ratio_nltt(sim_1 = sim1,
                                 sim_2 = sim2)
+  } else if(ss_set == 13) { # tip-ratio + nltt
+    ss <- calc_error_bisse_Delta(sim_1 = sim1,
+                                      sim_2 = sim2)
+  } else if(ss_set == 14) { # tip-ratio + nltt
+    ss <- calc_error_bisse_M(sim_1 = sim1,
+                                 sim_2 = sim2)
   }
+
 
 
   ss_diff <- as.numeric(ss)

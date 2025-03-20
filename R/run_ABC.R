@@ -139,6 +139,10 @@ run_ABC <- function(param_space_name,
       init_epsilon <- c(100,100,1)
     } else if (ss_set == 12){  # tip-ratio + nltt
       init_epsilon <- c(1,1)
+    } else if (ss_set == 13){  # nltt + nltt1 + nltt2 + Delta
+      init_epsilon <- c(1,1,1,5)
+    } else if (ss_set == 14){  # nltt + nltt1 + nltt2 + M
+      init_epsilon <- c(1,1,1,1)
     }
 
 

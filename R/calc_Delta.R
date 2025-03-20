@@ -1,3 +1,4 @@
+# The code to calculate statistic Delta is adapted from "github.com/mrborges23/delta_statistic"
 ## calculate phylogenetic signal Delta
 library("ape")
 library("expm")
