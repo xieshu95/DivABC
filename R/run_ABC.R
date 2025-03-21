@@ -144,9 +144,6 @@ run_ABC <- function(param_space_name,
     } else if (ss_set == 14){  # nltt + nltt1 + nltt2 + M
       init_epsilon <- c(1,1,1,1)
     }
-
-
-
     abc <- ABC_SMC_bisse (
       obs_data = obs_sim,
       sim_function <- get_bisse_sim,
@@ -160,6 +157,28 @@ run_ABC <- function(param_space_name,
       num_iterations = 10,
       idparsopt = as.numeric(idparsopt),
       fixpars = as.numeric(obs_sim_pars[1:6]),
+      ss_set = ss_set
+    )
+  } else if (sim_model == "musse") {
+    if(ss_set == 0){ # nltt + nltt1 + nltt2 + nltt3 + Delta
+      init_epsilon <- c(1,1,1,1,1)
+    } else if (ss_set == 1){ # nltt + nltt1 + nltt2 + nltt3 + M
+      init_epsilon <- c(1,1,1,1,1)
+    }
+
+    abc <- ABC_SMC_bisse (
+      obs_data = obs_sim,
+      sim_function <- get_musse_sim,
+      calc_ss_function <- calc_ss_diff_musse,
+      prior_generating_function <- prior_gen_musse,
+      prior_density_function <- prior_dens_musse,
+      init_epsilon_values = init_epsilon,
+      number_of_particles = 500,
+      sigma = 0.2,
+      stop_rate = 0.001,
+      num_iterations = 10,
+      idparsopt = as.numeric(idparsopt),
+      fixpars = as.numeric(obs_sim_pars[1:12]),
       ss_set = ss_set
     )
   }

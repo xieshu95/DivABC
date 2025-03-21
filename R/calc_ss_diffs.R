@@ -41,86 +41,63 @@ calc_ss_diff_daisie <- function(sim1, sim2, ss_set){
 calc_ss_diff_bisse <- function(sim1, sim2, ss_set){
   if (ss_set == 0){ # nltt + nltt1 + nltt2 + D
     ss <- calc_error_bisse(sim_1 = sim1,
-                            sim_2 = sim2)
+                           sim_2 = sim2)
   } else if(ss_set == 1) { # nltt + nltt1 + nltt2
     ss <- calc_error_bisse_nltts(sim_1 = sim1,
                                  sim_2 = sim2)
   } else if(ss_set == 2) { # nltt + D
     ss <- calc_error_bisse_D_nltt(sim_1 = sim1,
-                                 sim_2 = sim2)
+                                  sim_2 = sim2)
   } else if(ss_set == 3) { # D
     ss <- calc_error_bisse_D(sim_1 = sim1,
-                              sim_2 = sim2)
+                             sim_2 = sim2)
   } else if(ss_set == 4) { # mpd1 + mpd2 + D
     ss <- calc_error_bisse_mpd_D(sim_1 = sim1,
-                                  sim_2 = sim2)
+                                 sim_2 = sim2)
   } else if(ss_set == 5) { # mntd1 + mntd2 + D
     ss <- calc_error_bisse_mntd_D(sim_1 = sim1,
-                                   sim_2 = sim2)
+                                  sim_2 = sim2)
   } else if(ss_set == 6) { # colless1 + colless2 + D
     ss <- calc_error_bisse_colless_D(sim_1 = sim1,
-                                      sim_2 = sim2)
+                                     sim_2 = sim2)
   } else if(ss_set == 7) { # mpd1 + mpd2 + nltt
     ss <- calc_error_bisse_mpd_nltt(sim_1 = sim1,
-                                     sim_2 = sim2)
+                                    sim_2 = sim2)
   } else if(ss_set == 8) { # nltt + nltt1 + nltt2 + D + num1 + num2
     ss <- calc_error_bisse_num(sim_1 = sim1,
-                                sim_2 = sim2)
+                               sim_2 = sim2)
   } else if(ss_set == 9) { # nltt
     ss <- calc_error_bisse_nltt(sim_1 = sim1,
                                 sim_2 = sim2)
   } else if(ss_set == 10) { # mntd1 + mntd2 + nltt
     ss <- calc_error_bisse_mntd_nltt(sim_1 = sim1,
-                                sim_2 = sim2)
+                                     sim_2 = sim2)
   } else if(ss_set == 11) { # colless1 + colless2 + nltt
     ss <- calc_error_bisse_colless_nltt(sim_1 = sim1,
-                                sim_2 = sim2)
+                                        sim_2 = sim2)
   } else if(ss_set == 12) { # tip-ratio + nltt
     ss <- calc_error_bisse_ratio_nltt(sim_1 = sim1,
-                                sim_2 = sim2)
+                                      sim_2 = sim2)
   } else if(ss_set == 13) { # tip-ratio + nltt
     ss <- calc_error_bisse_Delta(sim_1 = sim1,
-                                      sim_2 = sim2)
+                                 sim_2 = sim2)
   } else if(ss_set == 14) { # tip-ratio + nltt
     ss <- calc_error_bisse_M(sim_1 = sim1,
-                                 sim_2 = sim2)
+                             sim_2 = sim2)
   }
-
-
-
   ss_diff <- as.numeric(ss)
   return(ss_diff)
 }
 
-
-calc_ss_diff_daisie <- function(sim1, sim2, ss_set){
-  if (ss_set == 0){ ## all
-    ss <- calc_error_all(sim_1 = sim1,
-                         sim_2 = sim2)
-  } else if(ss_set == 1) { # phylogenetic
-    ss <- calc_error_phylo(sim_1 = sim1,
-                           sim_2 = sim2)
-  } else if (ss_set == 2){ # tips
-    ss <- calc_error_tips(sim_1 = sim1,
-                          sim_2 = sim2)
-  } else if (ss_set == 3){ # nltt
-    ss <- calc_error_nltt(sim_1 = sim1,
-                          sim_2 = sim2)
-  }
-  ss_diff <- as.numeric(ss)
-
-  return(ss_diff)
-}
 
 calc_ss_diff_musse <- function(sim1, sim2, ss_set){
   if (ss_set == 0){ # nltt + nltt1 + nltt2 + nltt3 + Delta
-    ss <- calc_error_bisse(sim_1 = sim1,
-                           sim_2 = sim2)
-  } else if(ss_set == 1) { # nltt + nltt1 + nltt2 + nltt3 + M
-    ss <- calc_error_bisse_nltts(sim_1 = sim1,
+    ss <- calc_error_musse_Delta(sim_1 = sim1,
                                  sim_2 = sim2)
+  } else if(ss_set == 1) { # nltt + nltt1 + nltt2 + nltt3 + M
+    ss <- calc_error_musse_M(sim_1 = sim1,
+                             sim_2 = sim2)
   }
-
   ss_diff <- as.numeric(ss)
   return(ss_diff)
 }

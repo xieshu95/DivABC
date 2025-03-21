@@ -271,7 +271,7 @@ get_musse_sim_create_obs <- function(parameters, pool_init_states, replicates = 
         conditioning = "obs_states",
         start_at_crown = FALSE)
 
-      if(length(sim[[j]]$obs_traits) > 500 && ## at least 2 species
+      if(length(sim[[j]]$obs_traits) > 50 && ## at least 2 species
          length(sim[[j]]$obs_traits) < 1000 &&
          length(unique(sim[[j]]$obs_traits)) == 3 &&
          sum(sim[[j]]$obs_traits == 1) > 10 &&

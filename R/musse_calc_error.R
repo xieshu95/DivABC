@@ -34,6 +34,7 @@ calc_error_musse_Delta <- function(sim_1,
     c(nltt,
       nltt_s1,
       nltt_s2,
+      nltt_s3,
       Delta
     )
   )
@@ -74,6 +75,7 @@ calc_error_musse_M <- function(sim_1,
     c(nltt,
       nltt_s1,
       nltt_s2,
+      nltt_s3,
       M
     )
   )
