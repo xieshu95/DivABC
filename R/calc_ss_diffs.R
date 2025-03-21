@@ -93,7 +93,37 @@ calc_ss_diff_bisse <- function(sim1, sim2, ss_set){
 }
 
 
+calc_ss_diff_daisie <- function(sim1, sim2, ss_set){
+  if (ss_set == 0){ ## all
+    ss <- calc_error_all(sim_1 = sim1,
+                         sim_2 = sim2)
+  } else if(ss_set == 1) { # phylogenetic
+    ss <- calc_error_phylo(sim_1 = sim1,
+                           sim_2 = sim2)
+  } else if (ss_set == 2){ # tips
+    ss <- calc_error_tips(sim_1 = sim1,
+                          sim_2 = sim2)
+  } else if (ss_set == 3){ # nltt
+    ss <- calc_error_nltt(sim_1 = sim1,
+                          sim_2 = sim2)
+  }
+  ss_diff <- as.numeric(ss)
 
+  return(ss_diff)
+}
+
+calc_ss_diff_musse <- function(sim1, sim2, ss_set){
+  if (ss_set == 0){ # nltt + nltt1 + nltt2 + nltt3 + Delta
+    ss <- calc_error_bisse(sim_1 = sim1,
+                           sim_2 = sim2)
+  } else if(ss_set == 1) { # nltt + nltt1 + nltt2 + nltt3 + M
+    ss <- calc_error_bisse_nltts(sim_1 = sim1,
+                                 sim_2 = sim2)
+  }
+
+  ss_diff <- as.numeric(ss)
+  return(ss_diff)
+}
 
 
 #' calculate the initial epsilon

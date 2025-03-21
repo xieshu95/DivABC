@@ -504,7 +504,7 @@ calc_D <- function (sim) {
 
 calc_Delta <- function (sim) {
   Delta <- delta(as.numeric(sim$obs_traits),sim$phy, lambda0 = 0.5,se = 0.5,sim = 1000,thin = 10,burn = 100)
-  return(as.numeric(log(Delta+1)))
+  return(as.numeric(log(Delta+1))) #log(Delta+1)  or Delta
 }
 
 # phylogenetic signal M
