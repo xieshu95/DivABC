@@ -1,4 +1,4 @@
-## create input parameter sets for scesse_ABC
+## create input parameter sets for bisse_ABC
 # two examined states and two concealed states
 
 # latest param space
