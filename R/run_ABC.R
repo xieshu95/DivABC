@@ -140,7 +140,7 @@ run_ABC <- function(param_space_name,
     } else if (ss_set == 12){  # tip-ratio + nltt
       init_epsilon <- c(1,1)
     } else if (ss_set == 13){  # nltt + nltt1 + nltt2 + Delta
-      init_epsilon <- c(1,1,1,1)
+      init_epsilon <- c(1,1,1,5)
     } else if (ss_set == 14){  # nltt + nltt1 + nltt2 + M
       init_epsilon <- c(1,1,1,1)
     }
@@ -161,12 +161,12 @@ run_ABC <- function(param_space_name,
     )
   } else if (sim_model == "musse") {
     if(ss_set == 0){ # nltt + nltt1 + nltt2 + nltt3 + Delta
-      init_epsilon <- c(1,1,1,1,1)
+      init_epsilon <- c(1,1,1,1,5)
     } else if (ss_set == 1){ # nltt + nltt1 + nltt2 + nltt3 + M
       init_epsilon <- c(1,1,1,1,1)
     }
 
-    abc <- ABC_SMC_bisse (
+    abc <- ABC_SMC_musse (
       obs_data = obs_sim,
       sim_function <- get_musse_sim,
       calc_ss_function <- calc_ss_diff_musse,

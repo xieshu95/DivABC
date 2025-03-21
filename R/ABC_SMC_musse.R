@@ -7,7 +7,7 @@
 #' @export
 
 
-ABC_SMC_mussee <- function( # nolint indeed a complex function
+ABC_SMC_musse <- function( # nolint indeed a complex function
   obs_data,
   sim_function,
   calc_ss_function,
@@ -69,9 +69,9 @@ ABC_SMC_mussee <- function( # nolint indeed a complex function
 
     stoprate_reached <- FALSE
 
-    # for bisse
-    init_prob <- init_prob_list[[i]]
-    init_state <- c()
+    # for musse
+    # init_prob <- init_prob_list[[i]]
+    # init_state <- c()
 
     while (number_accepted < number_of_particles) {
       #in this initial step, generate parameters from the prior
@@ -132,7 +132,7 @@ ABC_SMC_mussee <- function( # nolint indeed a complex function
           sim_list[[number_accepted]] <- new_sim[[1]]
           accepted_weight <- 1
           ss_diff <- rbind(ss_diff,df_stats)
-          init_state[number_accepted] <- new_sim[[1]]$initialState
+          # init_state[number_accepted] <- new_sim[[1]]$initialState
 
           #calculate the weight
           if (i > 1) {
@@ -183,21 +183,21 @@ ABC_SMC_mussee <- function( # nolint indeed a complex function
     if (stoprate_reached) {
       break
     }
-    # if(n_iter >= 3) {
-    #   save_output(
-    #     output = list(sim_list = sim_list,
-    #                   ABC = ABC_list,
-    #                   n_iter = n_iter,
-    #                   epsilon = epsilon,
-    #                   obs_sim = obs_data,
-    #                   ss_diff_list = ss_diff_list,
-    #                   init_prob_list = init_prob_list,
-    #                   init_state = init_state),
-    #     param_space_name = param_space_name,
-    #     param_set = param_set,
-    #     ss_set = ss_set
-    #   )
-    # }
+    if(n_iter >= 3) { # record from the third iteration
+      save_output(
+        output = list(sim_list = sim_list,
+                      ABC = ABC_list,
+                      n_iter = n_iter,
+                      epsilon = epsilon,
+                      obs_sim = obs_data,
+                      ss_diff_list = ss_diff_list),
+                      # init_prob_list = init_prob_list,
+                      # init_state = init_state),
+        param_space_name = param_space_name,
+        param_set = param_set,
+        ss_set = ss_set
+      )
+    }
   }
   message("tried times: ", tried)
 
