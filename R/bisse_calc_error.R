@@ -503,15 +503,15 @@ calc_D <- function (sim) {
 #                           pool_init_states = c("1","2"))[[1]]
 
 calc_Delta <- function (sim) {
-  Delta <- delta(as.numeric(sim$obs_traits),sim$phy, lambda0 = 0.5,se = 0.5,sim = 1000,thin = 10,burn = 100)
+  Delta <- delta(as.numeric(sim$obs_traits),sim$phy, lambda0 = 0.5,se = 0.5,sim = 100,thin = 1,burn = 10)
   return(as.numeric(log(Delta+1))) #log(Delta+1)  or Delta
 }
 
 # phylogenetic signal M
 calc_M <- function (sim) {
   trait_df <- data.frame(B1 =as.factor(sim$obs_traits), row.names = sim$phy$tip.label)
-  trait_dist <- phylosignalDB::gower_dist(x = trait_df,type = list(factor = 1))
-  phyloM <- phylosignalDB::phylosignal_M(trait_dist, phy = sim$phy, reps = 10)
+  trait_dist <- phylosignalDB::gower_dist(x = trait_df)
+  phyloM <- phylosignalDB::phylosignal_M(trait_dist, phy = sim$phy, reps = 1)
   return(as.numeric(phyloM$stat))
 }
 
