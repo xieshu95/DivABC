@@ -140,9 +140,9 @@ run_ABC <- function(param_space_name,
     } else if (ss_set == 12){  # tip-ratio + nltt
       init_epsilon <- c(1,1)
     } else if (ss_set == 13){  # nltt + nltt1 + nltt2 + Delta
-      init_epsilon <- c(1,1,1,5)
+      init_epsilon <- c(1,1,1,2)
     } else if (ss_set == 14){  # nltt + nltt1 + nltt2 + M
-      init_epsilon <- c(1,1,1,1)
+      init_epsilon <- c(1,1,1,0.5)
     }
     abc <- ABC_SMC_bisse (
       obs_data = obs_sim,
@@ -153,8 +153,8 @@ run_ABC <- function(param_space_name,
       init_epsilon_values = init_epsilon,
       number_of_particles = 500,
       sigma = 0.2,
-      stop_rate = 0.001,
-      num_iterations = 10,
+      stop_rate = 0.0002,
+      num_iterations = 20,
       idparsopt = as.numeric(idparsopt),
       fixpars = as.numeric(obs_sim_pars[1:6]),
       ss_set = ss_set
