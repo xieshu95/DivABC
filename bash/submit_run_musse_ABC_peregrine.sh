@@ -8,7 +8,8 @@
 #SBATCH --partition=regular
 
 # git clone https://github.com/xieshu95/DivABC
-# sbatch DivABC/bash/submit_run_ABC_peregrine.sh musse_ABC 1 1 1 1 1 1 1 1 1 1 1 1 musse 0
+# sbatch DivABC/bash/submit_run_musse_ABC_peregrine.sh musse_ABC_test 1 1 1 1 1 1 1 1 1 1 1 1 musse 0
+# sbatch DivABC/bash/submit_run_musse_ABC_param_set.sh musse_ABC_test 1 1 1 1 1 1 1 1 1 1 1 1 1 musse 0
 
 
 

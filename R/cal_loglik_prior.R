@@ -86,14 +86,20 @@ calc_log_prior_bisse <- function(params,idparsopt) {
 #' @export
 
 calc_log_lik_musse <- function(params, datalist) {
-  pars <- secsse::id_paramPos(traits = datalist$obs_traits,num_concealed_states = 2)
-  pars[[1]][] <- c(params[1],params[2],params[1],params[2])
-  pars[[2]][] <- c(params[3],params[4],params[3],params[4])
-  masterBlock <- matrix(c(params[6],params[5]),
-                        ncol=2,nrow=2,byrow=TRUE)
-  diag(masterBlock) <- NA
-  q <-secsse::q_doubletrans(c(1,2),masterBlock,diff.conceal=F)
-  q[1,3]<- q[2,4] <- q[3,1] <- q[4,2] <- 0
+  pars <- secsse::id_paramPos(traits = datalist$obs_traits,num_concealed_states = 3)
+  pars[[1]][] <- c(params[1],params[2],params[3],params[1],params[2],params[3],params[1],params[2],params[3])
+  pars[[2]][] <- c(params[4],params[5],params[6],params[4],params[5],params[6],params[4],params[5],params[6])
+
+  t_ETD <- secsse::create_default_shift_matrix(state_names = c("1", "2", "3"),
+                                               num_concealed_states = 3,
+                                               mu_vector = c(4,5,6,4,5,6,4,5,6))
+  q_ETD <- secsse::create_q_matrix(state_names = c("1", "2", "3"),
+                                   num_concealed_states = 3,
+                                   shift_matrix = t_ETD,
+                                   diff.conceal = TRUE)
+
+  params <- c(params,0,0,0,0,0,0)
+  q <- secsse::fill_in(q_ETD, params)
   pars[[3]][] <- q
   # skip <- FALSE
   # options(warn = -1)
@@ -103,8 +109,8 @@ calc_log_lik_musse <- function(params, datalist) {
         parameter = pars,
         phy = datalist$phy,
         traits = datalist$obs_traits,
-        num_concealed_states = 2,
-        sampling_fraction = c(1,1),
+        num_concealed_states = 3,
+        sampling_fraction = c(1,1,1),
         cond = "proper_cond")
     )
   )
@@ -117,7 +123,7 @@ calc_log_lik_musse <- function(params, datalist) {
 #' @return a numeric represents the log prior density
 #' @export
 calc_log_prior_musse <- function(params,idparsopt) {
-  log_prior <- sum(log(params))+ log(prior_dens_secsse(params, idparsopt))
+  log_prior <- sum(log(params))+ log(prior_dens_musse(params, idparsopt))
   return(log_prior)
 }
 
