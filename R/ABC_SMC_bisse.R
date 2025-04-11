@@ -167,7 +167,7 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
                                  sum(init_state == "2A") + sum(init_state == "2B"))/length(init_state)
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.5)
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.4)
     }
     ABC <- c()
     for (k in seq_along(new_params)) {
@@ -182,21 +182,21 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
     if (stoprate_reached) {
       break
     }
-    # if(n_iter >= 3) {
-    #   save_output(
-    #     output = list(sim_list = sim_list,
-    #                   ABC = ABC_list,
-    #                   n_iter = n_iter,
-    #                   epsilon = epsilon,
-    #                   obs_sim = obs_data,
-    #                   ss_diff_list = ss_diff_list,
-    #                   init_prob_list = init_prob_list,
-    #                   init_state = init_state),
-    #     param_space_name = param_space_name,
-    #     param_set = param_set,
-    #     ss_set = ss_set
-    #   )
-    # }
+    if(n_iter >= 3) {
+      save_output(
+        output = list(sim_list = sim_list,
+                      ABC = ABC_list,
+                      n_iter = n_iter,
+                      epsilon = epsilon,
+                      obs_sim = obs_data,
+                      ss_diff_list = ss_diff_list,
+                      init_prob_list = init_prob_list,
+                      init_state = init_state),
+        param_space_name = param_space_name,
+        param_set = param_set,
+        ss_set = ss_set
+      )
+    }
   }
   message("tried times: ", tried)
 
