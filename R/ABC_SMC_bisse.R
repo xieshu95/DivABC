@@ -40,8 +40,8 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
   ABC_list <- list()
   sim_list <- list()
   ss_diff_list <- list()
-  init_prob_list <- list()
-  init_prob_list[[1]] <- c(0.5,0.5)
+  # init_prob_list <- list()
+  # init_prob_list[[1]] <- c(0.5,0.5)
 
   #convergence is expected within 50 iterations
   #usually convergence occurs within 20 iterations
@@ -70,8 +70,8 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
     stoprate_reached <- FALSE
 
     # for bisse
-    init_prob <- init_prob_list[[i]]
-    init_state <- c()
+    # init_prob <- init_prob_list[[i]]
+    # init_state <- c()
 
     while (number_accepted < number_of_particles) {
       #in this initial step, generate parameters from the prior
@@ -94,9 +94,9 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
       #reject if outside the prior
       if (prior_density_function(parameters,idparsopt) > 0) {
         #simulate a new tree, given the proposed parameters
-        pool_init_states <- sample(c("1","2"), size = 1, prob = init_prob)
+        # pool_init_states <- sample(c("1","2"), size = 1, prob = init_prob)
         new_sim <- sim_function(parameters = parameters,
-                                pool_init_states = pool_init_states)
+                                pool_init_states = c("1","2"))
 
 
         accept <- TRUE
@@ -131,7 +131,7 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
           sim_list[[number_accepted]] <- new_sim[[1]]
           accepted_weight <- 1
           ss_diff <- rbind(ss_diff,df_stats)
-          init_state[number_accepted] <- new_sim[[1]]$initialState
+          # init_state[number_accepted] <- new_sim[[1]]$initialState
 
           #calculate the weight
           if (i > 1) {
@@ -163,8 +163,8 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
       }
     }
 
-    init_prob_list[[i + 1]] <- c(sum(init_state == "1A") + sum(init_state == "1B"),
-                                 sum(init_state == "2A") + sum(init_state == "2B"))/length(init_state)
+    # init_prob_list[[i + 1]] <- c(sum(init_state == "1A") + sum(init_state == "1B"),
+    #                              sum(init_state == "2A") + sum(init_state == "2B"))/length(init_state)
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
       epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.4)
@@ -189,9 +189,9 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
                       n_iter = n_iter,
                       epsilon = epsilon,
                       obs_sim = obs_data,
-                      ss_diff_list = ss_diff_list,
-                      init_prob_list = init_prob_list,
-                      init_state = init_state),
+                      ss_diff_list = ss_diff_list),
+                      # init_prob_list = init_prob_list,
+                      # init_state = init_state),
         param_space_name = param_space_name,
         param_set = param_set,
         ss_set = ss_set
@@ -205,8 +205,8 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
                  n_iter = n_iter,
                  epsilon = epsilon,
                  obs_sim = obs_data,
-                 ss_diff_list = ss_diff_list,
-                 init_prob_list = init_prob_list,
-                 init_state = init_state)
+                 ss_diff_list = ss_diff_list)
+                 # init_prob_list = init_prob_list,
+                 # init_state = init_state)
   return(output)
 }
