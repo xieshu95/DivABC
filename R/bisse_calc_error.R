@@ -495,7 +495,7 @@ calc_D <- function (sim) {
   trait = data.frame(sim$phy$tip.label,sim$obs_traits)
   colnames(trait) <- c("tips","trait_val")
   data <- caper::comparative.data(sim$phy, trait, tips)
-  PhyloD <- caper::phylo.d(data, binvar=trait_val,permut = 1000)
+  PhyloD <- caper::phylo.d(data, binvar=trait_val,permut = 100)
   return(as.numeric(PhyloD$DEstimate))
 }
 
