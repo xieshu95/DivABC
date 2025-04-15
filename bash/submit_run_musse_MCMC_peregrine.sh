@@ -8,6 +8,7 @@
 #SBATCH --partition=regular
 
 # sbatch DivABC/bash/submit_run_musse_MCMC_param_set.sh musse_MCMC_test 1 1 1 1 1 1 1 1 1 1 1 1 1
+# sbatch DivABC/bash/submit_run_musse_MCMC_peregrine.sh musse_MCMC_test 1 1 1 1 1 1 1 1 1 1 1 1
 
 
 # Start script
@@ -35,9 +36,9 @@ for (( param_set = 1; param_set <= $for_length; param_set++ ))
   do
 sbatch DivABC/bash/submit_run_musse_MCMC_param_set.sh ${param_space_name} \
 ${param_set} \
-${idparsopt_lac1} \
-${idparsopt_lac2} \
-${idparsopt_lac3} \
+${idparsopt_lam1} \
+${idparsopt_lam2} \
+${idparsopt_lam3} \
 ${idparsopt_mu1} \
 ${idparsopt_mu2} \
 ${idparsopt_mu3} \
