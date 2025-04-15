@@ -38,9 +38,9 @@ run_MCMC_musse <- function(param_space_name,
                log_lik_function = calc_log_lik_musse,
                log_prior_function = calc_log_prior_musse,
                parameters = as.numeric(initparsopt),
-               iterations = 1000,
-               burnin = 10,
-               thinning = 10,
+               iterations = 1000000,
+               burnin = 10000,
+               thinning = 100,
                sigma = 0.1,
                idparsopt = idparsopt)
 
