@@ -161,7 +161,7 @@ run_ABC <- function(param_space_name,
     )
   } else if (sim_model == "musse") {
     if(ss_set == 0){ # nltt + nltt1 + nltt2 + nltt3 + Delta
-      init_epsilon <- c(1,1,1,1,5)
+      init_epsilon <- c(1,1,1,1,1,1,1)
     } else if (ss_set == 1){ # nltt + nltt1 + nltt2 + nltt3 + M
       init_epsilon <- c(1,1,1,1,1)
     }
@@ -175,7 +175,7 @@ run_ABC <- function(param_space_name,
       init_epsilon_values = init_epsilon,
       number_of_particles = 300,
       sigma = 0.2,
-      stop_rate = 0.001,
+      stop_rate = 0.0001,
       num_iterations = 10,
       idparsopt = as.numeric(idparsopt),
       fixpars = as.numeric(obs_sim_pars[1:12]),
