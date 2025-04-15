@@ -26,16 +26,16 @@ idparsopt_q32=$14
 
 ml R
 Rscript DivABC/scripts/run_MCMC_musse_peregrine.R ${param_space_name} \
-${param_set} \
-${idparsopt_lac1} \
-${idparsopt_lac2} \
-${idparsopt_lac3} \
-${idparsopt_mu1} \
-${idparsopt_mu2} \
-${idparsopt_mu3} \
-${idparsopt_q12} \
-${idparsopt_q13} \
-${idparsopt_q21} \
-${idparsopt_q23} \
-${idparsopt_q31} \
-${idparsopt_q32}
+                                                  ${param_set} \
+                                                  ${idparsopt_lac1} \
+                                                  ${idparsopt_lac2} \
+                                                  ${idparsopt_lac3} \
+                                                  ${idparsopt_mu1} \
+                                                  ${idparsopt_mu2} \
+                                                  ${idparsopt_mu3} \
+                                                  ${idparsopt_q12} \
+                                                  ${idparsopt_q13} \
+                                                  ${idparsopt_q21} \
+                                                  ${idparsopt_q23} \
+                                                  ${idparsopt_q31} \
+                                                  ${idparsopt_q32}
