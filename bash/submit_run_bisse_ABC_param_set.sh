@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --time=9-23:00:00
+#SBATCH --time=6-23:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --job-name=test
+#SBATCH --job-name=scen2
 #SBATCH --output=logs/ABC-%j.log
 #SBATCH --mem=1GB
 #SBATCH --partition=gelifes
