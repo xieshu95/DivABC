@@ -160,10 +160,12 @@ run_ABC <- function(param_space_name,
       ss_set = ss_set
     )
   } else if (sim_model == "musse") {
-    if(ss_set == 0){ # nltt + nltt1 + nltt2 + nltt3 + Delta
+    if(ss_set == 0){ # nltt + nltt1 + nltt2 + nltt3 + D12+D23+D13
       init_epsilon <- c(1,1,1,1,1,1,1)
     } else if (ss_set == 1){ # nltt + nltt1 + nltt2 + nltt3 + M
       init_epsilon <- c(1,1,1,1,1)
+    } else if (ss_set == 2){ # nltt + nltt1 + nltt2 + nltt3 + D1-23 + D2-13+D3-12
+      init_epsilon <- c(1,1,1,1,1,1,1)
     }
 
     abc <- ABC_SMC_musse (
