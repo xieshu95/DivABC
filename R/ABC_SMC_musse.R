@@ -104,7 +104,9 @@ ABC_SMC_musse <- function( # nolint indeed a complex function
         # for bisse
 
         if ("phy" %in% names(new_sim[[1]])) {
-          if (length(unique(new_sim[[1]]$obs_traits)) < 3 ||
+          if (length(new_sim[[1]]$obs_traits) < 10 ||
+              length(new_sim[[1]]$obs_traits) >= 1000 ||
+              length(unique(new_sim[[1]]$obs_traits)) < 3 ||
               sum(new_sim[[1]]$obs_traits == 1) < 2 ||
               sum(new_sim[[1]]$obs_traits == 2) < 2 ||
               sum(new_sim[[1]]$obs_traits == 3) < 2) {
@@ -168,7 +170,7 @@ ABC_SMC_musse <- function( # nolint indeed a complex function
     #                              sum(init_state == "2A") + sum(init_state == "2B"))/length(init_state)
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.4)
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.8)
     }
     ABC <- c()
     for (k in seq_along(new_params)) {

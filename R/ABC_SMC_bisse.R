@@ -105,7 +105,7 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
 
         if ("phy" %in% names(new_sim[[1]])) {
           if (length(new_sim[[1]]$obs_traits) < 5 ||
-              length(new_sim[[1]]$obs_traits) >= 1200 ||
+              length(new_sim[[1]]$obs_traits) >= 1000 ||
               length(unique(new_sim[[1]]$obs_traits)) < 2 ||
               sum(new_sim[[1]]$obs_traits == 1) < 2 ||
               sum(new_sim[[1]]$obs_traits == 2) < 2) {
@@ -169,7 +169,7 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
     #                              sum(init_state == "2A") + sum(init_state == "2B"))/length(init_state)
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.5)
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7)
     }
     ABC <- c()
     for (k in seq_along(new_params)) {
