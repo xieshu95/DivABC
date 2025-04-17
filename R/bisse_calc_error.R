@@ -511,7 +511,7 @@ calc_Delta <- function (sim) {
 calc_M <- function (sim) {
   trait_df <- data.frame(B1 =as.factor(sim$obs_traits), row.names = sim$phy$tip.label)
   trait_dist <- phylosignalDB::gower_dist(x = trait_df)
-  phyloM <- phylosignalDB::phylosignal_M(trait_dist, phy = sim$phy, reps = 1)
+  phyloM <- phylosignalDB::phylosignal_M(trait_dist, phy = sim$phy, reps = 100)
   return(as.numeric(phyloM$stat))
 }
 
