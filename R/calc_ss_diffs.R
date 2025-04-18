@@ -91,12 +91,15 @@ calc_ss_diff_bisse <- function(sim1, sim2, ss_set){
 
 
 calc_ss_diff_musse <- function(sim1, sim2, ss_set){
-  if (ss_set == 0){ # nltt + nltt1 + nltt2 + nltt3 + D12+D13+D23
+  if (ss_set == 0){ # nltt + nltt1 + nltt2 + nltt3 + D12 + D13 + D23
     ss <- calc_error_musse_D(sim_1 = sim1,
-                                 sim_2 = sim2)
+                             sim_2 = sim2)
   } else if(ss_set == 1) { # nltt + nltt1 + nltt2 + nltt3 + M
     ss <- calc_error_musse_M(sim_1 = sim1,
                              sim_2 = sim2)
+  } else if(ss_set == 2) { # nltt + nltt1 + nltt2 + nltt3 + D1-23 + D2-13 + D3-12
+    ss <- calc_error_musse_D_trans(sim_1 = sim1,
+                                   sim_2 = sim2)
   }
   ss_diff <- as.numeric(ss)
   return(ss_diff)
