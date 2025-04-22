@@ -41,7 +41,7 @@ run_MCMC_musse <- function(param_space_name,
                iterations = 1000000,
                burnin = 10000,
                thinning = 100,
-               sigma = 0.1,
+               sigma = 0.01,
                idparsopt = idparsopt)
 
   if (save_output == TRUE) {
