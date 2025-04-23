@@ -19,10 +19,10 @@ idparsopt_logical <- c(idparsopt_lam1,idparsopt_lam2,idparsopt_lam3,
                        idparsopt_q12,idparsopt_q13,
                        idparsopt_q21,idparsopt_q23,
                        idparsopt_q31,idparsopt_q32)
-idparsopt <- which(idparsopt_logical == 2)
+idparsopt <- which(idparsopt_logical == 1)
 
 save_output <- TRUE
-metadata <- paste0("This is parameter set ", param_set,"idparsopt",idparsopt)
+metadata <- paste0("This is parameter set ", param_set)
 
 library(DivABC)
 
