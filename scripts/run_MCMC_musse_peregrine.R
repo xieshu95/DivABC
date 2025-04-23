@@ -29,6 +29,6 @@ library(DivABC)
 run_MCMC_musse(
   param_space_name = args[1],
   param_set = as.numeric(args[2]),
-  idparsopt = as.numeric(idparsopt),
+  idparsopt = 1:12,
   save_output = save_output
 )
