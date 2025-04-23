@@ -24,13 +24,13 @@ run_MCMC_bisse <- function(param_space_name,
 
   obs_sim_pars <- param_space[param_set,]
   obs_sim <- load_obs_sim(param_space_name = param_space_name)[[param_set]]
-  initparsopt <- obs_sim_pars
+  initparsopt <- rep(0.5,6)
   seed_mcmc <-as.integer(Sys.time()) %% 1000000L * param_set
   set.seed(seed_mcmc)
   message("seed_mcmc: ", seed_mcmc)
   for(n in 1:6){
     initparsopt[n]<-exp(log(initparsopt[n]) +
-                          stats::rnorm(1, 0, 0.0001))+ 0.00001
+                          stats::rnorm(1, 0, 0.0001))+ 0.0001
   }
 
 
@@ -41,7 +41,7 @@ run_MCMC_bisse <- function(param_space_name,
                       iterations = 1000000,
                       burnin = 100000,
                       thinning = 100,
-                      sigma = 0.5,
+                      sigma = 0.02,
                       idparsopt = idparsopt)
 
   if (save_output == TRUE) {
