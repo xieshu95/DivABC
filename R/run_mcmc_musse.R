@@ -30,7 +30,7 @@ run_MCMC_musse <- function(param_space_name,
   message("seed_mcmc: ", seed_mcmc)
   for(n in 1:12){
     initparsopt[n]<-exp(log(initparsopt[n]) +
-                          stats::rnorm(1, 0, 0.0001))+ 0.00001
+                          stats::rnorm(1, 0, 0.0001))+ 0.0001
   }
 
 
@@ -38,7 +38,7 @@ run_MCMC_musse <- function(param_space_name,
                log_lik_function = calc_log_lik_musse,
                log_prior_function = calc_log_prior_musse,
                parameters = as.numeric(initparsopt),
-               iterations = 10000,
+               iterations = 1000,
                burnin = 1,
                thinning = 1,
                sigma = 0.01,

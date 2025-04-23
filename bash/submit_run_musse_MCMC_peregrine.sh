@@ -35,17 +35,17 @@ for_length=$(( ${for_length} - 1 ))
 for (( param_set = 1; param_set <= $for_length; param_set++ ))
   do
 sbatch DivABC/bash/submit_run_musse_MCMC_param_set.sh ${param_space_name} \
-${param_set} \
-${idparsopt_lam1} \
-${idparsopt_lam2} \
-${idparsopt_lam3} \
-${idparsopt_mu1} \
-${idparsopt_mu2} \
-${idparsopt_mu3} \
-${idparsopt_q12} \
-${idparsopt_q13} \
-${idparsopt_q21} \
-${idparsopt_q23} \
-${idparsopt_q31} \
-${idparsopt_q32}
+                                                      ${param_set} \
+                                                      ${idparsopt_lam1} \
+                                                      ${idparsopt_lam2} \
+                                                      ${idparsopt_lam3} \
+                                                      ${idparsopt_mu1} \
+                                                      ${idparsopt_mu2} \
+                                                      ${idparsopt_mu3} \
+                                                      ${idparsopt_q12} \
+                                                      ${idparsopt_q13} \
+                                                      ${idparsopt_q21} \
+                                                      ${idparsopt_q23} \
+                                                      ${idparsopt_q31} \
+                                                      ${idparsopt_q32}
 done
