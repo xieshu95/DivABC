@@ -32,7 +32,8 @@ run_MCMC_musse <- function(param_space_name,
     initparsopt[n]<-exp(log(initparsopt[n]) +
                           stats::rnorm(1, 0, 0.0001))+ 0.0001
   }
-
+  message("idparsopt: ", idparsopt)
+  message("initparsopt: ", initparsopt)
 
   mcmc <- MCMC(datalist = obs_sim[[1]],
                log_lik_function = calc_log_lik_musse,

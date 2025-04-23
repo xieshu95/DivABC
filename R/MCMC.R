@@ -41,6 +41,7 @@ MCMC <- function(datalist,
     parameters[idparsopt] <- exp(stats::rnorm(length(idparsopt),
                                               log(parameters[idparsopt]),
                                               sigma))
+    message("parameters: ", parameters)
     # calculate the Hastings ratio
     hr            <- 0
     new_log_lik <- log_lik_function(parameters, datalist)
