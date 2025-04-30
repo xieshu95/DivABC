@@ -2,7 +2,7 @@
 % Please edit documentation in R/ABC_SMC_musse.R
 \name{ABC_SMC_musse}
 \alias{ABC_SMC_musse}
-\title{Using ABC approach on DAISIE to estimate CES rates.}
+\title{Using ABC approach on MuSSE to estimate CES rates.}
 \usage{
 ABC_SMC_musse(
   obs_data,
@@ -21,5 +21,5 @@ ABC_SMC_musse(
 )
 }
 \description{
-Using ABC approach on DAISIE to estimate CES rates.
+Using ABC approach on MuSSE to estimate CES rates.
 }
