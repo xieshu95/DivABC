@@ -358,8 +358,8 @@ get_geosse_sim_create_obs <- function(parameters,
   sim <- list()
   save <- 0
   while(save < 1){
-    sim[[j]] <- diversitree:::tree.geosse(
-      pars = pars,
+    sim[[1]] <- diversitree:::tree.geosse(
+      pars = parameters,
       max.t = 10,
       x0 = 0
     )
@@ -386,8 +386,8 @@ get_geosse_sim_create_obs <- function(parameters,
 
 get_geosse_sim <- function(parameters, replicates = 1){
   sim <- list()
-  sim[[j]] <- diversitree:::tree.geosse(
-    pars = pars,
+  sim[[1]] <- diversitree:::tree.geosse(
+    pars = parameters,
     max.t = 10,
     x0 = 0
   )
