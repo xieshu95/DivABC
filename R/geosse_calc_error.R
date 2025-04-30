@@ -259,11 +259,5 @@ calc_Delta_geosse <- function (sim) {
   return(as.numeric(log(Delta+1))) #log(Delta+1)  or Delta
 }
 
-sim <- get_geosse_sim_create_obs(parameters = c(0.2,0.2,0.2,0.1,0.1,0.1,0.1))
-sim_1  = sim[[1]]
 
-sim <- get_geosse_sim_create_obs(parameters = c(0.2,0.2,0.2,0.1,0.1,0.1,0.1))
-sim_2  = sim[[1]]
-
-calc_error_geosse_D_trans(sim_1 = sim_1,sim_2 = sim_2)
 
