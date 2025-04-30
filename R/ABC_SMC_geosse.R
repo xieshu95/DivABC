@@ -88,12 +88,14 @@ ABC_SMC_geosse <- function( # nolint indeed a complex function
         #simulate a new tree, given the proposed parameters
         new_sim <- sim_function(parameters = parameters)
         accept <- TRUE
-        if (length(new_sim[[1]]$obs_traits) < 10 ||
-            length(new_sim[[1]]$obs_traits) >= 1000 ||
-            length(unique(new_sim[[1]]$obs_traits)) < 3 ||
-            sum(new_sim[[1]]$obs_traits == 0) < 2 ||
-            sum(new_sim[[1]]$obs_traits == 1) < 2 ||
-            sum(new_sim[[1]]$obs_traits == 2) < 2) {
+
+        if (length(new_sim) == 0 ||
+            length(new_sim[[1]]$tip.state) < 10 ||
+            length(new_sim[[1]]$tip.state) >= 1000 ||
+            length(unique(new_sim[[1]]$tip.state)) < 3 ||
+            sum(new_sim[[1]]$tip.state == 0) < 2 ||
+            sum(new_sim[[1]]$tip.state == 1) < 2 ||
+            sum(new_sim[[1]]$tip.state == 2) < 2) {
           accept <- FALSE
         }
         #calculate the summary statistics for the simulated tree

@@ -185,6 +185,32 @@ run_ABC <- function(param_space_name,
       fixpars = as.numeric(obs_sim_pars[1:12]),
       ss_set = ss_set
     )
+  } else if (sim_model == "geosse") {
+    if(ss_set == 0){ # nltt + nltt1 + nltt2 + nltt3 + D12+D23+D13
+      init_epsilon <- c(1,1,1,1,1,1,1)
+    } else if (ss_set == 1){ # nltt + nltt1 + nltt2 + nltt3 + M
+      init_epsilon <- c(1,1,1,1,1)
+    } else if (ss_set == 2){ # nltt + nltt1 + nltt2 + nltt3 + D1-23 + D2-13+D3-12
+      init_epsilon <- c(1,1,1,1,1,1,1)
+    } else if (ss_set == 3){ # nltt + nltt1 + nltt2 + nltt3 + D1-23 + D2-13+D3-12
+      init_epsilon <- c(1,1,1,1,1,1,1,1,1,1,1)
+    }
+
+    abc <- ABC_SMC_geosse (
+      obs_data = obs_sim,
+      sim_function <- get_geosse_sim,
+      calc_ss_function <- calc_ss_diff_geosse,
+      prior_generating_function <- prior_gen_geosse,
+      prior_density_function <- prior_dens_geosse,
+      init_epsilon_values = init_epsilon,
+      number_of_particles = 300,
+      sigma = 0.2,
+      stop_rate = 0.0001,
+      num_iterations = 20,
+      idparsopt = as.numeric(idparsopt),
+      fixpars = as.numeric(obs_sim_pars[1:7]),
+      ss_set = ss_set
+    )
   }
 
   if (save_output == TRUE) {
