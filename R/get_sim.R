@@ -363,13 +363,15 @@ get_geosse_sim_create_obs <- function(parameters,
       max.t = 10,
       x0 = 0
     )
-    if(length(sim[[j]]$tip.state) > 30 && ## at least 2 species
-       length(sim[[j]]$tip.state) < 1000 &&
-       length(unique(sim[[j]]$tip.state)) == 3 &&
-       sum(sim[[j]]$tip.state == 1) > 5 &&
-       sum(sim[[j]]$tip.state == 2) > 5 &&
-       sum(sim[[j]]$tip.state == 0) > 5){
-      save = 1
+    if(length(sim) > 0) {
+      if(length(sim[[1]]$tip.state) > 30 && ## at least 2 species
+         length(sim[[1]]$tip.state) < 800 &&
+         length(unique(sim[[1]]$tip.state)) == 3 &&
+         sum(sim[[1]]$tip.state == 1) > 5 &&
+         sum(sim[[1]]$tip.state == 2) > 5 &&
+         sum(sim[[1]]$tip.state == 0) > 5){
+        save = 1
+      }
     }
   }
   return(sim)
@@ -386,10 +388,16 @@ get_geosse_sim_create_obs <- function(parameters,
 
 get_geosse_sim <- function(parameters, replicates = 1){
   sim <- list()
-  sim[[1]] <- diversitree:::tree.geosse(
-    pars = parameters,
-    max.t = 10,
-    x0 = 0
-  )
+  save <- 0
+  while(save < 1){
+    sim[[1]] <- diversitree:::tree.geosse(
+      pars = parameters,
+      max.t = 10,
+      x0 = 0
+    )
+    if(length(sim) > 0){
+      save = 1
+    }
+  }
   return(sim)
 }
