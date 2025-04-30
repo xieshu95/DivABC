@@ -2,21 +2,18 @@
 % Please edit documentation in R/get_sim.R
 \name{get_bisse_sim}
 \alias{get_bisse_sim}
-\title{Simulation fucntion to create simulations in ABC.}
+\title{Simulation function to create simulations in ABC.}
 \usage{
 get_bisse_sim(parameters, pool_init_states, replicates = 1)
 }
 \arguments{
 \item{parameters}{A vector for CES rates.}
 
-\item{replicates}{The number of replicates(islands) for secsse simulation.}
+\item{replicates}{The number of replicates(islands) for bisse simulation.}
 }
 \value{
 A list contains simulated islands
 }
 \description{
-Simulation fucntion to create simulations in ABC.
-}
-\author{
-Shu Xie
+Simulation function to create simulations in ABC.
 }

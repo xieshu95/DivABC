@@ -2,7 +2,7 @@
 % Please edit documentation in R/bisse_prior_functions.R
 \name{prior_gen_musse}
 \alias{prior_gen_musse}
-\title{prior function to generate parameters for bisse}
+\title{prior function to generate parameters for musse}
 \usage{
 prior_gen_musse(pars, idparsopt)
 }
@@ -10,5 +10,5 @@ prior_gen_musse(pars, idparsopt)
 a vector of parameters
 }
 \description{
-prior function to generate parameters for bisse
+prior function to generate parameters for musse
 }

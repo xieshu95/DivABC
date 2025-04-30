@@ -19,6 +19,3 @@ A list contains simulated islands
 \description{
 Simulation fucntion to create simulated data as observed data in ABC.
 }
-\author{
-Shu Xie
-}

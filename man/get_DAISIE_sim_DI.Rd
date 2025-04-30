@@ -19,6 +19,3 @@ A list contains simulated islands
 \description{
 Simulation function to create DAISIE simulations
 }
-\author{
-Shu Xie
-}

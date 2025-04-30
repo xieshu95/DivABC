@@ -2,7 +2,7 @@
 % Please edit documentation in R/bisse_prior_functions.R
 \name{prior_dens_musse}
 \alias{prior_dens_musse}
-\title{prior density function for bisse model}
+\title{prior density function for musse model}
 \usage{
 prior_dens_musse(pars, idparsopt)
 }
@@ -10,5 +10,5 @@ prior_dens_musse(pars, idparsopt)
 Density of the given parameter set
 }
 \description{
-prior density function for bisse model
+prior density function for musse model
 }
