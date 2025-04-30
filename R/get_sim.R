@@ -5,12 +5,11 @@
 #' @param replicates The number of replicates(islands) for DAISIE simulation.
 #'
 #' @return A list contains simulated islands
-#' @author Shu Xie
 #' @export
 
 
 get_DAISIE_sim_DI <- function(parameters,
-                           replicates = 1){
+                              replicates = 1){
   sim <- list()
   for (j in seq_len(replicates)) {
     sim[[j]] <- DAISIE::DAISIE_sim_cr(
@@ -29,7 +28,7 @@ get_DAISIE_sim_DI <- function(parameters,
 }
 
 get_DAISIE_sim_DD <- function(parameters,
-                           replicates = 1){
+                              replicates = 1){
   sim <- list()
   for (j in seq_len(replicates)) {
     save <- 0
@@ -64,7 +63,6 @@ get_DAISIE_sim_DD <- function(parameters,
 #' @param replicates The number of replicates(islands) for TraiSIE simulation.
 #'
 #' @return A list contains simulated islands
-#' @author Shu Xie
 #' @export
 get_TraiSIE_sim <- function(parameters, replicates = 1){
   sim <- list()
@@ -153,13 +151,12 @@ get_bisse_sim_create_obs <- function(parameters, pool_init_states, replicates = 
 }
 
 
-#' Simulation fucntion to create simulations in ABC.
+#' Simulation function to create simulations in ABC.
 #'
 #' @param parameters A vector for CES rates.
-#' @param replicates The number of replicates(islands) for secsse simulation.
+#' @param replicates The number of replicates(islands) for bisse simulation.
 #'
 #' @return A list contains simulated islands
-#' @author Shu Xie
 #' @export
 
 get_bisse_sim <- function(parameters, pool_init_states, replicates = 1){
@@ -218,13 +215,12 @@ get_bisse_sim <- function(parameters, pool_init_states, replicates = 1){
 
 
 
-#' Simulation fucntion to create MuSSE simualtions as observed data
+#' Simulation function to create MuSSE simulations as observed data
 #'
 #' @param parameters A vector for CES rates.
-#' @param replicates The number of replicates(islands) for secsse simulation.
+#' @param replicates The number of replicates(islands) for bisse simulation.
 #'
 #' @return A list contains simulated islands
-#' @author Shu Xie
 #' @export
 
 get_musse_sim_create_obs <- function(parameters, pool_init_states, replicates = 1){
@@ -286,13 +282,12 @@ get_musse_sim_create_obs <- function(parameters, pool_init_states, replicates = 
 }
 
 
-#' Simulation fucntion to create simulations in ABC.
+#' Simulation function to create simulations in ABC.
 #'
 #' @param parameters A vector for CES rates.
-#' @param replicates The number of replicates(islands) for secsse simulation.
+#' @param replicates The number of replicates(islands) for musse simulation.
 #'
 #' @return A list contains simulated islands
-#' @author Shu Xie
 #' @export
 
 get_musse_sim <- function(parameters, pool_init_states, replicates = 1){
@@ -347,5 +342,54 @@ get_musse_sim <- function(parameters, pool_init_states, replicates = 1){
       }
     }
   }
+  return(sim)
+}
+
+
+#' Simulation function to create GeoSSE simulations as observed data
+#'
+#' @param parameters A vector for CES rates.
+#' @param replicates The number of replicates(islands) for geosse simulation.
+#'
+#' @return A list contains simulated islands
+#' @export
+get_geosse_sim_create_obs <- function(parameters,
+                                      replicates = 1){
+  sim <- list()
+  save <- 0
+  while(save < 1){
+    sim[[j]] <- diversitree:::tree.geosse(
+      pars = pars,
+      max.t = 10,
+      x0 = 0
+    )
+    if(length(sim[[j]]$tip.state) > 30 && ## at least 2 species
+       length(sim[[j]]$tip.state) < 1000 &&
+       length(unique(sim[[j]]$tip.state)) == 3 &&
+       sum(sim[[j]]$tip.state == 1) > 5 &&
+       sum(sim[[j]]$tip.state == 2) > 5 &&
+       sum(sim[[j]]$tip.state == 0) > 5){
+      save = 1
+    }
+  }
+  return(sim)
+}
+
+
+#' Simulation function to create simulations in ABC.
+#'
+#' @param parameters A vector for CES rates.
+#' @param replicates The number of replicates(islands) for geosse simulation.
+#'
+#' @return A list contains simulated islands
+#' @export
+
+get_geosse_sim <- function(parameters, replicates = 1){
+  sim <- list()
+  sim[[j]] <- diversitree:::tree.geosse(
+    pars = pars,
+    max.t = 10,
+    x0 = 0
+  )
   return(sim)
 }
