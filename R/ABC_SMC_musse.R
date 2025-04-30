@@ -1,4 +1,4 @@
-#' Using ABC approach on DAISIE to estimate CES rates.
+#' Using ABC approach on MuSSE to estimate CES rates.
 #'
 #' @param
 #'

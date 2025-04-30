@@ -1,4 +1,4 @@
-#' Using ABC approach on BiSSE to estimate CES rates.
+#' Using ABC approach on GeoSSE to estimate CES rates.
 #'
 #' @param
 #'
@@ -7,7 +7,7 @@
 #' @export
 
 
-ABC_SMC_bisse <- function( # nolint indeed a complex function
+ABC_SMC_geosse <- function( # nolint indeed a complex function
   obs_data,
   sim_function,
   calc_ss_function,
@@ -41,7 +41,7 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
   sim_list <- list()
   ss_diff_list <- list()
   # init_prob_list <- list()
-  # init_prob_list[[1]] <- c(0.5,0.5)
+  # init_prob_list[[1]] <- c(0.5,0.5,0.5)
 
   #convergence is expected within 50 iterations
   #usually convergence occurs within 20 iterations
@@ -66,13 +66,7 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
       previous_params <- new_params #store found params
       new_params <- list(c(seq_along(parameters))) #clear new params
     }
-
     stoprate_reached <- FALSE
-
-    # for bisse
-    # init_prob <- init_prob_list[[i]]
-    # init_state <- c()
-
     while (number_accepted < number_of_particles) {
       #in this initial step, generate parameters from the prior
       if (i == 1) {
@@ -82,7 +76,6 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
         #from the weighted previous distribution:
         index <- sample(x = indices, size = 1,
                         replace = TRUE, prob = previous_weights)
-
         for (p_index in seq_along(parameters)) {
           parameters[p_index] <- previous_params[[index]][p_index]
         }
@@ -90,27 +83,18 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
                                        stats::rnorm(length(idparsopt),
                                                     0, sigma_temp))
       }
-
       #reject if outside the prior
       if (prior_density_function(parameters,idparsopt) > 0) {
         #simulate a new tree, given the proposed parameters
-        # pool_init_states <- sample(c("1","2"), size = 1, prob = init_prob)
-        new_sim <- sim_function(parameters = parameters,
-                                pool_init_states = c("1","2"))
-
-
+        new_sim <- sim_function(parameters = parameters)
         accept <- TRUE
-
-        # for bisse
-
-        if ("phy" %in% names(new_sim[[1]])) {
-          if (length(new_sim[[1]]$obs_traits) < 5 ||
-              length(new_sim[[1]]$obs_traits) >= 1000 ||
-              length(unique(new_sim[[1]]$obs_traits)) < 2 ||
-              sum(new_sim[[1]]$obs_traits == 1) < 2 ||
-              sum(new_sim[[1]]$obs_traits == 2) < 2) {
-            accept <- FALSE
-          }
+        if (length(new_sim[[1]]$obs_traits) < 10 ||
+            length(new_sim[[1]]$obs_traits) >= 1000 ||
+            length(unique(new_sim[[1]]$obs_traits)) < 3 ||
+            sum(new_sim[[1]]$obs_traits == 0) < 2 ||
+            sum(new_sim[[1]]$obs_traits == 1) < 2 ||
+            sum(new_sim[[1]]$obs_traits == 2) < 2) {
+          accept <- FALSE
         }
         #calculate the summary statistics for the simulated tree
         if (accept) {
@@ -125,8 +109,6 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
             }
           }
         }
-
-
         if (accept) {
           number_accepted <- number_accepted + 1
           new_params[[number_accepted]] <- parameters
@@ -153,8 +135,6 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
           }
         }
       }
-
-
       #convergence if the acceptance rate gets too low
       tried <- tried + 1
       if (tried > (1 / stop_rate) & n_iter > 4) {
@@ -164,9 +144,6 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
         }
       }
     }
-
-    # init_prob_list[[i + 1]] <- c(sum(init_state == "1A") + sum(init_state == "1B"),
-    #                              sum(init_state == "2A") + sum(init_state == "2B"))/length(init_state)
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
       epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7)
@@ -184,7 +161,7 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
     if (stoprate_reached) {
       break
     }
-    if(n_iter >= 3) {
+    if(n_iter >= 3) { # record from the third iteration
       save_output(
         output = list(sim_list = sim_list,
                       ABC = ABC_list,
@@ -192,8 +169,6 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
                       epsilon = epsilon,
                       obs_sim = obs_data,
                       ss_diff_list = ss_diff_list),
-                      # init_prob_list = init_prob_list,
-                      # init_state = init_state),
         param_space_name = param_space_name,
         param_set = param_set,
         ss_set = ss_set
@@ -208,7 +183,5 @@ ABC_SMC_bisse <- function( # nolint indeed a complex function
                  epsilon = epsilon,
                  obs_sim = obs_data,
                  ss_diff_list = ss_diff_list)
-                 # init_prob_list = init_prob_list,
-                 # init_state = init_state)
   return(output)
 }
