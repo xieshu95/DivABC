@@ -22,7 +22,7 @@ ss_set=${11}
 
 
 ml R
-Rscript DivABC/scripts/run_ABC_bisse_peregrine.R ${param_space_name} \
+Rscript DivABC/scripts/run_ABC_geosse_peregrine.R ${param_space_name} \
                                                ${param_set} \
                                                ${idparsopt_lam1} \
                                                ${idparsopt_lam2} \

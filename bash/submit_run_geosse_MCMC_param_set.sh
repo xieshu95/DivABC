@@ -19,7 +19,7 @@ idparsopt_q1=$8
 idparsopt_q2=$9
 
 ml R
-Rscript DivABC/scripts/run_MCMC_bisse_peregrine.R ${param_space_name} \
+Rscript DivABC/scripts/run_MCMC_geosse_peregrine.R ${param_space_name} \
                                                ${param_set} \
                                                ${idparsopt_lam1} \
                                                ${idparsopt_lam2} \
