@@ -23,7 +23,8 @@ Imports:
     DAISIE (>= 4.1.1),
     nLTT,
     readr,
-    testit
+    testit,
+    diversitree
 Remotes:
     rsetienne/DAISIE,
     thijsjanzen/nltt,
