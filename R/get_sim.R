@@ -364,8 +364,8 @@ get_geosse_sim_create_obs <- function(parameters,
       x0 = 0
     )
     if(length(sim) > 0) {
-      if(length(sim[[1]]$tip.state) > 30 && ## at least 2 species
-         length(sim[[1]]$tip.state) < 800 &&
+      if(length(sim[[1]]$tip.state) > 10 && ## at least 2 species
+         length(sim[[1]]$tip.state) < 1000 &&
          length(unique(sim[[1]]$tip.state)) == 3 &&
          sum(sim[[1]]$tip.state == 1) > 5 &&
          sum(sim[[1]]$tip.state == 2) > 5 &&

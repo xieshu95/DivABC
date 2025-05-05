@@ -93,9 +93,9 @@ ABC_SMC_geosse <- function( # nolint indeed a complex function
             length(new_sim[[1]]$tip.state) < 10 ||
             length(new_sim[[1]]$tip.state) >= 1000 ||
             length(unique(new_sim[[1]]$tip.state)) < 3 ||
-            sum(new_sim[[1]]$tip.state == 0) < 2 ||
-            sum(new_sim[[1]]$tip.state == 1) < 2 ||
-            sum(new_sim[[1]]$tip.state == 2) < 2) {
+            sum(new_sim[[1]]$tip.state == 0) < 3 ||
+            sum(new_sim[[1]]$tip.state == 1) < 3 ||
+            sum(new_sim[[1]]$tip.state == 2) < 3) {
           accept <- FALSE
         }
         #calculate the summary statistics for the simulated tree

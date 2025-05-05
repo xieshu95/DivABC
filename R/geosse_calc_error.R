@@ -230,7 +230,7 @@ calc_D_drop <- function (phy,obs_trait) {
   trait = data.frame(phy$tip.label,obs_trait)
   colnames(trait) <- c("tips","trait_val")
   data <- caper::comparative.data(phy, trait, tips)
-  PhyloD <- caper::phylo.d(data, binvar=trait_val,permut = 200)
+  PhyloD <- caper::phylo.d(data, binvar=trait_val,permut = 100)
   return(as.numeric(PhyloD$DEstimate))
 }
 
@@ -241,7 +241,7 @@ calc_D_trans_geosse <- function (sim,keep_state) {
   trait$sim.tip.state[which(trait$sim.tip.state != keep_state)] = "4"
   colnames(trait) <- c("tips","trait_val")
   data <- caper::comparative.data(sim, trait, tips)
-  PhyloD <- caper::phylo.d(data, binvar=trait_val,permut = 200)
+  PhyloD <- caper::phylo.d(data, binvar=trait_val,permut = 100)
   return(as.numeric(PhyloD$DEstimate))
 }
 
