@@ -1,17 +1,20 @@
-#'mcmc
-#'
-#' @author Shu Xie
+#' mcmc
+#' @references Janzen, T., Höhna, S. and Etienne, R.S. (2015), Approximate
+#' Bayesian Computation of diversification rates from molecular phylogenies:
+#' introducing a new efficient summary statistic, the nLTT. Methods Ecol Evol,
+#' 6: 566-575. https://doi.org/10.1111/2041-210X.12350
 #' @return
 #' @export
 MCMC <- function(datalist,
-                 log_lik_function,
-                 log_prior_function,
-                 parameters,
-                 iterations,
-                 burnin = round(iterations / 3),
-                 thinning = 1,
-                 sigma = 1,
-                 idparsopt)
+                          log_lik_function,
+                          log_prior_function,
+                          logform = FALSE, # logform = TRUE -> log_prior_function = calc_log_prior_bisse_logtrans
+                          parameters,
+                          iterations,
+                          burnin,
+                          thinning = 1,
+                          sigma = 1,
+                          idparsopt)
 {
   # create a list for the samples & reserve memory for the chain
   chain <- array(dim = c(floor(iterations / thinning) + 1,
@@ -38,9 +41,16 @@ MCMC <- function(datalist,
   for (i in seq_len(burnin + iterations)) {
     #propose new values
     parameters_old <- parameters
-    parameters[idparsopt] <- exp(stats::rnorm(length(idparsopt),
+    if(logform == TRUE){
+      parameters[idparsopt] <- exp(stats::rnorm(length(idparsopt),
                                               log(parameters[idparsopt]),
                                               sigma))
+    } else if (logform == FALSE) {
+      parameters[idparsopt] <- stats::rnorm(length(idparsopt),
+                                            parameters[idparsopt],
+                                                sigma)
+    }
+
     # calculate the Hastings ratio
     hr            <- 0
     new_log_lik <- log_lik_function(parameters, datalist)

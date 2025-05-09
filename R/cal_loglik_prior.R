@@ -71,12 +71,22 @@ calc_log_lik_bisse <- function(params, datalist) {
   return(log_lik)
 }
 
-#' Calculates the log prior density
+#' Calculates the log prior density with logtransform
+#'
+#' @return a numeric represents the log prior density
+#' @export
+calc_log_prior_bisse_logtrans <- function(params,idparsopt) {
+  log_prior <- sum(log(params))+ log(prior_dens_bisse(params, idparsopt))
+  return(log_prior)
+}
+
+
+#' Calculates the log prior density when without logtransform
 #'
 #' @return a numeric represents the log prior density
 #' @export
 calc_log_prior_bisse <- function(params,idparsopt) {
-  log_prior <- sum(log(params))+ log(prior_dens_bisse(params, idparsopt))
+  log_prior <- log(prior_dens_bisse(params, idparsopt))
   return(log_prior)
 }
 
@@ -122,9 +132,16 @@ calc_log_lik_musse <- function(params, datalist) {
 #'
 #' @return a numeric represents the log prior density
 #' @export
-calc_log_prior_musse <- function(params,idparsopt) {
+calc_log_prior_musse_logtrans <- function(params,idparsopt) {
   log_prior <- sum(log(params))+ log(prior_dens_musse(params, idparsopt))
   return(log_prior)
 }
 
-
+#' Calculates the log prior density
+#'
+#' @return a numeric represents the log prior density
+#' @export
+calc_log_prior_musse <- function(params,idparsopt) {
+  log_prior <- log(prior_dens_musse(params, idparsopt))
+  return(log_prior)
+}
