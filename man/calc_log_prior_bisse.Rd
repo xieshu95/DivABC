@@ -2,7 +2,7 @@
 % Please edit documentation in R/cal_loglik_prior.R
 \name{calc_log_prior_bisse}
 \alias{calc_log_prior_bisse}
-\title{Calculates the log prior density}
+\title{Calculates the log prior density when without logtransform}
 \usage{
 calc_log_prior_bisse(params, idparsopt)
 }
@@ -10,5 +10,5 @@ calc_log_prior_bisse(params, idparsopt)
 a numeric represents the log prior density
 }
 \description{
-Calculates the log prior density
+Calculates the log prior density when without logtransform
 }

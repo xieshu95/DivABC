@@ -21,7 +21,7 @@
 # sbatch DivABC/bash/submit_run_ABC_peregrine.sh Traisie_ABC 1 0 0 0 1 0 0 0 0 0 TraiSIE
 # sbatch DivABC/bash/submit_run_bisse_ABC_peregrine.sh bisse_ABC_test 1 1 1 1 1 1 bisse 0
 # sbatch DivABC/bash/submit_run_bisse_MCMC_param_set.sh bisse_MCMC_test 1 1 1 1 1 1 1
-
+# # for param_set in 5 6 16
 
 # Start script
 ml R
