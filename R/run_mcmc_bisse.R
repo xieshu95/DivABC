@@ -39,9 +39,9 @@ run_MCMC_bisse <- function(param_space_name,
                log_prior_function = calc_log_prior_bisse,
                logform = FALSE,
                parameters = as.numeric(initparsopt),
-               iterations = 1000,
-               burnin = 1,
-               thinning = 1,
+               iterations = 1000000,
+               burnin = 100000,
+               thinning = 100,
                sigma = 0.02,
                idparsopt = idparsopt)
 

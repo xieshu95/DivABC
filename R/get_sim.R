@@ -195,7 +195,8 @@ get_bisse_sim <- function(parameters, pool_init_states, replicates = 1){
         pool_init_states = pool_init_states,
         max_spec = 1000,
         min_spec = 2,
-        conditioning = "obs_states"
+        conditioning = "obs_states",
+        start_at_crown = FALSE
       ), error=function(e) {
         # print("Error: undefined columns selected")
         skip <<- TRUE

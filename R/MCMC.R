@@ -51,21 +51,26 @@ MCMC <- function(datalist,
                                                 sigma)
     }
 
-    # calculate the Hastings ratio
-    hr            <- 0
-    new_log_lik <- log_lik_function(parameters, datalist)
-    new_log_prior <- log_prior_function(parameters, idparsopt)
+    if (all(parameters > 0)) {
+      # calculate the Hastings ratio
+      hr            <- 0
+      new_log_lik <- log_lik_function(parameters, datalist)
+      new_log_prior <- log_prior_function(parameters, idparsopt)
 
-    #accept or reject
-    if (is.finite(new_log_lik) &&
-        is.finite(new_log_prior) &&
-        is.finite(hr) &&
-        new_log_lik - log_lik + new_log_prior - log_prior + hr > log(stats::runif(1, 0, 1))) {
-      log_lik <- new_log_lik
-      log_prior <- new_log_prior
+      #accept or reject
+      if (is.finite(new_log_lik) &&
+          is.finite(new_log_prior) &&
+          is.finite(hr) &&
+          new_log_lik - log_lik + new_log_prior - log_prior + hr > log(stats::runif(1, 0, 1))) {
+        log_lik <- new_log_lik
+        log_prior <- new_log_prior
+      } else {
+        parameters <- parameters_old
+      }
     } else {
       parameters <- parameters_old
     }
+
 
     # sample the parameter
     if (i >= burnin) {
