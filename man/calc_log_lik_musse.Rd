@@ -2,7 +2,7 @@
 % Please edit documentation in R/cal_loglik_prior.R
 \name{calc_log_lik_musse}
 \alias{calc_log_lik_musse}
-\title{Calculates the log likelihood of secsse model}
+\title{Calculates the log likelihood of musse model}
 \usage{
 calc_log_lik_musse(params, datalist)
 }
@@ -10,5 +10,5 @@ calc_log_lik_musse(params, datalist)
 a numeric represents the log likelihood
 }
 \description{
-Calculates the log likelihood of secsse model
+Calculates the log likelihood of musse model
 }
