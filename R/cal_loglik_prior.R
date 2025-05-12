@@ -39,7 +39,7 @@ calc_log_prior_DAISIE_DD <- function(params,idparsopt) {
   log_prior <- sum(log(params)) + log(prior_dens_DD(params, idparsopt))
   return(log_prior)
 }
-#' Calculates the log likelihood of secsse model
+#' Calculates the log likelihood of bisse model
 #'
 #' @return a numeric represents the log likelihood
 #' @export
@@ -90,7 +90,7 @@ calc_log_prior_bisse <- function(params,idparsopt) {
   return(log_prior)
 }
 
-#' Calculates the log likelihood of secsse model
+#' Calculates the log likelihood of musse model
 #'
 #' @return a numeric represents the log likelihood
 #' @export
@@ -145,3 +145,40 @@ calc_log_prior_musse <- function(params,idparsopt) {
   log_prior <- log(prior_dens_musse(params, idparsopt))
   return(log_prior)
 }
+
+
+#' Calculates the log likelihood of geosse model
+#'
+#' @return a numeric represents the log likelihood
+#' @export
+
+calc_log_lik_geosse <- function(params, datalist) {
+  lik.g <- diversitree::make.geosse(datalist,
+                                    datalist$tip.state)
+  suppressWarnings(
+    suppressMessages(
+      log_lik <- lik.g(params)
+    )
+  )
+  return(log_lik)
+}
+
+#' Calculates the log prior density
+#'
+#' @return a numeric represents the log prior density
+#' @export
+calc_log_prior_geosse_logtrans <- function(params,idparsopt) {
+  log_prior <- sum(log(params))+ log(prior_dens_geosse(params, idparsopt))
+  return(log_prior)
+}
+
+#' Calculates the log prior density
+#'
+#' @return a numeric represents the log prior density
+#' @export
+calc_log_prior_geosse <- function(params,idparsopt) {
+  log_prior <- log(prior_dens_geosse(params, idparsopt))
+  return(log_prior)
+}
+
+

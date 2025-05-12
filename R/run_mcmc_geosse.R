@@ -1,10 +1,9 @@
-#' Run mcmc musse
+#' Run mcmc
 #'
-#' @author Shu Xie
 #' @return
 #' @export
 
-run_MCMC_musse <- function(param_space_name,
+run_MCMC_geosse <- function(param_space_name,
                            param_set,
                            idparsopt,
                            save_output = TRUE){
@@ -24,22 +23,18 @@ run_MCMC_musse <- function(param_space_name,
 
   obs_sim_pars <- param_space[param_set,]
   obs_sim <- load_obs_sim(param_space_name = param_space_name)[[param_set]]
-  initparsopt <- rep(0.5,12)
+  initparsopt <- rep(0.5,7)
   seed_mcmc <-as.integer(Sys.time()) %% 1000000L * param_set
   set.seed(seed_mcmc)
   message("seed_mcmc: ", seed_mcmc)
-  for(n in 1:12){
-    initparsopt[n]<-exp(log(initparsopt[n]) +
-                          stats::rnorm(1, 0, 0.0001))+ 0.0001
-  }
 
   mcmc <- MCMC(datalist = obs_sim[[1]],
-               log_lik_function = calc_log_lik_musse,
-               log_prior_function = calc_log_prior_musse,
+               log_lik_function = calc_log_lik_geosse,
+               log_prior_function = calc_log_prior_geosse,
                logform = FALSE,
                parameters = as.numeric(initparsopt),
                iterations = 1000000,
-               burnin = 10000,
+               burnin = 100000,
                thinning = 100,
                sigma = 0.01,
                idparsopt = idparsopt)
