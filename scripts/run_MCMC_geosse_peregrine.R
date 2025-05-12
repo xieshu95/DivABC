@@ -18,7 +18,7 @@ metadata <- paste0("This is parameter set ", param_set)
 
 library(DivABC)
 
-run_MCMC_bisse(
+run_MCMC_geosse(
   param_space_name = args[1],
   param_set = as.numeric(args[2]),
   idparsopt = as.numeric(idparsopt),
