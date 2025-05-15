@@ -148,7 +148,7 @@ ABC_SMC_geosse <- function( # nolint indeed a complex function
     }
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7)
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.6)
     }
     ABC <- c()
     for (k in seq_along(new_params)) {
