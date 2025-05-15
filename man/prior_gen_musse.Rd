@@ -6,9 +6,6 @@
 \usage{
 prior_gen_musse(pars, idparsopt)
 }
-\value{
-a vector of parameters
-}
 \description{
 prior function to generate parameters for musse
 }

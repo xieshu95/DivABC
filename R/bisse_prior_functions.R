@@ -1,7 +1,6 @@
 #' prior density function for bisse model
 #'
 #' @return Density of the given parameter set
-#' @export
 # prior_dens_bisse <- function(pars,idparsopt) {
 #   if(1 %in% idparsopt){
 #     # dens_lam1 <- stats::dexp(pars[1],2.5)
@@ -76,7 +75,6 @@ prior_dens_bisse <- function(pars,idparsopt) {
 #'prior function to generate parameters for bisse
 #'
 #' @return a vector of parameters
-#' @export
 # prior_gen_bisse <- function(pars,idparsopt){
 #   if(1 %in% idparsopt){
 #     lam1 <- stats::runif(1,0,2)
@@ -147,7 +145,6 @@ prior_gen_bisse <- function(pars,idparsopt){
 #' prior density function for musse model
 #'
 #' @return Density of the given parameter set
-#' @export
 prior_dens_musse <- function(pars,idparsopt) {
   if(1 %in% idparsopt){
     # dens_lam1 <- stats::dexp(pars[1],2.5)
@@ -219,9 +216,6 @@ prior_dens_musse <- function(pars,idparsopt) {
 
 
 #'prior function to generate parameters for musse
-#'
-#' @return a vector of parameters
-#' @export
 prior_gen_musse <- function(pars,idparsopt){
   if(1 %in% idparsopt){
     lam1 <- stats::runif(1,0,2)
@@ -291,7 +285,7 @@ prior_gen_musse <- function(pars,idparsopt){
 #' prior density function for geosse model
 #'
 #' @return Density of the given parameter set
-#' @export
+
 # prior_dens_geosse <- function(pars,idparsopt) {
 #   if(1 %in% idparsopt){
 #     # dens_lam1 <- stats::dexp(pars[1],2.5)
@@ -338,7 +332,7 @@ prior_gen_musse <- function(pars,idparsopt){
 #'prior function to generate parameters for geosse
 #'
 #' @return a vector of parameters
-#' @export
+
 # prior_gen_geosse <- function(pars,idparsopt){
 #   if(1 %in% idparsopt){
 #     lam1 <- stats::runif(1,0,1)
@@ -380,11 +374,9 @@ prior_gen_musse <- function(pars,idparsopt){
 # }
 
 
-### geosse exponential prior distribution
 #' prior density function for geosse model
 #'
 #' @return Density of the given parameter set
-#' @export
 prior_dens_geosse <- function(pars,idparsopt) {
   if(1 %in% idparsopt){
     # dens_lam1 <- stats::dexp(pars[1],2.5)
@@ -431,7 +423,6 @@ prior_dens_geosse <- function(pars,idparsopt) {
 #'prior function to generate parameters for geosse
 #'
 #' @return a vector of parameters
-#' @export
 prior_gen_geosse <- function(pars,idparsopt){
   if(1 %in% idparsopt){
     lam1 <- stats::rexp(1,2)
