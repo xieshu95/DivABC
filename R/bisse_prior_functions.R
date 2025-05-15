@@ -444,9 +444,9 @@ prior_gen_geosse <- function(pars,idparsopt){
     lam2 <- pars[2]
   }
   if(3 %in% idparsopt){
-    lam2 <- stats::rexp(1,2)
+    lam3 <- stats::rexp(1,2)
   } else {
-    lam2 <- pars[3]
+    lam3 <- pars[3]
   }
   if(4 %in% idparsopt){
     mu1 <- stats::rexp(1,2)

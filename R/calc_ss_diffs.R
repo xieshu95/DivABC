@@ -118,9 +118,15 @@ calc_ss_diff_geosse <- function(sim1, sim2, ss_set){
   } else if(ss_set == 2) { # nltt + nltt1 + nltt2 + nltt3 + D1-23 + D2-13 + D3-12
     ss <- calc_error_geosse_D_trans(sim_1 = sim1,
                                    sim_2 = sim2)
-  } else if(ss_set == 3) { # nltt + nltt1 + nltt2 + nltt3 + D1-23 + D2-13 + D3-12 +D1_23,D2_13,D3_12,M
-    ss <- calc_error_geosse_all(sim_1 = sim1,
+  } else if(ss_set == 3) { # nltt + nltt1 + nltt2 + nltt3 + D12 + D13 + D23 +M
+    ss <- calc_error_geosse_Ddrop_M(sim_1 = sim1,
                                sim_2 = sim2)
+  } else if(ss_set == 4) { # nltt + nltt1 + nltt2 + nltt3 + D1-23 + D2-13 + D3-12 +M
+    ss <- calc_error_geosse_Dtrans_M(sim_1 = sim1,
+                                sim_2 = sim2)
+  } else if(ss_set == 5) { # nltt + nltt1 + nltt2 + nltt3 + D1-23 + D2-13 + D3-12 +D1_23,D2_13,D3_12,M
+    ss <- calc_error_geosse_all(sim_1 = sim1,
+                                sim_2 = sim2)
   }
   ss_diff <- as.numeric(ss)
   return(ss_diff)
