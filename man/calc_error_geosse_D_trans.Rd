@@ -2,10 +2,10 @@
 % Please edit documentation in R/geosse_calc_error.R
 \name{calc_error_geosse_D_trans}
 \alias{calc_error_geosse_D_trans}
-\title{calculate NLTT statistics + transfered D statistic (e.g. S1 VS Sothers)}
+\title{ss2 calculate NLTT statistics + transfered D statistic (e.g. S1 VS Sothers)}
 \usage{
 calc_error_geosse_D_trans(sim_1, sim_2, distance_method = "abs")
 }
 \description{
-calculate NLTT statistics + transfered D statistic (e.g. S1 VS Sothers)
+ss2 calculate NLTT statistics + transfered D statistic (e.g. S1 VS Sothers)
 }

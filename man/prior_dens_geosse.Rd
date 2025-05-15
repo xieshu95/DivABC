@@ -8,6 +8,10 @@ prior_dens_geosse(pars, idparsopt)
 }
 \value{
 Density of the given parameter set
+
+a vector of parameters
+
+Density of the given parameter set
 }
 \description{
 prior density function for geosse model

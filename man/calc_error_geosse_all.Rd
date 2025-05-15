@@ -2,10 +2,10 @@
 % Please edit documentation in R/geosse_calc_error.R
 \name{calc_error_geosse_all}
 \alias{calc_error_geosse_all}
-\title{NLTTs_Delta}
+\title{ss5 NLTTs_Delta}
 \usage{
 calc_error_geosse_all(sim_1, sim_2, distance_method = "abs")
 }
 \description{
-NLTTs_Delta
+ss5 NLTTs_Delta
 }

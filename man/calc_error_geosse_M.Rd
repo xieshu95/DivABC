@@ -2,10 +2,10 @@
 % Please edit documentation in R/geosse_calc_error.R
 \name{calc_error_geosse_M}
 \alias{calc_error_geosse_M}
-\title{NLTTs_Phylosig M}
+\title{ss1 NLTTs_Phylosig M}
 \usage{
 calc_error_geosse_M(sim_1, sim_2, distance_method = "abs")
 }
 \description{
-NLTTs_Phylosig M
+ss1 NLTTs_Phylosig M
 }

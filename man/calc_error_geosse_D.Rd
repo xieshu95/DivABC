@@ -3,11 +3,11 @@
 \name{calc_error_geosse_D}
 \alias{calc_error_geosse_D}
 \title{Calculates error metrics between two simulations under geosse model
-NLTTs_Delta}
+ss0 NLTTs_Delta}
 \usage{
 calc_error_geosse_D(sim_1, sim_2, distance_method = "abs")
 }
 \description{
 Calculates error metrics between two simulations under geosse model
-NLTTs_Delta
+ss0 NLTTs_Delta
 }
