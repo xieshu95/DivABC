@@ -8,6 +8,7 @@ prior_dens_musse(pars, idparsopt)
 }
 \value{
 Density of the given parameter set
+prior function to generate parameters for musse
 }
 \description{
 prior density function for musse model

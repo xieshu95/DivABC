@@ -384,7 +384,7 @@ get_geosse_sim <- function(parameters, replicates = 1){
   sim[[1]] <- diversitree:::tree.geosse(
     pars = parameters,
     max.t = 10,
-    max.taxa = 2000,
+    max.taxa = 1000,
     x0 = 0
   )
   return(sim)
