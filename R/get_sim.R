@@ -193,10 +193,7 @@ get_bisse_sim <- function(parameters, pool_init_states, replicates = 1){
         crown_age = 10,
         num_concealed_states = 2,
         pool_init_states = pool_init_states,
-        max_spec = 1000,
-        min_spec = 2,
-        conditioning = "obs_states",
-        start_at_crown = FALSE
+        conditioning = "obs_states"
       ), error=function(e) {
         # print("Error: undefined columns selected")
         skip <<- TRUE
@@ -261,12 +258,12 @@ get_musse_sim_create_obs <- function(parameters, pool_init_states, replicates = 
         pool_init_states = pool_init_states,
         conditioning = "obs_states")
 
-      if(length(sim[[j]]$obs_traits) > 50 && ## at least 2 species
+      if(length(sim[[j]]$obs_traits) > 5 && ## at least 2 species
          length(sim[[j]]$obs_traits) < 1000 &&
          length(unique(sim[[j]]$obs_traits)) == 3 &&
-         sum(sim[[j]]$obs_traits == 1) > 10 &&
-         sum(sim[[j]]$obs_traits == 2) > 10 &&
-         sum(sim[[j]]$obs_traits == 3) > 10){
+         sum(sim[[j]]$obs_traits == 1) > 1 &&
+         sum(sim[[j]]$obs_traits == 2) > 1 &&
+         sum(sim[[j]]$obs_traits == 3) > 1){
         save = 1
       }
     }
@@ -325,7 +322,6 @@ get_musse_sim <- function(parameters, pool_init_states, replicates = 1){
         pool_init_states = pool_init_states,
         max_spec = 1000,
         min_spec = 10,
-        start_at_crown = FALSE,
         conditioning = "obs_states"
       ), error=function(e) {
         # print("Error: undefined columns selected")
@@ -358,12 +354,12 @@ get_geosse_sim_create_obs <- function(parameters,
       x0 = 0
     )
     if(length(sim) > 0) {
-      if(length(sim[[1]]$tip.state) > 10 && ## at least 2 species
+      if(length(sim[[1]]$tip.state) > 2 &&
          length(sim[[1]]$tip.state) < 1000 &&
          length(unique(sim[[1]]$tip.state)) == 3 &&
-         sum(sim[[1]]$tip.state == 1) > 5 &&
-         sum(sim[[1]]$tip.state == 2) > 5 &&
-         sum(sim[[1]]$tip.state == 0) > 5){
+         sum(sim[[1]]$tip.state == 1) > 1 &&
+         sum(sim[[1]]$tip.state == 2) > 1 &&
+         sum(sim[[1]]$tip.state == 0) > 1){
         save = 1
       }
     }
@@ -385,7 +381,6 @@ get_geosse_sim <- function(parameters, replicates = 1){
   sim[[1]] <- diversitree:::tree.geosse(
     pars = parameters,
     max.t = 10,
-    max.taxa = 1000,
     x0 = 0
   )
   return(sim)
