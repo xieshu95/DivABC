@@ -323,6 +323,8 @@ get_musse_sim <- function(parameters, pool_init_states, replicates = 1){
         num_concealed_states = 3,
         pool_init_states = pool_init_states,
         non_extinction = TRUE,
+        max_spec = 1000,
+        min_spec = 2,
         conditioning = "obs_states"
       ), error=function(e) {
         # print("Error: undefined columns selected")
