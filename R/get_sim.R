@@ -256,17 +256,15 @@ get_musse_sim_create_obs <- function(parameters, pool_init_states, replicates = 
         qs = q,
         crown_age = 10,
         num_concealed_states = 3,
-        max_spec = 800,
-        min_spec = 20,
         pool_init_states = pool_init_states,
         conditioning = "obs_states")
 
       if(length(sim[[j]]$obs_traits) > 20 && ## at least 2 species
          length(sim[[j]]$obs_traits) < 1000 &&
          length(unique(sim[[j]]$obs_traits)) == 3 &&
-         sum(sim[[j]]$obs_traits == 1) > 5 &&
-         sum(sim[[j]]$obs_traits == 2) > 5 &&
-         sum(sim[[j]]$obs_traits == 3) > 5){
+         sum(sim[[j]]$obs_traits == 1) > 2 &&
+         sum(sim[[j]]$obs_traits == 2) > 2 &&
+         sum(sim[[j]]$obs_traits == 3) > 2){
         save = 1
       }
     }
@@ -325,8 +323,6 @@ get_musse_sim <- function(parameters, pool_init_states, replicates = 1){
         num_concealed_states = 3,
         pool_init_states = pool_init_states,
         non_extinction = TRUE,
-        max_spec = 1000,
-        min_spec = 2,
         conditioning = "obs_states"
       ), error=function(e) {
         # print("Error: undefined columns selected")
