@@ -5,7 +5,7 @@
 #SBATCH --job-name=mu3
 #SBATCH --output=logs/ABC-%j.log
 #SBATCH --mem=1GB
-#SBATCH --partition=gelifes
+#SBATCH --partition=regular
 
 # Arguments to follow the Rscript are as follows:
 param_space_name=${1}
@@ -16,14 +16,9 @@ idparsopt_lac3=${5}
 idparsopt_mu1=${6}
 idparsopt_mu2=${7}
 idparsopt_mu3=${8}
-idparsopt_trans12=${9}
-idparsopt_trans13=${10}
-idparsopt_trans21=${11}
-idparsopt_trans23=${12}
-idparsopt_trans31=${13}
-idparsopt_trans32=${14}
-sim_model=${15}
-ss_set=${16}
+idparsopt_trans=${9}
+sim_model=${10}
+ss_set=${11}
 
 
 ml R
@@ -35,11 +30,6 @@ ${idparsopt_lac3} \
 ${idparsopt_mu1} \
 ${idparsopt_mu2} \
 ${idparsopt_mu3} \
-${idparsopt_trans12} \
-${idparsopt_trans13} \
-${idparsopt_trans21} \
-${idparsopt_trans23} \
-${idparsopt_trans31} \
-${idparsopt_trans32} \
+${idparsopt_trans} \
 ${sim_model} \
 ${ss_set}

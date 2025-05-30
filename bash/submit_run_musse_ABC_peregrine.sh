@@ -24,14 +24,9 @@ idparsopt_lac3=${4}
 idparsopt_mu1=${5}
 idparsopt_mu2=${6}
 idparsopt_mu3=${7}
-idparsopt_trans12=${8}
-idparsopt_trans13=${9}
-idparsopt_trans21=${10}
-idparsopt_trans23=${11}
-idparsopt_trans31=${12}
-idparsopt_trans32=${13}
-sim_model=${14}
-ss_set=${15}
+idparsopt_trans=${8}
+sim_model=${9}
+ss_set=${10}
 
 for_length=`wc -l DivABC/data/${param_space_name}.csv | cut -f1 -d' '`
 for_length=$(( ${for_length} - 1 ))
@@ -46,12 +41,7 @@ ${idparsopt_lac3} \
 ${idparsopt_mu1} \
 ${idparsopt_mu2} \
 ${idparsopt_mu3} \
-${idparsopt_trans12} \
-${idparsopt_trans13} \
-${idparsopt_trans21} \
-${idparsopt_trans23} \
-${idparsopt_trans31} \
-${idparsopt_trans32} \
+${idparsopt_trans} \
 ${sim_model} \
 ${ss_set}
 done
