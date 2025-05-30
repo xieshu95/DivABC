@@ -3,13 +3,13 @@
 
 # latest param space
 
-par1 <- c(0.6,0.6,0.6,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05)
-par2 <- c(0.6,0.3,0.1,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05)
-par3 <- c(0.6,0.6,0.6,0.05,0.1,0.2,0.05,0.05,0.05,0.05,0.05,0.05)
+par1 <- c(0.6,0.6,0.6,0.05,0.05,0.05,0.05)
+par2 <- c(0.6,0.3,0.1,0.05,0.05,0.05,0.05)
+par3 <- c(0.6,0.6,0.6,0.05,0.1,0.2,0.05)
 
 
 musse_ABC <- rbind(par1,par2,par3)
-colnames(musse_ABC) <- c("lam1","lam2","lam3","mu1","mu2","mu3","q12","q13","q21","q23","q31","q32")
+colnames(musse_ABC) <- c("lam1","lam2","lam3","mu1","mu2","mu3","q")
 
 musse_ABC_test <- musse_ABC[rep(1:3, each = 30), ]
 rownames(musse_ABC_test) <- 1:nrow(musse_ABC_test)
@@ -30,3 +30,4 @@ write.csv2(
   "data/musse_MCMC_test.csv",
   row.names = FALSE
 )
+
