@@ -108,7 +108,8 @@ calc_log_lik_musse <- function(params, datalist) {
                                    shift_matrix = t_ETD,
                                    diff.conceal = TRUE)
 
-  params <- c(params,0,0,0,0,0,0)
+  # params <- c(params,0,0,0,0,0,0)
+  params <- c(params,rep(params[7],5),0,0,0,0,0,0)
   q <- secsse::fill_in(q_ETD, params)
   pars[[3]][] <- q
   # skip <- FALSE

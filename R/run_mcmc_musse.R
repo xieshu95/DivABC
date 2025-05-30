@@ -24,11 +24,11 @@ run_MCMC_musse <- function(param_space_name,
 
   obs_sim_pars <- param_space[param_set,]
   obs_sim <- load_obs_sim(param_space_name = param_space_name)[[param_set]]
-  initparsopt <- rep(0.5,12)
+  initparsopt <- rep(0.5,7)
   seed_mcmc <-as.integer(Sys.time()) %% 1000000L * param_set
   set.seed(seed_mcmc)
   message("seed_mcmc: ", seed_mcmc)
-  for(n in 1:12){
+  for(n in 1:7){
     initparsopt[n]<-exp(log(initparsopt[n]) +
                           stats::rnorm(1, 0, 0.0001))+ 0.0001
   }

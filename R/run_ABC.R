@@ -179,10 +179,10 @@ run_ABC <- function(param_space_name,
       init_epsilon_values = init_epsilon,
       number_of_particles = 300,
       sigma = 0.2,
-      stop_rate = 0.0001,
+      stop_rate = 0.001,
       num_iterations = 10,
       idparsopt = as.numeric(idparsopt),
-      fixpars = as.numeric(obs_sim_pars[1:12]),
+      fixpars = as.numeric(obs_sim_pars[1:7]),
       ss_set = ss_set
     )
   } else if (sim_model == "geosse") {

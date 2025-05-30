@@ -241,7 +241,8 @@ get_musse_sim_create_obs <- function(parameters, pool_init_states, replicates = 
                                    shift_matrix = t_ETD,
                                    diff.conceal = TRUE)
 
-  pars <- c(parameters,0,0,0,0,0,0)
+  # pars <- c(parameters,0,0,0,0,0,0)
+  pars <- c(parameters,rep(parameters[7],5),0,0,0,0,0,0)
   lambdas <- secsse::fill_in(lambda_list_ETD, pars)
   mus <- secsse::fill_in(mus_ETD, pars)
   q <- secsse::fill_in(q_ETD, pars)
@@ -258,12 +259,12 @@ get_musse_sim_create_obs <- function(parameters, pool_init_states, replicates = 
         pool_init_states = pool_init_states,
         conditioning = "obs_states")
 
-      if(length(sim[[j]]$obs_traits) > 5 && ## at least 2 species
+      if(length(sim[[j]]$obs_traits) > 20 && ## at least 2 species
          length(sim[[j]]$obs_traits) < 1000 &&
          length(unique(sim[[j]]$obs_traits)) == 3 &&
-         sum(sim[[j]]$obs_traits == 1) > 1 &&
-         sum(sim[[j]]$obs_traits == 2) > 1 &&
-         sum(sim[[j]]$obs_traits == 3) > 1){
+         sum(sim[[j]]$obs_traits == 1) > 2 &&
+         sum(sim[[j]]$obs_traits == 2) > 2 &&
+         sum(sim[[j]]$obs_traits == 3) > 2){
         save = 1
       }
     }
@@ -304,7 +305,8 @@ get_musse_sim <- function(parameters, pool_init_states, replicates = 1){
                                    shift_matrix = t_ETD,
                                    diff.conceal = TRUE)
 
-  pars <- c(parameters,0,0,0,0,0,0)
+  # pars <- c(parameters,0,0,0,0,0,0)
+  pars <- c(parameters,rep(parameters[7],5),0,0,0,0,0,0)
   lambdas <- secsse::fill_in(lambda_list_ETD, pars)
   mus <- secsse::fill_in(mus_ETD, pars)
   q <- secsse::fill_in(q_ETD, pars)
@@ -320,8 +322,9 @@ get_musse_sim <- function(parameters, pool_init_states, replicates = 1){
         crown_age = 10,
         num_concealed_states = 3,
         pool_init_states = pool_init_states,
+        non_extinction = TRUE,
         max_spec = 1000,
-        min_spec = 10,
+        min_spec = 2,
         conditioning = "obs_states"
       ), error=function(e) {
         # print("Error: undefined columns selected")
