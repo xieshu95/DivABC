@@ -8,12 +8,6 @@ prior_dens_geosse(pars, idparsopt)
 }
 \value{
 Density of the given parameter set
-prior function to generate parameters for geosse
-
-a vector of parameters
-prior density function for geosse model
-
-Density of the given parameter set
 }
 \description{
 prior density function for geosse model
