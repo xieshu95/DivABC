@@ -259,7 +259,7 @@ get_musse_sim_create_obs <- function(parameters, pool_init_states, replicates = 
         pool_init_states = pool_init_states,
         conditioning = "obs_states")
 
-      if(length(sim[[j]]$obs_traits) > 20 && ## at least 2 species
+      if(length(sim[[j]]$obs_traits) > 2 && ## at least 2 species
          length(sim[[j]]$obs_traits) < 1000 &&
          length(unique(sim[[j]]$obs_traits)) == 3 &&
          sum(sim[[j]]$obs_traits == 1) > 2 &&
@@ -384,6 +384,7 @@ get_geosse_sim <- function(parameters, replicates = 1){
   sim[[1]] <- diversitree:::tree.geosse(
     pars = parameters,
     max.t = 10,
+    max.taxa = 2000,
     x0 = 0
   )
   return(sim)
