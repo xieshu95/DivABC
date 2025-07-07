@@ -156,7 +156,7 @@ run_ABC <- function(param_space_name,
       stop_rate = 0.0001,
       num_iterations = 20,
       idparsopt = as.numeric(idparsopt),
-      fixpars = as.numeric(obs_sim_pars[1:6]),
+      pars = as.numeric(obs_sim_pars[1:6]),
       ss_set = ss_set
     )
   } else if (sim_model == "musse") {
@@ -182,7 +182,7 @@ run_ABC <- function(param_space_name,
       stop_rate = 0.0001,
       num_iterations = 20,
       idparsopt = as.numeric(idparsopt),
-      fixpars = as.numeric(obs_sim_pars[1:7]),
+      pars = as.numeric(obs_sim_pars[1:7]),
       ss_set = ss_set
     )
   } else if (sim_model == "geosse") {
@@ -212,7 +212,7 @@ run_ABC <- function(param_space_name,
       stop_rate = 0.0001,
       num_iterations = 20,
       idparsopt = as.numeric(idparsopt),
-      fixpars = as.numeric(obs_sim_pars[1:7]),
+      pars = as.numeric(obs_sim_pars[1:7]),
       ss_set = ss_set
     )
   }

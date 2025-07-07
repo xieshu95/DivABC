@@ -1,13 +1,29 @@
-#' Using ABC approach on GeoSSE to estimate CES rates.
+#' @brief Using ABC approach on GeoSSE to estimate diversification rates.
 #'
-#' @param
-#'
+#' This function is adapted from Thijs Janzen's NLTT package
+#'  (\url{https://github.com/thijsjanzen/nLTT})
+#' @param obs_data A list of simulation output as observation.
+#' @param sim_function A function to simulate data.
+#' @param calc_ss_function A function to calculate summary statistic distance
+#'  between simulated and observed data.
+#' @param init_epsilon_values A vector of initial epsilon values.
+#' @param prior_generating_function Function to generate parameters from the
+#'  prior distribution.
+#' @param prior_density_function Function to calculate the prior probability.
+#' @param number_of_particles The number of particles in each iteration.
+#' @param sigma Standard deviation of the perturbance distribution.
+#' @param stop_rate A numeric value which is the boundary to stop the algorithm.
+#' @param num_iterations The maximum number of iterations.
+#' @param idparsopt The id of the parameters that need to be inferred, the others
+#'  are fixed.
+#' @param ss_set A numeric indicates which set of summary statistics that
+#'  are used to calculate the distance.
 #' @return
 #' @author
 #' @export
 
 
-ABC_SMC_geosse <- function( # nolint indeed a complex function
+ABC_SMC_geosse <- function(
   obs_data,
   sim_function,
   calc_ss_function,
@@ -19,18 +35,15 @@ ABC_SMC_geosse <- function( # nolint indeed a complex function
   stop_rate = 1e-3,
   num_iterations,
   idparsopt,
-  fixpars,
+  pars,
   ss_set = 1
 ) {
   #just to get the number of parameters to be estimated.
-  parameters <- prior_generating_function(fixpars,idparsopt)
+  parameters <- prior_generating_function(pars,idparsopt)
 
-  #generate a matrix with epsilon values
   #we assume that the SMC algorithm converges within 50 iterations
   epsilon <- matrix(nrow = 50, ncol = length(init_epsilon_values))
   epsilon[1,] <- init_epsilon_values
-
-  #store weights
   new_weights <- c()
   new_params <- list(c(seq_along(parameters)))
   previous_weights <- c()
@@ -40,11 +53,7 @@ ABC_SMC_geosse <- function( # nolint indeed a complex function
   ABC_list <- list()
   sim_list <- list()
   ss_diff_list <- list()
-  # init_prob_list <- list()
-  # init_prob_list[[1]] <- c(0.5,0.5,0.5)
 
-  #convergence is expected within 50 iterations
-  #usually convergence occurs within 20 iterations
   for (i in 1:num_iterations) {
     ss_diff <- c()
     n_iter <- n_iter + 1
@@ -60,20 +69,17 @@ ABC_SMC_geosse <- function( # nolint indeed a complex function
 
     #replace all vectors
     if (i > 1) {
-      #normalize the weights and store them as previous weights.
       previous_weights <- new_weights / sum(new_weights)
-      new_weights <- c() #remove all currently stored weights
-      previous_params <- new_params #store found params
-      new_params <- list(c(seq_along(parameters))) #clear new params
+      new_weights <- c()
+      previous_params <- new_params
+      new_params <- list(c(seq_along(parameters)))
     }
     stoprate_reached <- FALSE
     while (number_accepted < number_of_particles) {
       #in this initial step, generate parameters from the prior
       if (i == 1) {
-        parameters <- prior_generating_function(fixpars,idparsopt)
+        parameters <- prior_generating_function(pars,idparsopt)
       } else {
-        #if not in the initial step, generate parameters
-        #from the weighted previous distribution:
         index <- sample(x = indices, size = 1,
                         replace = TRUE, prob = previous_weights)
         for (p_index in seq_along(parameters)) {
@@ -90,12 +96,10 @@ ABC_SMC_geosse <- function( # nolint indeed a complex function
         accept <- TRUE
 
         if (length(new_sim) == 0 ||
-            length(new_sim[[1]]$tip.state) < 10 ||
-            length(new_sim[[1]]$tip.state) >= 1000 ||
             length(unique(new_sim[[1]]$tip.state)) < 3 ||
-            sum(new_sim[[1]]$tip.state == 0) < 3 ||
-            sum(new_sim[[1]]$tip.state == 1) < 3 ||
-            sum(new_sim[[1]]$tip.state == 2) < 3) {
+            sum(new_sim[[1]]$tip.state == 0) < 2 ||
+            sum(new_sim[[1]]$tip.state == 1) < 2 ||
+            sum(new_sim[[1]]$tip.state == 2) < 2) {
           accept <- FALSE
         }
         #calculate the summary statistics for the simulated tree
@@ -117,8 +121,6 @@ ABC_SMC_geosse <- function( # nolint indeed a complex function
           sim_list[[number_accepted]] <- new_sim[[1]]
           accepted_weight <- 1
           ss_diff <- rbind(ss_diff,df_stats)
-          # init_state[number_accepted] <- new_sim[[1]]$initialState
-
           #calculate the weight
           if (i > 1) {
             accepted_weight <- calc_weight(previous_weights,
@@ -148,7 +150,7 @@ ABC_SMC_geosse <- function( # nolint indeed a complex function
     }
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.7)
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.5)
     }
     ABC <- c()
     for (k in seq_along(new_params)) {

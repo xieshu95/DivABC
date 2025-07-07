@@ -1,7 +1,8 @@
 #' ABC approach to estimate parameters in diversification models.
-#'
+#' This function is adapted from Thijs Janzen's NLTT package
+#'  (\url{https://github.com/thijsjanzen/nLTT})
 #' @param obs_data A list of simulation output as observation.
-#' @param sim_function A function to simulate data.
+#' @param sim_function A function to generate simulated data (particles).
 #' @param calc_ss_function A function to calculate summary statistic distance
 #'  between simulated and observed data.
 #' @param init_epsilon_values A vector of initial epsilon values.
@@ -32,15 +33,9 @@ ABC_SMC <- function(
   pars,
   ss_set = 1
 ) {
-  #just to get the number of parameters to be estimated.
   parameters <- prior_generating_function(pars,idparsopt)
-
-  #generate a matrix with epsilon values
-  #we assume that the SMC algorithm converges within 50 iterations
-  epsilon <- matrix(nrow = 20, ncol = length(init_epsilon_values))
+  epsilon <- matrix(nrow = 50, ncol = length(init_epsilon_values))
   epsilon[1,] <- init_epsilon_values
-
-  #store weights
   new_weights <- c()
   new_params <- list(c(seq_along(parameters)))
   previous_weights <- c()
@@ -51,8 +46,6 @@ ABC_SMC <- function(
   sim_list <- list()
   ss_diff_list <- list()
 
-  #convergence is expected within 50 iterations
-  #usually convergence occurs within 20 iterations
   for (i in 1:num_iterations) {
     ss_diff <- c()
     n_iter <- n_iter + 1
@@ -64,20 +57,17 @@ ABC_SMC <- function(
     print_frequency <- 20
     tried <- 0
     number_accepted <- 0
-    sigma_temp <- sigma * exp(-0.2 * (i - 1))
+    sigma_temp <- sigma * exp(-0.1 * (i - 1))
 
     #replace all vectors
     if (i > 1) {
       #normalize the weights and store them as previous weights.
       previous_weights <- new_weights / sum(new_weights)
-      new_weights <- c() #remove all currently stored weights
-      previous_params <- new_params #store found params
-      new_params <- list(c(seq_along(parameters))) #clear new params
+      new_weights <- c()
+      previous_params <- new_params
+      new_params <- list(c(seq_along(parameters)))
     }
-
     stoprate_reached <- FALSE
-    # ss_logic <- c()
-
     while (number_accepted < number_of_particles) {
       #in this initial step, generate parameters from the prior
       if (i == 1) {
@@ -100,13 +90,7 @@ ABC_SMC <- function(
       if (prior_density_function(parameters,idparsopt) > 0) {
         #simulate a new tree, given the proposed parameters
         new_sim <- sim_function(parameters = parameters)
-
-
         accept <- TRUE
-
-        if(sum(tail(new_sim[[1]][[1]][[1]]$stt_all, n=1)[2:4]) > 600 && sum(tail(new_sim[[1]][[1]][[1]]$stt_all, n=1)[2:4]) < 5){
-          accept <- FALSE
-        }
 
         #calculate the summary statistics for the simulated tree
         if (accept) {
@@ -161,7 +145,7 @@ ABC_SMC <- function(
 
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.4)
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.5)
     }
     ABC <- c()
     for (k in seq_along(new_params)) {
@@ -176,6 +160,7 @@ ABC_SMC <- function(
     if (stoprate_reached) {
       break
     }
+    # save from the 4th iteration to avoid no output when run out the time
     if(n_iter >= 3) {
       save_output(
         output = list(sim_list = sim_list,
@@ -191,7 +176,6 @@ ABC_SMC <- function(
     }
   }
   message("tried times: ", tried)
-
   output <- list(sim_list = sim_list,
                  ABC = ABC_list,
                  n_iter = n_iter,
