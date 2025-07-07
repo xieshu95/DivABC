@@ -1,4 +1,6 @@
 #' mcmc
+#' This function is adapted from Thijs Janzen's NLTT package
+#'  (\url{https://github.com/thijsjanzen/nLTT})
 #' @references Janzen, T., Höhna, S. and Etienne, R.S. (2015), Approximate
 #' Bayesian Computation of diversification rates from molecular phylogenies:
 #' introducing a new efficient summary statistic, the nLTT. Methods Ecol Evol,
@@ -6,15 +8,15 @@
 #' @return
 #' @export
 MCMC <- function(datalist,
-                          log_lik_function,
-                          log_prior_function,
-                          logform = FALSE, # logform = TRUE -> log_prior_function = calc_log_prior_bisse_logtrans
-                          parameters,
-                          iterations,
-                          burnin,
-                          thinning = 1,
-                          sigma = 1,
-                          idparsopt)
+                 log_lik_function,
+                 log_prior_function,
+                 logform = FALSE, # logform = TRUE -> log_prior_function = calc_log_prior_bisse_logtrans
+                 parameters,
+                 iterations,
+                 burnin,
+                 thinning = 1,
+                 sigma = 1,
+                 idparsopt)
 {
   # create a list for the samples & reserve memory for the chain
   chain <- array(dim = c(floor(iterations / thinning) + 1,
@@ -22,7 +24,6 @@ MCMC <- function(datalist,
 
   for (j in seq_along(parameters)) {
     if (parameters[j] < 0) {
-      #Just checking
       stop("mcmc_nltt: ",
            "initial parameter values have to be above zero\n",
            "but one was ", parameters[j], " instead")
@@ -43,12 +44,12 @@ MCMC <- function(datalist,
     parameters_old <- parameters
     if(logform == TRUE){
       parameters[idparsopt] <- exp(stats::rnorm(length(idparsopt),
-                                              log(parameters[idparsopt]),
-                                              sigma))
+                                                log(parameters[idparsopt]),
+                                                sigma))
     } else if (logform == FALSE) {
       parameters[idparsopt] <- stats::rnorm(length(idparsopt),
                                             parameters[idparsopt],
-                                                sigma)
+                                            sigma)
     }
 
     if (all(parameters > 0)) {

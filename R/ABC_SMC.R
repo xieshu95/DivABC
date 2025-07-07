@@ -1,6 +1,10 @@
 #' ABC approach to estimate parameters in diversification models.
 #' This function is adapted from Thijs Janzen's NLTT package
 #'  (\url{https://github.com/thijsjanzen/nLTT})
+#' @references Janzen, T., Höhna, S. and Etienne, R.S. (2015), Approximate
+#' Bayesian Computation of diversification rates from molecular phylogenies:
+#' introducing a new efficient summary statistic, the nLTT. Methods Ecol Evol,
+#' 6: 566-575. https://doi.org/10.1111/2041-210X.12350
 #' @param obs_data A list of simulation output as observation.
 #' @param sim_function A function to generate simulated data (particles).
 #' @param calc_ss_function A function to calculate summary statistic distance
