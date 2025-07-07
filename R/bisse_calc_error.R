@@ -38,7 +38,7 @@ calc_error_bisse <- function(sim_1,
   )
 }
 
-# NLTTS+D+NUM
+# NLTTS+D+ number of species in each state
 calc_error_bisse_num <- function(sim_1,
                               sim_2,
                               distance_method = "abs") {
@@ -76,9 +76,6 @@ calc_error_bisse_num <- function(sim_1,
     )
   )
 }
-
-
-
 
 
 ## NLTTs
@@ -149,10 +146,8 @@ calc_error_bisse_D <- function(sim_1,
 calc_error_bisse_nltt <- function(sim_1,
                                 sim_2,
                                 distance_method = "abs") {
-
   # nLTT
   nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
-
   return(
     c(nltt)
   )
@@ -373,10 +368,6 @@ calc_error_bisse_colless_nltt <- function(sim_1,
   )
 }
 
-
-
-
-
 #' tip ratio-nltt
 calc_error_bisse_ratio_nltt <- function(sim_1,
                               sim_2,
@@ -428,8 +419,6 @@ create_trait_matrix <- function(sim) {
 calc_mpd_trait <- function(sim,state_type = 0)
 {
   dis <- stats::cophenetic(sim$phy)
-  # dis<- dis[order(readr::parse_number(rownames(dis))),
-  #           order(readr::parse_number(colnames(dis)))]
   trait <- create_trait_matrix(sim)
   if(state_type == 3) {
     mpd <- mean(dis[lower.tri(dis)])
@@ -464,8 +453,6 @@ calc_mntd_trait <- function(sim,state_type = 0)
 calc_sdpd_trait <- function(sim,state_type = 0)
 {
   dis <- stats::cophenetic(sim$phy)
-  # dis<- dis[order(readr::parse_number(rownames(dis))),
-  #           order(readr::parse_number(colnames(dis)))]
   trait <- create_trait_matrix(sim)
   if(state_type == 3) {
     sdpd <- sd(dis[lower.tri(dis)])
@@ -478,8 +465,6 @@ calc_sdpd_trait <- function(sim,state_type = 0)
 calc_sdntd_trait <- function(sim,state_type = 0)
 {
   dis <- stats::cophenetic(sim$phy)
-  # dis<- dis[order(readr::parse_number(rownames(dis))),
-  #           order(readr::parse_number(colnames(dis)))]
   trait <- create_trait_matrix(sim)
   diag(dis) <- NA
   if(state_type != 3) {
@@ -490,7 +475,6 @@ calc_sdntd_trait <- function(sim,state_type = 0)
   sdntd
 }
 
-
 calc_D <- function (sim) {
   trait = data.frame(sim$phy$tip.label,sim$obs_traits)
   colnames(trait) <- c("tips","trait_val")
@@ -498,9 +482,6 @@ calc_D <- function (sim) {
   PhyloD <- caper::phylo.d(data, binvar=trait_val,permut = 200)
   return(as.numeric(PhyloD$DEstimate))
 }
-
-# sim <- get_bisse_sim(parameters  =  c(0.6,0.6,0.05,0.05,0.1,0.1),
-#                           pool_init_states = c("1","2"))[[1]]
 
 calc_Delta <- function (sim) {
   Delta <- delta(as.numeric(sim$obs_traits),sim$phy, lambda0 = 0.5,se = 0.5,sim = 100,thin = 1,burn = 10)
@@ -537,83 +518,17 @@ calc_M <- function (sim) {
 #' @export
 
 calc_ss_bisse <- function(sim) {
-
-  # # mpd_all
-  # mpd_all <- calc_mpd_trait(sim = sim,state_type = 3)
-  #
-  # # mpd_diff
-  # mpd_diff <- calc_mpd_trait(sim = sim,state_type = 0)
-  #
-  # # mntd_all
-  # mntd_all <- calc_mntd_trait(sim = sim,state_type = 3)
-  #
-  # # mntd_diff
-  # mntd_diff <- calc_mntd_trait(sim = sim,state_type = 0)
-  #
-  # # K statistic
-  # K <- adiv::K(sim$phy,
-  #              trait = sim$obs_traits,
-  #              nrep = 1000, alter = c("two-sided"))
-  # K <- K$obs
-  #
-  #
-  # # D statistic
-  # D <- calc_D(sim)
-
-
   # state 1
   num_state1 <- sum(sim$obs_traits == 1)
   num_state2 <- sum(sim$obs_traits == 2)
   total_spec <- num_state1 + num_state2
   tip_ratio <- max(num_state1,num_state2)/min(num_state1,num_state2)
 
-
-  # # nLTT
-  # nltt <- treestats::nLTT_base(sim$phy)
-
-  # ## standard deviation of pairwise distance
-  # sdpd_all <- calc_sdpd_trait(sim = sim,state_type = 3)
-  # sdpd_diff <- calc_sdpd_trait(sim = sim,state_type = 0)
-  #
-  # ## standard deviation of nearest taxon distance
-  # sdntd_all <- calc_sdntd_trait(sim = sim,state_type = 3)
-  # sdntd_diff <- calc_sdntd_trait(sim = sim,state_type = 0)
-  #
-  #
-  # ## mean pairwise distance with state1
-  # mpd_1 <- calc_mpd_trait(sim = sim,state_type = 1)
-  # mntd_1 <- calc_mntd_trait(sim = sim,state_type = 1)
-  #
-  # ## mean pairwise distance with state1
-  # mpd_2 <- calc_mpd_trait(sim = sim,state_type = 2)
-  # mntd_2 <- calc_mntd_trait(sim = sim,state_type = 2)
-
-  # colless <- treestats::colless(sim$phy)
-  # spect <- treestats::laplacian_spectrum(sim$phy)
-  # spect_log_median <- median(log(spect$eigenvalues))
-  # spect_prin <- log(spect$principal_eigenvalue)
-  # sackin <- treestats::sackin(sim$phy)
-
   return(
     list(state1 = num_state1,
          state2 = num_state2,
          total_spec = total_spec,
          tip_ratio = tip_ratio)
-    # mpd_all = mpd_all,
-    # mpd_diff = mpd_diff,
-    # mpd_1 = mpd_1,
-    # mpd_2 = mpd_2,
-    # mntd_all = mntd_all,
-    # mntd_diff = mntd_diff,
-    # mntd_1 = mntd_1,
-    # mntd_2 = mntd_2,
-    # sdpd_all = sdpd_all,
-    # sdpd_diff = sdpd_diff,
-    # sdntd_all = sdntd_all,
-    # sdntd_diff = sdntd_diff,
-    # K = K,
-    # D = D,
-    # nltt = nltt)
   )
 }
 
@@ -621,7 +536,6 @@ calc_ss_bisse <- function(sim) {
 calc_error_bisse_Delta <- function(sim_1,
                              sim_2,
                              distance_method = "abs") {
-
   # drop tips and only keep tips with a single state(1/2)
   phy1_s1<-ape::drop.tip(sim_1$phy,  ## phy1 with only state1 tips
                          tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 2)])
@@ -632,21 +546,14 @@ calc_error_bisse_Delta <- function(sim_1,
                          tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 2)])
   phy2_s2<-ape::drop.tip(sim_2$phy,
                          tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
-
   # D statistic
   Delta1 <- calc_Delta(sim_1)
   Delta2 <- calc_Delta(sim_2)
   Delta <- abs (Delta1 - Delta2)
-
   # nLTT
   nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
   nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
   nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
-
-  # spect_1 <- treestats::laplacian_spectrum(sim_1$phy)
-  # spect_2 <- treestats::laplacian_spectrum(sim_2$phy)
-  # spect <- abs(log(spect_1$principal_eigenvalue) -
-  #                log(spect_2$principal_eigenvalue) )
   return(
     c(nltt,
       nltt_s1,
@@ -672,21 +579,14 @@ calc_error_bisse_M <- function(sim_1,
                          tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 2)])
   phy2_s2<-ape::drop.tip(sim_2$phy,
                          tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
-
   # M statistic
   M1 <- calc_M(sim_1)
   M2 <- calc_M(sim_2)
   M <- abs (M1 - M2)
-
   # nLTT
   nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
   nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
   nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
-
-  # spect_1 <- treestats::laplacian_spectrum(sim_1$phy)
-  # spect_2 <- treestats::laplacian_spectrum(sim_2$phy)
-  # spect <- abs(log(spect_1$principal_eigenvalue) -
-  #                log(spect_2$principal_eigenvalue) )
   return(
     c(nltt,
       nltt_s1,

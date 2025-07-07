@@ -1,7 +1,6 @@
 #' Simulation function to create DAISIE simulations
 #'
 #' @param parameters A vector for CES rates.
-#' @param K Carrying capacity, Inf for diverdity-independent models.
 #' @param replicates The number of replicates(islands) for DAISIE simulation.
 #'
 #' @return A list contains simulated islands
@@ -56,7 +55,7 @@ get_DAISIE_sim_DD <- function(parameters,
   return(sim)
 }
 
-#' Simulation fucntion to create simulated data as observed data in ABC.
+#' Simulation function to create Traisie simulated data as observed data in ABC.
 #'
 #' @param parameters A vector for CES rates.
 #' @param K Carrying capacity, Inf for diverdity-independent models.
@@ -70,7 +69,7 @@ get_TraiSIE_sim <- function(parameters, replicates = 1){
     sim[[j]] <- DAISIE::DAISIE_sim_trait_dep( ##TRAISIERCPP
       time = 4,
       M = 500,
-      pars = c(parameters[1],parameters[2],Inf,parameters[3],parameters[4]),
+      pars = c(parameters[1],parameters[2],K,parameters[3],parameters[4]),
       replicates = 1,
       sample_freq  = Inf,
       plot_sims = FALSE,
@@ -88,9 +87,10 @@ get_TraiSIE_sim <- function(parameters, replicates = 1){
   return(sim)
 }
 
-#' Simulation fucntion to create BiSSE simualtions as observed data
+#' Simulation function to create BiSSE simualtions as observed data
 #'
 #' @param parameters A vector for CES rates.
+#' @param pool_init_states Root state pool.
 #' @param replicates The number of replicates(islands) for secsse simulation.
 #'
 #' @return A list contains simulated islands
@@ -132,18 +132,16 @@ get_bisse_sim_create_obs <- function(parameters, pool_init_states, replicates = 
         crown_age = 10,
         num_concealed_states = 2,
         pool_init_states = pool_init_states,
-        max_spec = 100,
         conditioning = "obs_states")
 
       if(length(sim[[j]]$obs_traits) > 2 && ## at least 2 species
          length(sim[[j]]$obs_traits) < 1000 &&
-         length(unique(sim[[j]]$obs_traits)) == 2 &&
+         length(unique(sim[[j]]$obs_traits)) == 2 &&  ## 2 states
          sum(sim[[j]]$obs_traits == 1) > 1 &&
          sum(sim[[j]]$obs_traits == 2) > 1){
         save = 1
       }
     }
-
   }
   return(sim)
 }
@@ -152,6 +150,7 @@ get_bisse_sim_create_obs <- function(parameters, pool_init_states, replicates = 
 #' Simulation function to create simulations in ABC.
 #'
 #' @param parameters A vector for CES rates.
+#' @param pool_init_states Root state pool.
 #' @param replicates The number of replicates(islands) for bisse simulation.
 #'
 #' @return A list contains simulated islands
@@ -196,7 +195,6 @@ get_bisse_sim <- function(parameters, pool_init_states, replicates = 1){
         pool_init_states = pool_init_states,
         conditioning = "obs_states"
       ), error=function(e) {
-        # print("Error: undefined columns selected")
         skip <<- TRUE
       })
       if(skip == FALSE){
@@ -213,7 +211,7 @@ get_bisse_sim <- function(parameters, pool_init_states, replicates = 1){
 #' Simulation function to create MuSSE simulations as observed data
 #'
 #' @param parameters A vector for CES rates.
-#' @param replicates The number of replicates(islands) for bisse simulation.
+#' @param replicates The number of replicates(islands) for musse simulation.
 #'
 #' @return A list contains simulated islands
 #' @export
@@ -324,11 +322,8 @@ get_musse_sim <- function(parameters, pool_init_states, replicates = 1){
         num_concealed_states = 3,
         pool_init_states = pool_init_states,
         non_extinction = TRUE,
-        max_spec = 1000,
-        min_spec = 2,
         conditioning = "obs_states"
       ), error=function(e) {
-        # print("Error: undefined columns selected")
         skip <<- TRUE
       })
       if(skip == FALSE){
@@ -372,7 +367,7 @@ get_geosse_sim_create_obs <- function(parameters,
 }
 
 
-#' Simulation function to create simulations in ABC.
+#' Simulation function to create GeoSSE simulations in ABC.
 #'
 #' @param parameters A vector for CES rates.
 #' @param replicates The number of replicates(islands) for geosse simulation.

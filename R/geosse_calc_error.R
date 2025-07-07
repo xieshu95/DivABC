@@ -280,10 +280,6 @@ calc_M_geosse <- function (sim) {
   return(as.numeric(phyloM))
 }
 
-calc_Delta_geosse <- function (sim) {
-  Delta <- delta(as.numeric(sim$tip.state),sim, lambda0 = 0.5,se = 0.5,sim = 100,thin = 1,burn = 10)
-  return(as.numeric(log(Delta+1))) #log(Delta+1)  or Delta
-}
 
 #' ss5 NLTTs_Delta
 calc_error_geosse_all<- function(sim_1,

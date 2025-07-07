@@ -2,7 +2,7 @@
 #'
 #' @inheritParams default_params_doc
 #' @author Shu Xie
-#' @return tibble parameter space.
+#' @return parameter space.
 #' @export
 load_param_space <- function(param_space_name) {
   loaded_name <- load(system.file(

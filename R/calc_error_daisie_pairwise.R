@@ -1,5 +1,4 @@
-#' Calculates error metrics between two simulations
-
+#' This is specific for DAISIE related models
 calc_error_pairwise <- function(sim_1,
                               sim_2,
                               replicates,
