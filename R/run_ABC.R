@@ -5,6 +5,7 @@
 #' @param idparsopt A vector of positions of the parameters that be optimized.
 #' @param sim_model \code{"DAISIE"}, \code{"TraiSIE"}
 #' @param save_output A boolean to determine whether to save or return output.
+#' @param ss_set A numeric of which summary statistic set to be used.
 #' @author Shu Xie
 #' @return
 #' @export
@@ -81,7 +82,7 @@ run_ABC <- function(param_space_name,
       prior_density_function <- prior_dens_DD,
       number_of_particles = 500,
       sigma = 0.2,
-      stop_rate = 0.00025,
+      stop_rate = 0.002,
       num_iterations = 20,
       idparsopt = as.numeric(idparsopt),
       pars = as.numeric(obs_sim_pars[1:5]),
@@ -153,7 +154,7 @@ run_ABC <- function(param_space_name,
       init_epsilon_values = init_epsilon,
       number_of_particles = 500,
       sigma = 0.2,
-      stop_rate = 0.0001,
+      stop_rate = 0.001,
       num_iterations = 20,
       idparsopt = as.numeric(idparsopt),
       pars = as.numeric(obs_sim_pars[1:6]),
@@ -179,7 +180,7 @@ run_ABC <- function(param_space_name,
       init_epsilon_values = init_epsilon,
       number_of_particles = 300,
       sigma = 0.2,
-      stop_rate = 0.0001,
+      stop_rate = 0.001,
       num_iterations = 20,
       idparsopt = as.numeric(idparsopt),
       pars = as.numeric(obs_sim_pars[1:7]),
@@ -209,7 +210,7 @@ run_ABC <- function(param_space_name,
       init_epsilon_values = init_epsilon,
       number_of_particles = 300,
       sigma = 0.2,
-      stop_rate = 0.0001,
+      stop_rate = 0.001,
       num_iterations = 20,
       idparsopt = as.numeric(idparsopt),
       pars = as.numeric(obs_sim_pars[1:7]),

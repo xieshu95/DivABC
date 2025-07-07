@@ -28,11 +28,6 @@ run_MCMC_bisse <- function(param_space_name,
   seed_mcmc <-as.integer(Sys.time()) %% 1000000L * param_set
   set.seed(seed_mcmc)
   message("seed_mcmc: ", seed_mcmc)
-  # for(n in 1:6){
-  #   initparsopt[n]<-exp(log(initparsopt[n]) +
-  #                         stats::rnorm(1, 0, 0.0001))+ 0.0001
-  # }
-
 
   mcmc <- MCMC(datalist = obs_sim[[1]],
                log_lik_function = calc_log_lik_bisse,

@@ -269,11 +269,6 @@ calc_error_musse_all<- function(sim_1,
   )
 }
 
-
-
-
-
-
 #' function to calculate statistic D when drop tips until only two states exist
 calc_D_drop <- function (phy,obs_trait) {
   trait = data.frame(phy$tip.label,obs_trait)
