@@ -8,7 +8,7 @@ run_ABC(
   param_space_name,
   param_set,
   idparsopt,
-  sim_model = "DAISIE",
+  sim_model,
   save_output = TRUE,
   ss_set = 1
 )

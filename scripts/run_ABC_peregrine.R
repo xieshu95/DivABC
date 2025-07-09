@@ -6,17 +6,21 @@ idparsopt_lac <- as.numeric(args[3])
 idparsopt_mu <- as.numeric(args[4])
 idparsopt_gam <- as.numeric(args[5])
 idparsopt_laa <- as.numeric(args[6])
-idparsopt_lac2 <- as.numeric(args[7])
-idparsopt_mu2 <- as.numeric(args[8])
-idparsopt_gam2 <- as.numeric(args[9])
-idparsopt_laa2 <- as.numeric(args[10])
-idparsopt_trans <- as.numeric(args[11])
-idparsopt_trans2 <- as.numeric(args[12])
-sim_model <- args[13]
-ss_set <- as.numeric(args[14])
-idparsopt_all <- c(idparsopt_lac,idparsopt_mu,idparsopt_gam,idparsopt_laa,
+idparsopt_K1 <- as.numeric(args[7])
+idparsopt_lac2 <- as.numeric(args[8])
+idparsopt_mu2 <- as.numeric(args[9])
+idparsopt_gam2 <- as.numeric(args[10])
+idparsopt_laa2 <- as.numeric(args[11])
+idparsopt_trans <- as.numeric(args[12])
+idparsopt_trans2 <- as.numeric(args[13])
+idparsopt_K2 <- as.numeric(args[14])
+sim_model <- args[15]
+ss_set <- as.numeric(args[16])
+
+
+idparsopt_all <- c(idparsopt_lac,idparsopt_mu,idparsopt_gam,idparsopt_laa,idparsopt_K1,
                    idparsopt_lac2,idparsopt_mu2,idparsopt_gam2,idparsopt_laa2,
-                   idparsopt_trans,idparsopt_trans2)
+                   idparsopt_trans,idparsopt_trans2,idparsopt_K2)
 idparsopt <- which(idparsopt_all == 1)
 save_output <- TRUE
 metadata <- paste0("This is parameter set ", param_set)

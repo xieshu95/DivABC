@@ -14,6 +14,8 @@ idparsopt_lac=$3
 idparsopt_mu=$4
 idparsopt_gam=$5
 idparsopt_laa=$6
+idparsopt_K=$7
+model=$8
 
 ml R
 Rscript DivABC/scripts/run_MCMC_peregrine.R ${param_space_name} \
@@ -21,4 +23,6 @@ Rscript DivABC/scripts/run_MCMC_peregrine.R ${param_space_name} \
                                                ${idparsopt_lac} \
                                                ${idparsopt_mu} \
                                                ${idparsopt_gam} \
-                                               ${idparsopt_laa}
+                                               ${idparsopt_laa} \
+                                               ${idparsopt_K} \
+                                               ${model}

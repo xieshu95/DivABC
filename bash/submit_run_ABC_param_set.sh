@@ -14,14 +14,16 @@ idparsopt_lac=${3}
 idparsopt_mu=${4}
 idparsopt_gam=${5}
 idparsopt_laa=${6}
-idparsopt_lac2=${7}
-idparsopt_mu2=${8}
-idparsopt_gam2=${9}
-idparsopt_laa2=${10}
-idparsopt_trans=${11}
-idparsopt_trans2=${12}
-sim_model=${13}
-ss_set=${14}
+idparsopt_K1=${7}
+idparsopt_lac2=${8}
+idparsopt_mu2=${9}
+idparsopt_gam2=${10}
+idparsopt_laa2=${11}
+idparsopt_trans=${12}
+idparsopt_trans2=${13}
+idparsopt_K2=${14}
+sim_model=${15}
+ss_set=${16}
 
 
 ml R
@@ -31,11 +33,13 @@ Rscript DivABC/scripts/run_ABC_peregrine.R ${param_space_name} \
                                                ${idparsopt_mu} \
                                                ${idparsopt_gam} \
                                                ${idparsopt_laa} \
+                                               ${idparsopt_K1} \
                                                ${idparsopt_lac2} \
                                                ${idparsopt_mu2} \
                                                ${idparsopt_gam2} \
                                                ${idparsopt_laa2} \
                                                ${idparsopt_trans} \
                                                ${idparsopt_trans2} \
+                                               ${idparsopt_K2} \
                                                ${sim_model} \
                                                ${ss_set}

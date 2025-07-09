@@ -4,21 +4,18 @@
 \alias{get_TraiSIE_sim}
 \title{Simulation fucntion to create simulated data as observed data in ABC.}
 \usage{
-get_TraiSIE_sim(parameters, K = Inf, replicates = 1)
+get_TraiSIE_sim(parameters, replicates = 1)
 }
 \arguments{
 \item{parameters}{A vector for CES rates.}
 
-\item{K}{Carrying capacity, Inf for diverdity-independent models.}
-
 \item{replicates}{The number of replicates(islands) for TraiSIE simulation.}
+
+\item{K}{Carrying capacity, Inf for diverdity-independent models.}
 }
 \value{
 A list contains simulated islands
 }
 \description{
 Simulation fucntion to create simulated data as observed data in ABC.
-}
-\author{
-Shu Xie
 }

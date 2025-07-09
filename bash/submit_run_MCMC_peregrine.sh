@@ -18,6 +18,8 @@ idparsopt_lac=$2
 idparsopt_mu=$3
 idparsopt_gam=$4
 idparsopt_laa=$5
+idparsopt_K=$6
+model=$7
 
 for_length=`wc -l DivABC/data/${param_space_name}.csv | cut -f1 -d' '`
 for_length=$(( ${for_length} - 1 ))
@@ -29,5 +31,7 @@ sbatch DivABC/bash/submit_run_MCMC_param_set.sh ${param_space_name} \
                                                    ${idparsopt_lac} \
                                                    ${idparsopt_mu} \
                                                    ${idparsopt_gam} \
-                                                   ${idparsopt_laa}
+                                                   ${idparsopt_laa} \
+                                                   ${idparsopt_K} \
+                                                   ${model}
 done
