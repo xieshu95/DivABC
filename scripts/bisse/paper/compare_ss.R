@@ -1,11 +1,11 @@
 # 1. Estimations for each summary statistic
 for (num_ss in c(1)){
   # formate results
-  load(paste0("Data/obs_ss.rda"))
+  load(paste0("Data/BiSSE/obs_ss.rda"))
   ## ABC results
-  folder_path <- paste0("Data/nltts/ABC")
+  folder_path <- paste0("Data/BiSSE/nltts/ABC")
   files <- list.files(folder_path)
-  param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
+  param_data <- load_param_space(param_space_name = paste0("bisse_ABC_test"))
   param_data2<-param_data[rep(seq_len(nrow(param_data)), each=500),]
   lam1_abc <- c()
   lam2_abc <- c()
@@ -53,7 +53,7 @@ for (num_ss in c(1)){
   }
   whole_df_ABC <- data.frame(param_data2,n_iteration,
                              lam1_abc,lam2_abc,mu1_abc,mu2_abc,q12_abc,q21_abc)
-  save(whole_df_ABC,file = paste0("Data/nltts/whole_df_ABC_test_ss",num_ss,".RData"))
+  save(whole_df_ABC,file = paste0("Data/BiSSE/nltts/whole_df_ABC_test_ss",num_ss,".RData"))
 
   whole_df_ABC$net_div1 <- (whole_df_ABC$lam1-whole_df_ABC$mu1)
   whole_df_ABC$net_div2 <- (whole_df_ABC$lam2-whole_df_ABC$mu2)
@@ -67,20 +67,20 @@ for (num_ss in c(1)){
   whole_df_ABC$ext_frac_ABC2 <- (whole_df_ABC$mu2_abc)/(whole_df_ABC$lam2_abc)
   whole_df_ABC$init_obs <- rep(c(rep(0,25*500),rep(1,25*500)),7)
   save(whole_df_ABC,file =
-         paste0("Data/nltts/delta_whole_df_ABC_test_ss",num_ss,".RData"))
+         paste0("Data/BiSSE/nltts/delta_whole_df_ABC_test_ss",num_ss,".RData"))
 
 }
 
 ## 2.
 ## combine  all ss combinations
 library(ggplot2)
-for(i in 1:7){
-  load(paste0("Data/whole_df_MLE.RData"))
+for(i in 1:2){
+  load(paste0("Data/BiSSE/whole_df_MLE.RData"))
   whole_df_MLE <- whole_df_MLE[(i*50-49):(i*50),]
   total <- whole_df_MLE$tree_size
 
   # 1. D
-  load(paste0("Data/D/delta_whole_df_ABC_test_ss3.RData"))
+  load(paste0("Data/BiSSE/D/delta_whole_df_ABC_test_ss3.RData"))
 
   whole_df_ABC1 <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC1$ss = "D"
@@ -106,7 +106,7 @@ for(i in 1:7){
   ABC_median1$ss = "D"
 
   # 2. NLTT
-  load(paste0("Data/nltt/delta_whole_df_ABC_test_ss9.RData"))
+  load(paste0("Data/BiSSE/nltt/delta_whole_df_ABC_test_ss9.RData"))
   whole_df_ABC2 <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC2$ss = "nLTT"
   whole_df_ABC2 = whole_df_ABC2[,-7]
@@ -131,7 +131,7 @@ for(i in 1:7){
 
 
   # 3. nltt + D
-  load(paste0("Data/nltt_D/delta_whole_df_ABC_test_ss2.RData"))
+  load(paste0("Data/BiSSE/nltt_D/delta_whole_df_ABC_test_ss2.RData"))
   whole_df_ABC3 <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC3$ss = "nLTT-D"
   whole_df_ABC3 = whole_df_ABC3[,-7]
@@ -156,7 +156,7 @@ for(i in 1:7){
 
 
   #  4. ratio + nltt
-  load(paste0("Data/nltt_ratio/delta_whole_df_ABC_test_ss12.RData"))
+  load(paste0("Data/BiSSE/nltt_ratio/delta_whole_df_ABC_test_ss12.RData"))
   whole_df_ABC4 <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC4$ss = "nLTT-Ratio"
   whole_df_ABC4 = whole_df_ABC4[,-7]
@@ -180,7 +180,7 @@ for(i in 1:7){
   ABC_median4$ss = "nLTT-Ratio"
 
   # 5. mpds + nltt
-  load(paste0("Data/nltt_mpds/delta_whole_df_ABC_test_ss7.RData"))
+  load(paste0("Data/BiSSE/nltt_mpds/delta_whole_df_ABC_test_ss7.RData"))
   whole_df_ABC5 <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC5$ss = "nLTT-MPD"
   whole_df_ABC5 = whole_df_ABC5[,-7]
@@ -204,7 +204,7 @@ for(i in 1:7){
   ABC_median5$ss = "nLTT-MPD"
 
   # 6. mntds + nltt
-  load(paste0("Data/nltt_mntds/delta_whole_df_ABC_test_ss10.RData"))
+  load(paste0("Data/BiSSE/nltt_mntds/delta_whole_df_ABC_test_ss10.RData"))
   whole_df_ABC6 <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC6$ss = "nLTT-MNTD"
   whole_df_ABC6 = whole_df_ABC6[,-7]
@@ -228,7 +228,7 @@ for(i in 1:7){
   ABC_median6$ss = "nLTT-MNTD"
 
   # 7. colless + nltt
-  load(paste0("Data/nltt_colless/delta_whole_df_ABC_test_ss11.RData"))
+  load(paste0("Data/BiSSE/nltt_colless/delta_whole_df_ABC_test_ss11.RData"))
   whole_df_ABC7 <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC7$ss = "nLTT-Colless"
   whole_df_ABC7 = whole_df_ABC7[,-7]
@@ -252,7 +252,7 @@ for(i in 1:7){
   ABC_median7$ss = "nLTT-Colless"
 
   # 8. nLTTs
-  load(paste0("Data/nltts/delta_whole_df_ABC_test_ss1.RData"))
+  load(paste0("Data/BiSSE/nltts/delta_whole_df_ABC_test_ss1.RData"))
 
   whole_df_ABC8 <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC8$ss = "nLTTs"
@@ -278,7 +278,7 @@ for(i in 1:7){
 
 
   # 9. NLTTs + D
-  load(paste0("Data/nltts_D/delta_whole_df_ABC_test_ss0.RData"))
+  load(paste0("Data/BiSSE/nltts_D/delta_whole_df_ABC_test_ss0.RData"))
 
   whole_df_ABC9 <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC9$ss = "nLTTs-D"
@@ -311,7 +311,7 @@ for(i in 1:7){
                         whole_df_ABC7[,c(1:6,13,14,17,18,21:33)],
                         whole_df_ABC8[,c(1:6,13,14,17,18,21:33)],
                         whole_df_ABC9[,c(1:6,13,14,17,18,21:33)])
-  save(whole_df_all, file = paste0("Data/ABC_test",i,".RData"))
+  save(whole_df_all, file = paste0("Data/BiSSE/ABC_test",i,".RData"))
 
 
   median_all <- rbind(ABC_median1[,c(1:6,13,14,17,18,21:33)],
@@ -324,5 +324,5 @@ for(i in 1:7){
                       ABC_median8[,c(1:6,13,14,17,18,21:33)],
                       ABC_median9[,c(1:6,13,14,17,18,21:33)])
 
-  save(median_all, file = paste0("Data/ABC_median_test",i,".RData"))
+  save(median_all, file = paste0("Data/BiSSE/ABC_median_test",i,".RData"))
 }

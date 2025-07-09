@@ -1,10 +1,10 @@
 ## data analysis and plots for SSE estimation results
 # 1. formate ABC results
-for (num_ss in c(1)){
+for (num_ss in c(0)){
   # formate results
-  load(paste0("Data/obs_ss.rda"))
+  load(paste0("Data/BiSSE/obs_ss.rda"))
   ## ABC results
-  folder_path <- paste0("Data/nltts/ABC")
+  folder_path <- paste0("Data/BiSSE/nltts/ABC")
   files <- list.files(folder_path)
   param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
   param_data2<-param_data[rep(seq_len(nrow(param_data)), each=500),]
@@ -54,7 +54,7 @@ for (num_ss in c(1)){
   }
   whole_df_ABC <- data.frame(param_data2,n_iteration,
                              lam1_abc,lam2_abc,mu1_abc,mu2_abc,q12_abc,q21_abc)
-  save(whole_df_ABC,file = paste0("Data/nltts/whole_df_ABC_test_ss",num_ss,".RData"))
+  save(whole_df_ABC,file = paste0("Data/BiSSE/nltts/whole_df_ABC_test_ss",num_ss,".RData"))
 
   whole_df_ABC$net_div1 <- (whole_df_ABC$lam1-whole_df_ABC$mu1)
   whole_df_ABC$net_div2 <- (whole_df_ABC$lam2-whole_df_ABC$mu2)
@@ -68,7 +68,7 @@ for (num_ss in c(1)){
   whole_df_ABC$ext_frac_ABC2 <- (whole_df_ABC$mu2_abc)/(whole_df_ABC$lam2_abc)
   whole_df_ABC$init_obs <- rep(c(rep(0,25*500),rep(1,25*500)),7)
   save(whole_df_ABC,file =
-         paste0("Data/nltts/delta_whole_df_ABC_test_ss",num_ss,".RData"))
+         paste0("Data/BiSSE/nltts/delta_whole_df_ABC_test_ss",num_ss,".RData"))
 
 }
 
@@ -77,7 +77,7 @@ for (num_ss in c(1)){
 # # 2. formate MCMC results
 param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
 param_data3<-param_data[rep(seq_len(nrow(param_data)), each=5001),]
-folder_path <- paste0("Data/MCMC")
+folder_path <- paste0("Data/BiSSE/MCMC")
 files <- list.files(folder_path)
 lam1_mcmc <- c()
 lam2_mcmc <- c()
@@ -113,7 +113,7 @@ whole_df_MCMC <- data.frame(param_data3,
                             mu1_mcmc,mu2_mcmc,
                             q12_mcmc,q21_mcmc)
 
-save(whole_df_MCMC,file = paste0("Data/whole_df_MCMC_test.RData"))
+save(whole_df_MCMC,file = paste0("Data/BiSSE/whole_df_MCMC_test.RData"))
 
 whole_df_MCMC$net_div1 <- (whole_df_MCMC$lam1-whole_df_MCMC$mu1)
 whole_df_MCMC$net_div2 <- (whole_df_MCMC$lam2-whole_df_MCMC$mu2)
@@ -126,15 +126,15 @@ whole_df_MCMC$ext_frac_MCMC1 <- (whole_df_MCMC$mu1_mcmc)/(whole_df_MCMC$lam1_mcm
 whole_df_MCMC$ext_frac_MCMC2 <- (whole_df_MCMC$mu2_mcmc)/(whole_df_MCMC$lam2_mcmc)
 whole_df_MCMC$init_obs <- rep(c(rep(0,25*5001),rep(1,25*5001)),7)
 
-save(whole_df_MCMC,file = paste0("Data/delta_whole_df_MCMC_test.RData"))
+save(whole_df_MCMC,file = paste0("Data/BiSSE/delta_whole_df_MCMC_test.RData"))
 
 
 
 ## median ABC/MCMC/MLE
 for (num_ss in c(0)){
-  load(paste0("Data/nltts_D/delta_whole_df_ABC_test_ss",num_ss,".RData"))
-  load(paste0("Data/delta_whole_df_MCMC_test.RData"))
-  load(paste0("Data/whole_df_MLE.RData"))
+  load(paste0("Data/BiSSE/nltts_D/delta_whole_df_ABC_test_ss",num_ss,".RData"))
+  load(paste0("Data/BiSSE/delta_whole_df_MCMC_test.RData"))
+  load(paste0("Data/BiSSE/whole_df_MLE.RData"))
 
   ## get number of iterations and mean values
   df <- whole_df_ABC
@@ -148,15 +148,15 @@ for (num_ss in c(0)){
   MLE_median <- whole_df_MLE
 
 
-  load(paste0("Data/obs_ss.rda"))
+  load(paste0("Data/BiSSE/obs_ss.rda"))
   ## combine ABC MCMC MLE as "AMM"
   AMM_all_df <- cbind(ABC_median[1:21],
                       MCMC_median[,c(7:12,15,16,19,20)],
                       MLE_median[,c(7:12,20:23)])
   AMM_all_df$init_obs <- rep(c(rep(0,25),rep(1,25)),7)
-  save(AMM_all_df,file = paste0("Data/nltts_D/AMM_per_set_test_ss",num_ss,".RData"))
+  save(AMM_all_df,file = paste0("Data/BiSSE/nltts_D/AMM_per_set_test_ss",num_ss,".RData"))
 
-  load(paste0("Data/nltts_D/AMM_per_set_test_ss",num_ss,".RData"))
+  load(paste0("Data/BiSSE/nltts_D/AMM_per_set_test_ss",num_ss,".RData"))
   AMM_all_df$dlam1_abc <- AMM_all_df$lam1_abc - AMM_all_df$lam1
   AMM_all_df$dlam2_abc <- AMM_all_df$lam2_abc - AMM_all_df$lam2
   AMM_all_df$dmu1_abc <- AMM_all_df$mu1_abc - AMM_all_df$mu1
@@ -191,7 +191,7 @@ for (num_ss in c(0)){
   AMM_all_df$dnet_div_MLE1 <- AMM_all_df$net_div_MLE1-AMM_all_df$net_div1
   AMM_all_df$dnet_div_MLE2 <- AMM_all_df$net_div_MLE2-AMM_all_df$net_div2
 
-  save(AMM_all_df,file = paste0("Data/nltts_D/AMM_per_set_drate_test_ss",num_ss,".RData"))
+  save(AMM_all_df,file = paste0("Data/BiSSE/nltts_D/AMM_per_set_drate_test_ss",num_ss,".RData"))
 }
 
 
@@ -209,14 +209,14 @@ iqr = function(z, lower = 0.1, upper = 0.9) {
 
 library(ggplot2)
 for(i in 1:7){
-  load(paste0("Data/whole_df_MLE.RData"))
+  load(paste0("Data/BiSSE/whole_df_MLE.RData"))
   whole_df_MLE <- whole_df_MLE[(i*50-49):(i*50),][,1:24]
   total <- whole_df_MLE$tree_size
   state1 <-whole_df_MLE$state1
   state2 <- whole_df_MLE$state2
 
   ss = "ABC"
-  load(paste0("Data/nltts_D/delta_whole_df_ABC_test_ss0.RData"))
+  load(paste0("Data/BiSSE/nltts_D/delta_whole_df_ABC_test_ss0.RData"))
   whole_df_ABC <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC$ss = "ABC"
   whole_df_ABC = whole_df_ABC[,-7]
@@ -242,7 +242,7 @@ for(i in 1:7){
   ABC_median$ss = "ABC"
 
 
-  load(paste0("Data/delta_whole_df_MCMC_test.RData"))
+  load(paste0("Data/BiSSE/delta_whole_df_MCMC_test.RData"))
   whole_df_MCMC <- whole_df_MCMC[(i*250050-250049):(i*250050),]
   whole_df_MCMC$ss = "MCMC"
   whole_df_MCMC$total <- rep(total, each = 5001)
@@ -294,13 +294,13 @@ for(i in 1:7){
   whole_df_all <- rbind(whole_df_ABC[,c(1:6,13,14,17,18,21:36)],
                         whole_df_MCMC[,c(1:6,13,14,17,18,21:36)],
                         whole_df_MLE[,c(1:6,24,25,26,29,30,33:45,20,21)])
-  save(whole_df_all, file = paste0("Data/nltts_D/whole_df_all_AMM_test",i,".RData"))
+  save(whole_df_all, file = paste0("Data/BiSSE/nltts_D/whole_df_all_AMM_test",i,".RData"))
 
   median_all <- rbind(ABC_median[,c(1:6,13,14,17,18,21:36)],
                       MCMC_median[,c(1:6,13,14,17,18,21:36)],
                       whole_df_MLE[,c(1:6,24,25,26,29,30,33:45,20,21)])
 
-  save(median_all, file = paste0("Data/nltts_D/median_AMM_test",i,".RData"))
+  save(median_all, file = paste0("Data/BiSSE/nltts_D/median_AMM_test",i,".RData"))
 }
 
 

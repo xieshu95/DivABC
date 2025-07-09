@@ -1,4 +1,4 @@
-# violin entire posterior distribution
+# violin median of posterior distribution
 library(tidyverse)
 library(ggtext)
 library(ggbeeswarm)
@@ -7,23 +7,24 @@ library(ggplot2)
 #####
 ## lam
 i = 1
-load(paste0("Data/nltts_D/whole_df_all_AMM_test",i,".RData"))
-whole_df_all1<-whole_df_all
+load(paste0("Data/BiSSE/nltts_D/median_AMM_test",i,".RData"))
+
+whole_df_all1<-median_all
 whole_df_all1$Scenario <- 1
 
 i = 2
-load(paste0("Data/nltts_D/whole_df_all_AMM_test",i,".RData"))
-whole_df_all2<-whole_df_all
+load(paste0("Data/BiSSE/nltts_D/median_AMM_test",i,".RData"))
+whole_df_all2<-median_all
 whole_df_all2$Scenario <- 2
 
 i = 3
-load(paste0("Data/nltts_D/whole_df_all_AMM_test",i,".RData"))
-whole_df_all3<-whole_df_all
+load(paste0("Data/BiSSE/nltts_D/median_AMM_test",i,".RData"))
+whole_df_all3<-median_all
 whole_df_all3$Scenario <- 3
 
 
 scen_names1 <- c(
-  `1` = 'S1~":"~lambda[0]~"="~0.6~lambda[1]~"="~0.6',
+  `1` = 'S1~":"~lambda[0]~"="~0.6~lambda[1]~"="~0.6', #Scenario~1~
   `2` = 'S2~":"~lambda[0]~"="~0.6~lambda[1]~"="~0.3',
   `3` = 'S3~":"~lambda[0]~"="~0.6~lambda[1]~"="~0.12'
 )
@@ -44,7 +45,7 @@ scen_names3 <- c(
 
 whole_df_lam <- rbind(whole_df_all1,whole_df_all2,whole_df_all3)
 
-iqr = function(z, lower = 0.05, upper = 0.95) {
+iqr = function(z, lower = 0.025, upper = 0.975) {
   data.frame(
     y = median(z),
     ymin = quantile(z, lower),
@@ -53,11 +54,12 @@ iqr = function(z, lower = 0.05, upper = 0.95) {
 }
 
 library(RColorBrewer)
+
 p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
                                                            color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,2.1)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.5,2.0)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -74,15 +76,15 @@ p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
   ggplot2::scale_fill_manual("Method",values = c("#E90F44","#63ADEE","#FFC839"))+
   # ggplot2::theme(legend.position = "none") +
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-  facet_grid(~Scenario,   #+init_obs,
+  facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
 
 
 p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
                                                           color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,2.1)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.5,2.0)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -104,8 +106,8 @@ p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
 p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.3,2.2)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.3,2.0)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -126,8 +128,8 @@ p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
 p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.3,2.2)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.3,2.0)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -148,8 +150,8 @@ p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
 p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.45,1.15)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.3,1.1)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -167,11 +169,12 @@ p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
 
+
 p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.45,1.15)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.3,1.1)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -185,7 +188,6 @@ p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Method",values = c("#E90F44","#63ADEE","#FFC839"))+
   ggplot2::scale_fill_manual("Method",values = c("#E90F44","#63ADEE","#FFC839"))+
-  # ggplot2::theme(legend.position = "none") +
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
@@ -193,8 +195,8 @@ p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
 p_net1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div1,
                                                           color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-2.5,1.8)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-1.2,1.5)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -207,7 +209,6 @@ p_net1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div1,
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Method",values = c("#E90F44","#63ADEE","#FFC839"))+
   ggplot2::scale_fill_manual("Method",values = c("#E90F44","#63ADEE","#FFC839"))+
-  # ggplot2::theme(legend.position = "none") +
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
@@ -215,8 +216,8 @@ p_net1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div1,
 p_net2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div2,
                                                           color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-2.5,1.8)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-1.2,1.5)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -235,7 +236,7 @@ p_net2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div2,
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
 
-tiff(paste0("Data/nltts_D/violin_lam_all.tiff"),
+tiff(paste0("Data/BiSSE/nltts_D/violin_lam_median.tiff"),
      units="px", width=6000, height=8000,res = 500,compression="lzw")
 
 param_estimates_lam <- cowplot::plot_grid(
@@ -261,20 +262,21 @@ while (!is.null(dev.list()))  dev.off()
 
 
 ## mu
-i = 1
-load(paste0("Data/nltts_D/whole_df_all_AMM_test",i,".RData"))
 
-whole_df_all1<-whole_df_all
+i = 1
+load(paste0("Data/BiSSE/nltts_D/median_AMM_test",i,".RData"))
+
+whole_df_all1<-median_all
 whole_df_all1$Scenario <- 1
 
 i = 4
-load(paste0("Data/nltts_D/whole_df_all_AMM_test",i,".RData"))
-whole_df_all2<-whole_df_all
+load(paste0("Data/BiSSE/nltts_D/median_AMM_test",i,".RData"))
+whole_df_all2<-median_all
 whole_df_all2$Scenario <- 4
 
 i = 5
-load(paste0("Data/nltts_D/whole_df_all_AMM_test",i,".RData"))
-whole_df_all3<-whole_df_all
+load(paste0("Data/BiSSE/nltts_D/median_AMM_test",i,".RData"))
+whole_df_all3<-median_all
 whole_df_all3$Scenario <- 5
 
 
@@ -288,7 +290,7 @@ scen_names1 <- c(
 
 whole_df_lam <- rbind(whole_df_all1,whole_df_all2,whole_df_all3)
 
-iqr = function(z, lower = 0.05, upper = 0.95) {
+iqr = function(z, lower = 0.025, upper = 0.975) {
   data.frame(
     y = median(z),
     ymin = quantile(z, lower),
@@ -300,8 +302,8 @@ iqr = function(z, lower = 0.05, upper = 0.95) {
 p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
                                                            color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,2.1)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.5,2.0)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -325,8 +327,8 @@ p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
 p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
                                                           color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,2.1)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.8,2.0)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -348,8 +350,8 @@ p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
 p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.3,2.2)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.3,2.0)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -370,8 +372,8 @@ p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
 p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.3,2.2)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.3,2.0)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -392,8 +394,8 @@ p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
 p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.45,1.15)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.3,1.1)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -414,8 +416,8 @@ p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
 p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.45,1.15)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.3,1.1)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -437,8 +439,8 @@ p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
 p_net1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div1,
                                                           color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-2.5,1.8)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-1.2,1.5)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -459,8 +461,8 @@ p_net1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div1,
 p_net2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div2,
                                                           color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-2.5,1.8)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-1.2,1.5)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -479,7 +481,7 @@ p_net2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div2,
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
 
-tiff(paste0("Data/nltts_D/violin_mu_all.tiff"),
+tiff(paste0("Data/BiSSE/nltts_D/violin_mu_median.tiff"),
      units="px", width=6000, height=8000,res = 500,compression="lzw")
 
 param_estimates_lam <- cowplot::plot_grid(
@@ -502,24 +504,22 @@ param_final_lam <- cowplot::plot_grid(param_estimates_lam,legend,rel_widths = c(
 print(param_final_lam)
 while (!is.null(dev.list()))  dev.off()
 
-#
-#
 
 ## q
 i = 1
-load(paste0("Data/nltts_D/whole_df_all_AMM_test",i,".RData"))
+load(paste0("Data/BiSSE/nltts_D/median_AMM_test",i,".RData"))
 
-whole_df_all1<-whole_df_all
+whole_df_all1<-median_all
 whole_df_all1$Scenario <- 1
 
 i = 6
-load(paste0("Data/nltts_D/whole_df_all_AMM_test",i,".RData"))
-whole_df_all2<-whole_df_all
+load(paste0("Data/BiSSE/nltts_D/median_AMM_test",i,".RData"))
+whole_df_all2<-median_all
 whole_df_all2$Scenario <- 6
 
 i = 7
-load(paste0("Data/nltts_D/whole_df_all_AMM_test",i,".RData"))
-whole_df_all3<-whole_df_all
+load(paste0("Data/BiSSE/nltts_D/median_AMM_test",i,".RData"))
+whole_df_all3<-median_all
 whole_df_all3$Scenario <- 7
 
 
@@ -533,7 +533,7 @@ scen_names1 <- c(
 
 whole_df_lam <- rbind(whole_df_all1,whole_df_all2,whole_df_all3)
 
-iqr = function(z, lower = 0.05, upper = 0.95) {
+iqr = function(z, lower = 0.025, upper = 0.975) {
   data.frame(
     y = median(z),
     ymin = quantile(z, lower),
@@ -541,13 +541,12 @@ iqr = function(z, lower = 0.05, upper = 0.95) {
   )
 }
 
-library(RColorBrewer)
 
 p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
                                                            color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,2.1)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.5,2.0)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -571,8 +570,8 @@ p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
 p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
                                                           color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,2.1)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.8,2.0)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -594,8 +593,8 @@ p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
 p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,2.2)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.3,2.0)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -616,8 +615,8 @@ p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
 p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,2.2)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.3,2.0)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -638,8 +637,8 @@ p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
 p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.45,1.15)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.45,1.1)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -660,8 +659,8 @@ p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
 p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.45,1.15)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-0.45,1.1)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -683,8 +682,8 @@ p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
 p_net1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div1,
                                                           color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-2.5,1.8)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-1.2,1.5)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -705,8 +704,8 @@ p_net1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div1,
 p_net2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div2,
                                                           color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-2.5,1.8)+
-  ggplot2::geom_violin(alpha = 0.4) +
+  ylim(-1.5,1.5)+
+  ggplot2::geom_violin(alpha = 0.3) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -725,7 +724,7 @@ p_net2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div2,
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
 
-tiff(paste0("Data/nltts_D/violin_q_all.tiff"),
+tiff(paste0("Data/BiSSE/nltts_D/violin_q_median.tiff"),
      units="px", width=6000, height=8000,res = 500,compression="lzw")
 
 param_estimates_lam <- cowplot::plot_grid(
@@ -746,5 +745,5 @@ legend <- cowplot::get_legend(
 )
 param_final_lam <- cowplot::plot_grid(param_estimates_lam,legend,rel_widths = c(3, 0.4))
 print(param_final_lam)
-while (!is.null(dev.list()))  dev.off()
 
+while (!is.null(dev.list()))  dev.off()

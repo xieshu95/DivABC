@@ -44,7 +44,7 @@ scen_names3 <- c(
 
 whole_df_lam <- rbind(whole_df_all1,whole_df_all2,whole_df_all3)
 
-iqr = function(z, lower = 0.05, upper = 0.95) {
+iqr = function(z, lower = 0.025, upper = 0.975) {
   data.frame(
     y = mean(z),
     ymin = quantile(z, lower),
@@ -322,7 +322,7 @@ scen_names1 <- c(
 
 whole_df_lam <- rbind(whole_df_all1,whole_df_all2,whole_df_all3)
 
-iqr = function(z, lower = 0.05, upper = 0.95) {
+iqr = function(z, lower = 0.025, upper = 0.975) {
   data.frame(
     y = mean(z),
     ymin = quantile(z, lower),
@@ -547,7 +547,7 @@ scen_names1 <- c(
 
 whole_df_lam <- rbind(whole_df_all1,whole_df_all2,whole_df_all3)
 
-iqr = function(z, lower = 0.05, upper = 0.95) {
+iqr = function(z, lower = 0.025, upper = 0.975) {
   data.frame(
     y = mean(z),
     ymin = quantile(z, lower),

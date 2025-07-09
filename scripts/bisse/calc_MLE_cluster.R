@@ -1,5 +1,5 @@
 library(DivABC)
-param_space <- param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
+param_space <- param_data <- load_param_space(param_space_name = paste0("bisse_ABC_test"))
 lam1_MLE<- c()
 lam2_MLE <-c()
 mu1_MLE <- c()
@@ -31,12 +31,12 @@ create_ML_idpars <- function(traits,num_concealed_states) {
   return(idparslist)
 }
 
-## MLE, 20 different initial for each obs-data
+## MLE
 for(i in 1:350) {
   message("set",i)
   set.seed(i)
   obs_sim_pars <- param_space[i,]
-  param_space_name <- "secsse_ABC_test"
+  param_space_name <- "bisse_ABC_test"
   obs_sim <- load_obs_sim(param_space_name = param_space_name)[[i]]
   startingpoint <- DDD::bd_ML(brts = ape::branching.times(obs_sim[[1]]$phy))
 
@@ -100,5 +100,4 @@ for(i in 1:350) {
 }
 MLE_all <- data.frame(lam1_MLE,lam2_MLE,mu1_MLE,mu2_MLE,q12_MLE,q21_MLE,max_ll,
                       init_lam1,init_lam2,init_mu1,init_mu2,init_q12,init_q21)
-# save(MLE_all, file = paste0("/home4/p290559/results/test1_MLE_secsse",seed_mle,".RData"))
-save(MLE_all, file = paste0("D:/Onedrive-shu/OneDrive/project 2/results/round6/secsse/nltts_D/test_MLE_secsse.RData"))
+save(MLE_all, file = paste0("/home4/results/test_MLE_secsse.RData"))

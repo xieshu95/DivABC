@@ -1,13 +1,16 @@
-## data analysis and plots for continuous-space
-# 1. formate ABC results  analyze ss1_nltts
-## check new secsse ABC result
+#' data analysis and generate figures in the manuscript
+#' Here is an example for BiSSE analysis, others are the same, just need to
+#' change the param_space_name and the name of the data folder.
+#'
+
+# 1. combine all ABC results into one dataframe
 for (num_ss in c(0)){
   # formate results
-  load(paste0("Data/broad/obs_ss.rda"))
+  load(paste0("Data/BiSSE/obs_ss.rda"))
   ## ABC results
-  folder_path <- paste0("Data/broad/ABC")
+  folder_path <- paste0("Data/BiSSE/nltts_D/ABC")
   files <- list.files(folder_path)
-  param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
+  param_data <- load_param_space(param_space_name = paste0("bisse_ABC_test"))
   param_data2<-param_data[rep(seq_len(nrow(param_data)), each=500),]
   lam1_abc <- c()
   lam2_abc <- c()
@@ -17,7 +20,7 @@ for (num_ss in c(0)){
   q21_abc <- c()
   n_iter <- c()
   n_iteration <- c()
-  for(i in 1:300){
+  for(i in 1:350){
     file_to_load <- grep(paste0("secsse_ABC_test_param_set_",i,"_ss_",num_ss,".RData"),
                          files,
                          value = TRUE,
@@ -55,7 +58,7 @@ for (num_ss in c(0)){
   }
   whole_df_ABC <- data.frame(param_data2,n_iteration,
                              lam1_abc,lam2_abc,mu1_abc,mu2_abc,q12_abc,q21_abc)
-  save(whole_df_ABC,file = paste0("Data/broad/whole_df_ABC_test_ss",num_ss,".RData"))
+  save(whole_df_ABC,file = paste0("Data/BiSSE/nltts_D/whole_df_ABC_test_ss",num_ss,".RData"))
 
   whole_df_ABC$net_div1 <- (whole_df_ABC$lam1-whole_df_ABC$mu1)
   whole_df_ABC$net_div2 <- (whole_df_ABC$lam2-whole_df_ABC$mu2)
@@ -68,16 +71,16 @@ for (num_ss in c(0)){
   whole_df_ABC$ext_frac_ABC1 <- (whole_df_ABC$mu1_abc)/(whole_df_ABC$lam1_abc)
   whole_df_ABC$ext_frac_ABC2 <- (whole_df_ABC$mu2_abc)/(whole_df_ABC$lam2_abc)
   save(whole_df_ABC,file =
-         paste0("Data/broad/delta_whole_df_ABC_test_ss",num_ss,".RData"))
+         paste0("Data/BiSSE/nltts_D/delta_whole_df_ABC_test_ss",num_ss,".RData"))
 
 }
 
 
 ######
 # 2. formate MCMC results (only plot the estimation points with ABC results)
-param_data <- load_param_space(param_space_name = paste0("secsse_ABC_test"))
+param_data <- load_param_space(param_space_name = paste0("bisse_ABC_test"))
 param_data3<-param_data[rep(seq_len(nrow(param_data)), each=5001),]
-folder_path <- paste0("Data/broad/MCMC")
+folder_path <- paste0("Data/BiSSE/MCMC")
 files <- list.files(folder_path)
 lam1_mcmc <- c()
 lam2_mcmc <- c()
@@ -86,7 +89,7 @@ mu2_mcmc <- c()
 q12_mcmc <- c()
 q21_mcmc <- c()
 seq <- seq(1,10001,2)
-for(i in 1:300){
+for(i in 1:350){
   file_to_load <- grep(paste0("secsse_MCMC_test_param_set_", i,"_ss_1.RData"),
                        files,
                        value = TRUE,
@@ -113,7 +116,7 @@ whole_df_MCMC <- data.frame(param_data3,
                             mu1_mcmc,mu2_mcmc,
                             q12_mcmc,q21_mcmc)
 
-save(whole_df_MCMC,file = paste0("Data/broad/whole_df_MCMC_test.RData"))
+save(whole_df_MCMC,file = paste0("Data/BiSSE/nltts_D/whole_df_MCMC_test.RData"))
 
 
 whole_df_MCMC$net_div1 <- (whole_df_MCMC$lam1-whole_df_MCMC$mu1)
@@ -127,14 +130,14 @@ whole_df_MCMC$ext_frac_MCMC1 <- (whole_df_MCMC$mu1_mcmc)/(whole_df_MCMC$lam1_mcm
 whole_df_MCMC$ext_frac_MCMC2 <- (whole_df_MCMC$mu2_mcmc)/(whole_df_MCMC$lam2_mcmc)
 # whole_df_MCMC$init_obs <- rep(c(rep(1,25*5001),rep(2,25*5001)),7)
 
-save(whole_df_MCMC,file = paste0("Data/broad/delta_whole_df_MCMC_test.RData"))
+save(whole_df_MCMC,file = paste0("Data/BiSSE/nltts_D/delta_whole_df_MCMC_test.RData"))
 
 
 ## median ABC/MCMC/MLE
 for (num_ss in c(0)){
-  load(paste0("Data/broad/delta_whole_df_ABC_test_ss",num_ss,".RData"))
-  load(paste0("Data/broad/delta_whole_df_MCMC_test.RData"))
-  load(paste0("Data/broad/whole_df_MLE.RData"))
+  load(paste0("Data/BiSSE/nltts_D/delta_whole_df_ABC_test_ss",num_ss,".RData"))
+  load(paste0("Data/BiSSE/nltts_D/delta_whole_df_MCMC_test.RData"))
+  load(paste0("Data/BiSSE/whole_df_MLE.RData"))
 
   ## get number of iterations and mean values
   df <- whole_df_ABC
@@ -148,15 +151,16 @@ for (num_ss in c(0)){
   MLE_median <- whole_df_MLE
 
 
-  load(paste0("Data/broad/obs_ss.rda"))
+  load(paste0("Data/BiSSE/obs_ss.rda"))
   ## combine ABC MCMC MLE as "AMM"
   AMM_all_df <- cbind(ABC_median[1:21],
                       MCMC_median[,c(7:12,15,16,19,20)],
                       MLE_median[,c(7:12,14:17)])
 
-  save(AMM_all_df,file = paste0("Data/broad/AMM_per_set_test_ss",num_ss,".RData"))
+  save(AMM_all_df,file = paste0("Data/BiSSE/nltts_D/AMM_per_set_test_ss",num_ss,".RData"))
 
-  load(paste0("Data/broad/AMM_per_set_test_ss",num_ss,".RData"))
+  load(paste0("Data/BiSSE/nltts_D/AMM_per_set_test_ss",num_ss,".RData"))
+  # calculate inference error for all methods
   AMM_all_df$dlam1_abc <- AMM_all_df$lam1_abc - AMM_all_df$lam1
   AMM_all_df$dlam2_abc <- AMM_all_df$lam2_abc - AMM_all_df$lam2
   AMM_all_df$dmu1_abc <- AMM_all_df$mu1_abc - AMM_all_df$mu1
@@ -191,19 +195,19 @@ for (num_ss in c(0)){
   AMM_all_df$dnet_div_MLE1 <- AMM_all_df$net_div_MLE1-AMM_all_df$net_div1
   AMM_all_df$dnet_div_MLE2 <- AMM_all_df$net_div_MLE2-AMM_all_df$net_div2
 
-  save(AMM_all_df,file = paste0("Data/broad/AMM_per_set_drate_test_ss",num_ss,".RData"))
+  save(AMM_all_df,file = paste0("Data/BiSSE/nltts_D/AMM_per_set_drate_test_ss",num_ss,".RData"))
 }
 
 
-
-for(i in 1:3){
-  load(paste0("Data/broad/whole_df_MLE.RData"))
-  whole_df_MLE <- whole_df_MLE[(i*100-99):(i*100),][,1:17]
+## combine multiple scenarios(entire posterior distribution + median values)
+for(i in 1:7){
+  load(paste0("Data/BiSSE/whole_df_MLE.RData"))
+  whole_df_MLE <- whole_df_MLE[(i*50-49):(i*50),][,1:17]
   total <- whole_df_MLE$tree_size
 
   ss = "ABC"
-  load(paste0("Data/broad/delta_whole_df_ABC_test_ss0.RData"))
-  whole_df_ABC <- whole_df_ABC[(i*50000-49999):(i*50000),]
+  load(paste0("Data/BiSSE/nltts_D/delta_whole_df_ABC_test_ss0.RData"))
+  whole_df_ABC <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC$ss = "ABC"
   whole_df_ABC = whole_df_ABC[,-7]
   whole_df_ABC$total <- rep(total, each = 500)
@@ -218,7 +222,7 @@ for(i in 1:3){
   whole_df_ABC$dnet_div2 <- whole_df_ABC$net_div_ABC2 - whole_df_ABC$net_div2
   whole_df_ABC$dext_frac1 <- whole_df_ABC$ext_frac_ABC1 - whole_df_ABC$ext_frac1
   whole_df_ABC$dext_frac2 <- whole_df_ABC$ext_frac_ABC2 - whole_df_ABC$ext_frac2
-  whole_df_ABC$rep <- rep(rep(1:100, each = 500), 1)
+  whole_df_ABC$rep <- rep(rep(1:50, each = 500), 1)
 
   df <- whole_df_ABC
   n <- 500
@@ -226,8 +230,8 @@ for(i in 1:3){
   ABC_median$ss = "ABC"
 
 
-  load(paste0("Data/broad/delta_whole_df_MCMC_test.RData"))
-  whole_df_MCMC <- whole_df_MCMC[(i*500100-500099):(i*500100),]
+  load(paste0("Data/BiSSE/nltts_D/delta_whole_df_MCMC_test.RData"))
+  whole_df_MCMC <- whole_df_MCMC[(i*250050-250049):(i*250050),]
   whole_df_MCMC$ss = "MCMC"
   whole_df_MCMC$total <- rep(total, each = 5001) #5001
   whole_df_MCMC$dlam1 <- whole_df_MCMC$lam1_mcmc - whole_df_MCMC$lam1
@@ -240,7 +244,7 @@ for(i in 1:3){
   whole_df_MCMC$dnet_div2 <- whole_df_MCMC$net_div_MCMC2 - whole_df_MCMC$net_div2
   whole_df_MCMC$dext_frac1 <- whole_df_MCMC$ext_frac_MCMC1 - whole_df_MCMC$ext_frac1
   whole_df_MCMC$dext_frac2 <- whole_df_MCMC$ext_frac_MCMC2 - whole_df_MCMC$ext_frac2
-  whole_df_MCMC$rep <- rep(rep(1:100, each = 5001), 1)
+  whole_df_MCMC$rep <- rep(rep(1:50, each = 5001), 1)
 
   df<-whole_df_MCMC
   n <- 5001
@@ -268,19 +272,19 @@ for(i in 1:3){
   whole_df_MLE$dnet_div2 <- whole_df_MLE$net_div_MLE2 - whole_df_MLE$net_div2
   whole_df_MLE$dext_frac1 <- whole_df_MLE$ext_frac_MLE1 - whole_df_MLE$ext_frac1
   whole_df_MLE$dext_frac2 <- whole_df_MLE$ext_frac_MLE2 - whole_df_MLE$ext_frac2
-  whole_df_MLE$rep <- rep(rep(1:100, each = 1), 1)
+  whole_df_MLE$rep <- rep(rep(1:50, each = 1), 1)
 
 
-  whole_df_all <- rbind(whole_df_ABC[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_MCMC[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_MLE[,c(1:6,18,19,22,23,26:38)])
-  save(whole_df_all, file = paste0("Data/broad/whole_df_all_AMM_test",i,".RData"))
+  whole_df_all <- rbind(whole_df_ABC[,c(1:6,13,14,17,18,21:32)],
+                        whole_df_MCMC[,c(1:6,13,14,17,18,21:32)],
+                        whole_df_MLE[,c(1:6,18,19,22,23,26:37)])
+  save(whole_df_all, file = paste0("Data/BiSSE/nltts_D/whole_df_all_AMM_test",i,".RData"))
 
-  median_all <- rbind(ABC_median[,c(1:6,13,14,17,18,21:33)],
-                      MCMC_median[,c(1:6,13,14,17,18,21:33)],
-                      whole_df_MLE[,c(1:6,18,19,22,23,26:38)])
+  median_all <- rbind(ABC_median[,c(1:6,13,14,17,18,21:32)],
+                      MCMC_median[,c(1:6,13,14,17,18,21:32)],
+                      whole_df_MLE[,c(1:6,18,19,22,23,26:37)])
 
-  save(median_all, file = paste0("Data/broad/median_AMM_test",i,".RData"))
+  save(median_all, file = paste0("Data/BiSSE/nltts_D/median_AMM_test",i,".RData"))
 }
 
 

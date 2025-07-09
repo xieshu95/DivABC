@@ -1,8 +1,8 @@
-### plot conti-space error, test rate ratio
+### plot conti-space: relationships between inference error and tip ratio
 library(ggplot2)
 library(ggtext)
 i = 1
-load(paste0("Data/broad/median_AMM_test",i,".RData"))
+load(paste0("Data/BiSSE/broad/median_AMM_test",i,".RData"))
 ratio <-c()
 for(m in 1:300){
   ratio[m]<- max(median_all$lam1[m],median_all$lam2[m])/min(median_all$lam1[m],median_all$lam2[m])
@@ -178,7 +178,7 @@ p_div2 <-ggplot2::ggplot(data = median_all, ggplot2::aes(x = ratio,y = dnet_div2
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.7)
 
 
-tiff(paste0("Data/broad/delta_ratiolam_scen",i,"_ss",0,".tiff"),
+tiff(paste0("Data/BiSSE/broad/delta_ratiolam_scen",i,"_ss",0,".tiff"),
      units="px", width=8000, height=3000,res = 500,compression="lzw")
 params <- cowplot::plot_grid(
   p_lam1+ggplot2::theme(legend.position = "none"),

@@ -2,25 +2,24 @@ args <- commandArgs(TRUE)
 
 param_space_name <- args[1]
 param_set <- as.numeric(args[2])
-idparsopt_lac <- args[3]
-idparsopt_mu <- args[4]
-idparsopt_gam <- args[5]
-idparsopt_laa <- args[6]
-idparsopt_K <- args[7]
-idparsopt_logical <- c(idparsopt_lac,idparsopt_mu,idparsopt_gam,idparsopt_laa,idparsopt_K)
+idparsopt_lam1 <- args[3]
+idparsopt_lam2 <- args[4]
+idparsopt_mu1 <- args[5]
+idparsopt_mu2 <- args[6]
+idparsopt_q12 <- args[7]
+idparsopt_q21 <- args[8]
+idparsopt_logical <- c(idparsopt_lam1,idparsopt_lam2,
+                       idparsopt_mu1,idparsopt_mu2,
+                       idparsopt_q12,idparsopt_q21)
 idparsopt <- which(idparsopt_logical == 1)
-model <- args[8]
 save_output <- TRUE
 metadata <- paste0("This is parameter set ", param_set)
 
-
 library(DivABC)
-library(DAISIE)
 
-run_MCMC_DAISIE(
+run_MCMC_bisse(
   param_space_name = args[1],
   param_set = as.numeric(args[2]),
   idparsopt = as.numeric(idparsopt),
-  model = args[8],
   save_output = save_output
 )
