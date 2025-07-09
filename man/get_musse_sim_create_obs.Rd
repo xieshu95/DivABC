@@ -9,7 +9,7 @@ get_musse_sim_create_obs(parameters, pool_init_states, replicates = 1)
 \arguments{
 \item{parameters}{A vector for CES rates.}
 
-\item{replicates}{The number of replicates(islands) for bisse simulation.}
+\item{replicates}{The number of replicates(islands) for musse simulation.}
 }
 \value{
 A list contains simulated islands

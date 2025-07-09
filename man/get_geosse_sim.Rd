@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_sim.R
 \name{get_geosse_sim}
 \alias{get_geosse_sim}
-\title{Simulation function to create simulations in ABC.}
+\title{Simulation function to create GeoSSE simulations in ABC.}
 \usage{
 get_geosse_sim(parameters, replicates = 1)
 }
@@ -15,5 +15,5 @@ get_geosse_sim(parameters, replicates = 1)
 A list contains simulated islands
 }
 \description{
-Simulation function to create simulations in ABC.
+Simulation function to create GeoSSE simulations in ABC.
 }

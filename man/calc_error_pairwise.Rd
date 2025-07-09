@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_error_daisie_pairwise.R
 \name{calc_error_pairwise}
 \alias{calc_error_pairwise}
-\title{Calculates error metrics between two simulations}
+\title{This is specific for DAISIE related models}
 \usage{
 calc_error_pairwise(
   sim_1,
@@ -13,5 +13,5 @@ calc_error_pairwise(
 )
 }
 \description{
-Calculates error metrics between two simulations
+This is specific for DAISIE related models
 }

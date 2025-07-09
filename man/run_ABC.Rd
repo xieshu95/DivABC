@@ -24,6 +24,8 @@ be \code{"DAISIE_ABC"}, \code{"DAISIE_MCMC"},\code{"TraiSIE_ABC"}}
 \item{sim_model}{\code{"DAISIE"}, \code{"TraiSIE"}}
 
 \item{save_output}{A boolean to determine whether to save or return output.}
+
+\item{ss_set}{A numeric of which summary statistic set to be used.}
 }
 \description{
 Run ABC
