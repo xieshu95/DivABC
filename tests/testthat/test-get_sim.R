@@ -10,9 +10,8 @@ test_that("test get_sim output is correct for DAISIE", {
   )
   parameters <- param_space[1,][1:4]
 
-  sim <- get_DAISIE_sim(
+  sim <- get_DAISIE_sim_DI(
     parameters = parameters,
-    K = Inf,
     replicates = 1)
   expect_length(sim, 1)
   expect_length(sim[[1]][[1]], 19)

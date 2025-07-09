@@ -4,7 +4,13 @@
 \alias{run_MCMC_DAISIE}
 \title{Run mcmc}
 \usage{
-run_MCMC_DAISIE(param_space_name, param_set, idparsopt, save_output = TRUE)
+run_MCMC_DAISIE(
+  param_space_name,
+  param_set,
+  idparsopt,
+  model,
+  save_output = TRUE
+)
 }
 \description{
 Run mcmc

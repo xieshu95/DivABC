@@ -8,9 +8,10 @@ MCMC(
   datalist,
   log_lik_function,
   log_prior_function,
+  logform = FALSE,
   parameters,
   iterations,
-  burnin = round(iterations/3),
+  burnin,
   thinning = 1,
   sigma = 1,
   idparsopt
@@ -19,6 +20,9 @@ MCMC(
 \description{
 mcmc
 }
-\author{
-Shu Xie
+\references{
+Janzen, T., Höhna, S. and Etienne, R.S. (2015), Approximate
+Bayesian Computation of diversification rates from molecular phylogenies:
+introducing a new efficient summary statistic, the nLTT. Methods Ecol Evol,
+6: 566-575. https://doi.org/10.1111/2041-210X.12350
 }

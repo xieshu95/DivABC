@@ -53,7 +53,7 @@ test_that("test ABC_SMC_secsse output is correct", {
   idparsopt = 1:6
   ABC <- ABC_SMC_secsse (
     obs_data = obs_sim,
-    sim_function <- get_secsse_sim,
+    sim_function <- get_bisse_sim,
     calc_ss_function <- calc_ss_diff_secsse,
     prior_generating_function <- prior_gen_secsse,
     prior_density_function <- prior_dens_secsse,
