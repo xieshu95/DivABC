@@ -10,8 +10,6 @@ get_DAISIE_sim_DI(parameters, replicates = 1)
 \item{parameters}{A vector for CES rates.}
 
 \item{replicates}{The number of replicates(islands) for DAISIE simulation.}
-
-\item{K}{Carrying capacity, Inf for diverdity-independent models.}
 }
 \value{
 A list contains simulated islands

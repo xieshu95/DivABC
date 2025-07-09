@@ -2,7 +2,9 @@
 % Please edit documentation in R/MCMC.R
 \name{MCMC}
 \alias{MCMC}
-\title{mcmc}
+\title{mcmc
+This function is adapted from Thijs Janzen's NLTT package
+ (\url{https://github.com/thijsjanzen/nLTT})}
 \usage{
 MCMC(
   datalist,
@@ -19,6 +21,8 @@ MCMC(
 }
 \description{
 mcmc
+This function is adapted from Thijs Janzen's NLTT package
+ (\url{https://github.com/thijsjanzen/nLTT})
 }
 \references{
 Janzen, T., Höhna, S. and Etienne, R.S. (2015), Approximate

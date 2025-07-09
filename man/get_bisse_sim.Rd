@@ -9,6 +9,8 @@ get_bisse_sim(parameters, pool_init_states, replicates = 1)
 \arguments{
 \item{parameters}{A vector for CES rates.}
 
+\item{pool_init_states}{Root state pool.}
+
 \item{replicates}{The number of replicates(islands) for bisse simulation.}
 }
 \value{
