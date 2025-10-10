@@ -1,4 +1,5 @@
-# violin median of posterior distribution
+# violin plots comparing inference errors between using ABC, MCMC and MLE.
+# Here we use the median of posterior distributions
 library(tidyverse)
 library(ggtext)
 library(ggbeeswarm)

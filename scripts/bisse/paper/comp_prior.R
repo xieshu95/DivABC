@@ -1,3 +1,4 @@
+# Analyses of the exponential distribution and plot figures comparing results using uniform and exponential distributions
 for (num_ss in c(0)){
   # formate results
   load(paste0("Data/BiSSE/obs_ss.rda"))

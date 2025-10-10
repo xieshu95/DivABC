@@ -1,4 +1,5 @@
-# violin entire posterior distribution
+# violin plots comparing inference errors between using ABC, MCMC and MLE.
+# Here we use the entire posterior distributions
 library(tidyverse)
 library(ggtext)
 library(ggbeeswarm)
