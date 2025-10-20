@@ -14,5 +14,5 @@ Rscript -e "remotes::install_github('xieshu95/DivABC@abcrf')"
 
 for (( id = 1; id <= 3; id++ ))
 do
-Rscript DivABC/bash/submit_ref_table.sh ${id}
+sbatch DivABC/bash/submit_ref_table.sh ${id}
 done
