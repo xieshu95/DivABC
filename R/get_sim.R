@@ -132,6 +132,8 @@ get_bisse_sim_create_obs <- function(parameters, pool_init_states, replicates = 
         crown_age = 10,
         num_concealed_states = 2,
         pool_init_states = pool_init_states,
+        start_at_crown = FALSE,
+        max_spec = 1000,
         conditioning = "obs_states")
 
       if(length(sim[[j]]$obs_traits) > 2 && ## at least 2 species

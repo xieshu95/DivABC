@@ -1,15 +1,19 @@
 #!/bin/bash
-#SBATCH --time=4-00:00:00
+#SBATCH --time=1:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --job-name=rf
-#SBATCH --output=logs/rf-%A.log
-#SBATCH --mem=5GB
-#SBATCH --cpus-per-task=1
-#SBATCH --array=1-20
+#SBATCH --job-name=start_ABC
+#SBATCH --output=logs/start_ABC.log
+#SBATCH --mem=1GB
 #SBATCH --partition=regular
 
-module load R
-CHUNK_ID=${SLURM_ARRAY_TASK_ID}
-N_SIM_CHUNK=500
-Rscript DivABC/scripts/bisse/gen_ref_table.R
+
+# Start script
+ml R
+Rscript -e "remotes::install_github('xieshu95/DivABC@abcrf')"
+
+
+for (( id = 1; id <= 3; id++ ))
+  do
+Rscript DivABC/scripts/run_ABC_bisse_peregrine.R ${id}
+done
