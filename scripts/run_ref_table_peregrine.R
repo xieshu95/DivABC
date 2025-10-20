@@ -8,5 +8,5 @@ library(DivABC)
 
 create_ref_table(
   save_output = save_output,
-  id = id
+  id = as.numeric(args[1])
 )
