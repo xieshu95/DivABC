@@ -517,21 +517,112 @@ calc_M <- function (sim) {
 #' @author Shu Xie
 #' @export
 
+# calc_ss_bisse <- function(sim) {
+#   # state 1
+#   num_state1 <- sum(sim$obs_traits == 1)
+#   num_state2 <- sum(sim$obs_traits == 2)
+#   total_spec <- num_state1 + num_state2
+#   tip_ratio <- max(num_state1,num_state2)/min(num_state1,num_state2)
+#
+#   return(
+#     list(state1 = num_state1,
+#          state2 = num_state2,
+#          total_spec = total_spec,
+#          tip_ratio = tip_ratio)
+#   )
+# }
 calc_ss_bisse <- function(sim) {
+  # mpd_all
+  mpd_all <- treestats::mean_pair_dist(phy = sim$phy)
+  mpd_s1 <- calc_mpd_trait(sim = sim,state_type = 1)
+  mpd_s2 <- calc_mpd_trait(sim = sim,state_type = 2)
+  mpd_diff <- calc_mpd_trait(sim = sim,state_type = 0)
+
+  # mntd_all
+  mntd_all <- treestats::mntd(phy = sim$phy)
+  mntd_s1 <- calc_mntd_trait(sim = sim,state_type = 1)
+  mntd_s2 <- calc_mntd_trait(sim = sim,state_type = 2)
+  mntd_diff <- calc_mntd_trait(sim = sim,state_type = 0)
+
+  # K statistic
+  K <- adiv::K(sim$phy,
+               trait = as.numeric(sim$obs_traits),
+               nrep = 1000, alter = c("two-sided"))
+  K <- K$obs
+
+  # D statistic
+  D <- calc_D(sim)
+
   # state 1
-  num_state1 <- sum(sim$obs_traits == 1)
-  num_state2 <- sum(sim$obs_traits == 2)
+  num_state1 <- length(which(sim$obs_traits == 1))
+  num_state2 <- length(which(sim$obs_traits == 2))
   total_spec <- num_state1 + num_state2
+  ratio_state1 <- length(which(sim$obs_traits == 1))/total_spec
+  ratio_state2 <- length(which(sim$obs_traits == 2))/total_spec
+
   tip_ratio <- max(num_state1,num_state2)/min(num_state1,num_state2)
 
+
+  # nLTT
+  nltt <- treestats::nLTT_base(sim$phy)
+  phy_s1<-ape::drop.tip(sim$phy,  ## phy1 with only state1 tips
+                        tip = sim$phy$tip.label[which(sim$obs_traits == 2)])
+  phy_s2<-ape::drop.tip(sim$phy,
+                        tip = sim$phy$tip.label[which(sim$obs_traits == 1)])
+  nltt1 <- treestats::nLTT_base(phy_s1)
+  nltt2 <- treestats::nLTT_base(phy_s2)
+
+  # ## standard deviation of pairwise distance
+  # sdpd_all <- calc_sdpd_trait(sim = sim,state_type = 3)
+  # sdpd_diff <- calc_sdpd_trait(sim = sim,state_type = 0)
+  #
+  # ## standard deviation of nearest taxon distance
+  # sdntd_all <- calc_sdntd_trait(sim = sim,state_type = 3)
+  # sdntd_diff <- calc_sdntd_trait(sim = sim,state_type = 0)
+  #
+  # colless <- treestats::colless(sim$phy)
+  # spect <- treestats::laplacian_spectrum(sim$phy)
+  # spect_log_median <- median(log(spect$eigenvalues))
+  # spect_prin <- log(spect$principal_eigenvalue)
+  # sackin <- treestats::sackin(sim$phy)
+
+  # phylogenetic signal Delta
+  # Delta <- calc_Delta(sim)
+
+  M <- calc_M(sim)
+
+
+
+
   return(
-    list(state1 = num_state1,
-         state2 = num_state2,
-         total_spec = total_spec,
-         tip_ratio = tip_ratio)
+    list(total_spec = total_spec,
+         state1 = ratio_state1,
+         state2 = ratio_state2,
+         tip_ratio = tip_ratio,
+         mpd_all = mpd_all,
+         mpd_diff = mpd_diff,
+         mpd_s1 = mpd_s1,
+         mpd_s2 = mpd_s2,
+         mntd_all = mntd_all,
+         mntd_diff = mntd_diff,
+         mntd_s1 = mntd_s1,
+         mntd_s2 = mntd_s2,
+         # sdpd_all = sdpd_all,
+         # sdpd_diff = sdpd_diff,
+         # sdntd_all = sdntd_all,
+         # sdntd_diff = sdntd_diff,
+         K = K,
+         D = D,
+         nltt = nltt,
+         nltt1 = nltt1,
+         nltt2 = nltt2,
+         # colless = colless,
+         # spect_log_median = spect_log_median,
+         # spect_prin = spect_prin,
+         # sackin = sackin,
+         M = M)
   )
 }
-
 # nltts + Delta
 calc_error_bisse_Delta <- function(sim_1,
                              sim_2,
