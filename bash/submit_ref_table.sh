@@ -2,18 +2,15 @@
 #SBATCH --time=1:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --job-name=start_ABCrf
-#SBATCH --output=logs/start_ABCrf.log
+#SBATCH --job-name=ref
+#SBATCH --output=logs/ref-%j.log
 #SBATCH --mem=1GB
 #SBATCH --partition=regular
 
+# Arguments to follow the Rscript are as follows:
+id=${1}
 
-# Start script
+
+
 ml R
-Rscript -e "remotes::install_github('xieshu95/DivABC@abcrf')"
-
-
-for (( id = 1; id <= 3; id++ ))
-  do
-Rscript DivABC/R/create_ref_table.R ${id}
-done
+Rscript DivABC/scripts/run_ref_table_peregrine.R ${id}
