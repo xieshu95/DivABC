@@ -31,5 +31,5 @@ Remotes:
     rsetienne/secsse
 URL: https://github.com/xieshu95/DivABC
 BugReports: https://github.com/xieshu95/DivABC/issues
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 VignetteBuilder: knitr
