@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --time=1:00:00
+#SBATCH --time=23:55:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=ref
 #SBATCH --output=logs/ref-%j.log
-#SBATCH --mem=1GB
+#SBATCH --mem=3GB
 #SBATCH --partition=regular
 
 # Arguments to follow the Rscript are as follows:

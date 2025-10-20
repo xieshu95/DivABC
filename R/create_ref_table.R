@@ -15,7 +15,7 @@ create_ref_table <- function(
   library(R.utils)
   library(MASS)
   set.seed(100)
-  n_sim   <- 3
+  n_sim   <- 2000
 
   # generate training data (reference table)
   tmp <- get_bisse_sim_create_obs(parameters = c(0.2,0.1,0.1,0.1,0.1,0.1),
