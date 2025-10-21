@@ -16,7 +16,7 @@ create_ref_table <- function(
   library(MASS)
   set.seed(100)
   n_sim   <- 2000
-
+  message("id: ", id)
   # generate training data (reference table)
   tmp <- get_bisse_sim_create_obs(parameters = c(0.2,0.1,0.1,0.1,0.1,0.1),
                                   pool_init_states = c("1","2"))
