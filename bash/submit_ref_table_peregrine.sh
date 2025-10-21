@@ -12,7 +12,7 @@
 ml R
 Rscript -e "remotes::install_github('xieshu95/DivABC@abcrf')"
 
-for (( id = 1; id <= 25; id++ ))
+for (( id = 26; id <= 50; id++ ))
 do
 sbatch DivABC/bash/submit_ref_table.sh ${id}
 done

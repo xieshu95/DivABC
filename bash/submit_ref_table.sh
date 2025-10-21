@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --time=23:55:00
+#SBATCH --time=11:55:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=ref
