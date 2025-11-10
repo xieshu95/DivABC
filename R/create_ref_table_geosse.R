@@ -15,7 +15,7 @@ create_ref_table_geosse <- function(
   library(R.utils)
   library(MASS)
   set.seed(100)
-  n_sim   <- 5
+  n_sim   <- 2000
   message("id: ", id)
   # generate training data (reference table)
   tmp <- DivABC:::get_geosse_sim_create_obs(parameters = c(0.2,0.1,0.2,0.1,0.1,0.1,0.05))
@@ -26,7 +26,7 @@ create_ref_table_geosse <- function(
   tmp_s <- c(tmp_s1,tmp_s2)
   stat_names <- names(tmp_s)
   ref_mat <- matrix(NA, nrow = n_sim, ncol = 7 + length(stat_names))
-  colnames(ref_mat) <- c("lam1","lam2","lam3","mu1","mu2","mu3","q", stat_names)
+  colnames(ref_mat) <- c("sA","sB","sAB","xA","xB","dA","dB", stat_names)
   i <- 1
   while(i <= n_sim) {
     message("sim: ", i)
