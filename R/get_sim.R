@@ -258,6 +258,7 @@ get_musse_sim_create_obs <- function(parameters, pool_init_states, replicates = 
         qs = q,
         crown_age = 10,
         num_concealed_states = 3,
+        max_spec = 1e3,
         pool_init_states = pool_init_states,
         conditioning = "obs_states")
 

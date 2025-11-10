@@ -13,4 +13,4 @@ id=${1}
 
 
 ml R
-Rscript DivABC/scripts/run_ref_table_peregrine.R ${id}
+Rscript DivABC/scripts/run_ref_table_peregrine_musse.R ${id}

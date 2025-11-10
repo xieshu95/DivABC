@@ -415,12 +415,12 @@ create_trait_matrix <- function(sim) {
 # state_type = 0 means distance between species with different states
 # state_type = 1 means distance between species with both state 1
 # state_type = 2 means distance between species with both state 2
-# state_type = 3 means distance between all the species
+# state_type = 5 means distance between all the species
 calc_mpd_trait <- function(sim,state_type = 0)
 {
   dis <- stats::cophenetic(sim$phy)
   trait <- create_trait_matrix(sim)
-  if(state_type == 3) {
+  if(state_type == 5) {
     mpd <- mean(dis[lower.tri(dis)])
   } else {
     mpd <- mean(dis[lower.tri(dis) & trait == state_type])
@@ -438,7 +438,7 @@ calc_mntd_trait <- function(sim,state_type = 0)
   #           order(readr::parse_number(colnames(dis)))]
   trait <- create_trait_matrix(sim)
   diag(dis) <- NA
-  if(state_type != 3) {
+  if(state_type != 5) {
     dis[which(trait != state_type)]<- NA
     dis <- dis[ , colSums(is.na(dis)) < nrow(dis)]
   }
@@ -454,7 +454,7 @@ calc_sdpd_trait <- function(sim,state_type = 0)
 {
   dis <- stats::cophenetic(sim$phy)
   trait <- create_trait_matrix(sim)
-  if(state_type == 3) {
+  if(state_type == 5) {
     sdpd <- sd(dis[lower.tri(dis)])
   } else {
     sdpd <- sd(dis[lower.tri(dis) & trait == state_type])
@@ -467,7 +467,7 @@ calc_sdntd_trait <- function(sim,state_type = 0)
   dis <- stats::cophenetic(sim$phy)
   trait <- create_trait_matrix(sim)
   diag(dis) <- NA
-  if(state_type != 3) {
+  if(state_type != 5) {
     dis[which(trait != state_type)]<- NA
     dis <- dis[ , colSums(is.na(dis)) < nrow(dis)]
   }
@@ -591,7 +591,9 @@ calc_ss_bisse <- function(sim) {
 
   M <- calc_M(sim)
 
-
+  colless <- treestats::colless(sim$phy)
+  colless1 <- treestats::colless(phy_s1)
+  colless2 <- treestats::colless(phy_s2)
 
 
   return(
@@ -616,7 +618,9 @@ calc_ss_bisse <- function(sim) {
          nltt = nltt,
          nltt1 = nltt1,
          nltt2 = nltt2,
-         # colless = colless,
+         colless = colless,
+         colless1 = colless1,
+         colless2 = colless2,
          # spect_log_median = spect_log_median,
          # spect_prin = spect_prin,
          # sackin = sackin,
