@@ -89,11 +89,11 @@ get_TraiSIE_sim <- function(parameters, replicates = 1){
 
 #' Simulation function to create BiSSE simualtions as observed data
 #'
-#' @param parameters A vector for CES rates.
+#' @param parameters A vector for rates.
 #' @param pool_init_states Root state pool.
-#' @param replicates The number of replicates(islands) for secsse simulation.
+#' @param replicates The number of replicates for secsse simulation.
 #'
-#' @return A list contains simulated islands
+#' @return A list contains simulated trees
 #' @author Shu Xie
 #' @export
 
@@ -151,11 +151,11 @@ get_bisse_sim_create_obs <- function(parameters, pool_init_states, replicates = 
 
 #' Simulation function to create simulations in ABC.
 #'
-#' @param parameters A vector for CES rates.
+#' @param parameters A vector for rates.
 #' @param pool_init_states Root state pool.
-#' @param replicates The number of replicates(islands) for bisse simulation.
+#' @param replicates The number of replicates for bisse simulation.
 #'
-#' @return A list contains simulated islands
+#' @return A list contains simulated trees
 #' @export
 
 get_bisse_sim <- function(parameters, pool_init_states, replicates = 1){
@@ -213,10 +213,10 @@ get_bisse_sim <- function(parameters, pool_init_states, replicates = 1){
 
 #' Simulation function to create MuSSE simulations as observed data
 #'
-#' @param parameters A vector for CES rates.
-#' @param replicates The number of replicates(islands) for musse simulation.
+#' @param parameters A vector for rates.
+#' @param replicates The number of replicates for musse simulation.
 #'
-#' @return A list contains simulated islands
+#' @return A list contains simulated trees
 #' @export
 
 get_musse_sim_create_obs <- function(parameters, pool_init_states, replicates = 1){
@@ -279,10 +279,10 @@ get_musse_sim_create_obs <- function(parameters, pool_init_states, replicates = 
 
 #' Simulation function to create simulations in ABC.
 #'
-#' @param parameters A vector for CES rates.
-#' @param replicates The number of replicates(islands) for musse simulation.
+#' @param parameters A vector for rates.
+#' @param replicates The number of replicates for musse simulation.
 #'
-#' @return A list contains simulated islands
+#' @return A list contains simulated trees
 #' @export
 
 get_musse_sim <- function(parameters, pool_init_states, replicates = 1){
@@ -343,9 +343,9 @@ get_musse_sim <- function(parameters, pool_init_states, replicates = 1){
 #' Simulation function to create GeoSSE simulations as observed data
 #'
 #' @param parameters A vector for CES rates.
-#' @param replicates The number of replicates(islands) for geosse simulation.
+#' @param replicates The number of replicates for geosse simulation.
 #'
-#' @return A list contains simulated islands
+#' @return A list contains simulated trees
 #' @export
 get_geosse_sim_create_obs <- function(parameters,
                                       replicates = 1){
@@ -375,9 +375,9 @@ get_geosse_sim_create_obs <- function(parameters,
 #' Simulation function to create GeoSSE simulations in ABC.
 #'
 #' @param parameters A vector for CES rates.
-#' @param replicates The number of replicates(islands) for geosse simulation.
+#' @param replicates The number of replicates for geosse simulation.
 #'
-#' @return A list contains simulated islands
+#' @return A list contains simulated trees
 #' @export
 
 get_geosse_sim <- function(parameters, replicates = 1){
