@@ -9,10 +9,10 @@ get_geosse_sim(parameters, replicates = 1)
 \arguments{
 \item{parameters}{A vector for CES rates.}
 
-\item{replicates}{The number of replicates(islands) for geosse simulation.}
+\item{replicates}{The number of replicates for geosse simulation.}
 }
 \value{
-A list contains simulated islands
+A list contains simulated trees
 }
 \description{
 Simulation function to create GeoSSE simulations in ABC.

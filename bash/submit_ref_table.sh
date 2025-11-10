@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --time=11:55:00
+#SBATCH --time=5:55:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=ref
@@ -13,4 +13,4 @@ id=${1}
 
 
 ml R
-Rscript DivABC/scripts/run_ref_table_peregrine_musse.R ${id}
+Rscript DivABC/scripts/run_ref_table_peregrine_geosse.R ${id}
