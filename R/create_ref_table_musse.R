@@ -15,7 +15,7 @@ create_ref_table_musse <- function(
   library(R.utils)
   library(MASS)
   set.seed(100)
-  n_sim   <- 20
+  n_sim   <- 2000
   message("id: ", id)
   # generate training data (reference table)
   tmp <- DivABC:::get_musse_sim_create_obs(parameters = c(0.2,0.1,0.2,0.1,0.1,0.1,0.05),
