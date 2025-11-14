@@ -15,7 +15,7 @@ create_ref_table <- function(
   library(R.utils)
   library(MASS)
   set.seed(100)
-  n_sim   <- 2000
+  n_sim   <- 500
   message("id: ", id)
   # generate training data (reference table)
   tmp <- DivABC:::get_bisse_sim_create_obs(parameters = c(0.2,0.1,0.1,0.1,0.1,0.1),
@@ -36,7 +36,7 @@ create_ref_table <- function(
     # sim a tree with n_tips extant (rphylo tries to produce n extant)
     tr <- tryCatch(withTimeout({DivABC::get_bisse_sim_create_obs(parameters = params,
                                                                  pool_init_states = c("1","2"))},
-                               timeout = 50, onTimeout = "error"), error = function(e) NULL)
+                               timeout = 30, onTimeout = "error"), error = function(e) NULL)
     if(is.null(tr)) next
     st1 <- tryCatch(treestats::calc_all_stats(tr[[1]]$phy), error = function(e) NA)
     st2 <- tryCatch(unlist(DivABC::calc_ss_bisse(tr[[1]])), error = function(e) NA)
