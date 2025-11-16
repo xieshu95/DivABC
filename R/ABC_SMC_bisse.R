@@ -100,8 +100,9 @@ ABC_SMC_bisse <- function(
 
         # for bisse
         if ("phy" %in% names(new_sim[[1]])) {
-          # to make sure the simulated data has binary states
-          if (length(unique(new_sim[[1]]$obs_traits)) < 2 ||
+          if (length(new_sim[[1]]$obs_traits) < 5 ||
+              length(new_sim[[1]]$obs_traits) >= 1000 ||
+              length(unique(new_sim[[1]]$obs_traits)) < 2 ||
               sum(new_sim[[1]]$obs_traits == 1) < 2 ||
               sum(new_sim[[1]]$obs_traits == 2) < 2) {
             accept <- FALSE
@@ -161,7 +162,7 @@ ABC_SMC_bisse <- function(
 
     ss_diff_list[[i]] <- ss_diff
     if (stoprate_reached == FALSE) {
-      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.5)
+      epsilon[i + 1, ] <- apply(ss_diff, 2, quantile, probs = 0.6)
     }
     ABC <- c()
     for (k in seq_along(new_params)) {

@@ -144,6 +144,10 @@ run_ABC <- function(param_space_name,
       init_epsilon <- c(1,1,1,2)
     } else if (ss_set == 14){  # nltt + nltt1 + nltt2 + M
       init_epsilon <- c(1,1,1,0.5)
+    } else if (ss_set == 15){  # nltt + nltt1 + nltt2 + MNTD1 + MNTD2 + D
+      init_epsilon <- c(1,1,1,5,5,1)
+    } else if (ss_set == 16){  # nltt + MNTD1 + MNTD2 + D
+      init_epsilon <- c(1,5,5,1)
     }
     abc <- ABC_SMC_bisse (
       obs_data = obs_sim,
@@ -152,10 +156,10 @@ run_ABC <- function(param_space_name,
       prior_generating_function <- prior_gen_bisse,
       prior_density_function <- prior_dens_bisse,
       init_epsilon_values = init_epsilon,
-      number_of_particles = 500,
+      number_of_particles = 5,
       sigma = 0.2,
       stop_rate = 0.001,
-      num_iterations = 20,
+      num_iterations = 2,
       idparsopt = as.numeric(idparsopt),
       pars = as.numeric(obs_sim_pars[1:6]),
       ss_set = ss_set
