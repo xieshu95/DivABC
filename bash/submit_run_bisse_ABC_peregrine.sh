@@ -14,7 +14,7 @@
 
 # Start script
 ml R
-Rscript -e "remotes::install_github('xieshu95/DivABC@daisie')"
+Rscript -e "remotes::install_github('xieshu95/DivABC@abcrf')"
 
 param_space_name=${1}
 idparsopt_lac1=${2}
