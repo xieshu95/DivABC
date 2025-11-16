@@ -19,7 +19,7 @@
 # sbatch DivABC/bash/submit_run_MCMC_peregrine.sh DAISIE_MCMC_DD 1 1 1 1 1 DD
 
 # sbatch DivABC/bash/submit_run_ABC_peregrine.sh Traisie_ABC 1 0 0 0 1 0 0 0 0 0 TraiSIE
-# sbatch DivABC/bash/submit_run_bisse_ABC_peregrine.sh bisse_ABC_test 1 1 1 1 1 1 bisse 0
+# sbatch DivABC/bash/submit_run_bisse_ABC_peregrine.sh bisse_ABC_test 1 1 1 1 1 1 bisse 15
 # sbatch DivABC/bash/submit_run_bisse_ABC_param_set.sh bisse_ABC_test 1 1 1 1 1 1 1 bisse 15
 # sbatch DivABC/bash/submit_run_bisse_MCMC_param_set.sh bisse_MCMC_test 1 1 1 1 1 1 1
 # sbatch DivABC/bash/submit_run_bisse_MCMC_peregrine.sh bisse_MCMC_test 1 1 1 1 1 1
@@ -27,7 +27,7 @@
 
 # Start script
 ml R
-Rscript -e "remotes::install_github('xieshu95/DivABC@daisie')"
+Rscript -e "remotes::install_github('xieshu95/DivABC@abcrf')"
 
 param_space_name=${1}
 idparsopt_lac=${2}
