@@ -5,7 +5,7 @@
 #SBATCH --job-name=s15
 #SBATCH --output=logs/ABC-%j.log
 #SBATCH --mem=1GB
-#SBATCH --partition=regular
+#SBATCH --partition=gelifes
 
 # Arguments to follow the Rscript are as follows:
 param_space_name=${1}
