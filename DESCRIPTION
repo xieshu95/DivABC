@@ -1,15 +1,16 @@
 Package: DivABC
-Title: An ABC approach to estimate DAISIE/TRAISIE parameters
-Version: 1.0.0
-Date: 2021-01-01
+Title: An ABC approach to estimate parameters in DAISIE/TRAISIE and SSE models.
+Version: 2.0.0
+Date: 2025-12-25
 Authors@R: c(
     person(given = "Shu",
            family = "Xie",
            role = c("aut","cre"),
            email = "s.xie@rug.nl"))
-Description: Using an ABC-SMC algorithm to estimate posterior diversification rates  
-    of simulated phylogenies from DAISIE/secsse/TRAISIE models.Comparing the 
-    estimated values with which from maximum likelihood method. 
+Description: Using an ABC-SMC algorithm to estimate diversification rates  
+    of simulated phylogenies from DAISIE and state-dependent diversification 
+    models (BiSSE/MuSSE/GeoSSE/TraiSIE).We compare the estimated rates with 
+    which from likelihood-based methods (MLE and MCMC). 
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
