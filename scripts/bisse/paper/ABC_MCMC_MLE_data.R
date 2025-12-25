@@ -1,9 +1,8 @@
-#' data analysis and generate figures in the manuscript
-#' Here is an example for BiSSE analysis, others are the same, just need to
-#' change the param_space_name and the name of the data folder.
-#'
+#' Data analysis in the ABC-SSE manuscript
+#' Here, we take one of the summary statistic combinations of BiSSE as an example.
+#' The rest of the analysis is similar to this, only requiring the replacement of the model name or SS combination.
 
-# 1. combine all ABC results into one dataframe
+# 1. Combine all the ABC results (S1-S7) into one data frame
 for (num_ss in c(0)){
   # formate results
   load(paste0("Data/BiSSE/obs_ss.rda"))
@@ -70,14 +69,15 @@ for (num_ss in c(0)){
   whole_df_ABC$ext_frac2 <- (whole_df_ABC$mu2)/(whole_df_ABC$lam2)
   whole_df_ABC$ext_frac_ABC1 <- (whole_df_ABC$mu1_abc)/(whole_df_ABC$lam1_abc)
   whole_df_ABC$ext_frac_ABC2 <- (whole_df_ABC$mu2_abc)/(whole_df_ABC$lam2_abc)
+  whole_df_ABC$init_obs <- rep(c(rep(0,25*500),rep(1,25*500)),7)
   save(whole_df_ABC,file =
          paste0("Data/BiSSE/nltts_D/delta_whole_df_ABC_test_ss",num_ss,".RData"))
 
 }
 
 
-######
-# 2. formate MCMC results (only plot the estimation points with ABC results)
+
+# 2. Combine MCMC results (S1-S7)
 param_data <- load_param_space(param_space_name = paste0("bisse_ABC_test"))
 param_data3<-param_data[rep(seq_len(nrow(param_data)), each=5001),]
 folder_path <- paste0("Data/BiSSE/MCMC")
@@ -88,7 +88,7 @@ mu1_mcmc <- c()
 mu2_mcmc <- c()
 q12_mcmc <- c()
 q21_mcmc <- c()
-seq <- seq(1,10001,2)
+seq <- seq(5001,10001,1)
 for(i in 1:350){
   file_to_load <- grep(paste0("secsse_MCMC_test_param_set_", i,"_ss_1.RData"),
                        files,
@@ -128,7 +128,7 @@ whole_df_MCMC$ext_frac1 <- (whole_df_MCMC$mu1)/(whole_df_MCMC$lam1)
 whole_df_MCMC$ext_frac2 <- (whole_df_MCMC$mu2)/(whole_df_MCMC$lam2)
 whole_df_MCMC$ext_frac_MCMC1 <- (whole_df_MCMC$mu1_mcmc)/(whole_df_MCMC$lam1_mcmc)
 whole_df_MCMC$ext_frac_MCMC2 <- (whole_df_MCMC$mu2_mcmc)/(whole_df_MCMC$lam2_mcmc)
-# whole_df_MCMC$init_obs <- rep(c(rep(1,25*5001),rep(2,25*5001)),7)
+whole_df_MCMC$init_obs <- rep(c(rep(1,25*5001),rep(2,25*5001)),7)
 
 save(whole_df_MCMC,file = paste0("Data/BiSSE/nltts_D/delta_whole_df_MCMC_test.RData"))
 
@@ -156,7 +156,7 @@ for (num_ss in c(0)){
   AMM_all_df <- cbind(ABC_median[1:21],
                       MCMC_median[,c(7:12,15,16,19,20)],
                       MLE_median[,c(7:12,14:17)])
-
+  AMM_all_df$init_obs <- rep(c(rep(0,25),rep(1,25)),7)
   save(AMM_all_df,file = paste0("Data/BiSSE/nltts_D/AMM_per_set_test_ss",num_ss,".RData"))
 
   load(paste0("Data/BiSSE/nltts_D/AMM_per_set_test_ss",num_ss,".RData"))
@@ -199,7 +199,7 @@ for (num_ss in c(0)){
 }
 
 
-## combine multiple scenarios(entire posterior distribution + median values)
+# AMM for each scenario (entire posterior distribution + median values)
 for(i in 1:7){
   load(paste0("Data/BiSSE/whole_df_MLE.RData"))
   whole_df_MLE <- whole_df_MLE[(i*50-49):(i*50),][,1:17]
@@ -209,7 +209,7 @@ for(i in 1:7){
   load(paste0("Data/BiSSE/nltts_D/delta_whole_df_ABC_test_ss0.RData"))
   whole_df_ABC <- whole_df_ABC[(i*25000-24999):(i*25000),]
   whole_df_ABC$ss = "ABC"
-  whole_df_ABC = whole_df_ABC[,-7]
+  whole_df_ABC = whole_df_ABC[,-c(7,22)]
   whole_df_ABC$total <- rep(total, each = 500)
 
   whole_df_ABC$dlam1 <- whole_df_ABC$lam1_abc - whole_df_ABC$lam1
@@ -231,9 +231,9 @@ for(i in 1:7){
 
 
   load(paste0("Data/BiSSE/nltts_D/delta_whole_df_MCMC_test.RData"))
-  whole_df_MCMC <- whole_df_MCMC[(i*250050-250049):(i*250050),]
+  whole_df_MCMC <- whole_df_MCMC[(i*250050-250049):(i*250050),1:20]
   whole_df_MCMC$ss = "MCMC"
-  whole_df_MCMC$total <- rep(total, each = 5001) #5001
+  whole_df_MCMC$total <- rep(total, each = 5001)
   whole_df_MCMC$dlam1 <- whole_df_MCMC$lam1_mcmc - whole_df_MCMC$lam1
   whole_df_MCMC$dlam2 <- whole_df_MCMC$lam2_mcmc - whole_df_MCMC$lam2
   whole_df_MCMC$dmu1 <- whole_df_MCMC$mu1_mcmc - whole_df_MCMC$mu1

@@ -1,4 +1,4 @@
-## compare ABC summary statistics using whole data
+## compare ABC summary statistics using entire posterior distributions (Fig S4-S6)
 library(tidyverse)
 library(ggtext)
 library(ggbeeswarm)
@@ -6,24 +6,23 @@ library(ggplot2)
 
 ## lam
 i = 1
-load(paste0("Data/ABC_test",i,".RData"))
-# whole_df_all1<-whole_df_all
+load(paste0("Data/BiSSE/compare_ss/ABC_test",i,".RData"))
 whole_df_all1<-whole_df_all
 whole_df_all1$Scenario <- 1
 
 i = 2
-load(paste0("Data/ABC_test",i,".RData"))
+load(paste0("Data/BiSSE/compare_ss/ABC_test",i,".RData"))
 whole_df_all2<-whole_df_all
 whole_df_all2$Scenario <- 2
 
 i = 3
-load(paste0("Data/ABC_test",i,".RData"))
+load(paste0("Data/BiSSE/compare_ss/ABC_test",i,".RData"))
 whole_df_all3<-whole_df_all
 whole_df_all3$Scenario <- 3
 
 
 scen_names1 <- c(
-  `1` = 'S1~":"~lambda[0]~"="~0.6~lambda[1]~"="~0.6', #Scenario~1~
+  `1` = 'S1~":"~lambda[0]~"="~0.6~lambda[1]~"="~0.6',
   `2` = 'S2~":"~lambda[0]~"="~0.6~lambda[1]~"="~0.3',
   `3` = 'S3~":"~lambda[0]~"="~0.6~lambda[1]~"="~0.12'
 )
@@ -55,14 +54,15 @@ library(RColorBrewer)
 pal <- brewer.pal(n = 12, name = "Paired")
 cols <- c("D" = pal[1] ,"nLTT"= pal[9],"nLTT-D"= pal[2],
           "nLTT-Ratio"= pal[8],"nLTT-MPD"= pal[3],"nLTT-MNTD"= pal[4],
-          "nLTT-Colless"= pal[12],"nLTTs"= pal[10],"nLTTs-D"= pal[6])
+          "nLTT-Colless"= pal[12],"nLTTs"= pal[10],"nLTTs-D"= pal[6],
+          "nLTT-MNTD-D"= pal[5],"nLTTs-MNTD-D"= pal[7])
 
-whole_df_lam$ss <- factor(whole_df_lam$ss, levels = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"))
+whole_df_lam$ss <- factor(whole_df_lam$ss, levels = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"))
 
 p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
                                                            color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-1,2.05)+ #1
+  ylim(-1,2.05)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
@@ -77,11 +77,11 @@ p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
   ggplot2::ylab(expression(Delta~lambda[0])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
-                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                               labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
-                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                             labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
@@ -90,7 +90,7 @@ p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
 p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
                                                           color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-1,2.05)+ #1
+  ylim(-1,2.05)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
@@ -103,11 +103,11 @@ p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
   ggplot2::ylab(expression(Delta~lambda[1])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
-                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                               labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
-                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                             labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
@@ -115,7 +115,7 @@ p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
 p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.8,2.0)+ #1
+  ylim(-0.8,2.0)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
@@ -128,11 +128,11 @@ p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
   ggplot2::ylab(expression(Delta~mu[0])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
-                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                               labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
-                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                             labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   # ggplot2::theme(legend.position = "none") +
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
@@ -141,7 +141,7 @@ p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
 p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.8,2.0)+ #1
+  ylim(-0.8,2.0)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
@@ -154,11 +154,11 @@ p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
   ggplot2::ylab(expression(Delta~mu[1])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
-                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                               labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
-                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                             labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   # ggplot2::theme(legend.position = "none") +
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
@@ -167,7 +167,7 @@ p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
 p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,1.05)+ #1
+  ylim(-0.5,1.05)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
@@ -180,11 +180,11 @@ p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
   ggplot2::ylab(expression(Delta~q["01"])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
-                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                               labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
-                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                             labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
@@ -192,7 +192,7 @@ p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
 p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,1.05)+ #1
+  ylim(-0.5,1.05)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
@@ -206,70 +206,16 @@ p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
   ggplot2::ylab(expression(Delta~q[10])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
-                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                               labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
-                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                             labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
 
-p_net1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div1,
-                                                          color = ss,fill =ss)) +
-  ggplot2::theme_bw() +
-  ylim(-2.5,2)+ #1
-  ggplot2::geom_violin(alpha = 0.5) +
-  ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
-  ggplot2::theme_classic() +
-  ggplot2::theme(axis.title.x = ggplot2::element_blank(),
-                 axis.title.y = ggplot2::element_text(size = 13),
-                 legend.text = element_markdown(size = 15),
-                 strip.text = ggplot2::element_blank(),
-                 # axis.text.x = ggplot2::element_text(size = 11),
-                 axis.text.x = ggplot2::element_blank(),
-                 axis.text.y = ggplot2::element_text(size = 13)) +
-  ggplot2::ylab(expression(Delta~Net~0)) +
-  ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
-                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                               labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
-  ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
-                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                             labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
-  # ggplot2::theme(legend.position = "none") +
-  ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-  facet_grid(~Scenario,
-             labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
-
-p_net2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dnet_div2,
-                                                          color = ss,fill =ss)) +
-  ggplot2::theme_bw() +
-  ylim(-2.5,2)+ #1
-  ggplot2::geom_violin(alpha = 0.5) +
-  ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
-  ggplot2::theme_classic() +
-  ggplot2::theme(axis.title.x = ggplot2::element_blank(),
-                 axis.title.y = ggplot2::element_text(size = 13),
-                 legend.text = element_markdown(size = 15),
-                 strip.text = ggplot2::element_blank(),
-                 # axis.text.x = ggplot2::element_text(size = 11),
-                 axis.text.x = ggplot2::element_blank(),
-                 axis.text.y = ggplot2::element_text(size = 13)) +
-  ggplot2::ylab(expression(Delta~Net~1)) +
-  ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
-                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                               labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
-  ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
-                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                             labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
-  # ggplot2::theme(legend.position = "none") +
-  ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
-  facet_grid(~Scenario,
-             labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
-
-tiff(paste0("Data/violin_whole_lam.tiff"),
+tiff(paste0("Data/BiSSE/compare_ss/violin_whole_lam.tiff"),
      units="px", width=9000, height=4500,res = 500,compression="lzw")
 
 param_estimates_lam <- cowplot::plot_grid(
@@ -279,9 +225,9 @@ param_estimates_lam <- cowplot::plot_grid(
   p_mu2+ggplot2::theme(legend.position = "none"),
   p_q12+ggplot2::theme(legend.position = "none"),
   p_q21+ggplot2::theme(legend.position = "none"),
-  p_net1+ggplot2::theme(legend.position = "none"),
-  p_net2+ggplot2::theme(legend.position = "none"),
-  align = "hv", nrow = 8, ncol = 1
+  # p_net1+ggplot2::theme(legend.position = "none"),
+  # p_net2+ggplot2::theme(legend.position = "none"),
+  align = "hv", nrow = 6, ncol = 1
 )+ ggtitle("Asymmetry in speciation")+
   ggplot2::theme(plot.title = element_text(color="black", size=22,margin = margin(0,0,6,0)))
 
@@ -298,17 +244,17 @@ library(ggbeeswarm)
 library(ggplot2)
 
 i = 1
-load(paste0("Data/ABC_test",i,".RData"))
+load(paste0("Data/BiSSE/compare_ss/ABC_test",i,".RData"))
 whole_df_all1<-whole_df_all
 whole_df_all1$Scenario <- 1
 
 i = 4
-load(paste0("Data/ABC_test",i,".RData"))
+load(paste0("Data/BiSSE/compare_ss/ABC_test",i,".RData"))
 whole_df_all2<-whole_df_all
 whole_df_all2$Scenario <- 4
 
 i = 5
-load(paste0("Data/ABC_test",i,".RData"))
+load(paste0("Data/BiSSE/compare_ss/ABC_test",i,".RData"))
 whole_df_all3<-whole_df_all
 whole_df_all3$Scenario <- 5
 
@@ -333,14 +279,16 @@ library(RColorBrewer)
 pal <- brewer.pal(n = 12, name = "Paired")
 cols <- c("D" = pal[1] ,"nLTT"= pal[9],"nLTT-D"= pal[2],
           "nLTT-Ratio"= pal[8],"nLTT-MPD"= pal[3],"nLTT-MNTD"= pal[4],
-          "nLTT-Colless"= pal[12],"nLTTs"= pal[10],"nLTTs-D"= pal[6])
+          "nLTT-Colless"= pal[12],"nLTTs"= pal[10],"nLTTs-D"= pal[6],
+          "nLTT-MNTD-D"= pal[5],"nLTTs-MNTD-D"= pal[7])
 
-whole_df_lam$ss <- factor(whole_df_lam$ss, levels = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"))
+whole_df_lam$ss <- factor(whole_df_lam$ss, levels = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"))
+
 
 p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
                                                            color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-1,2.05)+ #1
+  ylim(-1,2.05)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
@@ -355,11 +303,11 @@ p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
   ggplot2::ylab(expression(Delta~lambda[0])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
-                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                               labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
-                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                             labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
@@ -368,7 +316,7 @@ p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
 p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
                                                           color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-1,2.05)+ #1
+  ylim(-1,2.05)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
@@ -381,11 +329,11 @@ p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
   ggplot2::ylab(expression(Delta~lambda[1])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
-                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                               labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
-                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                             labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   # ggplot2::theme(legend.position = "none") +
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
@@ -394,7 +342,7 @@ p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
 p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,2.05)+ #1
+  ylim(-0.5,2.05)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
@@ -407,11 +355,11 @@ p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
   ggplot2::ylab(expression(Delta~mu[0])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
-                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                               labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
-                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                             labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   # ggplot2::theme(legend.position = "none") +
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
@@ -420,7 +368,7 @@ p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
 p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,2.05)+ #1
+  ylim(-0.5,2.05)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
@@ -433,11 +381,11 @@ p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
   ggplot2::ylab(expression(Delta~mu[1])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
-                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                               labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
-                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                             labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   # ggplot2::theme(legend.position = "none") +
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
@@ -446,7 +394,7 @@ p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
 p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,1.15)+ #1
+  ylim(-0.5,1.15)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
@@ -459,11 +407,11 @@ p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
   ggplot2::ylab(expression(Delta~q["01"])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
-                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                               labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
-                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                             labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   # ggplot2::theme(legend.position = "none") +
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
@@ -472,7 +420,7 @@ p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
 p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,1.15)+ #1
+  ylim(-0.5,1.15)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
@@ -486,17 +434,17 @@ p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
   ggplot2::ylab(expression(Delta~q[10])) +
   ggplot2::xlab("Method")+
   ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
-                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                               labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
-                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"),
-                             labels = c("*D*","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*"))+
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   # ggplot2::theme(legend.position = "none") +
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
 
-tiff(paste0("Data/violin_whole_mu.tiff"),
+tiff(paste0("Data/BiSSE/compare_ss/violin_whole_mu.tiff"),
      units="px", width=9000, height=4500,res = 500,compression="lzw")
 
 param_estimates_lam <- cowplot::plot_grid(
@@ -522,18 +470,18 @@ while (!is.null(dev.list()))  dev.off()
 #####
 ## q
 i = 1
-load(paste0("Data/ABC_test",i,".RData"))
-# whole_df_all1<-whole_df_all
+load(paste0("Data/BiSSE/compare_ss/ABC_test",i,".RData"))
+
 whole_df_all1<-whole_df_all
 whole_df_all1$Scenario <- 1
 
 i = 6
-load(paste0("Data/ABC_test",i,".RData"))
+load(paste0("Data/BiSSE/compare_ss/ABC_test",i,".RData"))
 whole_df_all2<-whole_df_all
 whole_df_all2$Scenario <- 6
 
 i = 7
-load(paste0("Data/ABC_test",i,".RData"))
+load(paste0("Data/BiSSE/compare_ss/ABC_test",i,".RData"))
 whole_df_all3<-whole_df_all
 whole_df_all3$Scenario <- 7
 
@@ -558,28 +506,35 @@ library(RColorBrewer)
 pal <- brewer.pal(n = 12, name = "Paired")
 cols <- c("D" = pal[1] ,"nLTT"= pal[9],"nLTT-D"= pal[2],
           "nLTT-Ratio"= pal[8],"nLTT-MPD"= pal[3],"nLTT-MNTD"= pal[4],
-          "nLTT-Colless"= pal[12],"nLTTs"= pal[10],"nLTTs-D"= pal[6])
+          "nLTT-Colless"= pal[12],"nLTTs"= pal[10],"nLTTs-D"= pal[6],
+          "nLTT-MNTD-D"= pal[5],"nLTTs-MNTD-D"= pal[7])
 
-whole_df_lam$ss <- factor(whole_df_lam$ss, levels = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D"))
+whole_df_lam$ss <- factor(whole_df_lam$ss, levels = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"))
+
 
 p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
                                                            color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,2.05)+ #1
+  ylim(-1,2.05)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_text(size = 18),
-                 legend.text = ggplot2::element_text(size = 15,colour = "black"),
+                 legend.text = element_markdown(size = 15),
+                 legend.title = ggplot2::element_text(size = 17,colour = "black"),
                  strip.text = element_text(size = 17,colour = "black"),
-                 strip.background=element_rect(colour="white",fill="lightgray"),
+                 strip.background=element_rect(colour="gray",fill="lightgray"),
                  axis.text.x = ggplot2::element_blank(),
                  axis.text.y = ggplot2::element_text(size = 13)) +
   ggplot2::ylab(expression(Delta~lambda[0])) +
   ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Method",values = cols)+
-  ggplot2::scale_fill_manual("Method",values = cols)+
+  ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
+  ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
@@ -588,20 +543,25 @@ p_lam1 <-ggplot2::ggplot(data = whole_df_lam, ggplot2::aes(x = ss,y = dlam1,
 p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
                                                           color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,2.05)+ #1
+  ylim(-1,2.05)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_text(size = 18),
-                 legend.text = ggplot2::element_text(size = 10,colour = "black"),
+                 legend.text = element_markdown(size = 15),
                  strip.text = ggplot2::element_blank(),
                  axis.text.x = ggplot2::element_blank(),
                  axis.text.y = ggplot2::element_text(size = 13)) +
   ggplot2::ylab(expression(Delta~lambda[1])) +
   ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Method",values = cols)+
-  ggplot2::scale_fill_manual("Method",values = cols)+
+  ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
+  ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
+  # ggplot2::theme(legend.position = "none") +
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
@@ -609,20 +569,24 @@ p_lam2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dlam2,
 p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,2.05)+ #1
+  ylim(-0.5,2.05)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_text(size = 18),
-                 legend.text = ggplot2::element_text(size = 10,colour = "black"),
+                 legend.text = element_markdown(size = 15),
                  strip.text = ggplot2::element_blank(),
                  axis.text.x = ggplot2::element_blank(),
                  axis.text.y = ggplot2::element_text(size = 13)) +
   ggplot2::ylab(expression(Delta~mu[0])) +
   ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Method",values = cols)+
-  ggplot2::scale_fill_manual("Method",values = cols)+
+  ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
+  ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   # ggplot2::theme(legend.position = "none") +
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
@@ -631,20 +595,24 @@ p_mu1 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu1,
 p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,2.05)+ #1
+  ylim(-0.5,2.05)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_text(size = 18),
-                 legend.text = ggplot2::element_text(size = 10,colour = "black"),
+                 legend.text = element_markdown(size = 15),
                  strip.text = ggplot2::element_blank(),
                  axis.text.x = ggplot2::element_blank(),
                  axis.text.y = ggplot2::element_text(size = 13)) +
   ggplot2::ylab(expression(Delta~mu[1])) +
   ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Method",values = cols)+
-  ggplot2::scale_fill_manual("Method",values = cols)+
+  ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
+  ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   # ggplot2::theme(legend.position = "none") +
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
@@ -653,20 +621,24 @@ p_mu2 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dmu2,
 p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,1.15)+ #1
+  ylim(-0.5,1.15)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_text(size = 18),
-                 legend.text = ggplot2::element_text(size = 10,colour = "black"),
+                 legend.text = element_markdown(size = 15),
                  strip.text = ggplot2::element_blank(),
                  axis.text.x = ggplot2::element_blank(),
                  axis.text.y = ggplot2::element_text(size = 13)) +
   ggplot2::ylab(expression(Delta~q["01"])) +
   ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Method",values = cols)+
-  ggplot2::scale_fill_manual("Method",values = cols)+
+  ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
+  ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   # ggplot2::theme(legend.position = "none") +
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
@@ -675,27 +647,29 @@ p_q12 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq12,
 p_q21 <-ggplot2::ggplot(data = whole_df_lam,ggplot2::aes(x = ss,y = dq21,
                                                          color = ss,fill =ss)) +
   ggplot2::theme_bw() +
-  ylim(-0.5,1.15)+ #1
+  ylim(-0.5,1.15)+
   ggplot2::geom_violin(alpha = 0.5) +
   ggplot2::stat_summary(fun.data = iqr,alpha = 2) +
   ggplot2::theme_classic() +
   ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_text(size = 18),
-                 legend.text = ggplot2::element_text(size = 10,colour = "black"),
+                 legend.text = element_markdown(size = 15),
                  strip.text = ggplot2::element_blank(),
-                 # axis.text.x = ggplot2::element_text(size = 11),
                  axis.text.x = ggplot2::element_blank(),
                  axis.text.y = ggplot2::element_text(size = 13)) +
   ggplot2::ylab(expression(Delta~q[10])) +
   ggplot2::xlab("Method")+
-  ggplot2::scale_colour_manual("Method",values = cols)+
-  ggplot2::scale_fill_manual("Method",values = cols)+
-  # ggplot2::theme(legend.position = "none") +
+  ggplot2::scale_colour_manual("Summary \n statistic",values = cols,
+                               breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                               labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
+  ggplot2::scale_fill_manual("Summary \n statistic",values = cols,
+                             breaks = c("D","nLTT","nLTT-D","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-D","nLTT-MNTD-D","nLTTs-MNTD-D"),
+                             labels = c("*D*","nLTT","nLTT-*D*","nLTT-Ratio","nLTT-MPD","nLTT-MNTD","nLTT-Colless","nLTTs","nLTTs-*D*","nLTT-MNTD-*D*","nLTTs-MNTD-*D*"))+
   ggplot2::geom_hline(data= whole_df_lam, aes(yintercept = 0), linetype = "dashed", size = 0.5)+
   facet_grid(~Scenario,
              labeller = labeller(Scenario  = as_labeller(scen_names1,  label_parsed)))
 
-tiff(paste0("Data/violin_whole_q.tiff"),
+tiff(paste0("Data/BiSSE/compare_ss/violin_whole_q.tiff"),
      units="px", width=9000, height=4500,res = 500,compression="lzw")
 
 param_estimates_lam <- cowplot::plot_grid(

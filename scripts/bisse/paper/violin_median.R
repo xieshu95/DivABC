@@ -1,4 +1,4 @@
-# violin median of posterior distribution
+# Fig 4: violin median of posterior distribution
 library(tidyverse)
 library(ggtext)
 library(ggbeeswarm)
@@ -24,7 +24,7 @@ whole_df_all3$Scenario <- 3
 
 
 scen_names1 <- c(
-  `1` = 'S1~":"~lambda[0]~"="~0.6~lambda[1]~"="~0.6', #Scenario~1~
+  `1` = 'S1~":"~lambda[0]~"="~0.6~lambda[1]~"="~0.6',
   `2` = 'S2~":"~lambda[0]~"="~0.6~lambda[1]~"="~0.3',
   `3` = 'S3~":"~lambda[0]~"="~0.6~lambda[1]~"="~0.12'
 )
