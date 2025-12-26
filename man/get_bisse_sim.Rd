@@ -7,14 +7,14 @@
 get_bisse_sim(parameters, pool_init_states, replicates = 1)
 }
 \arguments{
-\item{parameters}{A vector for CES rates.}
+\item{parameters}{A vector for rates.}
 
 \item{pool_init_states}{Root state pool.}
 
-\item{replicates}{The number of replicates(islands) for bisse simulation.}
+\item{replicates}{The number of replicates for bisse simulation.}
 }
 \value{
-A list contains simulated islands
+A list contains simulated trees
 }
 \description{
 Simulation function to create simulations in ABC.
