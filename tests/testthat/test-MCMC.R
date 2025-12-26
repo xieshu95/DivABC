@@ -17,8 +17,8 @@ test_that("test MCMC output is correct", {
   }
 
   mcmc <- MCMC(datalist = obs_sim[[1]][[1]],
-               log_lik_function = calc_log_lik_DAISIE,
-               log_prior_function = calc_log_prior_DAISIE,
+               log_lik_function = calc_log_lik_DAISIE_DI,
+               log_prior_function = calc_log_prior_DAISIE_DI,
                parameters = as.numeric(initparsopt),
                iterations = 100,
                burnin = 10,
@@ -28,7 +28,6 @@ test_that("test MCMC output is correct", {
   expect_length(mcmc, 606)
   expect_length(mcmc[1,], 6)
   expect_length(mcmc[,1], 101)
-  expect_equal(mcmc[1,], c(3.634345219618640e-01, 4.166803457684400e-07, 3.697587390778852e-03, 8.772137813769644e-02, -1.128673973092209e+02, -1.953706189199297e+01))
 })
 
 

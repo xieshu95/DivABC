@@ -354,3 +354,90 @@ calc_error_geosse_all<- function(sim_1,
   )
 }
 
+calc_ss_geosse <- function(sim) {
+  # keep only one state
+  phy_s1<-ape::keep.tip(sim,  ## phy with only tips with state0/stateAB
+                        tip = sim$tip.label[which(sim$tip.state == 0)])
+  phy_s2<-ape::keep.tip(sim,
+                        tip = sim$tip.label[which(sim$tip.state == 1)])
+  phy_s3<-ape::keep.tip(sim,
+                        tip = sim$tip.label[which(sim$tip.state == 2)])
+
+  # drop only one state
+  phy_s23<-ape::drop.tip(sim,  ## phy with state 2&3
+                         tip = sim$tip.label[which(sim$tip.state == 0)])
+  phy_s13<-ape::drop.tip(sim,  ## phy with state 1&3
+                         tip = sim$tip.label[which(sim$tip.state == 1)])
+  phy_s12<-ape::drop.tip(sim,  ## phy with state 1&2
+                         tip = sim$tip.label[which(sim$tip.state == 2)])
+  # mpd_all
+  mpd_all <- treestats::mean_pair_dist(phy = sim)
+  mpd_s1 <- treestats::mean_pair_dist(phy = phy_s1)
+  mpd_s2 <- treestats::mean_pair_dist(phy = phy_s2)
+  mpd_s3 <- treestats::mean_pair_dist(phy = phy_s3)
+  # mpd_diff <- calc_mpd_trait(sim = sim,state_type = 0)
+
+  # mntd_all
+  mntd_all <- treestats::mntd(phy = sim)
+  mntd_s1 <- treestats::mntd(phy = phy_s1)
+  mntd_s2 <- treestats::mntd(phy = phy_s2)
+  mntd_s3 <- treestats::mntd(phy = phy_s3)
+
+  # # D statistic
+  # D <- calc_D(sim)
+
+  # state 1
+  num_state1 <- length(which(sim$tip.state == 0))
+  num_state2 <- length(which(sim$tip.state == 1))
+  num_state3 <- length(which(sim$tip.state == 2))
+  total_spec <- num_state1 + num_state2 + num_state3
+  ratio_state1 <- length(which(sim$tip.state == 0))/total_spec
+  ratio_state2 <- length(which(sim$tip.state == 1))/total_spec
+  ratio_state3 <- length(which(sim$tip.state == 2))/total_spec
+
+  # tip_ratio <- max(num_state1,num_state2)/min(num_state1,num_state2)
+
+  M <- calc_M_geosse(sim)
+
+  # nLTT
+  nltt <- treestats::nLTT_base(sim)
+  nltt1 <- treestats::nLTT_base(phy_s1)
+  nltt2 <- treestats::nLTT_base(phy_s2)
+  nltt3 <- treestats::nLTT_base(phy_s3)
+
+  D12 <- calc_D_drop(phy_s12,sim$tip.state[-which(sim$tip.state == "2")])
+  D13 <- calc_D_drop(phy_s13,sim$tip.state[-which(sim$tip.state == "1")])
+  D23 <- calc_D_drop(phy_s23,sim$tip.state[-which(sim$tip.state == "0")])
+
+  # transfer to two states
+  D1_23 <- calc_D_trans_geosse(sim,"0")
+  D2_13 <- calc_D_trans_geosse(sim,"1")
+  D3_12 <- calc_D_trans_geosse(sim,"2")
+
+
+  return(
+    list(total_spec = total_spec,
+         state1 = ratio_state1,
+         state2 = ratio_state2,
+         state3 = ratio_state3,
+         mpd_all = mpd_all,
+         mpd_s1 = mpd_s1,
+         mpd_s2 = mpd_s2,
+         mpd_s3 = mpd_s3,
+         mntd_all = mntd_all,
+         mntd_s1 = mntd_s1,
+         mntd_s2 = mntd_s2,
+         mntd_s3 = mntd_s3,
+         nltt = nltt,
+         nltt1 = nltt1,
+         nltt2 = nltt2,
+         nltt3 = nltt3,
+         D12 = D12,
+         D13 = D13,
+         D23 = D23,
+         D1_23 = D1_23,
+         D2_13 = D2_13,
+         D3_12 = D3_12,
+         M = M)
+  )
+}

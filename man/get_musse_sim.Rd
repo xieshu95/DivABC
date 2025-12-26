@@ -7,12 +7,12 @@
 get_musse_sim(parameters, pool_init_states, replicates = 1)
 }
 \arguments{
-\item{parameters}{A vector for CES rates.}
+\item{parameters}{A vector for rates.}
 
-\item{replicates}{The number of replicates(islands) for musse simulation.}
+\item{replicates}{The number of replicates for musse simulation.}
 }
 \value{
-A list contains simulated islands
+A list contains simulated trees
 }
 \description{
 Simulation function to create simulations in ABC.

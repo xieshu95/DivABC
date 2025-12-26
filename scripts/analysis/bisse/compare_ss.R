@@ -74,7 +74,7 @@ for (num_ss in c(1)){
 ## 2.
 ## combine  all ss combinations
 library(ggplot2)
-for(i in 1:2){
+for(i in 1:7){
   load(paste0("Data/BiSSE/whole_df_MLE.RData"))
   whole_df_MLE <- whole_df_MLE[(i*50-49):(i*50),]
   total <- whole_df_MLE$tree_size
@@ -302,27 +302,80 @@ for(i in 1:2){
   ABC_median9 <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
   ABC_median9$ss = "nLTTs-D"
 
-  whole_df_all <- rbind(whole_df_ABC1[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_ABC2[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_ABC3[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_ABC4[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_ABC5[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_ABC6[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_ABC7[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_ABC8[,c(1:6,13,14,17,18,21:33)],
-                        whole_df_ABC9[,c(1:6,13,14,17,18,21:33)])
-  save(whole_df_all, file = paste0("Data/BiSSE/ABC_test",i,".RData"))
+  # 10. NLTT + MNTDs + D
+  load(paste0("Data/BiSSE/nltt_mntds_D/delta_whole_df_ABC_test_ss16.RData"))
 
+  whole_df_ABC10 <- whole_df_ABC[(i*25000-24999):(i*25000),]
 
-  median_all <- rbind(ABC_median1[,c(1:6,13,14,17,18,21:33)],
-                      ABC_median2[,c(1:6,13,14,17,18,21:33)],
-                      ABC_median3[,c(1:6,13,14,17,18,21:33)],
-                      ABC_median4[,c(1:6,13,14,17,18,21:33)],
-                      ABC_median5[,c(1:6,13,14,17,18,21:33)],
-                      ABC_median6[,c(1:6,13,14,17,18,21:33)],
-                      ABC_median7[,c(1:6,13,14,17,18,21:33)],
-                      ABC_median8[,c(1:6,13,14,17,18,21:33)],
-                      ABC_median9[,c(1:6,13,14,17,18,21:33)])
+  whole_df_ABC10$ss = "nLTT-MNTD-D"
+  whole_df_ABC10 = whole_df_ABC10[,-7]
+  whole_df_ABC10$total <- rep(total, each = 500)
+  whole_df_ABC10$dlam1 <- whole_df_ABC10$lam1_abc - whole_df_ABC10$lam1
+  whole_df_ABC10$dlam2 <- whole_df_ABC10$lam2_abc - whole_df_ABC10$lam2
+  whole_df_ABC10$dmu1 <- whole_df_ABC10$mu1_abc - whole_df_ABC10$mu1
+  whole_df_ABC10$dmu2 <- whole_df_ABC10$mu2_abc - whole_df_ABC10$mu2
+  whole_df_ABC10$dq12 <- whole_df_ABC10$q12_abc - whole_df_ABC10$q12
+  whole_df_ABC10$dq21 <- whole_df_ABC10$q21_abc - whole_df_ABC10$q21
+  whole_df_ABC10$dnet_div1 <- whole_df_ABC10$net_div_ABC1 - whole_df_ABC10$net_div1
+  whole_df_ABC10$dnet_div2 <- whole_df_ABC10$net_div_ABC2 - whole_df_ABC10$net_div2
+  whole_df_ABC10$dext_frac1 <- whole_df_ABC10$ext_frac_ABC1 - whole_df_ABC10$ext_frac1
+  whole_df_ABC10$dext_frac2 <- whole_df_ABC10$ext_frac_ABC2 - whole_df_ABC10$ext_frac2
+  whole_df_ABC10$rep <- rep(rep(1:50, each = 500), 1)
+  #
+  df <- whole_df_ABC10
+  n <- 500
+  ABC_median10 <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+  ABC_median10$ss = "nLTT-MNTD-D"
 
-  save(median_all, file = paste0("Data/BiSSE/ABC_median_test",i,".RData"))
+  # 11. NLTTs + MNTDs + D
+  load(paste0("Data/BiSSE/nltt_mntds_D/delta_whole_df_ABC_test_ss16.RData"))
+
+  whole_df_ABC11 <- whole_df_ABC[(i*25000-24999):(i*25000),]
+
+  whole_df_ABC11$ss = "nLTTs-MNTD-D"
+  whole_df_ABC11 = whole_df_ABC11[,-7]
+  whole_df_ABC11$total <- rep(total, each = 500)
+  whole_df_ABC11$dlam1 <- whole_df_ABC11$lam1_abc - whole_df_ABC11$lam1
+  whole_df_ABC11$dlam2 <- whole_df_ABC11$lam2_abc - whole_df_ABC11$lam2
+  whole_df_ABC11$dmu1 <- whole_df_ABC11$mu1_abc - whole_df_ABC11$mu1
+  whole_df_ABC11$dmu2 <- whole_df_ABC11$mu2_abc - whole_df_ABC11$mu2
+  whole_df_ABC11$dq12 <- whole_df_ABC11$q12_abc - whole_df_ABC11$q12
+  whole_df_ABC11$dq21 <- whole_df_ABC11$q21_abc - whole_df_ABC11$q21
+  whole_df_ABC11$dnet_div1 <- whole_df_ABC11$net_div_ABC1 - whole_df_ABC11$net_div1
+  whole_df_ABC11$dnet_div2 <- whole_df_ABC11$net_div_ABC2 - whole_df_ABC11$net_div2
+  whole_df_ABC11$dext_frac1 <- whole_df_ABC11$ext_frac_ABC1 - whole_df_ABC11$ext_frac1
+  whole_df_ABC11$dext_frac2 <- whole_df_ABC11$ext_frac_ABC2 - whole_df_ABC11$ext_frac2
+  whole_df_ABC11$rep <- rep(rep(1:50, each = 500), 1)
+  #
+  df <- whole_df_ABC11
+  n <- 500
+  ABC_median11 <-aggregate(df,list(rep(1:(nrow(df) %/% n + 1), each = n, len = nrow(df))), median)[-1]
+  ABC_median11$ss = "nLTTs-MNTD-D"
+
+  whole_df_all <- rbind(whole_df_ABC1[,c(1:6,13,14,17,18,21:34)],
+                        whole_df_ABC2[,c(1:6,13,14,17,18,21:34)],
+                        whole_df_ABC3[,c(1:6,13,14,17,18,21:34)],
+                        whole_df_ABC4[,c(1:6,13,14,17,18,21:34)],
+                        whole_df_ABC5[,c(1:6,13,14,17,18,21:34)],
+                        whole_df_ABC6[,c(1:6,13,14,17,18,21:34)],
+                        whole_df_ABC7[,c(1:6,13,14,17,18,21:34)],
+                        whole_df_ABC8[,c(1:6,13,14,17,18,21:34)],
+                        whole_df_ABC9[,c(1:6,13,14,17,18,21:34)],
+                        whole_df_ABC10[,c(1:6,13,14,17,18,21:34)],
+                        whole_df_ABC11[,c(1:6,13,14,17,18,21:34)])
+  save(whole_df_all, file = paste0("Data/BiSSE/compare_ss/ABC_test",i,".RData"))
+
+  median_all <- rbind(ABC_median1[,c(1:6,13,14,17,18,21:34)],
+                      ABC_median2[,c(1:6,13,14,17,18,21:34)],
+                      ABC_median3[,c(1:6,13,14,17,18,21:34)],
+                      ABC_median4[,c(1:6,13,14,17,18,21:34)],
+                      ABC_median5[,c(1:6,13,14,17,18,21:34)],
+                      ABC_median6[,c(1:6,13,14,17,18,21:34)],
+                      ABC_median7[,c(1:6,13,14,17,18,21:34)],
+                      ABC_median8[,c(1:6,13,14,17,18,21:34)],
+                      ABC_median9[,c(1:6,13,14,17,18,21:34)],
+                      ABC_median10[,c(1:6,13,14,17,18,21:34)],
+                      ABC_median11[,c(1:6,13,14,17,18,21:34)])
+
+  save(median_all, file = paste0("Data/BiSSE/compare_ss/ABC_median_test",i,".RData"))
 }

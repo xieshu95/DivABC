@@ -288,3 +288,111 @@ calc_D_trans <- function (sim,keep_state) {
   PhyloD <- caper::phylo.d(data, binvar=trait_val,permut = 200)
   return(as.numeric(PhyloD$DEstimate))
 }
+
+
+calc_ss_musse <- function(sim) {
+  # mpd_all
+  mpd_all <- treestats::mean_pair_dist(phy = sim$phy)
+  mpd_s1 <- calc_mpd_trait(sim = sim,state_type = 1)
+  mpd_s2 <- calc_mpd_trait(sim = sim,state_type = 2)
+  mpd_s3 <- calc_mpd_trait(sim = sim,state_type = 3)
+  # mpd_diff <- calc_mpd_trait(sim = sim,state_type = 0)
+
+  # mntd_all
+  mntd_all <- treestats::mntd(phy = sim$phy)
+  mntd_s1 <- calc_mntd_trait(sim = sim,state_type = 1)
+  mntd_s2 <- calc_mntd_trait(sim = sim,state_type = 2)
+  mntd_s3 <- calc_mntd_trait(sim = sim,state_type = 3)
+
+  # K statistic
+  K <- adiv::K(sim$phy,
+               trait = as.numeric(sim$obs_traits),
+               nrep = 1000, alter = c("two-sided"))
+  K <- K$obs
+
+  # # D statistic
+  # D <- calc_D(sim)
+
+  # state 1
+  num_state1 <- length(which(sim$obs_traits == 1))
+  num_state2 <- length(which(sim$obs_traits == 2))
+  num_state3 <- length(which(sim$obs_traits == 3))
+  total_spec <- num_state1 + num_state2 + num_state3
+  ratio_state1 <- length(which(sim$obs_traits == 1))/total_spec
+  ratio_state2 <- length(which(sim$obs_traits == 2))/total_spec
+  ratio_state3 <- length(which(sim$obs_traits == 3))/total_spec
+
+  # tip_ratio <- max(num_state1,num_state2)/min(num_state1,num_state2)
+
+
+  M <- calc_M(sim)
+
+  phy_s1<-ape::drop.tip(sim$phy,  ## phy with only state1 tips
+                         tip = sim$phy$tip.label[which(sim$obs_traits == 2 | sim$obs_traits == 3)])
+  phy_s2<-ape::drop.tip(sim$phy,
+                         tip = sim$phy$tip.label[which(sim$obs_traits == 1 | sim$obs_traits == 3)])
+  phy_s3<-ape::drop.tip(sim$phy,
+                         tip = sim$phy$tip.label[which(sim$obs_traits == 1 | sim$obs_traits == 2)])
+
+  # nLTT
+  nltt <- treestats::nLTT_base(sim$phy)
+  nltt1 <- treestats::nLTT_base(phy_s1)
+  nltt2 <- treestats::nLTT_base(phy_s2)
+  nltt3 <- treestats::nLTT_base(phy_s3)
+
+
+  # drop one state
+  phy_s23<-ape::drop.tip(sim$phy,  ## phy with state 2&3
+                          tip = sim$phy$tip.label[which(sim$obs_traits == 1)])
+  phy_s13<-ape::drop.tip(sim$phy,  ## phy with state 1&3
+                          tip = sim$phy$tip.label[which(sim$obs_traits == 2)])
+  phy_s12<-ape::drop.tip(sim$phy,  ## phy with state 1&2
+                          tip = sim$phy$tip.label[which(sim$obs_traits == 3)])
+
+
+  D12 <- calc_D_drop(phy_s12,sim$obs_traits[-which(sim$obs_traits == "3")])
+  D13 <- calc_D_drop(phy_s13,sim$obs_traits[-which(sim$obs_traits == "2")])
+  D23 <- calc_D_drop(phy_s23,sim$obs_traits[-which(sim$obs_traits == "1")])
+
+  # transfer to two states
+  D1_23 <- calc_D_trans(sim,"1")
+  D2_13 <- calc_D_trans(sim,"2")
+  D3_12 <- calc_D_trans(sim,"3")
+
+
+  return(
+    list(total_spec = total_spec,
+         state1 = ratio_state1,
+         state2 = ratio_state2,
+         state3 = ratio_state3,
+         mpd_all = mpd_all,
+         mpd_s1 = mpd_s1,
+         mpd_s2 = mpd_s2,
+         mpd_s3 = mpd_s3,
+         mntd_all = mntd_all,
+         mntd_s1 = mntd_s1,
+         mntd_s2 = mntd_s2,
+         mntd_s3 = mntd_s3,
+         # sdpd_all = sdpd_all,
+         # sdpd_diff = sdpd_diff,
+         # sdntd_all = sdntd_all,
+         # sdntd_diff = sdntd_diff,
+         # K = K,
+         # D = D,
+         nltt = nltt,
+         nltt1 = nltt1,
+         nltt2 = nltt2,
+         nltt3 = nltt3,
+         D12 = D12,
+         D13 = D13,
+         D23 = D23,
+         D1_23 = D1_23,
+         D2_13 = D2_13,
+         D3_12 = D3_12,
+         # colless = colless,
+         # spect_log_median = spect_log_median,
+         # spect_prin = spect_prin,
+         # sackin = sackin,
+         M = M)
+  )
+}

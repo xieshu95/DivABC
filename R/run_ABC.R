@@ -144,6 +144,10 @@ run_ABC <- function(param_space_name,
       init_epsilon <- c(1,1,1,2)
     } else if (ss_set == 14){  # nltt + nltt1 + nltt2 + M
       init_epsilon <- c(1,1,1,0.5)
+    } else if (ss_set == 15){  # nltt + nltt1 + nltt2 + MNTD1 + MNTD2 + D
+      init_epsilon <- c(1,1,1,5,5,1)
+    } else if (ss_set == 16){  # nltt + MNTD1 + MNTD2 + D
+      init_epsilon <- c(1,5,5,1)
     }
     abc <- ABC_SMC_bisse (
       obs_data = obs_sim,
