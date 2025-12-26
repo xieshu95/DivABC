@@ -596,5 +596,91 @@ calc_error_bisse_M <- function(sim_1,
   )
 }
 
+#---- new tests ----
+# nltts_mntd_D
+calc_error_bisse_nltts_mntd_D <- function(sim_1,
+                                    sim_2,
+                                    distance_method = "abs") {
+
+  # drop tips and only keep tips with a single state(1/2)
+  phy1_s1<-ape::drop.tip(sim_1$phy,  ## phy1 with only state1 tips
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 2)])
+  phy1_s2<-ape::drop.tip(sim_1$phy,
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 1)])
+
+  phy2_s1<-ape::drop.tip(sim_2$phy,
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 2)])
+  phy2_s2<-ape::drop.tip(sim_2$phy,
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
 
 
+  # mntd_diff
+  mntd1_s1 <- treestats::mntd(phy1_s1)
+  mntd2_s1 <- treestats::mntd(phy2_s1)
+  mntd_s1 <- abs(mntd1_s1 - mntd2_s1)
+
+  mntd1_s2 <- treestats::mntd(phy1_s2)
+  mntd2_s2 <- treestats::mntd(phy2_s2)
+  mntd_s2 <- abs(mntd1_s2 - mntd2_s2)
+
+  # D statistic
+  D1 <- calc_D(sim_1)
+  D2 <- calc_D(sim_2)
+  D <- abs (D1 - D2)
+  # nLTT
+  nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
+  nltt_s1 <- treestats::nLTT(phy1_s1,phy2_s1)
+  nltt_s2 <- treestats::nLTT(phy1_s2,phy2_s2)
+
+  return(
+    c(nltt,
+      nltt_s1,
+      nltt_s2,
+      mntd_s1,
+      mntd_s2,
+      D
+    )
+  )
+}
+
+# nltt_mntd_D
+calc_error_bisse_nltt_mntd_D <- function(sim_1,
+                                          sim_2,
+                                          distance_method = "abs") {
+
+  # drop tips and only keep tips with a single state(1/2)
+  phy1_s1<-ape::drop.tip(sim_1$phy,  ## phy1 with only state1 tips
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 2)])
+  phy1_s2<-ape::drop.tip(sim_1$phy,
+                         tip = sim_1$phy$tip.label[which(sim_1$obs_traits == 1)])
+
+  phy2_s1<-ape::drop.tip(sim_2$phy,
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 2)])
+  phy2_s2<-ape::drop.tip(sim_2$phy,
+                         tip = sim_2$phy$tip.label[which(sim_2$obs_traits == 1)])
+
+
+  # mntd_diff
+  mntd1_s1 <- treestats::mntd(phy1_s1)
+  mntd2_s1 <- treestats::mntd(phy2_s1)
+  mntd_s1 <- abs(mntd1_s1 - mntd2_s1)
+
+  mntd1_s2 <- treestats::mntd(phy1_s2)
+  mntd2_s2 <- treestats::mntd(phy2_s2)
+  mntd_s2 <- abs(mntd1_s2 - mntd2_s2)
+
+  # D statistic
+  D1 <- calc_D(sim_1)
+  D2 <- calc_D(sim_2)
+  D <- abs (D1 - D2)
+  # nLTT
+  nltt <- treestats::nLTT(sim_1$phy,sim_2$phy)
+
+  return(
+    c(nltt,
+      mntd_s1,
+      mntd_s2,
+      D
+    )
+  )
+}
